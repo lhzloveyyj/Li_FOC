@@ -4,6 +4,8 @@
 #include "at32f403a_407.h"  
 #include "at32f403a_407_usart.h"
 
+#define PRINT_UART                       USART3
+
 #define N								 3
 #define USART3_TX_BUFFER_SIZE            (4 * N + 4)
 
@@ -22,5 +24,6 @@ extern uint8_t uart3_tx_buffer[USART3_TX_BUFFER_SIZE] ;
 extern volatile uint8_t usart3_tx_dma_status;
 
 void USART3_SendPacket(float *values, uint8_t count);
+void USART3_ParseFixedCommand(uint8_t byte);
 
 #endif

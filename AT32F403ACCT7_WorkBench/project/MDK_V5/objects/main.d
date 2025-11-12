@@ -39,4 +39,4 @@
 .\objects\main.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\main.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\main.o: ../../middlewares/freertos/source/include/event_groups.h
-.\objects\main.o: ..\Hardware\delay.h
+.\objects\main.o: ..\Hardware\protocol.h

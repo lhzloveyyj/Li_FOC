@@ -34,7 +34,7 @@
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include "usart3.h"  
-#include "delay.h"  
+#include "protocol.h"  
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -104,7 +104,7 @@ int main(void)
   wk_usart3_init();
 
   /* init freertos function. */
-  wk_freertos_init();
+  //wk_freertos_init();
 
   /* add user code begin 2 */
     //USART3_TX_DMA_IRQ
@@ -112,13 +112,18 @@ int main(void)
     //USART3_RX_IRQ
     usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end 2 */
-
+    int flag = 0;
   while(1)
   {
     /* add user code begin 3 */
-    float foc_data[4] = {0.01f, 0.02f, 0.03f,0.04f};
-    USART3_SendPacket(foc_data, 4);
-    
+    //float foc_data[4] = {0.01f, 0.02f, 0.03f,0.04f};
+    //USART3_SendPacket(foc_data, 4);
+    //printf("111\r\n");
+      if(g_Commcmd == 0x01 && flag == 0)
+      {
+          usart_data_transmit(USART3, 0x01);
+          flag = 1;
+      }
     /* add user code end 3 */
   }
 }

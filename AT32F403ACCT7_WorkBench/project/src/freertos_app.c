@@ -142,7 +142,8 @@ void comm_task_func(void *pvParameters)
   {
   /* add user code begin comm_task_func 1 */
 
-     vTaskDelay(1);
+     vTaskDelay(10);
+      
 
   /* add user code end comm_task_func 1 */
   }

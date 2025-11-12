@@ -232,6 +232,9 @@ void USART3_IRQHandler(void)
   /* add user code begin USART3_IRQ 0 */
     if(usart_interrupt_flag_get(USART3, USART_RDBF_FLAG) != RESET)
     {
+        uint8_t byte = usart_data_receive(USART3);
+        USART3_ParseFixedCommand(byte);
+        
         usart_flag_clear(USART3, USART_RDBF_FLAG);
     }
   /* add user code end USART3_IRQ 0 */

@@ -26,7 +26,7 @@
 ".\objects\timers.o"
 ".\objects\heap_4.o"
 ".\objects\stream_buffer.o"
---strict --scatter ".\objects\AT32F403ACCT7_WorkBench.sct"
+--library_type=microlib --strict --scatter ".\objects\AT32F403ACCT7_WorkBench.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\listings\AT32F403ACCT7_WorkBench.map" -o .\objects\AT32F403ACCT7_WorkBench.axf

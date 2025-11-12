@@ -1,4 +1,7 @@
 .\objects\usart3.o: ..\Hardware\usart3.c
+.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\usart3.o: ..\Hardware\usart3.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
@@ -19,6 +22,4 @@
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_misc.h
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_pwc.h
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_usart.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart3.o: ..\Hardware\protocol.h
