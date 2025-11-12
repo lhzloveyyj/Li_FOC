@@ -1,0 +1,16 @@
+.\objects\queue.o: ../../middlewares/freertos/source/queue.c
+.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/FreeRTOS.h
+.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\queue.o: ..\inc\FreeRTOSConfig.h
+.\objects\queue.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/projdefs.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/portable.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/deprecated_definitions.h
+.\objects\queue.o: ../../middlewares/freertos/source/portable/rvds/ARM_CM4F/portmacro.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/mpu_wrappers.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/task.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/list.h
+.\objects\queue.o: ../../middlewares/freertos/source/include/queue.h

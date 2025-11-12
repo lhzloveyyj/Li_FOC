@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+    <WorkBenchVersion>
+        <Version>V1.2.00</Version>
+    </WorkBenchVersion>
+    <MCUInfo>
+        <MCUSerials>AT32F403A</MCUSerials>
+        <MCUName>AT32F403ACCT7</MCUName>
+        <MCUPackage>LQFP48</MCUPackage>
+    </MCUInfo>
+    <CRM>
+        <Mode>
+            <ModeSub name="HEXT" value="HEXT-External-Oscillator"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="HEXT" value="HEXT_CRYSTAL"/>
+        </Parameters>
+    </CRM>
+    <DEBUG>
+        <Mode>
+            <ModeSub name="Debug interface" value="SWD"/>
+        </Mode>
+    </DEBUG>
+    <SYSTEM>
+        <Mode>
+            <ModeSub name="Time_Base" value=""/>
+        </Mode>
+    </SYSTEM>
+    <USART3>
+        <Mode>
+            <ModeSub name="Mode" value="Asynchronous"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="BaudRate" value="921600"/>
+            <ParametersSub name="RealBaudRate" value="923077"/>
+        </Parameters>
+    </USART3>
+    <FREERTOS>
+        <Mode>
+            <ModeSub name="Activated" value="TRUE"/>
+        </Mode>
+        <Parameters>
+            <ParametersSub name="MCU_SRAM_SIZE" value="98304"/>
+            <ParametersSub name="configCPU_CLOCK_HZ" value="240000000"/>
+            <ParametersSub name="configUSE_RECURSIVE_MUTEXES" value="1"/>
+        </Parameters>
+        <Tasks>
+            <ParametersGroup>
+                <ParametersSub name="TaskName" value="comm_task"/>
+                <ParametersSub name="TaskPriority" value="0"/>
+                <ParametersSub name="TaskStackSize" value="256"/>
+                <ParametersSub name="TaskEntryFunction" value="comm_task_func"/>
+                <ParametersSub name="TaskCodeGenerationOption" value="Default"/>
+                <ParametersSub name="TaskParameters" value="NULL"/>
+                <ParametersSub name="TaskAllocation" value="Static"/>
+                <ParametersSub name="TaskStackBuffer" value="comm_task_stack"/>
+                <ParametersSub name="TaskBuffer" value="comm_task_buffer"/>
+            </ParametersGroup>
+        </Tasks>
+    </FREERTOS>
+    <DMA>
+        <USART3_TX>
+            <ParametersSub name="Instance" value="DMA1_Channel1"/>
+        </USART3_TX>
+    </DMA>
+    <NVIC>
+        <PendSV_Handler>1;15;0;1;0</PendSV_Handler>
+        <SysTick_Handler>1;15;0;1;0</SysTick_Handler>
+        <FLASH_IRQHandler>0;5;0;1;0</FLASH_IRQHandler>
+        <CRM_IRQHandler>0;5;0;1;0</CRM_IRQHandler>
+        <DMA1_Channel1_IRQHandler>1;5;0;1;0</DMA1_Channel1_IRQHandler>
+        <USART3_IRQHandler>1;5;0;1;0</USART3_IRQHandler>
+    </NVIC>
+    <ClockConfiguration>
+        <rtcsel>2</rtcsel>
+        <hext>8.000000</hext>
+        <hextdiv>2</hextdiv>
+        <pllhextdiv>0</pllhextdiv>
+        <pllrcs>0</pllrcs>
+        <pllmult>30</pllmult>
+        <sclkselect>1</sclkselect>
+        <ahbdiv>1</ahbdiv>
+        <apb1div>2</apb1div>
+        <apb2div>2</apb2div>
+        <usbdiv>4.0</usbdiv>
+        <hicktousb>1</hicktousb>
+        <hicktosclk>0</hicktosclk>
+        <clkout>0</clkout>
+        <clkoutdiv>1</clkoutdiv>
+        <adcdiv>6</adcdiv>
+        <systicsel>1</systicsel>
+    </ClockConfiguration>
+    <PINInfo>
+        <PinSub pinname="PD0/HEXT_IN" signalname="CRM_HEXT_IN" signaltype="2"/>
+        <PinSub pinname="PD1/HEXT_OUT" signalname="CRM_HEXT_OUT" signaltype="2"/>
+        <PinSub pinname="PB10" signalname="USART3_TX" signaltype="2"/>
+        <PinSub pinname="PB11" signalname="USART3_RX" signaltype="2"/>
+        <PinSub pinname="PA13" signalname="DEBUG_JTMS_SWDIO" signaltype="2"/>
+        <PinSub pinname="PA14" signalname="DEBUG_JTCK_SWCLK" signaltype="2"/>
+    </PINInfo>
+    <ProjectInfomation>
+        <ProjectName>AT32F403ACCT7_WorkBench</ProjectName>
+        <ProjectLocation>E:/机器人/Li_foc</ProjectLocation>
+        <ToolchainIDE>MDK_V5</ToolchainIDE>
+        <ARMCompiler>0</ARMCompiler>
+        <KeepUserCode>true</KeepUserCode>
+        <NotUsedPinAnalog>false</NotUsedPinAnalog>
+        <CodeSplitIP>true</CodeSplitIP>
+        <AddNecessaryFileFlag>true</AddNecessaryFileFlag>
+        <MinHeapSize>0x200</MinHeapSize>
+        <MinStackSize>0x400</MinStackSize>
+        <UseFirmware>true</UseFirmware>
+        <PackageVersion>V2.2.1</PackageVersion>
+    </ProjectInfomation>
+</Root>
