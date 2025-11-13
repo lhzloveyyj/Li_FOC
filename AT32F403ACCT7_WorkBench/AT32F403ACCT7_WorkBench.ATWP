@@ -43,6 +43,7 @@
             <ParametersSub name="MCU_SRAM_SIZE" value="98304"/>
             <ParametersSub name="configCPU_CLOCK_HZ" value="240000000"/>
             <ParametersSub name="configUSE_RECURSIVE_MUTEXES" value="1"/>
+            <ParametersSub name="TOTAL_HEAP_SIZE" value="0x2800"/>
         </Parameters>
         <Tasks>
             <ParametersGroup>
@@ -57,6 +58,13 @@
                 <ParametersSub name="TaskBuffer" value="comm_task_buffer"/>
             </ParametersGroup>
         </Tasks>
+        <BinarySemaphores>
+            <ParametersGroup>
+                <ParametersSub name="BinarySemaphoreName" value="usart3_dma_tx_sem"/>
+                <ParametersSub name="BinarySemaphoreAllocation" value="Dynamic"/>
+                <ParametersSub name="BinarySemaphoreBuffer" value="NULL"/>
+            </ParametersGroup>
+        </BinarySemaphores>
     </FREERTOS>
     <DMA>
         <USART3_TX>
@@ -68,7 +76,7 @@
         <SysTick_Handler>1;15;0;1;0</SysTick_Handler>
         <FLASH_IRQHandler>0;5;0;1;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;5;0;1;0</CRM_IRQHandler>
-        <DMA1_Channel1_IRQHandler>1;5;0;1;0</DMA1_Channel1_IRQHandler>
+        <DMA1_Channel1_IRQHandler>1;6;0;1;0</DMA1_Channel1_IRQHandler>
         <USART3_IRQHandler>1;5;0;1;0</USART3_IRQHandler>
     </NVIC>
     <ClockConfiguration>
@@ -100,7 +108,7 @@
     </PINInfo>
     <ProjectInfomation>
         <ProjectName>AT32F403ACCT7_WorkBench</ProjectName>
-        <ProjectLocation>E:/机器人/Li_foc</ProjectLocation>
+        <ProjectLocation>E:/机器人/li_FOC</ProjectLocation>
         <ToolchainIDE>MDK_V5</ToolchainIDE>
         <ARMCompiler>0</ARMCompiler>
         <KeepUserCode>true</KeepUserCode>

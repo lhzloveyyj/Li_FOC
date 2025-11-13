@@ -45,11 +45,15 @@ extern StaticTask_t comm_task_buffer;
 /* declaration for task function */
 void comm_task_func(void *pvParameters);
 
+/* binary semaphore handler */
+extern SemaphoreHandle_t usart3_dma_tx_sem_handle;
+
 /* add user code begin 0 */
 
 /* add user code end 0 */
 
 void freertos_task_create(void);
+void freertos_semaphore_create(void);
 void wk_freertos_init(void);
 
 /* add user code begin 1 */

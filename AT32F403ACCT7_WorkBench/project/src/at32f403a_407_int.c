@@ -29,6 +29,7 @@
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include "usart3.h"   
+#include "freertos_app.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -210,12 +211,21 @@ void SysTick_Handler(void)
 void DMA1_Channel1_IRQHandler(void)
 {
   /* add user code begin DMA1_Channel1_IRQ 0 */
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;  // ← 必须加这一行！
+    
     if(dma_interrupt_flag_get(DMA1_FDT1_FLAG))
 	{
-		usart3_tx_dma_status = 1;
+        
 		dma_flag_clear(DMA1_FDT1_FLAG);
 		dma_channel_enable(DMA1_CHANNEL1, FALSE);
-  }
+        
+        /* 通知任务 DMA 完成 */
+        if (usart3_dma_tx_sem_handle != NULL)
+        {
+            xSemaphoreGiveFromISR(usart3_dma_tx_sem_handle, &xHigherPriorityTaskWoken);
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        }
+    }
   /* add user code end DMA1_Channel1_IRQ 0 */
   /* add user code begin DMA1_Channel1_IRQ 1 */
 

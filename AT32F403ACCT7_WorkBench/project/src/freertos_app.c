@@ -11,7 +11,9 @@
 
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
-
+#include <stdio.h>
+#include "usart3.h"  
+#include "protocol.h" 
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -49,6 +51,9 @@ TaskHandle_t comm_task_handle;
 /* variables for task tcb and stack */
 StackType_t comm_task_stack[256];
 StaticTask_t comm_task_buffer;
+
+/* binary semaphore handler */
+SemaphoreHandle_t usart3_dma_tx_sem_handle;
 
 /* Idle task control block and stack */
 static StackType_t idle_task_stack[configMINIMAL_STACK_SIZE];
@@ -104,6 +109,17 @@ void freertos_task_create(void)
 }
 
 /**
+  * @brief  initializes all semaphore.
+  * @param  none
+  * @retval none
+  */
+void freertos_semaphore_create(void)
+{
+  /* Create the usart3_dma_tx_sem */
+  usart3_dma_tx_sem_handle = xSemaphoreCreateBinary();
+}
+
+/**
   * @brief  freertos init and begin run.
   * @param  none
   * @retval none
@@ -113,6 +129,7 @@ void wk_freertos_init(void)
   /* enter critical */
   taskENTER_CRITICAL();
 
+  freertos_semaphore_create();
   freertos_task_create();
 	
   /* exit critical */
@@ -130,21 +147,29 @@ void wk_freertos_init(void)
 void comm_task_func(void *pvParameters)
 {
   /* add user code begin comm_task_func 0 */
-
+    dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
+    usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end comm_task_func 0 */
 
   /* add user code begin comm_task_func 2 */
-
+    float data = 1.2f;
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
   while(1)
   {
   /* add user code begin comm_task_func 1 */
-
-     vTaskDelay(10);
-      
-
+    switch(g_commCmd)
+    {
+        case CMD_CONNECT_MOTOR:
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data, 1);
+            g_commCmd = CMD_NONE;   
+            break;
+        default:
+            break;
+    }
+    
+    vTaskDelay(1);
   /* add user code end comm_task_func 1 */
   }
 }

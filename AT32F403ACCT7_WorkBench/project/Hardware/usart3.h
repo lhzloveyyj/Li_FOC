@@ -4,6 +4,8 @@
 #include "at32f403a_407.h"  
 #include "at32f403a_407_usart.h"
 
+#include "freertos_app.h"
+
 #define PRINT_UART                       USART3
 
 #define N								 3
@@ -22,8 +24,10 @@ typedef struct __attribute__((packed))
 
 extern uint8_t uart3_tx_buffer[USART3_TX_BUFFER_SIZE] ;
 extern volatile uint8_t usart3_tx_dma_status;
+extern SemaphoreHandle_t usart3_dma_tx_sem; 
+extern uint8_t g_commCmd;
 
-void USART3_SendPacket(float *values, uint8_t count);
+void USART3_SendPacket(uint8_t cmd, float *values, uint8_t count);
 void USART3_ParseFixedCommand(uint8_t byte);
 
 #endif
