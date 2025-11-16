@@ -27,8 +27,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "at32f403a_407_wk_config.h"
 #include "wk_debug.h"
+#include "wk_spi.h"
+#include "wk_tmr.h"
 #include "wk_usart.h"
 #include "wk_dma.h"
+#include "wk_gpio.h"
 #include "freertos_app.h"
 
 /* private includes ----------------------------------------------------------*/
@@ -90,6 +93,9 @@ int main(void)
   /* nvic config. */
   wk_nvic_config();
 
+  /* init gpio function. */
+  wk_gpio_config();
+
   /* init dma1 channel1 */
   wk_dma1_channel1_init();
   /* config dma channel transfer parameter */
@@ -102,6 +108,12 @@ int main(void)
 
   /* init usart3 function. */
   wk_usart3_init();
+
+  /* init spi1 function. */
+  wk_spi1_init();
+
+  /* init tmr1 function. */
+  wk_tmr1_init();
 
   /* init freertos function. */
   wk_freertos_init();

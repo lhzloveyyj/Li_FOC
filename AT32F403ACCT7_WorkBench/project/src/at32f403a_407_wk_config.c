@@ -168,6 +168,12 @@ void wk_periph_clock_config(void)
   /* enable gpiod periph clock */
   crm_periph_clock_enable(CRM_GPIOD_PERIPH_CLOCK, TRUE);
 
+  /* enable tmr1 periph clock */
+  crm_periph_clock_enable(CRM_TMR1_PERIPH_CLOCK, TRUE);
+
+  /* enable spi1 periph clock */
+  crm_periph_clock_enable(CRM_SPI1_PERIPH_CLOCK, TRUE);
+
   /* enable usart3 periph clock */
   crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, TRUE);
 }

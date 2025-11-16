@@ -19,6 +19,8 @@
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_gpio.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_misc.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_pwc.h
+.\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_spi.h
+.\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_tmr.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_usart.h
 .\objects\at32f403a_407_wk_config.o: ..\Hardware\usart3.h
 .\objects\at32f403a_407_wk_config.o: ..\inc\freertos_app.h

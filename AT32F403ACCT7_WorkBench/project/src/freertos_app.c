@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include "usart3.h"  
 #include "protocol.h" 
+#include "led.h"  
+#include "mt6701.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -33,7 +35,8 @@
 
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
-
+static led_device_t g_ledRun;
+static float angle = 0.0f;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -153,20 +156,52 @@ void comm_task_func(void *pvParameters)
 
   /* add user code begin comm_task_func 2 */
     float data = 1.2f;
+    
+    led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
+    
+//	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0.2 * 5000);
+//	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, 0.4 * 5000);
+//    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, 0.6 * 5000);
+//    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, 0.8 * 5000);
+    uint8_t anglePrintingEnabled = 0;
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
   while(1)
   {
   /* add user code begin comm_task_func 1 */
+    if((g_commCmd != CMD_NONE) && (0 == led_get(&g_ledRun))){
+        led_set(&g_ledRun, 1);
+        vTaskDelay(50);
+        led_set(&g_ledRun, 0);
+    }
+    
+    angle = Mt6701GetAngleWrapper();
+    
+    //数据回传上位机
     switch(g_commCmd)
     {
         case CMD_CONNECT_MOTOR:
             USART3_SendPacket(CMD_CONNECT_MOTOR, &data, 1);
-            g_commCmd = CMD_NONE;   
+            g_commCmd = CMD_NONE;  
+            break;
+        
+        case CMD_MECHANICALANGLE:
+            anglePrintingEnabled = 1;
+            g_commCmd = CMD_NONE;  
+            break;
+        
+        case CMD_MECHANICALANGLE_CLOSE:
+            anglePrintingEnabled = 0;
+            g_commCmd = CMD_NONE;  
+        
             break;
         default:
             break;
+    }
+    
+    if(1 == anglePrintingEnabled){
+        USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
     }
     
     vTaskDelay(1);

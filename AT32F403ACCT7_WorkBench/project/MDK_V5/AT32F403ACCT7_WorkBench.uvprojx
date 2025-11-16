@@ -423,6 +423,21 @@
               <FileType>1</FileType>
               <FilePath>../src/include_port.c</FilePath>
             </File>
+            <File>
+              <FileName>wk_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\wk_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>wk_tmr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\wk_tmr.c</FilePath>
+            </File>
+            <File>
+              <FileName>wk_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\wk_spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -432,6 +447,11 @@
               <FileName>at32f403a_407_crm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_crm.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_tmr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_tmr.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_gpio.c</FileName>
@@ -447,6 +467,11 @@
               <FileName>at32f403a_407_pwc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_pwc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_spi.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_dma.c</FileName>
@@ -494,9 +519,14 @@
               <FilePath>..\Hardware\usart3.c</FilePath>
             </File>
             <File>
-              <FileName>protocol.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\protocol.h</FilePath>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>mt6701.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\mt6701.c</FilePath>
             </File>
           </Files>
         </Group>

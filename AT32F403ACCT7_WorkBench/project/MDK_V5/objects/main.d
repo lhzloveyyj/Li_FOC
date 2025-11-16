@@ -19,6 +19,8 @@
 .\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_gpio.h
 .\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_misc.h
 .\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_pwc.h
+.\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_spi.h
+.\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_tmr.h
 .\objects\main.o: ..\..\libraries\drivers\inc\at32f403a_407_usart.h
 .\objects\main.o: ..\Hardware\usart3.h
 .\objects\main.o: ..\inc\freertos_app.h
@@ -37,6 +39,9 @@
 .\objects\main.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\main.o: ../../middlewares/freertos/source/include/event_groups.h
 .\objects\main.o: ..\inc\wk_debug.h
+.\objects\main.o: ..\inc\wk_spi.h
+.\objects\main.o: ..\inc\wk_tmr.h
 .\objects\main.o: ..\inc\wk_usart.h
 .\objects\main.o: ..\inc\wk_dma.h
+.\objects\main.o: ..\inc\wk_gpio.h
 .\objects\main.o: ..\Hardware\protocol.h

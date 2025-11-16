@@ -17,4 +17,6 @@
 .\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_gpio.h
 .\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_misc.h
 .\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_pwc.h
+.\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_spi.h
+.\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_tmr.h
 .\objects\at32f403a_407_gpio.o: ..\..\libraries\drivers\inc\at32f403a_407_usart.h

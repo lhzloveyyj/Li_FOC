@@ -21,6 +21,8 @@
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_gpio.h
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_misc.h
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_pwc.h
+.\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_spi.h
+.\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_tmr.h
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_usart.h
 .\objects\usart3.o: ..\inc\freertos_app.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/FreeRTOS.h
