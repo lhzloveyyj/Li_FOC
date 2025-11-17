@@ -25,6 +25,8 @@
 ".\objects\usart3.o"
 ".\objects\led.o"
 ".\objects\mt6701.o"
+".\objects\flash_ops.o"
+".\objects\flash.o"
 ".\objects\croutine.o"
 ".\objects\event_groups.o"
 ".\objects\list.o"

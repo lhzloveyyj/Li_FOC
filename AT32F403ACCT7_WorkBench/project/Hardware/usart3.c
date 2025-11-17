@@ -86,6 +86,7 @@ static uint8_t rx_buf[FRAME_LEN];
 static uint8_t rx_idx = 0;
 static uint8_t rx_start = 0;
 uint8_t g_commCmd = 0x00;
+float g_cmdData = 0.0f;
 
 /**
  * @brief 逐字节解析固定长度协议帧
@@ -131,8 +132,7 @@ void USART3_ParseFixedCommand(uint8_t byte)
             DEBUG_PRINT("check OK\r\n");
             // 解析命令和数据
             g_commCmd = rx_buf[1];
-            float data;
-            memcpy(&data, &rx_buf[2], 4);    
+            memcpy(&g_cmdData, &rx_buf[2], 4);    
             //DEBUG_PRINT("raw bytes: 0x%02X 0x%02X 0x%02X 0x%02X\n",rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5]);
             //DEBUG_PRINT("float data is : %f\r\n",data);
 

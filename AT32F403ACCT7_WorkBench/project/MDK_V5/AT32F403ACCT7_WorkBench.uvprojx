@@ -528,6 +528,16 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\mt6701.c</FilePath>
             </File>
+            <File>
+              <FileName>flash_ops.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\flash_ops.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

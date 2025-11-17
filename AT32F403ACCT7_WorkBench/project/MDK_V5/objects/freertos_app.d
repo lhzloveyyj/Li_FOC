@@ -40,3 +40,4 @@
 .\objects\freertos_app.o: ..\Hardware\protocol.h
 .\objects\freertos_app.o: ..\Hardware\led.h
 .\objects\freertos_app.o: ..\Hardware\mt6701.h
+.\objects\freertos_app.o: ..\Hardware\flash_ops.h

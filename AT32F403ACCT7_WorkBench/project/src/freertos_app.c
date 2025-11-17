@@ -16,6 +16,7 @@
 #include "protocol.h" 
 #include "led.h"  
 #include "mt6701.h"
+#include "flash_ops.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -155,7 +156,7 @@ void comm_task_func(void *pvParameters)
   /* add user code end comm_task_func 0 */
 
   /* add user code begin comm_task_func 2 */
-    float data = 1.2f;
+    float data[2] = {0.0f};
     
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
@@ -163,6 +164,8 @@ void comm_task_func(void *pvParameters)
 //	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, 0.4 * 5000);
 //    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, 0.6 * 5000);
 //    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, 0.8 * 5000);
+     //foc_params_test();
+    
     uint8_t anglePrintingEnabled = 0;
   /* add user code end comm_task_func 2 */
 
@@ -182,7 +185,10 @@ void comm_task_func(void *pvParameters)
     switch(g_commCmd)
     {
         case CMD_CONNECT_MOTOR:
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data, 1);
+            foc_params_load(&g_readback);
+            data[0] = (float)g_readback.pole_pairs;
+            data[1] = (float)g_readback.dir;
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 2);
             g_commCmd = CMD_NONE;  
             break;
         
@@ -193,9 +199,21 @@ void comm_task_func(void *pvParameters)
         
         case CMD_MECHANICALANGLE_CLOSE:
             anglePrintingEnabled = 0;
-            g_commCmd = CMD_NONE;  
-        
+            g_commCmd = CMD_NONE; 
             break;
+        
+        case CMD_SETPAIRS:
+            g_params.pole_pairs  = (int)g_cmdData;
+            foc_params_save(&g_params);
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETDIR:
+            g_params.dir  = (int)g_cmdData;
+            foc_params_save(&g_params);
+            g_commCmd = CMD_NONE; 
+            break;
+        
         default:
             break;
     }
