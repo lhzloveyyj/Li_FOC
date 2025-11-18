@@ -6,7 +6,7 @@
 /* ---------------- 电压、电流、电机参数 ---------------- */
 #define FOC_VOLTAGE_LIMIT       12.0f       // 电压限制值（最大输出幅值）
 #define FOC_BUS_VOLTAGE         12.0f       // 母线电压 Udc
-#define FOC_POLE_PAIRS          7           // 电机极对数
+#define FOC_POLE_PAIRS          11           // 电机极对数
 #define FOC_RS                  0.01f       // 电流采样电阻值（单位：Ω）
 #define FOC_CURRENT_GAIN        50.0f       // 电流放大倍数（运放增益）
 #define FOC_IQ_MAX              40.0f       // 最大目标 q 轴电流

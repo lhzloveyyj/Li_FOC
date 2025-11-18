@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F403ACCT7,USE_STDPERIPH_DRIVER,AT_START_F403A_V1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\libraries\drivers\inc;..\..\libraries\cmsis\cm4\core_support;..\..\libraries\cmsis\cm4\device_support;..\inc;..\Hardware;../../middlewares/freertos/source/include;../../middlewares/freertos/source/portable/memmang;../../middlewares/freertos/source/portable/rvds/ARM_CM4F</IncludePath>
+              <IncludePath>..\..\libraries\drivers\inc;..\..\libraries\cmsis\cm4\core_support;..\..\libraries\cmsis\cm4\device_support;..\inc;..\Hardware;..\tools\Math;../../middlewares/freertos/source/include;../../middlewares/freertos/source/portable/memmang;../../middlewares/freertos/source/portable/rvds/ARM_CM4F</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -537,6 +537,31 @@
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>FOC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\FOC.c</FilePath>
+            </File>
+            <File>
+              <FileName>SVPWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\SVPWM.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>tools</GroupName>
+          <Files>
+            <File>
+              <FileName>filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\tools\Math\filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>my_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\tools\Math\my_math.c</FilePath>
             </File>
           </Files>
         </Group>

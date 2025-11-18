@@ -39,11 +39,15 @@
 
 /* task handler */
 extern TaskHandle_t comm_task_handle;
+extern TaskHandle_t control_task_handle;
 /* variables for task tcb and stack */
 extern StackType_t comm_task_stack[256];
+extern StackType_t control_task_stack[256];
 extern StaticTask_t comm_task_buffer;
+extern StaticTask_t control_task_buffer;
 /* declaration for task function */
 void comm_task_func(void *pvParameters);
+void control_task_func(void *pvParameters);
 
 /* binary semaphore handler */
 extern SemaphoreHandle_t usart3_dma_tx_sem_handle;

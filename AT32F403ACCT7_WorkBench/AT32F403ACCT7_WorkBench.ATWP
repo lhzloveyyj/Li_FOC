@@ -91,6 +91,17 @@
                 <ParametersSub name="TaskStackBuffer" value="comm_task_stack"/>
                 <ParametersSub name="TaskBuffer" value="comm_task_buffer"/>
             </ParametersGroup>
+            <ParametersGroup>
+                <ParametersSub name="TaskName" value="control_task"/>
+                <ParametersSub name="TaskPriority" value="0"/>
+                <ParametersSub name="TaskStackSize" value="256"/>
+                <ParametersSub name="TaskEntryFunction" value="control_task_func"/>
+                <ParametersSub name="TaskCodeGenerationOption" value="Default"/>
+                <ParametersSub name="TaskParameters" value="NULL"/>
+                <ParametersSub name="TaskAllocation" value="Static"/>
+                <ParametersSub name="TaskStackBuffer" value="control_task_stack"/>
+                <ParametersSub name="TaskBuffer" value="control_task_buffer"/>
+            </ParametersGroup>
         </Tasks>
         <BinarySemaphores>
             <ParametersGroup>

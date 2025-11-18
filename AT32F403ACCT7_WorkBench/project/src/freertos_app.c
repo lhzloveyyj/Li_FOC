@@ -17,6 +17,7 @@
 #include "led.h"  
 #include "mt6701.h"
 #include "flash_ops.h"
+#include "foc.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -38,6 +39,9 @@
 /* add user code begin private variables */
 static led_device_t g_ledRun;
 static float angle = 0.0f;
+
+static float g_zeroOffset = 0.0f;
+static float g_correctedElecAngle = 0.0f;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -52,9 +56,12 @@ static float angle = 0.0f;
 
 /* task handler */
 TaskHandle_t comm_task_handle;
+TaskHandle_t control_task_handle;
 /* variables for task tcb and stack */
 StackType_t comm_task_stack[256];
+StackType_t control_task_stack[256];
 StaticTask_t comm_task_buffer;
+StaticTask_t control_task_buffer;
 
 /* binary semaphore handler */
 SemaphoreHandle_t usart3_dma_tx_sem_handle;
@@ -110,6 +117,15 @@ void freertos_task_create(void)
                                        0,
                                        comm_task_stack,
                                        &comm_task_buffer);
+
+  /* create the control_task task by static */
+  control_task_handle = xTaskCreateStatic(control_task_func,
+                                       "control_task",
+                                       256,
+                                       NULL,
+                                       0,
+                                       control_task_stack,
+                                       &control_task_buffer);
 }
 
 /**
@@ -179,7 +195,7 @@ void comm_task_func(void *pvParameters)
         led_set(&g_ledRun, 0);
     }
     
-    angle = Mt6701GetAngleWrapper();
+    angle = g_pMotor->mechanicalAngle;
     
     //数据回传上位机
     switch(g_commCmd)
@@ -214,6 +230,17 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_ZEROCALIBRATIO:
+            led_set(&g_ledRun, 1);
+            AngleInitZeroOffset(&g_zeroOffset, &g_correctedElecAngle);
+            data[0] = g_zeroOffset;
+            data[1] = g_correctedElecAngle;
+            
+            USART3_SendPacket(CMD_ZEROCALIBRATIO_OVER, &data[0], 2);
+            led_set(&g_ledRun, 0);
+            g_commCmd = CMD_NONE; 
+            break;
+        
         default:
             break;
     }
@@ -222,8 +249,35 @@ void comm_task_func(void *pvParameters)
         USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
     }
     
-    vTaskDelay(1);
+    vTaskDelay(5);
   /* add user code end comm_task_func 1 */
+  }
+}
+
+
+/**
+  * @brief control_task function.
+  * @param  none
+  * @retval none
+  */
+void control_task_func(void *pvParameters)
+{
+  /* add user code begin control_task_func 0 */
+
+  /* add user code end control_task_func 0 */
+
+  /* add user code begin control_task_func 2 */
+
+  /* add user code end control_task_func 2 */
+
+  /* Infinite loop */
+  while(1)
+  {
+  /* add user code begin control_task_func 1 */
+    //FocContorl(g_pMotor, PSVpwm);
+    vTaskDelay(5);
+
+  /* add user code end control_task_func 1 */
   }
 }
 
