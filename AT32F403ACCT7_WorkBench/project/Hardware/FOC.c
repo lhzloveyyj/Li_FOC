@@ -77,7 +77,7 @@ float NormalizeAngle(float angle)
  */
 float CalculateElectricalAngle(float mechAngle)
 {
-    float elecAngle = mechAngle * FOC_POLE_PAIRS;
+    float elecAngle = g_pMotor->dir * mechAngle * g_pMotor->pole_pairs;
     return NormalizeAngle(elecAngle);
 }
 
@@ -89,13 +89,8 @@ float CalculateElectricalAngle(float mechAngle)
 float AngleGetCorrectedElec(float mechAngle)
 {
     float elecAngle = CalculateElectricalAngle(mechAngle);       // 电角度 = 机械角 × 极对数
-    float corrected = elecAngle ;             // 减去零电位偏移
+    float corrected = elecAngle - g_pMotor->zeroOffset;             // 减去零电位偏移
     corrected = NormalizeAngle(corrected);                  // 归一化到 [0, 2π)
-
-    // 修正 2π 问题：如果结果非常接近 2π，认为是 0
-    if (fabsf(corrected - FOC_2PI) < FOC_EPSILON) {
-        corrected = 0.0f;
-    }
 
     return corrected;
 }
@@ -111,7 +106,7 @@ void MotorApplyStrongDrag(float ud)
     float uq = 0.0f;
 
     // 获取修正后的电角度（theta_e）
-    float angleEl = AngleGetCorrectedElec(0.0f);
+    float angleEl = CalculateElectricalAngle(0.0f);
 
     // Park 逆变换（dq -> αβ）
     uAlpha = -uq * fast_sin(angleEl) + ud * fast_cos(angleEl);
@@ -147,9 +142,8 @@ void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
         sum += elecAngle;
         vTaskDelay(10);
     }
-	
+	*zeroOffset = sum / sampleCount;  // 计算平均值作为零偏
 	mechanicalAngle = Mt6701GetAngleWrapper();
-    *zeroOffset = sum / sampleCount;  // 计算平均值作为零偏
     
     float elecAngle = CalculateElectricalAngle(mechanicalAngle);    //当前电角度
     
@@ -180,11 +174,11 @@ float g_pwmC = 0.0f;
 ******************************************************************************/
 static void setpwm_channel(float pwm_a, float pwm_b, float pwm_c)
 {
-		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY);
+	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY);
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY);
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY);
 	
-		tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.95f);
+	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.95f);
 }
 
 /**

@@ -31,7 +31,9 @@ typedef struct {
     float ua, ub, uc;           // 电压 ABC
     float uq, ud;               // 电压 dq
     float iq, id;               // 电流 dq
-
+    
+    int   pole_pairs;
+    int   dir;
     float mechanicalAngle;      // 机械角度（rad）
     float electricalAngle;      // 电角度（rad）
     float correctedAngle;       // 修正后的电角度

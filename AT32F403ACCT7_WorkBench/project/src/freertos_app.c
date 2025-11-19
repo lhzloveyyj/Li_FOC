@@ -172,8 +172,13 @@ void comm_task_func(void *pvParameters)
   /* add user code end comm_task_func 0 */
 
   /* add user code begin comm_task_func 2 */
-    float data[2] = {0.0f};
+    //加载参数
+    foc_params_load(&g_readback);
+    g_pMotor->pole_pairs = g_readback.pole_pairs;
+    g_pMotor->dir        = g_readback.dir;
+    g_pMotor->zeroOffset = g_readback.elec_offset;
     
+    float data[3] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
 //	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0.2 * 5000);
@@ -183,6 +188,7 @@ void comm_task_func(void *pvParameters)
      //foc_params_test();
     
     uint8_t anglePrintingEnabled = 0;
+    uint8_t uabcEnabled = 0;
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
@@ -202,9 +208,13 @@ void comm_task_func(void *pvParameters)
     {
         case CMD_CONNECT_MOTOR:
             foc_params_load(&g_readback);
-            data[0] = (float)g_readback.pole_pairs;
-            data[1] = (float)g_readback.dir;
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 2);
+            g_pMotor->pole_pairs = g_readback.pole_pairs;
+            g_pMotor->dir        = g_readback.dir;
+            g_pMotor->zeroOffset = g_readback.elec_offset;
+            data[0]   = (float)g_pMotor->pole_pairs;
+            data[1]   = (float)g_pMotor->dir;
+            data[2]   = g_pMotor->zeroOffset;
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 3);
             g_commCmd = CMD_NONE;  
             break;
         
@@ -236,8 +246,21 @@ void comm_task_func(void *pvParameters)
             data[0] = g_zeroOffset;
             data[1] = g_correctedElecAngle;
             
+            g_params.elec_offset  = g_zeroOffset;
+            foc_params_save(&g_params);
+            
             USART3_SendPacket(CMD_ZEROCALIBRATIO_OVER, &data[0], 2);
             led_set(&g_ledRun, 0);
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_UABC:
+            uabcEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_UABC_CLOSE:
+            uabcEnabled = 0;
             g_commCmd = CMD_NONE; 
             break;
         
@@ -248,6 +271,13 @@ void comm_task_func(void *pvParameters)
     if(1 == anglePrintingEnabled){
         USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
     }
+    if(1 == uabcEnabled){
+        data[0] = g_pMotor->ua;
+        data[1] = g_pMotor->ub;
+        data[2] = g_pMotor->uc;
+        USART3_SendPacket(CMD_UABC, &data[0], 3); 
+    }
+    
     
     vTaskDelay(5);
   /* add user code end comm_task_func 1 */
@@ -274,7 +304,7 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-    //FocContorl(g_pMotor, PSVpwm);
+    FocContorl(g_pMotor, PSVpwm);
     vTaskDelay(5);
 
   /* add user code end control_task_func 1 */
