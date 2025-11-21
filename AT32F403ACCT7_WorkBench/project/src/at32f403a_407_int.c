@@ -264,7 +264,7 @@ void TMR2_GLOBAL_IRQHandler(void)
         focData[0] = g_pMotor->ua;
         focData[1] = g_pMotor->ub;
         focData[2] = g_pMotor->uc;
-        //USART3_SendPacket(CMD_UABC, &focData[0], 3); 
+        USART3_SendPacket(CMD_UABC, &focData[0], 3); 
     }
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         

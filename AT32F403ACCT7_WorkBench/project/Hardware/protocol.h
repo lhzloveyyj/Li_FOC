@@ -20,6 +20,7 @@ typedef enum
     CMD_ZEROCALIBRATIO_OVER     = 0x07,  // 零点校准结束
     CMD_UABC                    = 0x08,  // 打印三项电压ua,ub,uc
     CMD_UABC_CLOSE              = 0x09,  // 关闭打印三项电压ua,ub,uc
+    CMD_SETUQ                   = 0x0A,  // 设置Uq
 
     // ... 未来可以继续扩展
 } CMD_TypeDef;

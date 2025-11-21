@@ -169,7 +169,7 @@ void wk_freertos_init(void)
 void comm_task_func(void *pvParameters)
 {
   /* add user code begin comm_task_func 0 */
-    //tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
+    tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
     
     dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
     usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
@@ -184,12 +184,6 @@ void comm_task_func(void *pvParameters)
     
     float data[3] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
-    
-//	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0.2 * 5000);
-//	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, 0.4 * 5000);
-//    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, 0.6 * 5000);
-//    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, 0.8 * 5000);
-     //foc_params_test();
     
     uint8_t anglePrintingEnabled = 0;
   /* add user code end comm_task_func 2 */
@@ -267,6 +261,11 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_SETUQ:
+            g_pMotor->uq = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
         default:
             break;
     }
@@ -274,26 +273,6 @@ void comm_task_func(void *pvParameters)
     if(1 == anglePrintingEnabled){
         USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
     }
-    if(1 == uabcEnabled){
-//        data[0] = g_pMotor->ua;
-//        data[1] = g_pMotor->ub;
-//        data[2] = g_pMotor->uc;
-        
-        data[0] = g_pMotor->uAlpha;
-        data[1] = g_pMotor->uBeta;
-        data[2] = 0;
-        
-//        data[0] = PSVpwm->Ta;
-//        data[1] = PSVpwm->Tb;
-//        data[2] = PSVpwm->Tc;
-        USART3_SendPacket(CMD_UABC, &data[0], 3); 
-    }
-    //printf("%lf,%lf,%lf\r\n",g_pMotor->ua,g_pMotor->ub,g_pMotor->uc);
-    //printf("%lf,%lf,%lf\r\n",PSVpwm->Ta,PSVpwm->Tb,PSVpwm->Tc);
-//    data[0] = g_pMotor->ua;
-//        data[1] = g_pMotor->ub;
-//        data[2] = g_pMotor->uc;
-//        USART3_SendPacket(CMD_UABC, &data[0], 3); 
     vTaskDelay(5);
   /* add user code end comm_task_func 1 */
   }
@@ -321,8 +300,8 @@ void control_task_func(void *pvParameters)
   {
   /* add user code begin control_task_func 1 */
       
-      //printf("%d,%d,%d\r\n",g_motorAdValues[0], g_motorAdValues[1], g_motorAdValues[2]);
-    vTaskDelay(5);
+      printf("%lf\r\n",g_pMotor->uq);
+    vTaskDelay(10);
 
   /* add user code end control_task_func 1 */
   }

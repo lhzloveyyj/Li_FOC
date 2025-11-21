@@ -127,7 +127,7 @@ void MotorApplyStrongDrag(float ud)
  */
 void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
 {
-
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE);
     MotorApplyStrongDrag(FOC_STRONGDRAG);           // 施加 Ud 强拖，固定转子磁极方向
     vTaskDelay(2000);                       // 保持拖动 2 秒
 
@@ -152,6 +152,7 @@ void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
     vTaskDelay(500); 
     
 	MotorApplyStrongDrag(0.0f);
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
 }
 
 
@@ -277,7 +278,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);
 	
 	pFOC->ud = 0.0f;
-	pFOC->uq = 2.0f;
+	//pFOC->uq = 0.0f;
 	
 	//逆park变换
 	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));
