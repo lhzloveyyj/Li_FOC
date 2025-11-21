@@ -26,8 +26,9 @@
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\core_support\mpu_armv7.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_def.h
 .\objects\freertos_app.o: ..\inc\at32f403a_407_conf.h
-.\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
+.\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_adc.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
+.\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_debug.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_dma.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_flash.h

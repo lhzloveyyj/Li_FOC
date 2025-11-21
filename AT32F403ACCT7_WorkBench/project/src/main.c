@@ -26,6 +26,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "at32f403a_407_wk_config.h"
+#include "wk_adc.h"
 #include "wk_debug.h"
 #include "wk_spi.h"
 #include "wk_tmr.h"
@@ -96,6 +97,9 @@ int main(void)
   /* init gpio function. */
   wk_gpio_config();
 
+  /* init adc1 function. */
+  wk_adc1_init();
+
   /* init dma1 channel1 */
   wk_dma1_channel1_init();
   /* config dma channel transfer parameter */
@@ -114,6 +118,9 @@ int main(void)
 
   /* init tmr1 function. */
   wk_tmr1_init();
+
+  /* init tmr2 function. */
+  wk_tmr2_init();
 
   /* init freertos function. */
   wk_freertos_init();

@@ -10,8 +10,9 @@
 .\objects\svpwm.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_def.h
 .\objects\svpwm.o: ..\inc\at32f403a_407_conf.h
-.\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
+.\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_adc.h
 .\objects\svpwm.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
+.\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
 .\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_debug.h
 .\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_dma.h
 .\objects\svpwm.o: ..\..\libraries\drivers\inc\at32f403a_407_flash.h

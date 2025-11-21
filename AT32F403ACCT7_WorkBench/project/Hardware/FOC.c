@@ -14,7 +14,7 @@
 float g_udc = 24.0f;
 
 float  zero = 0.0f;	
-uint16_t g_motorAdValues[3]={0};
+volatile uint16_t g_motorAdValues[3]={0};
 
 int cnt =0;
 
@@ -160,6 +160,7 @@ void adc_tigger(int time_pwm)
 	tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_3, time_pwm-10);
 }
 
+
 float g_pwmA = 0.0f;
 float g_pwmB = 0.0f;
 float g_pwmC = 0.0f;
@@ -177,8 +178,6 @@ static void setpwm_channel(float pwm_a, float pwm_b, float pwm_c)
 	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY);
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY);
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY);
-	
-	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.95f);
 }
 
 /**
@@ -278,7 +277,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);
 	
 	pFOC->ud = 0.0f;
-	pFOC->uq = 0.3f;
+	pFOC->uq = 2.0f;
 	
 	//逆park变换
 	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));
@@ -287,12 +286,12 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
 	
 	//设置PWM
-	//MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
+	MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
 	
-	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
+	//SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	
 	//设置SVPWM
-	setSVpwm(PSVpwm);
+	//setSVpwm(PSVpwm);
 }
 
 

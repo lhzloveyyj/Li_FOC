@@ -195,6 +195,47 @@ void wk_tmr1_init(void)
   /* add user code end tmr1_init 2 */
 }
 
+/**
+  * @brief  init tmr2 function.
+  * @param  none
+  * @retval none
+  */
+void wk_tmr2_init(void)
+{
+  /* add user code begin tmr2_init 0 */
+
+  /* add user code end tmr2_init 0 */
+
+
+  /* add user code begin tmr2_init 1 */
+
+  /* add user code end tmr2_init 1 */
+
+  /* configure counter settings */
+  tmr_cnt_dir_set(TMR2, TMR_COUNT_UP);
+  tmr_clock_source_div_set(TMR2, TMR_CLOCK_DIV1);
+  tmr_period_buffer_enable(TMR2, FALSE);
+  tmr_base_init(TMR2, 4999, 23);
+
+  /* configure primary mode settings */
+  tmr_sub_sync_mode_set(TMR2, FALSE);
+  tmr_primary_mode_select(TMR2, TMR_PRIMARY_SEL_RESET);
+
+  tmr_counter_enable(TMR2, TRUE);
+
+  /**
+   * Users need to configure TMR2 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding TMR2 interrupt.
+   *     --tmr_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f403a_407_int.c file.
+   *     --void TMR2_GLOBAL_IRQHandler(void)
+   */
+
+  /* add user code begin tmr2_init 2 */
+
+  /* add user code end tmr2_init 2 */
+}
+
 /* add user code begin 1 */
 
 /* add user code end 1 */

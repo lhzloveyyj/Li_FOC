@@ -11,8 +11,9 @@
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_def.h
 .\objects\at32f403a_407_wk_config.o: ..\inc\at32f403a_407_conf.h
-.\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
+.\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_adc.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
+.\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_debug.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_dma.h
 .\objects\at32f403a_407_wk_config.o: ..\..\libraries\drivers\inc\at32f403a_407_flash.h

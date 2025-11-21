@@ -30,6 +30,8 @@
 /* add user code begin private includes */
 #include "usart3.h"   
 #include "freertos_app.h"
+#include "foc.h"  
+#include "protocol.h" 
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -44,7 +46,7 @@
 
 /* private macro -------------------------------------------------------------*/
 /* add user code begin private macro */
-
+static float focData[3] = {0.0f};
 /* add user code end private macro */
 
 /* private variables ---------------------------------------------------------*/
@@ -211,7 +213,6 @@ void SysTick_Handler(void)
 void DMA1_Channel1_IRQHandler(void)
 {
   /* add user code begin DMA1_Channel1_IRQ 0 */
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;  // ← 必须加这一行！
     
     if(dma_interrupt_flag_get(DMA1_FDT1_FLAG))
 	{
@@ -219,17 +220,60 @@ void DMA1_Channel1_IRQHandler(void)
 		dma_flag_clear(DMA1_FDT1_FLAG);
 		dma_channel_enable(DMA1_CHANNEL1, FALSE);
         
-        /* 通知任务 DMA 完成 */
-        if (usart3_dma_tx_sem_handle != NULL)
-        {
-            xSemaphoreGiveFromISR(usart3_dma_tx_sem_handle, &xHigherPriorityTaskWoken);
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-        }
+        usart3_tx_dma_status = 1;
+        
     }
   /* add user code end DMA1_Channel1_IRQ 0 */
   /* add user code begin DMA1_Channel1_IRQ 1 */
 
   /* add user code end DMA1_Channel1_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles ADC1 & ADC2 handler.
+  * @param  none
+  * @retval none
+  */
+void ADC1_2_IRQHandler(void)
+{
+  /* add user code begin ADC1_2_IRQ 0 */
+    if(adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET)
+    {
+        g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, 0);
+        g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, 1);
+        g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, 2);
+        
+        FocContorl(g_pMotor, PSVpwm);
+        adc_flag_clear(ADC1, ADC_PCCE_FLAG);
+    }
+  /* add user code end ADC1_2_IRQ 0 */
+  /* add user code begin ADC1_2_IRQ 1 */
+
+  /* add user code end ADC1_2_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles TMR2 handler.
+  * @param  none
+  * @retval none
+  */
+void TMR2_GLOBAL_IRQHandler(void)
+{
+  /* add user code begin TMR2_GLOBAL_IRQ 0 */
+    if(uabcEnabled == 1){
+        focData[0] = g_pMotor->ua;
+        focData[1] = g_pMotor->ub;
+        focData[2] = g_pMotor->uc;
+        //USART3_SendPacket(CMD_UABC, &focData[0], 3); 
+    }
+    tmr_flag_clear(TMR2, TMR_OVF_FLAG);
+        
+  /* add user code end TMR2_GLOBAL_IRQ 0 */
+
+
+  /* add user code begin TMR2_GLOBAL_IRQ 1 */
+
+  /* add user code end TMR2_GLOBAL_IRQ 1 */
 }
 
 /**

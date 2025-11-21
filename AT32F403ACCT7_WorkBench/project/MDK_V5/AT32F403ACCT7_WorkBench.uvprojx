@@ -438,6 +438,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\wk_spi.c</FilePath>
             </File>
+            <File>
+              <FileName>wk_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\wk_adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -467,6 +472,11 @@
               <FileName>at32f403a_407_pwc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_pwc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_adc.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_spi.c</FileName>

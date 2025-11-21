@@ -10,8 +10,9 @@
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_def.h
 .\objects\mt6701.o: ..\inc\at32f403a_407_conf.h
-.\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
+.\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_adc.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
+.\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_crm.h
 .\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_debug.h
 .\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_dma.h
 .\objects\mt6701.o: ..\..\libraries\drivers\inc\at32f403a_407_flash.h

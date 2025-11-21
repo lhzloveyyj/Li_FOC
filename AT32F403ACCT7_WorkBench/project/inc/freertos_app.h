@@ -34,7 +34,7 @@
 
 /* exported macro ------------------------------------------------------------*/
 /* add user code begin exported macro */
-
+extern volatile uint8_t uabcEnabled;
 /* add user code end exported macro */
 
 /* task handler */

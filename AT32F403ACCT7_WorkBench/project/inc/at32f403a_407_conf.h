@@ -52,7 +52,7 @@ extern "C" {
 
 /* module define -------------------------------------------------------------*/
 /*#define ACC_MODULE_ENABLED----------------------*/
-/*#define ADC_MODULE_ENABLED----------------------*/
+#define ADC_MODULE_ENABLED
 /*#define BPR_MODULE_ENABLED----------------------*/
 /*#define CAN_MODULE_ENABLED----------------------*/
 /*#define CRC_MODULE_ENABLED----------------------*/

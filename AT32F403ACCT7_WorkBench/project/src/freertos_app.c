@@ -42,6 +42,8 @@ static float angle = 0.0f;
 
 static float g_zeroOffset = 0.0f;
 static float g_correctedElecAngle = 0.0f;
+
+volatile uint8_t uabcEnabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -167,6 +169,8 @@ void wk_freertos_init(void)
 void comm_task_func(void *pvParameters)
 {
   /* add user code begin comm_task_func 0 */
+    //tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
+    
     dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
     usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end comm_task_func 0 */
@@ -188,7 +192,6 @@ void comm_task_func(void *pvParameters)
      //foc_params_test();
     
     uint8_t anglePrintingEnabled = 0;
-    uint8_t uabcEnabled = 0;
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
@@ -291,7 +294,7 @@ void comm_task_func(void *pvParameters)
 //        data[1] = g_pMotor->ub;
 //        data[2] = g_pMotor->uc;
 //        USART3_SendPacket(CMD_UABC, &data[0], 3); 
-    vTaskDelay(1);
+    vTaskDelay(5);
   /* add user code end comm_task_func 1 */
   }
 }
@@ -305,7 +308,8 @@ void comm_task_func(void *pvParameters)
 void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
-
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, 5000 * 0.95f);
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -316,9 +320,9 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-    FocContorl(g_pMotor, PSVpwm);
       
-    //vTaskDelay(1);
+      //printf("%d,%d,%d\r\n",g_motorAdValues[0], g_motorAdValues[1], g_motorAdValues[2]);
+    vTaskDelay(5);
 
   /* add user code end control_task_func 1 */
   }
