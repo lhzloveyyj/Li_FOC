@@ -278,7 +278,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);
 	
 	pFOC->ud = 0.0f;
-	pFOC->uq = 0.5f;
+	pFOC->uq = 0.3f;
 	
 	//逆park变换
 	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));
@@ -287,12 +287,12 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
 	
 	//设置PWM
-	MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
+	//MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
 	
-	//SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
+	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	
 	//设置SVPWM
-	//setSVpwm(PSVpwm);
+	setSVpwm(PSVpwm);
 }
 
 

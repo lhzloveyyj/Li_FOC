@@ -72,12 +72,18 @@ void USART3_SendPacket(uint8_t cmd, float *values, uint8_t count)
 
     // 帧尾
     uart3_tx_buffer[idx++] = FRAME_TAIL;
-
-    while(xSemaphoreTake(usart3_dma_tx_sem_handle,pdMS_TO_TICKS(2)!=pdTRUE));//获取信号量，等待DMA发送可用
     
-    // 配置DMA发送长度并启动
-    dma_data_number_set(DMA1_CHANNEL1, idx);
-    dma_channel_enable(DMA1_CHANNEL1, TRUE);
+    if(xSemaphoreTake(usart3_dma_tx_sem_handle, 0) == pdTRUE)
+    {
+        // DMA 空闲，可以启动
+        dma_data_number_set(DMA1_CHANNEL1, idx);
+        dma_channel_enable(DMA1_CHANNEL1, TRUE);
+    }
+    else
+    {
+        // DMA 忙，暂时缓存数据
+    }
+    
 }
 
 // 静态缓冲区和索引

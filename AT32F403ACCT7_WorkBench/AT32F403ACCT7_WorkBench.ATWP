@@ -65,8 +65,8 @@
             <ModeSub name="Mode" value="Asynchronous"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="BaudRate" value="921600"/>
-            <ParametersSub name="RealBaudRate" value="923077"/>
+            <ParametersSub name="BaudRate" value="1500000"/>
+            <ParametersSub name="RealBaudRate" value="1500000"/>
         </Parameters>
     </USART3>
     <FREERTOS>

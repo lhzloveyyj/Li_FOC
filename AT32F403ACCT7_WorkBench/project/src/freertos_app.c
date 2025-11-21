@@ -272,14 +272,26 @@ void comm_task_func(void *pvParameters)
         USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
     }
     if(1 == uabcEnabled){
-        data[0] = g_pMotor->ua;
-        data[1] = g_pMotor->ub;
-        data[2] = g_pMotor->uc;
+//        data[0] = g_pMotor->ua;
+//        data[1] = g_pMotor->ub;
+//        data[2] = g_pMotor->uc;
+        
+        data[0] = g_pMotor->uAlpha;
+        data[1] = g_pMotor->uBeta;
+        data[2] = 0;
+        
+//        data[0] = PSVpwm->Ta;
+//        data[1] = PSVpwm->Tb;
+//        data[2] = PSVpwm->Tc;
         USART3_SendPacket(CMD_UABC, &data[0], 3); 
     }
-    
-    
-    vTaskDelay(5);
+    //printf("%lf,%lf,%lf\r\n",g_pMotor->ua,g_pMotor->ub,g_pMotor->uc);
+    //printf("%lf,%lf,%lf\r\n",PSVpwm->Ta,PSVpwm->Tb,PSVpwm->Tc);
+//    data[0] = g_pMotor->ua;
+//        data[1] = g_pMotor->ub;
+//        data[2] = g_pMotor->uc;
+//        USART3_SendPacket(CMD_UABC, &data[0], 3); 
+    vTaskDelay(1);
   /* add user code end comm_task_func 1 */
   }
 }
@@ -305,7 +317,8 @@ void control_task_func(void *pvParameters)
   {
   /* add user code begin control_task_func 1 */
     FocContorl(g_pMotor, PSVpwm);
-    vTaskDelay(5);
+      
+    //vTaskDelay(1);
 
   /* add user code end control_task_func 1 */
   }
