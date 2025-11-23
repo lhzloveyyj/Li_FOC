@@ -44,3 +44,4 @@
 .\objects\freertos_app.o: ..\Hardware\flash_ops.h
 .\objects\freertos_app.o: ..\Hardware\foc.h
 .\objects\freertos_app.o: ..\Hardware\svpwm.h
+.\objects\freertos_app.o: ..\Hardware\foc_config.h

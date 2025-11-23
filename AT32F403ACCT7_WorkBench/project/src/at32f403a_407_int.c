@@ -242,10 +242,12 @@ void ADC1_2_IRQHandler(void)
         g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, 0);
         g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, 1);
         g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, 2);
+        adcVbus = adc_preempt_conversion_data_get(ADC1, 3);
         
         FocContorl(g_pMotor, PSVpwm);
         adc_flag_clear(ADC1, ADC_PCCE_FLAG);
     }
+    
   /* add user code end ADC1_2_IRQ 0 */
   /* add user code begin ADC1_2_IRQ 1 */
 
@@ -261,10 +263,22 @@ void TMR2_GLOBAL_IRQHandler(void)
 {
   /* add user code begin TMR2_GLOBAL_IRQ 0 */
     if(uabcEnabled == 1){
-        focData[0] = g_pMotor->ua;
+        focData[0] =  g_pMotor->ua;
         focData[1] = g_pMotor->ub;
         focData[2] = g_pMotor->uc;
         USART3_SendPacket(CMD_UABC, &focData[0], 3); 
+    }
+    if(adcEnabled == 1){
+        focData[0] = g_motorAdValues[0];
+        focData[1] = g_motorAdValues[1];
+        focData[2] = g_motorAdValues[2];
+        USART3_SendPacket(CMD_ADC, &focData[0], 3); 
+    }
+    if(tabcEnabled == 1){
+        focData[0] = PSVpwm->Ta;
+        focData[1] = PSVpwm->Tb;
+        focData[2] = PSVpwm->Tc;
+        USART3_SendPacket(CMD_TABC, &focData[0], 3); 
     }
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         

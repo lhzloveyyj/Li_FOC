@@ -18,6 +18,7 @@
 #include "mt6701.h"
 #include "flash_ops.h"
 #include "foc.h"
+#include "foc_config.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -27,7 +28,9 @@
 
 /* private define ------------------------------------------------------------*/
 /* add user code begin private define */
-
+#define ADC_VERF    3.3f
+#define DCVBUS_R1   20
+#define DCVBUS_R2   1
 /* add user code end private define */
 
 /* private macro -------------------------------------------------------------*/
@@ -39,11 +42,15 @@
 /* add user code begin private variables */
 static led_device_t g_ledRun;
 static float angle = 0.0f;
+volatile uint16_t adcVbus = 0;
+float dcVbus = 0.0f;
 
 static float g_zeroOffset = 0.0f;
 static float g_correctedElecAngle = 0.0f;
 
 volatile uint8_t uabcEnabled = 0;
+volatile uint8_t adcEnabled  = 0;
+volatile uint8_t tabcEnabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -266,6 +273,33 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_ADC:
+            adcEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_ADC_CLOSE:
+            adcEnabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_DCVBUS:
+            data[0] = (adcVbus/4096.0f)* ADC_VERF * (DCVBUS_R1 + DCVBUS_R2)/DCVBUS_R2;
+            USART3_SendPacket(CMD_DCVBUS, &data[0], 1);
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_TABC:
+            tabcEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_TABC_CLOSE:
+            tabcEnabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        
         default:
             break;
     }
@@ -288,7 +322,7 @@ void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, 5000 * 0.95f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.99f);
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -300,7 +334,7 @@ void control_task_func(void *pvParameters)
   {
   /* add user code begin control_task_func 1 */
       
-      printf("%lf\r\n",g_pMotor->uq);
+      printf("%f\r\n",(adcVbus/4096.0f)*3.3*21);
     vTaskDelay(10);
 
   /* add user code end control_task_func 1 */

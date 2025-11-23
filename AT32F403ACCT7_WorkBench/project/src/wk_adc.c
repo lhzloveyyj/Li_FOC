@@ -67,6 +67,11 @@ void wk_adc1_init(void)
   gpio_init_struct.gpio_pins = GPIO_PINS_2;
   gpio_init(GPIOA, &gpio_init_struct);
 
+  /* configure the IN4 pin */
+  gpio_init_struct.gpio_mode = GPIO_MODE_ANALOG;
+  gpio_init_struct.gpio_pins = GPIO_PINS_4;
+  gpio_init(GPIOA, &gpio_init_struct);
+
   adc_reset(ADC1);
   crm_adc_clock_div_set(CRM_ADC_DIV_6);
 
@@ -82,7 +87,7 @@ void wk_adc1_init(void)
   adc_base_config(ADC1, &adc_base_struct);
 
   /* adc_preempt_conversionmode--------------------------------------------- */
-  adc_preempt_channel_length_set(ADC1, 3);
+  adc_preempt_channel_length_set(ADC1, 4);
 
   adc_preempt_channel_set(ADC1, ADC_CHANNEL_0, 1, ADC_SAMPLETIME_7_5);
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_1, 0x0);
@@ -90,6 +95,8 @@ void wk_adc1_init(void)
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_2, 0x0);
   adc_preempt_channel_set(ADC1, ADC_CHANNEL_2, 3, ADC_SAMPLETIME_7_5);
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_3, 0x0);
+  adc_preempt_channel_set(ADC1, ADC_CHANNEL_4, 4, ADC_SAMPLETIME_1_5);
+  adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_4, 0x0);
   adc_preempt_conversion_trigger_set(ADC1, ADC12_PREEMPT_TRIG_TMR1CH4, TRUE);
   /**
    * Users need to configure ADC1 interrupt functions according to the actual application.

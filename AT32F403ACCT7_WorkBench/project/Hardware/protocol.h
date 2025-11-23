@@ -21,6 +21,11 @@ typedef enum
     CMD_UABC                    = 0x08,  // 打印三项电压ua,ub,uc
     CMD_UABC_CLOSE              = 0x09,  // 关闭打印三项电压ua,ub,uc
     CMD_SETUQ                   = 0x0A,  // 设置Uq
+    CMD_ADC                     = 0x0B,  // 打印三项ADC采样值
+    CMD_ADC_CLOSE               = 0x0C,  // 关闭打印三项ADC采样值
+    CMD_DCVBUS                  = 0x0D,  // 获取母线电压
+    CMD_TABC                    = 0x0E,  // 三相SVPWM输出
+    CMD_TABC_CLOSE              = 0x0F,  // 关闭三相SVPWM输出
 
     // ... 未来可以继续扩展
 } CMD_TypeDef;

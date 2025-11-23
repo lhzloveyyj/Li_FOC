@@ -34,7 +34,11 @@
 
 /* exported macro ------------------------------------------------------------*/
 /* add user code begin exported macro */
+extern volatile uint16_t adcVbus;
+
 extern volatile uint8_t uabcEnabled;
+extern volatile uint8_t adcEnabled;
+extern volatile uint8_t tabcEnabled;
 /* add user code end exported macro */
 
 /* task handler */
