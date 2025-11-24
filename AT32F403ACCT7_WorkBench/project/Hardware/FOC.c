@@ -289,7 +289,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//设置PWM
 	MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
 	
-	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
+	//SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	
 	//设置SVPWM
 	//setSVpwm(PSVpwm);

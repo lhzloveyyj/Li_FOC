@@ -55,7 +55,7 @@ volatile uint8_t tabcEnabled = 0;
 
 /* private function prototypes --------------------------------------------*/
 /* add user code begin function prototypes */
-
+static float getVbus(void);
 /* add user code end function prototypes */
 
 /* private user code ---------------------------------------------------------*/
@@ -284,7 +284,7 @@ void comm_task_func(void *pvParameters)
             break;
         
         case CMD_DCVBUS:
-            data[0] = (adcVbus/4096.0f)* ADC_VERF * (DCVBUS_R1 + DCVBUS_R2)/DCVBUS_R2;
+            data[0] = getVbus();
             USART3_SendPacket(CMD_DCVBUS, &data[0], 1);
             g_commCmd = CMD_NONE; 
             break;
@@ -322,7 +322,7 @@ void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.99f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.90f);
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -333,8 +333,7 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-      
-      printf("%f\r\n",(adcVbus/4096.0f)*3.3*21);
+      //printf("%f,%lf,%lf\r\n",g_motorAdValues[0]/4096.0f*3.3, g_motorAdValues[1]/4096.0f*3.3, g_motorAdValues[2]/4096.0f*3.3);
     vTaskDelay(10);
 
   /* add user code end control_task_func 1 */
@@ -343,6 +342,21 @@ void control_task_func(void *pvParameters)
 
 
 /* add user code begin 2 */
+static float getVbus(void)
+{
+    adc_flag_clear(ADC1, ADC_CCE_FLAG);
 
+    adc_ordinary_software_trigger_enable(ADC1, TRUE);
+
+    while(adc_flag_get(ADC1, ADC_CCE_FLAG) == RESET);
+
+    adc_flag_clear(ADC1, ADC_CCE_FLAG);
+
+    adcVbus = adc_ordinary_conversion_data_get(ADC1);
+    
+    float vbus = (adcVbus/4096.0f)* ADC_VERF * (DCVBUS_R1 + DCVBUS_R2)/DCVBUS_R2;
+    
+    return vbus;
+}
 /* add user code end 2 */
 

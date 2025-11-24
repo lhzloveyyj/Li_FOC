@@ -242,7 +242,7 @@ void ADC1_2_IRQHandler(void)
         g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, 0);
         g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, 1);
         g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, 2);
-        adcVbus = adc_preempt_conversion_data_get(ADC1, 3);
+        
         
         FocContorl(g_pMotor, PSVpwm);
         adc_flag_clear(ADC1, ADC_PCCE_FLAG);

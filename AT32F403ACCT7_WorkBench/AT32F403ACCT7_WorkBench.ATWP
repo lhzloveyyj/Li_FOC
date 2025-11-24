@@ -16,11 +16,14 @@
             <ModeSub name="IN4" value="TRUE"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="EnableOrdinaryConversion" value="DISABLE"/>
+            <ParametersSub name="OrdinaryTriggerSource" value="ADC12_ORDINARY_TRIG_SOFTWARE"/>
+            <ParametersSub name="Channel_OrdinarySequence_1" value="ADC_CHANNEL_4"/>
+            <ParametersSub name="SamplingTime_OrdinarySequence_1" value="ADC_SAMPLETIME_13_5"/>
+            <ParametersSub name="SamplingRate_OrdinarySequence_1" value="0.769"/>
             <ParametersSub name="EnablePreemptedConversion" value="ENABLE"/>
             <ParametersSub name="PreemptedTriggerSource" value="ADC12_PREEMPT_TRIG_TMR1CH4"/>
             <ParametersSub name="PreemptedInterrupt" value="ENABLE"/>
-            <ParametersSub name="NbrOfPreemptedSequence" value="4"/>
+            <ParametersSub name="NbrOfPreemptedSequence" value="3"/>
             <ParametersSub name="Channel_PreemptedSequence_1" value="ADC_CHANNEL_0"/>
             <ParametersSub name="SamplingTime_PreemptedSequence_1" value="ADC_SAMPLETIME_7_5"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_1" value="1.000"/>
@@ -30,8 +33,6 @@
             <ParametersSub name="Channel_PreemptedSequence_3" value="ADC_CHANNEL_2"/>
             <ParametersSub name="SamplingTime_PreemptedSequence_3" value="ADC_SAMPLETIME_7_5"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_3" value="1.000"/>
-            <ParametersSub name="Channel_PreemptedSequence_4" value="ADC_CHANNEL_4"/>
-            <ParametersSub name="SamplingRate_PreemptedSequence_4" value="1.429"/>
         </Parameters>
     </ADC1>
     <CRM>
@@ -99,8 +100,8 @@
             <ModeSub name="Mode" value="Asynchronous"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="BaudRate" value="1500000"/>
-            <ParametersSub name="RealBaudRate" value="1500000"/>
+            <ParametersSub name="BaudRate" value="4000000"/>
+            <ParametersSub name="RealBaudRate" value="4000000"/>
         </Parameters>
     </USART3>
     <FREERTOS>
@@ -155,7 +156,7 @@
         <SysTick_Handler>1;15;0;1;0</SysTick_Handler>
         <FLASH_IRQHandler>0;5;0;1;0</FLASH_IRQHandler>
         <CRM_IRQHandler>0;5;0;1;0</CRM_IRQHandler>
-        <DMA1_Channel1_IRQHandler>1;5;0;1;0</DMA1_Channel1_IRQHandler>
+        <DMA1_Channel1_IRQHandler>1;6;0;1;0</DMA1_Channel1_IRQHandler>
         <ADC1_2_IRQHandler>1;5;0;1;0</ADC1_2_IRQHandler>
         <TMR1_BRK_TMR9_IRQHandler>0;5;0;1;0</TMR1_BRK_TMR9_IRQHandler>
         <TMR1_OVF_TMR10_IRQHandler>0;5;0;1;0</TMR1_OVF_TMR10_IRQHandler>

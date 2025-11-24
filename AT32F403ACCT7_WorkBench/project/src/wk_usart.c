@@ -66,7 +66,7 @@ void wk_usart3_init(void)
   gpio_init(GPIOB, &gpio_init_struct);
 
   /* configure param */
-  usart_init(USART3, 1500000, USART_DATA_8BITS, USART_STOP_1_BIT);
+  usart_init(USART3, 4000000, USART_DATA_8BITS, USART_STOP_1_BIT);
   usart_transmitter_enable(USART3, TRUE);
   usart_receiver_enable(USART3, TRUE);
   usart_parity_selection_config(USART3, USART_PARITY_NONE);
