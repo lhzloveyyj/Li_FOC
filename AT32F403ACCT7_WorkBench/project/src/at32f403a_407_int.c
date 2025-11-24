@@ -269,9 +269,9 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_UABC, &focData[0], 3); 
     }
     if(adcEnabled == 1){
-        focData[0] = g_motorAdValues[0];
-        focData[1] = g_motorAdValues[1];
-        focData[2] = g_motorAdValues[2];
+        focData[0] = g_motorAdValues[0] - g_ADoffest[0];
+        focData[1] = g_motorAdValues[1] - g_ADoffest[1];
+        focData[2] = g_motorAdValues[2] - g_ADoffest[2];
         USART3_SendPacket(CMD_ADC, &focData[0], 3); 
     }
     if(tabcEnabled == 1){
@@ -279,6 +279,12 @@ void TMR2_GLOBAL_IRQHandler(void)
         focData[1] = PSVpwm->Tb;
         focData[2] = PSVpwm->Tc;
         USART3_SendPacket(CMD_TABC, &focData[0], 3); 
+    }
+    if(IabcEnabled == 1){
+        focData[0] = g_pMotor->Ia;
+        focData[1] = g_pMotor->Ib;
+        focData[2] = g_pMotor->Ic;
+        USART3_SendPacket(CMD_IABC, &focData[0], 3); 
     }
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         

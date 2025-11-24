@@ -14,7 +14,8 @@
 float g_udc = 24.0f;
 
 float  zero = 0.0f;	
-volatile uint16_t g_motorAdValues[3]={0};
+volatile int g_motorAdValues[3]={0};
+volatile uint16_t g_ADoffest[3]={0};
 
 int cnt =0;
 
@@ -22,18 +23,19 @@ int cnt =0;
 
 /*****************定义电机1的FOC状态结构体*************************/
 FocState Motor = {
-    // current 可视情况初始化
-//  .current = {
-//      .ad_A = 0,
-//      .ad_B = 0,
-//      .voltage_a_offset = 0,
-//      .voltage_b_offset = 0,
-//      .Mflag = 1
-//  },
+   // current 可视情况初始化
+  .current = {
+      .adA = 0,
+      .adB = 0,
+      .adC = 0,
+      .voltageAOffset = 0,
+      .voltageBOffset = 0,
+      .voltageCOffset = 0,
+  },
 
     .uAlpha = 0.0f, .uBeta = 0.0f, 	
     .iAlpha = 0.0f, .iBeta = 0.0f, 	
-    .ia = 0.0f, .ib = 0.0f, .ic = 0.0f,			
+    .Ia = 0.0f, .Ib = 0.0f, .Ic = 0.0f,			
     .ua = 0.0f, .ub = 0.0f, .uc = 0.0f, 		
     .uq = 0.0f, .ud = 0.0f, 			
     .iq = 0.0f, .id = 0.0f, 			
@@ -57,6 +59,30 @@ FocState Motor = {
 PFocState g_pMotor = &Motor;
 
 void MotorSetPwm(float ua, float ub, float uc);
+
+/******************************************************************************
+  函数说明：获取电压偏置
+  @brief  通过多次采样计算电压偏置值，用于后续电流测量补偿
+  @param  pFOC 指向FOC状态结构体的指针
+  @retval 无
+******************************************************************************/
+void getAdoffset(void)
+{
+	int offestA = 0,offestB = 0,offestC = 0;
+	
+	for(int i=0;i<16;i++)
+	{	
+		offestA += g_motorAdValues[0];
+		offestB += g_motorAdValues[1];
+        offestC += g_motorAdValues[2];
+	}
+	g_pMotor->current.voltageAOffset = offestA >> 4;
+	g_pMotor->current.voltageBOffset = offestB >> 4;
+    g_pMotor->current.voltageCOffset = offestC >> 4;
+	
+}
+
+
 
 /**
  * @brief     将角度值归一化到 [0, 2π) 区间
@@ -263,16 +289,18 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//计算电角度
 	pFOC->correctedAngle = AngleGetCorrectedElec(pFOC->mechanicalAngle);
 	
-	//pFOC->current.ad_A = Motor1_AD_Value[1];
-	//pFOC->current.ad_B = Motor1_AD_Value[0];
+	pFOC->current.adA = g_motorAdValues[0];
+	pFOC->current.adB = g_motorAdValues[1];
+    pFOC->current.adC = g_motorAdValues[2];
 
+	//I = adc采样的电压 / 增益 / 电阻
+	pFOC->Ia = (pFOC->current.adA - pFOC->current.voltageAOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+	pFOC->Ib = (pFOC->current.adB - pFOC->current.voltageBOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+    pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
 	
-	//pFOC->Ia = (pFOC->current.ad_A - pFOC->current.voltage_a_offset)/4096.0f * ADC_REF_VOLTAGE * GAIN;
-	//pFOC->Ib = (pFOC->current.ad_B - pFOC->current.voltage_a_offset)/4096.0f * ADC_REF_VOLTAGE * GAIN;
-	//pFOC->Ia = 0 - pFOC->Ia - pFOC->Ib;
-	
-	//clarke_transform(pFOC) ;
-	//park_transform(pFOC);
+	clarke_transform(pFOC->Ia, pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
+    park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle, &pFOC->id, &pFOC->iq);
+    
 	//PID控制器
 	//pFOC->Ud = PI_Compute(&pi_Id, 0.0f, pFOC->Id);
 	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);

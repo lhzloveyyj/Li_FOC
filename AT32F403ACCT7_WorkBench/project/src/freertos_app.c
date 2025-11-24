@@ -51,6 +51,7 @@ static float g_correctedElecAngle = 0.0f;
 volatile uint8_t uabcEnabled = 0;
 volatile uint8_t adcEnabled  = 0;
 volatile uint8_t tabcEnabled = 0;
+volatile uint8_t IabcEnabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -189,6 +190,8 @@ void comm_task_func(void *pvParameters)
     g_pMotor->dir        = g_readback.dir;
     g_pMotor->zeroOffset = g_readback.elec_offset;
     
+    getAdoffset();
+    
     float data[3] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
@@ -299,6 +302,16 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_IABC:
+            IabcEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_IABC_CLOSE:
+            IabcEnabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
         
         default:
             break;
@@ -322,7 +335,7 @@ void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.90f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.98f);
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -333,7 +346,9 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-      //printf("%f,%lf,%lf\r\n",g_motorAdValues[0]/4096.0f*3.3, g_motorAdValues[1]/4096.0f*3.3, g_motorAdValues[2]/4096.0f*3.3);
+      //printf("%f,%lf,%f\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic);
+      //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
+      //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
     vTaskDelay(10);
 
   /* add user code end control_task_func 1 */

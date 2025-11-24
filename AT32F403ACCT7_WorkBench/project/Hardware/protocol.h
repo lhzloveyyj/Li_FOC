@@ -26,6 +26,8 @@ typedef enum
     CMD_DCVBUS                  = 0x0D,  // 获取母线电压
     CMD_TABC                    = 0x0E,  // 三相SVPWM输出
     CMD_TABC_CLOSE              = 0x0F,  // 关闭三相SVPWM输出
+    CMD_IABC                    = 0x10,  // 打印三相电流
+    CMD_IABC_CLOSE              = 0x11,  // 关闭打印三相电流
 
     // ... 未来可以继续扩展
 } CMD_TypeDef;

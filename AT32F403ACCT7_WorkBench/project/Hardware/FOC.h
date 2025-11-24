@@ -15,8 +15,10 @@ extern float g_udc ;
 typedef struct {
     uint16_t adA;               // A相ADC原始值
     uint16_t adB;               // B相ADC原始值
+    uint16_t adC;               // B相ADC原始值
     uint16_t voltageAOffset;    // A相电压偏移
     uint16_t voltageBOffset;    // B相电压偏移
+    uint16_t voltageCOffset;    // B相电压偏移
 } FocCurrentState;
 
 /**
@@ -27,7 +29,7 @@ typedef struct {
 
     float uAlpha, uBeta;        // 电压 αβ
     float iAlpha, iBeta;        // 电流 αβ
-    float ia, ib, ic;           // 电流 ABC
+    float Ia, Ib, Ic;           // 电流 ABC
     float ua, ub, uc;           // 电压 ABC
     float uq, ud;               // 电压 dq
     float iq, id;               // 电流 dq
@@ -52,13 +54,15 @@ typedef struct {
 
 typedef FocState *PFocState;
 
-extern volatile uint16_t g_motorAdValues[3];  // ADC 原始值数组（外部使用）
+extern volatile int g_motorAdValues[3];  // ADC 原始值数组（外部使用）
+extern volatile uint16_t g_ADoffest[3];
 
 extern PFocState g_pMotor;          // 电机 FOC 状态对象指针
 extern int cnt;
 
 void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle);
 void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm);
+void getAdoffset(void);
 
 #ifdef __cplusplus
 }
