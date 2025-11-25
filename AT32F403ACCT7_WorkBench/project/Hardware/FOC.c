@@ -202,9 +202,9 @@ float g_pwmC = 0.0f;
 ******************************************************************************/
 static void setpwm_channel(float pwm_a, float pwm_b, float pwm_c)
 {
-	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY);
+	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_a * FOC_ALL_DUTY * 0.95f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY * 0.95f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_c * FOC_ALL_DUTY * 0.95f);
 }
 
 /**
@@ -298,6 +298,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	pFOC->Ib = (pFOC->current.adB - pFOC->current.voltageBOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
     pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
 	
+    // 因为ia采样有点问题，暂时先用ibic  
 	clarke_transform(pFOC->Ia, pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
     park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle, &pFOC->id, &pFOC->iq);
     
@@ -305,7 +306,7 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//pFOC->Ud = PI_Compute(&pi_Id, 0.0f, pFOC->Id);
 	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);
 	
-	pFOC->ud = 0.0f;
+	pFOC->ud = 0.000001f;
 	//pFOC->uq = 0.0f;
 	
 	//逆park变换

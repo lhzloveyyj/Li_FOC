@@ -52,6 +52,9 @@ volatile uint8_t uabcEnabled = 0;
 volatile uint8_t adcEnabled  = 0;
 volatile uint8_t tabcEnabled = 0;
 volatile uint8_t IabcEnabled = 0;
+volatile uint8_t UAlpha_BetaEnabled = 0;
+volatile uint8_t IAlpha_BetaEnabled = 0;
+volatile uint8_t IQ_ID_Enabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -312,6 +315,35 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_UALPHA_BETA:
+            UAlpha_BetaEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_UALPHA_BETA_CLOSE:
+            UAlpha_BetaEnabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_IALPHA_BETA:
+            IAlpha_BetaEnabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_IALPHA_BETA_CLOSE:
+            IAlpha_BetaEnabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_IQ_ID:
+            IQ_ID_Enabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_IQ_ID_CLOSE:
+            IQ_ID_Enabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
         
         default:
             break;
@@ -349,6 +381,7 @@ void control_task_func(void *pvParameters)
       //printf("%f,%lf,%f\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic);
       //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
       //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
+      //printf("%d\r\n", PSVpwm->sector);
     vTaskDelay(10);
 
   /* add user code end control_task_func 1 */

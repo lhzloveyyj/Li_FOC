@@ -31,8 +31,8 @@ void SVpwm(PSVpwm_State PSVpwm, float U_alpha, float U_beta)
 {
 	PSVpwm->K = FOC_SQRT3 * PSVpwm->Ts / g_udc ;
 	PSVpwm->u1 = U_beta * PSVpwm->K;
-	PSVpwm->u2 = (FOC_SQRT3 * U_alpha - FOC_1_2 * U_beta) * PSVpwm->K; // sqrt(3)/2 = 0.8660254
-	PSVpwm->u3 = (-FOC_SQRT3 * U_alpha - FOC_1_2 * U_beta) * PSVpwm->K;
+	PSVpwm->u2 = (FOC_SQRT3_DIV_2 * U_alpha - FOC_1_2 * U_beta) * PSVpwm->K; // sqrt(3)/2 = 0.8660254
+	PSVpwm->u3 = (-FOC_SQRT3_DIV_2 * U_alpha - FOC_1_2 * U_beta) * PSVpwm->K;
 	
 	PSVpwm->sector = (PSVpwm->u1 > 0.0f) + ((PSVpwm->u2 > 0.0f) << 1) + ((PSVpwm->u3 > 0.0f) << 2); // sector = A + 2B + 4C
 	// 非零矢量和零矢量作用时间的计算

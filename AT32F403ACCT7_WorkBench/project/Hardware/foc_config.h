@@ -17,7 +17,7 @@
 #define FOC_2PI                 6.28318f
 #define FOC_3PI_2               4.712388f
 #define FOC_SQRT3               1.732f
-#define FOC_SQRT3_DIV_2         0.866f
+#define FOC_SQRT3_DIV_2         0.866025f
 #define FOC_1_2                0.5f
 #define FOC_EPSILON             1e-6f        // 浮点精度误差容忍阈值
 

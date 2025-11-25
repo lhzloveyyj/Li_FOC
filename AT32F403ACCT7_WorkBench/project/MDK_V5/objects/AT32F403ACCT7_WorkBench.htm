@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\objects\AT32F403ACCT7_WorkBench.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\objects\AT32F403ACCT7_WorkBench.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Nov 24 22:45:04 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Nov 25 23:04:11 2025
 <BR><P>
 <H3>Maximum Stack Usage =        256 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -687,7 +687,7 @@ Global Symbols
 <P><STRONG><a name="[58]"></a>SystemInit</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, system_at32f403a_407.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
-<P><STRONG><a name="[26]"></a>TMR2_GLOBAL_IRQHandler</STRONG> (Thumb, 282 bytes, Stack size 8 bytes, at32f403a_407_int.o(i.TMR2_GLOBAL_IRQHandler))
+<P><STRONG><a name="[26]"></a>TMR2_GLOBAL_IRQHandler</STRONG> (Thumb, 420 bytes, Stack size 8 bytes, at32f403a_407_int.o(i.TMR2_GLOBAL_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TMR2_GLOBAL_IRQHandler &rArr; USART3_SendPacket
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_flag_clear
@@ -866,7 +866,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FocContorl
 </UL>
 
-<P><STRONG><a name="[5b]"></a>comm_task_func</STRONG> (Thumb, 618 bytes, Stack size 16 bytes, freertos_app.o(i.comm_task_func))
+<P><STRONG><a name="[5b]"></a>comm_task_func</STRONG> (Thumb, 708 bytes, Stack size 16 bytes, freertos_app.o(i.comm_task_func))
 <BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = comm_task_func &rArr; AngleInitZeroOffset &rArr; MotorApplyStrongDrag &rArr; CalculateElectricalAngle &rArr; NormalizeAngle &rArr; __hardfp_fmodf &rArr; _frem &rArr; _float_epilogue
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
@@ -1692,11 +1692,11 @@ Global Symbols
 <P><STRONG><a name="[d5]"></a>wk_spi1_init</STRONG> (Thumb, 182 bytes, Stack size 24 bytes, wk_spi.o(i.wk_spi1_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = wk_spi1_init &rArr; gpio_init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_init
-<LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_enable
+<BR>[Calls]<UL><LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_enable
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_default_para_init
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_default_para_init
+<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -2041,7 +2041,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FocContorl
 </UL>
 
-<P><STRONG><a name="[8c]"></a>setpwm_channel</STRONG> (Thumb, 96 bytes, Stack size 24 bytes, foc.o(i.setpwm_channel))
+<P><STRONG><a name="[8c]"></a>setpwm_channel</STRONG> (Thumb, 120 bytes, Stack size 24 bytes, foc.o(i.setpwm_channel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = setpwm_channel
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_channel_value_set

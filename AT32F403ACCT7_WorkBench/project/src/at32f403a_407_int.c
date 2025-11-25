@@ -286,6 +286,22 @@ void TMR2_GLOBAL_IRQHandler(void)
         focData[2] = g_pMotor->Ic;
         USART3_SendPacket(CMD_IABC, &focData[0], 3); 
     }
+    if(UAlpha_BetaEnabled == 1){
+        focData[0] = g_pMotor->uAlpha;
+        focData[1] = g_pMotor->uBeta;
+        USART3_SendPacket(CMD_UALPHA_BETA, &focData[0], 2); 
+    }
+    if(IAlpha_BetaEnabled == 1){
+        focData[0] = g_pMotor->iAlpha;
+        focData[1] = g_pMotor->iBeta;
+        USART3_SendPacket(CMD_IALPHA_BETA, &focData[0], 2); 
+    }
+    if(IQ_ID_Enabled == 1){
+        focData[0] = g_pMotor->iq;
+        focData[1] = g_pMotor->id;
+        USART3_SendPacket(CMD_IQ_ID, &focData[0], 2); 
+    }
+    
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         
   /* add user code end TMR2_GLOBAL_IRQ 0 */

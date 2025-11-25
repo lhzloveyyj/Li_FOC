@@ -28,7 +28,12 @@ typedef enum
     CMD_TABC_CLOSE              = 0x0F,  // 关闭三相SVPWM输出
     CMD_IABC                    = 0x10,  // 打印三相电流
     CMD_IABC_CLOSE              = 0x11,  // 关闭打印三相电流
-
+    CMD_UALPHA_BETA             = 0x12,  // 打印 uAlpha, uBeta
+    CMD_UALPHA_BETA_CLOSE       = 0x13,  // 关闭打印 uAlpha, uBeta
+    CMD_IALPHA_BETA             = 0x14,  // 打印 IAlpha, uBeta
+    CMD_IALPHA_BETA_CLOSE       = 0x15,  // 关闭打印 IAlpha, uBeta
+    CMD_IQ_ID                   = 0x16,  // 打印 IQ,ID
+    CMD_IQ_ID_CLOSE             = 0x17,  // 关闭打印 IQ,ID
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 

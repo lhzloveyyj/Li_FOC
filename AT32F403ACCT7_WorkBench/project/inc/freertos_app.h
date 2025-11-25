@@ -40,6 +40,9 @@ extern volatile uint8_t uabcEnabled;
 extern volatile uint8_t adcEnabled;
 extern volatile uint8_t tabcEnabled;
 extern volatile uint8_t IabcEnabled;
+extern volatile uint8_t UAlpha_BetaEnabled;
+extern volatile uint8_t IAlpha_BetaEnabled;
+extern volatile uint8_t IQ_ID_Enabled;
 /* add user code end exported macro */
 
 /* task handler */
