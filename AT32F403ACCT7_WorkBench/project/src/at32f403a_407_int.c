@@ -281,7 +281,7 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_TABC, &focData[0], 3); 
     }
     if(IabcEnabled == 1){
-        focData[0] = g_pMotor->Ia;
+        //focData[0] = g_pMotor->Ia;
         focData[1] = g_pMotor->Ib;
         focData[2] = g_pMotor->Ic;
         USART3_SendPacket(CMD_IABC, &focData[0], 3); 

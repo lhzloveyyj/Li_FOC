@@ -4,10 +4,6 @@
 LPF_Current M1_LPF;
 PLPF_Current PM1_LPF = &M1_LPF;
 
-// 创建 M2（第二组电机）的 d 轴和 q 轴电流滤波器
-LPF_Current M2_LPF;
-PLPF_Current PM2_LPF = &M2_LPF;
-
 /**
  * @brief  初始化电流滤波器
  * 
@@ -51,10 +47,6 @@ void LPF_Update(PLPF_Current filter, float Id_input, float Iq_input, float *Id_o
 // M1（第一组电机）的速度滤波器实例
 LPF_Speed M1_LPF_Speed;
 PLPF_Speed PM1_LPF_Speed = &M1_LPF_Speed;
-
-// M2（第二组电机）的速度滤波器实例
-LPF_Speed M2_LPF_Speed;
-PLPF_Speed PM2_LPF_Speed = &M2_LPF_Speed;
 
 /**
  * @brief  初始化速度滤波器

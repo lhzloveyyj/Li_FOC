@@ -19,6 +19,7 @@
 #include "flash_ops.h"
 #include "foc.h"
 #include "foc_config.h"
+#include "filter.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -194,6 +195,7 @@ void comm_task_func(void *pvParameters)
     g_pMotor->zeroOffset = g_readback.elec_offset;
     
     getAdoffset();
+    LPF_Init(PM1_LPF);
     
     float data[3] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
@@ -211,7 +213,7 @@ void comm_task_func(void *pvParameters)
         led_set(&g_ledRun, 0);
     }
     
-    angle = g_pMotor->mechanicalAngle;
+    //angle = g_pMotor->mechanicalAngle;
     
     //数据回传上位机
     switch(g_commCmd)

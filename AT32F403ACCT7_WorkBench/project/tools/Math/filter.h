@@ -1,98 +1,93 @@
 #ifndef __FILTER_H
 #define __FILTER_H
 
-#include "at32f403a_407.h"  // AT32F403A/407 Í·ÎÄ¼ş
+#include "at32f403a_407.h"  // AT32F403A/407 å¤´æ–‡ä»¶
 
-// ²ÉÑùÆµÂÊ 24kHz, ½ØÖ¹ÆµÂÊ 500Hz£¨ÊÊºÏµÍËÙµç»ú£©
-#define SAMPLE_FREQ 24000.0f
-#define CUTOFF_FREQ 500.0f
+// é‡‡æ ·é¢‘ç‡ 24kHz, æˆªæ­¢é¢‘ç‡ 500Hzï¼ˆé€‚åˆä½é€Ÿç”µæœºï¼‰
+#define SAMPLE_FREQ 20000.0f
+#define CUTOFF_FREQ 10.0f
 
 #define PI 3.1415f  
 
 /**
- * @brief µÍÍ¨ÂË²¨Æ÷½á¹¹Ìå
+ * @brief ä½é€šæ»¤æ³¢å™¨ç»“æ„ä½“
  * 
- * ÓÃÓÚ¶Ôµ¥¸öĞÅºÅ½øĞĞµÍÍ¨ÂË²¨
+ * ç”¨äºå¯¹å•ä¸ªä¿¡å·è¿›è¡Œä½é€šæ»¤æ³¢
  */
 typedef struct {
-    float alpha;     ///< ÂË²¨ÏµÊı£¨ÓÉ²ÉÑùÖÜÆÚºÍ½ØÖ¹ÆµÂÊ¼ÆËã£©
-    float filtered;  ///< ÂË²¨ºóµÄÊä³öÖµ
+    float alpha;     ///< æ»¤æ³¢ç³»æ•°ï¼ˆç”±é‡‡æ ·å‘¨æœŸå’Œæˆªæ­¢é¢‘ç‡è®¡ç®—ï¼‰
+    float filtered;  ///< æ»¤æ³¢åçš„è¾“å‡ºå€¼
 } LPF_Filter;
 
 /**
- * @brief  µçÁ÷ÂË²¨½á¹¹Ìå£¬°üº¬ Id ºÍ Iq Öá
+ * @brief  ç”µæµæ»¤æ³¢ç»“æ„ä½“ï¼ŒåŒ…å« Id å’Œ Iq è½´
  * 
- * ¸Ã½á¹¹ÌåÓÃÓÚÍ¬Ê±¶Ô d ÖáºÍ q ÖáµÄµçÁ÷½øĞĞµÍÍ¨ÂË²¨
+ * è¯¥ç»“æ„ä½“ç”¨äºåŒæ—¶å¯¹ d è½´å’Œ q è½´çš„ç”µæµè¿›è¡Œä½é€šæ»¤æ³¢
  */
 typedef struct {
-    LPF_Filter Id; ///< d ÖáµçÁ÷ÂË²¨Æ÷
-    LPF_Filter Iq; ///< q ÖáµçÁ÷ÂË²¨Æ÷
+    LPF_Filter Id; ///< d è½´ç”µæµæ»¤æ³¢å™¨
+    LPF_Filter Iq; ///< q è½´ç”µæµæ»¤æ³¢å™¨
 } LPF_Current;
 
 typedef LPF_Current *PLPF_Current;
 
-// M1£¨µÚÒ»×éµç»ú£©µÄµçÁ÷ÂË²¨Æ÷
+// M1ï¼ˆç¬¬ä¸€ç»„ç”µæœºï¼‰çš„ç”µæµæ»¤æ³¢å™¨
 extern PLPF_Current PM1_LPF;
 
-// M2£¨µÚ¶ş×éµç»ú£©µÄµçÁ÷ÂË²¨Æ÷
-extern PLPF_Current PM2_LPF;
 
 /**
- * @brief ³õÊ¼»¯µçÁ÷ÂË²¨Æ÷
+ * @brief åˆå§‹åŒ–ç”µæµæ»¤æ³¢å™¨
  * 
- * ¸Ãº¯Êı»á¼ÆËãÂË²¨ÏµÊı£¬²¢³õÊ¼»¯ d ÖáºÍ q ÖáµÄÂË²¨²ÎÊı¡£
+ * è¯¥å‡½æ•°ä¼šè®¡ç®—æ»¤æ³¢ç³»æ•°ï¼Œå¹¶åˆå§‹åŒ– d è½´å’Œ q è½´çš„æ»¤æ³¢å‚æ•°ã€‚
  * 
- * @param Pcurrent Ö¸ÏòĞèÒª³õÊ¼»¯µÄ LPF_Current ½á¹¹Ìå
+ * @param Pcurrent æŒ‡å‘éœ€è¦åˆå§‹åŒ–çš„ LPF_Current ç»“æ„ä½“
  */
 void LPF_Init(PLPF_Current Pcurrent);
 
 /**
- * @brief µÍÍ¨ÂË²¨¼ÆËã£¨Í¬Ê±´¦Àí d ÖáºÍ q ÖáµçÁ÷£©
+ * @brief ä½é€šæ»¤æ³¢è®¡ç®—ï¼ˆåŒæ—¶å¤„ç† d è½´å’Œ q è½´ç”µæµï¼‰
  * 
- * ¸Ãº¯ÊıÓÃÓÚ¶ÔÊäÈëµÄ d ÖáºÍ q ÖáµçÁ÷½øĞĞÂË²¨£¬²¢·µ»ØÂË²¨ºóµÄÖµ¡£
+ * è¯¥å‡½æ•°ç”¨äºå¯¹è¾“å…¥çš„ d è½´å’Œ q è½´ç”µæµè¿›è¡Œæ»¤æ³¢ï¼Œå¹¶è¿”å›æ»¤æ³¢åçš„å€¼ã€‚
  * 
- * @param filter  Ö¸Ïò LPF_Current ½á¹¹ÌåµÄÖ¸Õë£¨°üº¬ d ÖáºÍ q ÖáÂË²¨Æ÷£©
- * @param Id_input  ĞèÒªÂË²¨µÄ d ÖáµçÁ÷ÊäÈë
- * @param Iq_input  ĞèÒªÂË²¨µÄ q ÖáµçÁ÷ÊäÈë
- * @param Id_out   Ö¸Ïò´æ´¢ d ÖáÂË²¨½á¹ûµÄ±äÁ¿
- * @param Iq_out   Ö¸Ïò´æ´¢ q ÖáÂË²¨½á¹ûµÄ±äÁ¿
+ * @param filter  æŒ‡å‘ LPF_Current ç»“æ„ä½“çš„æŒ‡é’ˆï¼ˆåŒ…å« d è½´å’Œ q è½´æ»¤æ³¢å™¨ï¼‰
+ * @param Id_input  éœ€è¦æ»¤æ³¢çš„ d è½´ç”µæµè¾“å…¥
+ * @param Iq_input  éœ€è¦æ»¤æ³¢çš„ q è½´ç”µæµè¾“å…¥
+ * @param Id_out   æŒ‡å‘å­˜å‚¨ d è½´æ»¤æ³¢ç»“æœçš„å˜é‡
+ * @param Iq_out   æŒ‡å‘å­˜å‚¨ q è½´æ»¤æ³¢ç»“æœçš„å˜é‡
  */
 void LPF_Update(PLPF_Current filter, float Id_input, float Iq_input, float *Id_out, float *Iq_out);
 
 
 
 /**
- * @brief ËÙ¶ÈÂË²¨½á¹¹Ìå
+ * @brief é€Ÿåº¦æ»¤æ³¢ç»“æ„ä½“
  * 
- * ¸Ã½á¹¹ÌåÓÃÓÚ¶ÔËÙ¶ÈĞÅºÅ½øĞĞµÍÍ¨ÂË²¨
+ * è¯¥ç»“æ„ä½“ç”¨äºå¯¹é€Ÿåº¦ä¿¡å·è¿›è¡Œä½é€šæ»¤æ³¢
  */
 typedef struct {
-    LPF_Filter speed; ///< ËÙ¶ÈÂË²¨Æ÷
+    LPF_Filter speed; ///< é€Ÿåº¦æ»¤æ³¢å™¨
 } LPF_Speed;
 
 typedef LPF_Speed *PLPF_Speed;
 
-// M1£¨µÚÒ»×éµç»ú£©µÄËÙ¶ÈÂË²¨Æ÷
+// M1ï¼ˆç¬¬ä¸€ç»„ç”µæœºï¼‰çš„é€Ÿåº¦æ»¤æ³¢å™¨
 extern PLPF_Speed PM1_LPF_Speed;
 
-// M2£¨µÚ¶ş×éµç»ú£©µÄËÙ¶ÈÂË²¨Æ÷
-extern PLPF_Speed PM2_LPF_Speed;
-
 /**
- * @brief ³õÊ¼»¯ËÙ¶ÈÂË²¨Æ÷
+ * @brief åˆå§‹åŒ–é€Ÿåº¦æ»¤æ³¢å™¨
  * 
- * ¸Ãº¯Êı»á¼ÆËãÂË²¨ÏµÊı£¬²¢³õÊ¼»¯ËÙ¶ÈÂË²¨²ÎÊı¡£
+ * è¯¥å‡½æ•°ä¼šè®¡ç®—æ»¤æ³¢ç³»æ•°ï¼Œå¹¶åˆå§‹åŒ–é€Ÿåº¦æ»¤æ³¢å‚æ•°ã€‚
  * 
- * @param Pspeed Ö¸ÏòĞèÒª³õÊ¼»¯µÄ LPF_Speed ½á¹¹Ìå
+ * @param Pspeed æŒ‡å‘éœ€è¦åˆå§‹åŒ–çš„ LPF_Speed ç»“æ„ä½“
  */
 void LPF_Speed_Init(PLPF_Speed Pspeed);
 
 /**
- * @brief µÍÍ¨ÂË²¨¼ÆËã£¨ÓÃÓÚËÙ¶ÈĞÅºÅ£©
+ * @brief ä½é€šæ»¤æ³¢è®¡ç®—ï¼ˆç”¨äºé€Ÿåº¦ä¿¡å·ï¼‰
  * 
- * @param filter  Ö¸Ïò LPF_Speed ½á¹¹ÌåµÄÖ¸Õë
- * @param speed_input  ĞèÒªÂË²¨µÄËÙ¶ÈÊäÈë
- * @return ÂË²¨ºóµÄËÙ¶È
+ * @param filter  æŒ‡å‘ LPF_Speed ç»“æ„ä½“çš„æŒ‡é’ˆ
+ * @param speed_input  éœ€è¦æ»¤æ³¢çš„é€Ÿåº¦è¾“å…¥
+ * @return æ»¤æ³¢åçš„é€Ÿåº¦
  */
 void LPF_Speed_Update(PLPF_Speed filter, float speed_input, float *speed_out);
 

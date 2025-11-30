@@ -7,6 +7,7 @@
 #include "delay.h"
 #include "stdio.h"
 #include "mt6701.h"
+#include "filter.h"
 
 #include "freertos_app.h"
 
@@ -299,8 +300,11 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
     pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
 	
     // 因为ia采样有点问题，暂时先用ibic  
-	clarke_transform(-pFOC->Ib, -pFOC->Ia, &pFOC->iAlpha, &pFOC->iBeta);
+	clarke_transform(-pFOC->Ic, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
     park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle, &pFOC->id, &pFOC->iq);
+    
+    //ID,IQ滤波
+	LPF_Update(PM1_LPF, pFOC->id, pFOC->iq, &(pFOC->id), &(pFOC->iq));
     
 	//PID控制器
 	//pFOC->Ud = PI_Compute(&pi_Id, 0.0f, pFOC->Id);

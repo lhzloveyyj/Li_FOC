@@ -10,7 +10,7 @@
 #define FOC_RS                  0.01f       // 电流采样电阻值（单位：Ω）
 #define FOC_CURRENT_GAIN        50.0f       // 电流放大倍数（运放增益）
 #define FOC_IQ_MAX              40.0f       // 最大目标 q 轴电流
-#define FOC_STRONGDRAG			1.0f
+#define FOC_STRONGDRAG			1.5f
 
 /* ---------------- 常数定义 ---------------- */
 #define FOC_PI                  3.14159f

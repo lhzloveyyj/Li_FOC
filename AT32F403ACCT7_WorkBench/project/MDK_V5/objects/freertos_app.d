@@ -45,3 +45,4 @@
 .\objects\freertos_app.o: ..\Hardware\foc.h
 .\objects\freertos_app.o: ..\Hardware\svpwm.h
 .\objects\freertos_app.o: ..\Hardware\foc_config.h
+.\objects\freertos_app.o: ..\tools\Math\filter.h
