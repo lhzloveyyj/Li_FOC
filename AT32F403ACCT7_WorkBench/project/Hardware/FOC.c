@@ -8,6 +8,7 @@
 #include "stdio.h"
 #include "mt6701.h"
 #include "filter.h"
+#include "current_control.h"
 
 #include "freertos_app.h"
 
@@ -307,10 +308,13 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	LPF_Update(PM1_LPF, pFOC->id, pFOC->iq, &(pFOC->id), &(pFOC->iq));
     
 	//PID控制器
-	//pFOC->Ud = PI_Compute(&pi_Id, 0.0f, pFOC->Id);
-	//pFOC->Uq = PI_Compute(&pi_Id, 0.0f, pFOC->Iq);
-	
-	pFOC->ud = 0.000001f;
+	CurrentPIControlID(pFOC);
+    pFOC->ud = pFOC->idPID.out;
+    CurrentPIControlIQ(pFOC);
+    pFOC->uq = pFOC->iqPID.out;
+
+    
+	//pFOC->ud = 0.000001f;
 	//pFOC->uq = 0.0f;
 	
 	//逆park变换
@@ -319,8 +323,6 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	//逆clarke变换
 	inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
 	
-	//设置PWM
-	//MotorSetPwm(pFOC->ua, pFOC->ub, pFOC->uc);
 	
 	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	

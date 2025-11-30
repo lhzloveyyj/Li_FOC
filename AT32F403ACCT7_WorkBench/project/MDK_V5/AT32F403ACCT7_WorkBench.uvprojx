@@ -558,6 +558,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\SVPWM.c</FilePath>
             </File>
+            <File>
+              <FileName>current_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\current_control.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

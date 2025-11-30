@@ -34,6 +34,8 @@ typedef enum
     CMD_IALPHA_BETA_CLOSE       = 0x15,  // 关闭打印 IAlpha, uBeta
     CMD_IQ_ID                   = 0x16,  // 打印 IQ,ID
     CMD_IQ_ID_CLOSE             = 0x17,  // 关闭打印 IQ,ID
+    CMD_SETIQ                   = 0x18,  // 设置IQ
+    CMD_SETID                   = 0x19,  // 设置ID
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 

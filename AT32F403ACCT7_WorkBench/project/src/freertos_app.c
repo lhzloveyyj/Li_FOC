@@ -20,6 +20,7 @@
 #include "foc.h"
 #include "foc_config.h"
 #include "filter.h"
+#include "current_control.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -187,7 +188,7 @@ void comm_task_func(void *pvParameters)
     usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end comm_task_func 0 */
 
-  /* add user code begin comm_task_func 2 */
+  /* add user code begin comm_task_func 2 */  
     //加载参数
     foc_params_load(&g_readback);
     g_pMotor->pole_pairs = g_readback.pole_pairs;
@@ -196,6 +197,11 @@ void comm_task_func(void *pvParameters)
     
     getAdoffset();
     LPF_Init(PM1_LPF);
+    
+    //ID , IQ
+    SetCurrentPIDTar(g_pMotor, 0.0f, 0.0f);
+    //KP, KI, KD, OUT
+    SetCurrentPIDParams(g_pMotor, 0.01f, 1.2f, 0.0f, 12.0f);
     
     float data[3] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
@@ -347,6 +353,16 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_SETIQ:
+            g_pMotor->tariq = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETID:
+            g_pMotor->tarid = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
         default:
             break;
     }
@@ -368,8 +384,11 @@ void comm_task_func(void *pvParameters)
 void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
+    
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.98f);
+    
+    
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -384,6 +403,7 @@ void control_task_func(void *pvParameters)
       //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
       //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
       //printf("%d\r\n", PSVpwm->sector);
+      printf("%f,%f,%f,%f\r\n",  g_pMotor->iq, g_pMotor->id, g_pMotor->iqPID.out, g_pMotor->idPID.out);
     vTaskDelay(10);
 
   /* add user code end control_task_func 1 */

@@ -31,6 +31,7 @@
 ".\objects\flash.o"
 ".\objects\foc.o"
 ".\objects\svpwm.o"
+".\objects\current_control.o"
 ".\objects\filter.o"
 ".\objects\my_math.o"
 ".\objects\croutine.o"

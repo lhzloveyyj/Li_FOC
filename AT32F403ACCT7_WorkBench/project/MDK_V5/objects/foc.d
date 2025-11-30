@@ -31,6 +31,7 @@
 .\objects\foc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\foc.o: ..\Hardware\mt6701.h
 .\objects\foc.o: ..\tools\Math\filter.h
+.\objects\foc.o: ..\Hardware\current_control.h
 .\objects\foc.o: ..\inc\freertos_app.h
 .\objects\foc.o: ../../middlewares/freertos/source/include/FreeRTOS.h
 .\objects\foc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h

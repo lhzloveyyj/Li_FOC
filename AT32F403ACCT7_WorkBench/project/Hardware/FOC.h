@@ -21,6 +21,24 @@ typedef struct {
     uint16_t voltageCOffset;    // B相电压偏移
 } FocCurrentState;
 
+/*
+增量式PI调节
+*/
+struct PI_Struct
+{
+    /* data */
+    float kp;
+    float ki;
+    float kd;
+
+    float pre;
+    float tar;
+    float bias;
+    float lastBias;
+    float out;
+    float outMax;
+};
+
 /**
  * @brief FOC运行状态结构体
  */
@@ -41,8 +59,10 @@ typedef struct {
     float correctedAngle;       // 修正后的电角度
     float zeroOffset;           // 零电角度偏移
 
-    //PIDController idPID;        // d轴电流 PID
-    //PIDController iqPID;        // q轴电流 PID
+    struct PI_Struct idPID;            // d轴电流 PID
+    struct PI_Struct iqPID;        // q轴电流 PID
+    float tariq;
+	float tarid;
 
     float speedLastAngle;       // 上次电角度（用于计算速度）
     float speed;                // 实际速度
