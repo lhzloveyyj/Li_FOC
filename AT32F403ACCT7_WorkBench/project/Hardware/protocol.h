@@ -36,6 +36,10 @@ typedef enum
     CMD_IQ_ID_CLOSE             = 0x17,  // 关闭打印 IQ,ID
     CMD_SETIQ                   = 0x18,  // 设置IQ
     CMD_SETID                   = 0x19,  // 设置ID
+    CMD_OPEN_LOOP               = 0x20,  // 开环模式
+    CMD_CURRENT_LOOP            = 0x21,  // 电流环
+    CMD_SPEED_LOOP              = 0x22,  // 速度-电流环
+    CMD_POSITION_LOOP              = 0x23,  // 位置-速度-电流环
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 

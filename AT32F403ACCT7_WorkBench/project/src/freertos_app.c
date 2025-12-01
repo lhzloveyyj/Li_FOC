@@ -363,6 +363,27 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_OPEN_LOOP:
+            g_pMotor->ctrolmode = FOC_OPEN_LOOP;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_CURRENT_LOOP:
+            g_pMotor->ctrolmode = FPC_CURRENT_LOOP;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SPEED_LOOP:
+            g_pMotor->ctrolmode = FOC_SPEED_LOOP;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_POSITION_LOOP :
+            g_pMotor->ctrolmode = FOC_POSITION_LOOP;
+            g_commCmd = CMD_NONE; 
+            break;
+   
+        
         default:
             break;
     }

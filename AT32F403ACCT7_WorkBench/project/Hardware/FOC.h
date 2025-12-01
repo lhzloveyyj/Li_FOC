@@ -8,6 +8,16 @@
 extern "C" {
 #endif
 
+// 控制模式命令枚举
+typedef enum
+{
+    FOC_OPEN_LOOP    = 0x01,  // 开环模式
+    FPC_CURRENT_LOOP = 0x02,  // 电流环模式
+    FOC_SPEED_LOOP   = 0x03,  // 速度环模式
+    FOC_POSITION_LOOP= 0x04,  // 位置环模式
+} CtrolMode_TypeDef;
+
+
 extern float g_udc ;
 /**
  * @brief 电流采样状态
@@ -67,6 +77,8 @@ typedef struct {
     float speedLastAngle;       // 上次电角度（用于计算速度）
     float speed;                // 实际速度
     //PIDController speedPID;     // 速度 PID 控制器
+    
+    uint8_t ctrolmode;
 
     void (*setPwmCallback)(float pwmA, float pwmB, float pwmC); // 设置PWM函数指针
 } FocState;

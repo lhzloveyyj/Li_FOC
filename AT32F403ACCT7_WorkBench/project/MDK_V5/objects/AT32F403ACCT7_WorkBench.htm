@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\objects\AT32F403ACCT7_WorkBench.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\objects\AT32F403ACCT7_WorkBench.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Nov 30 19:35:49 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Dec 01 21:20:25 2025
 <BR><P>
 <H3>Maximum Stack Usage =        256 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -568,9 +568,9 @@ Global Symbols
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 
-<P><STRONG><a name="[177]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[177]"></a>__decompress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __dczerorl.o(.text), UNUSED)
 
-<P><STRONG><a name="[178]"></a>__decompress1</STRONG> (Thumb, 86 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+<P><STRONG><a name="[178]"></a>__decompress0</STRONG> (Thumb, 58 bytes, Stack size unknown bytes, __dczerorl.o(.text), UNUSED)
 
 <P><STRONG><a name="[1d]"></a>ADC1_2_IRQHandler</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, at32f403a_407_int.o(i.ADC1_2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = ADC1_2_IRQHandler &rArr; FocContorl &rArr; AngleGetCorrectedElec &rArr; CalculateElectricalAngle &rArr; NormalizeAngle &rArr; __hardfp_fmodf &rArr; _frem &rArr; _float_epilogue
@@ -961,7 +961,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FocContorl
 </UL>
 
-<P><STRONG><a name="[5c]"></a>comm_task_func</STRONG> (Thumb, 792 bytes, Stack size 16 bytes, freertos_app.o(i.comm_task_func))
+<P><STRONG><a name="[5c]"></a>comm_task_func</STRONG> (Thumb, 886 bytes, Stack size 16 bytes, freertos_app.o(i.comm_task_func))
 <BR><BR>[Stack]<UL><LI>Max Depth = 172<LI>Call Chain = comm_task_func &rArr; AngleInitZeroOffset &rArr; MotorApplyStrongDrag &rArr; CalculateElectricalAngle &rArr; NormalizeAngle &rArr; __hardfp_fmodf &rArr; _frem &rArr; _float_epilogue
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay

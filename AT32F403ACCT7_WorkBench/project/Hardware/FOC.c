@@ -53,6 +53,8 @@ FocState Motor = {
     .speedLastAngle = 0.0f,
     .speed = 0.0f,
     //.speedPID = {0},
+  
+    .ctrolmode = 1,
 
     .setPwmCallback = NULL  // 或者设为具体函数名
 };
