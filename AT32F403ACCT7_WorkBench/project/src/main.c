@@ -122,12 +122,12 @@ int main(void)
   /* init tmr2 function. */
   wk_tmr2_init();
 
-  /* init freertos function. */
-  wk_freertos_init();
-
   /* add user code begin 2 */
   
   /* add user code end 2 */
+
+  /* init freertos function. */
+  wk_freertos_init();
 
   while(1)
   {

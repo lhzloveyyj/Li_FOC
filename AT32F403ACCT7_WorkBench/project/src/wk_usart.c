@@ -75,14 +75,6 @@ void wk_usart3_init(void)
 
   usart_hardware_flow_control_set(USART3, USART_HARDWARE_FLOW_NONE);
 
-  /**
-   * Users need to configure USART3 interrupt functions according to the actual application.
-   * 1. Call the below function to enable the corresponding USART3 interrupt.
-   *     --usart_interrupt_enable(...)
-   * 2. Add the user's interrupt handler code into the below function in the at32f403a_407_int.c file.
-   *     --void USART3_IRQHandler(void)
-   */
-
   /* add user code begin usart3_init 2 */
 
   /* add user code end usart3_init 2 */

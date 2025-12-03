@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F403ACCT7,USE_STDPERIPH_DRIVER,AT_START_F403A_V1</Define>
+              <Define>AT32F403ACCT7, USE_STDPERIPH_DRIVER, AT_START_F403A_V1</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\libraries\drivers\inc;..\..\libraries\cmsis\cm4\core_support;..\..\libraries\cmsis\cm4\device_support;..\inc;..\Hardware;..\tools\Math;../../middlewares/freertos/source/include;../../middlewares/freertos/source/portable/memmang;../../middlewares/freertos/source/portable/rvds/ARM_CM4F</IncludePath>
             </VariousControls>
@@ -443,6 +443,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\wk_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\rtc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -459,9 +464,19 @@
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_tmr.c</FilePath>
             </File>
             <File>
+              <FileName>at32f403a_407_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_rtc.c</FilePath>
+            </File>
+            <File>
               <FileName>at32f403a_407_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_i2c.c</FilePath>
             </File>
             <File>
               <FileName>at32f403a_407_usart.c</FileName>
@@ -494,14 +509,74 @@
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_flash.c</FilePath>
             </File>
             <File>
+              <FileName>at32f403a_407_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_wwdt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_wwdt.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_wdt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_wdt.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_exint.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_exint.c</FilePath>
+            </File>
+            <File>
               <FileName>at32f403a_407_misc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_misc.c</FilePath>
             </File>
             <File>
+              <FileName>at32f403a_407_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_acc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_acc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_xmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_xmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_emac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_emac.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_sdio.c</FilePath>
+            </File>
+            <File>
               <FileName>at32f403a_407_debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\drivers\src\at32f403a_407_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>at32f403a_407_bpr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\drivers\src\at32f403a_407_bpr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -562,6 +637,11 @@
               <FileName>current_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\current_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>mostemp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\mostemp.c</FilePath>
             </File>
           </Files>
         </Group>

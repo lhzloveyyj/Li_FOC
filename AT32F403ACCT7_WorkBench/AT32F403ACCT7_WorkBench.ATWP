@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Root>
     <WorkBenchVersion>
-        <Version>V1.2.00</Version>
+        <Version>V1.2.02</Version>
     </WorkBenchVersion>
     <MCUInfo>
         <MCUSerials>AT32F403A</MCUSerials>
@@ -13,24 +13,29 @@
             <ModeSub name="IN0" value="TRUE"/>
             <ModeSub name="IN1" value="TRUE"/>
             <ModeSub name="IN2" value="TRUE"/>
+            <ModeSub name="IN3" value="TRUE"/>
             <ModeSub name="IN4" value="TRUE"/>
         </Mode>
         <Parameters>
             <ParametersSub name="OrdinaryTriggerSource" value="ADC12_ORDINARY_TRIG_SOFTWARE"/>
             <ParametersSub name="Channel_OrdinarySequence_1" value="ADC_CHANNEL_4"/>
-            <ParametersSub name="SamplingRate_OrdinarySequence_1" value="1.429"/>
+            <ParametersSub name="SamplingTime_OrdinarySequence_1" value="ADC_SAMPLETIME_41_5"/>
+            <ParametersSub name="SamplingRate_OrdinarySequence_1" value="0.370"/>
             <ParametersSub name="EnablePreemptedConversion" value="ENABLE"/>
             <ParametersSub name="PreemptedTriggerSource" value="ADC12_PREEMPT_TRIG_TMR1CH4"/>
-            <ParametersSub name="PreemptedInterrupt" value="ENABLE"/>
-            <ParametersSub name="NbrOfPreemptedSequence" value="3"/>
+            <ParametersSub name="NbrOfPreemptedSequence" value="4"/>
             <ParametersSub name="Channel_PreemptedSequence_1" value="ADC_CHANNEL_0"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_1" value="1.429"/>
             <ParametersSub name="Channel_PreemptedSequence_2" value="ADC_CHANNEL_1"/>
-            <ParametersSub name="SamplingTime_PreemptedSequence_2" value="ADC_SAMPLETIME_7_5"/>
-            <ParametersSub name="SamplingRate_PreemptedSequence_2" value="1.000"/>
+            <ParametersSub name="SamplingRate_PreemptedSequence_2" value="1.429"/>
             <ParametersSub name="Channel_PreemptedSequence_3" value="ADC_CHANNEL_2"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_3" value="1.429"/>
+            <ParametersSub name="Channel_PreemptedSequence_4" value="ADC_CHANNEL_3"/>
+            <ParametersSub name="SamplingRate_PreemptedSequence_4" value="1.429"/>
         </Parameters>
+        <Interrupts>
+            <InterruptsSub name="Interrupt_PCCE" value="TRUE"/>
+        </Interrupts>
     </ADC1>
     <CRM>
         <Mode>
@@ -200,6 +205,7 @@
         <PinSub pinname="PA0" signalname="ADC1_IN0" signaltype="2"/>
         <PinSub pinname="PA1" signalname="ADC1_IN1" signaltype="2"/>
         <PinSub pinname="PA2" signalname="ADC1_IN2" signaltype="2"/>
+        <PinSub pinname="PA3" signalname="ADC1_IN3" signaltype="2"/>
         <PinSub pinname="PA4" signalname="ADC1_IN4" signaltype="3"/>
         <PinSub pinname="PA5" signalname="SPI1_SCK" signaltype="2"/>
         <PinSub pinname="PA6" signalname="SPI1_MISO" signaltype="2"/>
@@ -227,10 +233,10 @@
         <KeepUserCode>true</KeepUserCode>
         <NotUsedPinAnalog>false</NotUsedPinAnalog>
         <CodeSplitIP>true</CodeSplitIP>
-        <AddNecessaryFileFlag>true</AddNecessaryFileFlag>
+        <AddNecessaryFileFlag>false</AddNecessaryFileFlag>
         <MinHeapSize>0x200</MinHeapSize>
         <MinStackSize>0x400</MinStackSize>
         <UseFirmware>true</UseFirmware>
-        <PackageVersion>V2.2.1</PackageVersion>
+        <PackageVersion>V2.2.2</PackageVersion>
     </ProjectInfomation>
 </Root>

@@ -223,14 +223,6 @@ void wk_tmr2_init(void)
 
   tmr_counter_enable(TMR2, TRUE);
 
-  /**
-   * Users need to configure TMR2 interrupt functions according to the actual application.
-   * 1. Call the below function to enable the corresponding TMR2 interrupt.
-   *     --tmr_interrupt_enable(...)
-   * 2. Add the user's interrupt handler code into the below function in the at32f403a_407_int.c file.
-   *     --void TMR2_GLOBAL_IRQHandler(void)
-   */
-
   /* add user code begin tmr2_init 2 */
 
   /* add user code end tmr2_init 2 */

@@ -21,6 +21,7 @@
 #include "foc_config.h"
 #include "filter.h"
 #include "current_control.h"
+#include "mostemp.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -44,7 +45,8 @@
 /* add user code begin private variables */
 static led_device_t g_ledRun;
 static float angle = 0.0f;
-volatile uint16_t adcVbus = 0;
+uint16_t adcVbus = 0;
+uint16_t adcMostemp = 0;
 float dcVbus = 0.0f;
 
 static float g_zeroOffset = 0.0f;
@@ -57,11 +59,13 @@ volatile uint8_t IabcEnabled = 0;
 volatile uint8_t UAlpha_BetaEnabled = 0;
 volatile uint8_t IAlpha_BetaEnabled = 0;
 volatile uint8_t IQ_ID_Enabled = 0;
+volatile uint8_t mostemp_Enabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
 /* add user code begin function prototypes */
 static float getVbus(void);
+float ntc_temp_c(int adc_val);
 /* add user code end function prototypes */
 
 /* private user code ---------------------------------------------------------*/
@@ -161,12 +165,20 @@ void freertos_semaphore_create(void)
   */
 void wk_freertos_init(void)
 {
+  /* add user code begin freertos_init 0 */
+
+  /* add user code end freertos_init 0 */
+
   /* enter critical */
   taskENTER_CRITICAL();
 
   freertos_semaphore_create();
   freertos_task_create();
 	
+  /* add user code begin freertos_init 1 */
+
+  /* add user code end freertos_init 1 */
+
   /* exit critical */
   taskEXIT_CRITICAL();
 
@@ -233,6 +245,8 @@ void comm_task_func(void *pvParameters)
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
             USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 3);
+        
+            mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
             break;
         
@@ -382,8 +396,7 @@ void comm_task_func(void *pvParameters)
             g_pMotor->ctrolmode = FOC_POSITION_LOOP;
             g_commCmd = CMD_NONE; 
             break;
-   
-        
+            
         default:
             break;
     }
@@ -413,7 +426,8 @@ void control_task_func(void *pvParameters)
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
-
+    float temp;
+    float sendata[3] = {0.0f};
   /* add user code end control_task_func 2 */
 
   /* Infinite loop */
@@ -423,9 +437,17 @@ void control_task_func(void *pvParameters)
       //printf("%f,%lf,%f\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic);
       //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
       //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
-      //printf("%d\r\n", PSVpwm->sector);
-      printf("%f,%f,%f,%f\r\n",  g_pMotor->iq, g_pMotor->id, g_pMotor->iqPID.out, g_pMotor->idPID.out);
-    vTaskDelay(10);
+      //getVbus();
+      
+      //printf("%f,%f,%f,%f\r\n",  g_pMotor->iq, g_pMotor->id, g_pMotor->iqPID.out, g_pMotor->idPID.out);
+      printf("%d\r\n", mostemp_Enabled);
+      
+      if(mostemp_Enabled == 1){
+        temp = ntc_temp_c(adcMostemp);
+          sendata[0] = temp;
+        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
+      }
+    vTaskDelay(100);
 
   /* add user code end control_task_func 1 */
   }
@@ -435,6 +457,7 @@ void control_task_func(void *pvParameters)
 /* add user code begin 2 */
 static float getVbus(void)
 {
+    adc_ordinary_channel_set(ADC1, ADC_CHANNEL_4, 2, ADC_SAMPLETIME_41_5);
     adc_flag_clear(ADC1, ADC_CCE_FLAG);
 
     adc_ordinary_software_trigger_enable(ADC1, TRUE);
@@ -449,5 +472,6 @@ static float getVbus(void)
     
     return vbus;
 }
+
 /* add user code end 2 */
 

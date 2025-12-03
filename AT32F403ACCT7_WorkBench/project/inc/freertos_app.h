@@ -34,7 +34,7 @@
 
 /* exported macro ------------------------------------------------------------*/
 /* add user code begin exported macro */
-extern volatile uint16_t adcVbus;
+extern uint16_t adcMostemp;
 
 extern volatile uint8_t uabcEnabled;
 extern volatile uint8_t adcEnabled;

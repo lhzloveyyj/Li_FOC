@@ -57,13 +57,7 @@ void wk_dma1_channel1_init(void)
 
   /* flexible function enable */
   dma_flexible_config(DMA1, FLEX_CHANNEL1, DMA_FLEXIBLE_UART3_TX);
-  /**
-   * Users need to configure DMA1 interrupt functions according to the actual application.
-   * 1. Call the below function to enable the corresponding DMA1 interrupt.
-   *     --dma_interrupt_enable(...)
-   * 2. Add the user's interrupt handler code into the below function in the at32f403a_407_int.c file.
-   *     --void DMA1_Channel1_IRQHandler(void)
-   */ 
+
   /* add user code begin dma1_channel1 1 */
 
   /* add user code end dma1_channel1 1 */

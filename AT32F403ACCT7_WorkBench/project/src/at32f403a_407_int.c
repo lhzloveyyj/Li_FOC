@@ -26,6 +26,8 @@
 
 /* includes ------------------------------------------------------------------*/
 #include "at32f403a_407_int.h"
+#include "freertos_app.h"
+
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include "usart3.h"   
@@ -190,7 +192,6 @@ void SysTick_Handler(void)
 
   /* add user code end SysTick_IRQ 0 */
 
-
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
   if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
   {
@@ -224,6 +225,7 @@ void DMA1_Channel1_IRQHandler(void)
         
     }
   /* add user code end DMA1_Channel1_IRQ 0 */
+
   /* add user code begin DMA1_Channel1_IRQ 1 */
 
   /* add user code end DMA1_Channel1_IRQ 1 */
@@ -242,13 +244,22 @@ void ADC1_2_IRQHandler(void)
         g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, 0);
         g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, 1);
         g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, 2);
-        
+        adcMostemp = adc_preempt_conversion_data_get(ADC1, 3);
         
         FocContorl(g_pMotor, PSVpwm);
         adc_flag_clear(ADC1, ADC_PCCE_FLAG);
     }
     
   /* add user code end ADC1_2_IRQ 0 */
+
+  if(adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET)
+  {
+    /* add user code begin ADC1_ADC_PCCE_FLAG */
+    /* clear flag */
+    adc_flag_clear(ADC1, ADC_PCCE_FLAG);
+    /* add user code end ADC1_ADC_PCCE_FLAG */ 
+  }
+
   /* add user code begin ADC1_2_IRQ 1 */
 
   /* add user code end ADC1_2_IRQ 1 */
@@ -306,7 +317,6 @@ void TMR2_GLOBAL_IRQHandler(void)
         
   /* add user code end TMR2_GLOBAL_IRQ 0 */
 
-
   /* add user code begin TMR2_GLOBAL_IRQ 1 */
 
   /* add user code end TMR2_GLOBAL_IRQ 1 */
@@ -328,6 +338,7 @@ void USART3_IRQHandler(void)
         usart_flag_clear(USART3, USART_RDBF_FLAG);
     }
   /* add user code end USART3_IRQ 0 */
+
   /* add user code begin USART3_IRQ 1 */
 
   /* add user code end USART3_IRQ 1 */
