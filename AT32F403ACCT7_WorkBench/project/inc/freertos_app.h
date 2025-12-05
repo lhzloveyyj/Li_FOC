@@ -36,6 +36,7 @@
 /* add user code begin exported macro */
 extern uint16_t adcMostemp;
 
+extern volatile uint8_t anglePrintingEnabled;
 extern volatile uint8_t uabcEnabled;
 extern volatile uint8_t adcEnabled;
 extern volatile uint8_t tabcEnabled;

@@ -44,7 +44,6 @@
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
 static led_device_t g_ledRun;
-static float angle = 0.0f;
 uint16_t adcVbus = 0;
 uint16_t adcMostemp = 0;
 float dcVbus = 0.0f;
@@ -52,6 +51,7 @@ float dcVbus = 0.0f;
 static float g_zeroOffset = 0.0f;
 static float g_correctedElecAngle = 0.0f;
 
+volatile uint8_t anglePrintingEnabled = 0;
 volatile uint8_t uabcEnabled = 0;
 volatile uint8_t adcEnabled  = 0;
 volatile uint8_t tabcEnabled = 0;
@@ -215,10 +215,9 @@ void comm_task_func(void *pvParameters)
     //KP, KI, KD, OUT
     SetCurrentPIDParams(g_pMotor, 0.01f, 1.2f, 0.0f, 12.0f);
     
-    float data[3] = {0.0f};
+    float data[6] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
-    uint8_t anglePrintingEnabled = 0;
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
@@ -244,7 +243,10 @@ void comm_task_func(void *pvParameters)
             data[0]   = (float)g_pMotor->pole_pairs;
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 3);
+            data[3]   = g_pMotor->iqPID.kp;
+            data[4]   = g_pMotor->iqPID.ki;
+            data[5]   = getVbus();
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 6);
         
             mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
@@ -401,9 +403,6 @@ void comm_task_func(void *pvParameters)
             break;
     }
     
-    if(1 == anglePrintingEnabled){
-        USART3_SendPacket(CMD_MECHANICALANGLE, &angle, 1); 
-    }
     vTaskDelay(5);
   /* add user code end comm_task_func 1 */
   }
