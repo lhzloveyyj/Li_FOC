@@ -22,6 +22,7 @@
 #include "filter.h"
 #include "current_control.h"
 #include "mostemp.h"
+#include "speed_control.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -60,6 +61,7 @@ volatile uint8_t UAlpha_BetaEnabled = 0;
 volatile uint8_t IAlpha_BetaEnabled = 0;
 volatile uint8_t IQ_ID_Enabled = 0;
 volatile uint8_t mostemp_Enabled = 0;
+volatile uint8_t speed_Enabled = 0;
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -194,26 +196,29 @@ void wk_freertos_init(void)
 void comm_task_func(void *pvParameters)
 {
   /* add user code begin comm_task_func 0 */
-    tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
     
-    dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
-    usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
+    
   /* add user code end comm_task_func 0 */
 
   /* add user code begin comm_task_func 2 */  
     //加载参数
+    vTaskDelay(100);
+    
     foc_params_load(&g_readback);
     g_pMotor->pole_pairs = g_readback.pole_pairs;
     g_pMotor->dir        = g_readback.dir;
     g_pMotor->zeroOffset = g_readback.elec_offset;
     
+    
     getAdoffset();
+    
     LPF_Init(PM1_LPF);
+    LPF_Speed_Init(PM1_LPF_Speed);
     
     //ID , IQ
     SetCurrentPIDTar(g_pMotor, 0.0f, 0.0f);
     //KP, KI, KD, OUT
-    SetCurrentPIDParams(g_pMotor, 0.01f, 1.2f, 0.0f, 12.0f);
+    SetCurrentPIDParams(g_pMotor, 0.008f, 0.5f, 0.0f, 12.0f);
     
     float data[6] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
@@ -398,6 +403,33 @@ void comm_task_func(void *pvParameters)
             g_pMotor->ctrolmode = FOC_POSITION_LOOP;
             g_commCmd = CMD_NONE; 
             break;
+        
+        case CMD_SETUD :
+            g_pMotor->ud = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETIQPIDKP :
+            g_pMotor->iqPID.kp = g_cmdData;
+            g_pMotor->idPID.kp = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETIQPIDKI :
+            g_pMotor->iqPID.ki = g_cmdData;
+            g_pMotor->idPID.ki = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SPEED:
+            speed_Enabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SPEED_CLODE:
+            speed_Enabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
             
         default:
             break;
@@ -417,10 +449,7 @@ void comm_task_func(void *pvParameters)
 void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
-    
-    adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.98f);
-    
+   tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.99f);
     
   /* add user code end control_task_func 0 */
 
@@ -433,20 +462,20 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-      //printf("%f,%lf,%f\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic);
+      
       //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
       //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
       //getVbus();
-      
       //printf("%f,%f,%f,%f\r\n",  g_pMotor->iq, g_pMotor->id, g_pMotor->iqPID.out, g_pMotor->idPID.out);
-      printf("%d\r\n", mostemp_Enabled);
-      
-      if(mostemp_Enabled == 1){
-        temp = ntc_temp_c(adcMostemp);
-          sendata[0] = temp;
-        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
-      }
-    vTaskDelay(100);
+      //printf("%f,%f,%f,%f\r\n",PSVpwm->Ta, PSVpwm->Tb, PSVpwm->Tc, PSVpwm->sector/200.0+0.47);
+      //printf("%f,%f,%f,%f,%f,%f,%d\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic, g_pMotor->a, g_pMotor->b, g_pMotor->c, PSVpwm->sector);
+//      if(mostemp_Enabled == 1){
+//        temp = ntc_temp_c(adcMostemp);
+//          sendata[0] = temp;
+//        //USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
+//      }
+    CalculateSpeed(g_pMotor, 0.001f, PM1_LPF_Speed);
+    vTaskDelay(1);
 
   /* add user code end control_task_func 1 */
   }

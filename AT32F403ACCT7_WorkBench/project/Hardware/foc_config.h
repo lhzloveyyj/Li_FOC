@@ -24,8 +24,8 @@
 /* ---------------- PWM/ADC ---------------- */
 #define FOC_ALL_DUTY            5999         // PWM周期（例如 Time2）
 #define FOC_ADC_REF_VOLTAGE     3.3f          // ADC参考电压（单位：V）
-#define FOC_GAIN                50 
-#define FOC_SHUNT_R             0.002f 
+#define FOC_GAIN                10 
+#define FOC_SHUNT_R             0.01f 
 
 /* ---------------- 调试功能开关 ---------------- */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）

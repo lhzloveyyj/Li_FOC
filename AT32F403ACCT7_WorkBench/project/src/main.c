@@ -123,7 +123,11 @@ int main(void)
   wk_tmr2_init();
 
   /* add user code begin 2 */
-  
+  adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
+  tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
+    
+  dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
+  usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end 2 */
 
   /* init freertos function. */

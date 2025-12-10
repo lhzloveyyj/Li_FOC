@@ -12,8 +12,8 @@ PLPF_Current PM1_LPF = &M1_LPF;
  * @param Pcurrent 指向需要初始化的 LPF_Current 结构体
  */
 void LPF_Init(PLPF_Current Pcurrent) {
-    float dt = 1.0f / SAMPLE_FREQ;  // 计算采样周期 (s)
-    float alpha = 1.0f / (1.0f + (1.0f / (2.0f * PI * dt * CUTOFF_FREQ))); // 计算滤波系数
+    float dt = 1.0f / CURRENT_SAMPLE_FREQ;  // 计算采样周期 (s)
+    float alpha = 1.0f / (1.0f + (1.0f / (2.0f * PI * dt * CURRENT_CUTOFF_FREQ))); // 计算滤波系数
 
     // 初始化 d 轴滤波器
     Pcurrent->Id.alpha = alpha;
@@ -45,7 +45,7 @@ void LPF_Update(PLPF_Current filter, float Id_input, float Iq_input, float *Id_o
 
 
 // M1（第一组电机）的速度滤波器实例
-LPF_Speed M1_LPF_Speed;
+TYPELPF_Speed M1_LPF_Speed;
 PLPF_Speed PM1_LPF_Speed = &M1_LPF_Speed;
 
 /**
@@ -56,8 +56,8 @@ PLPF_Speed PM1_LPF_Speed = &M1_LPF_Speed;
  * @param Pspeed 指向需要初始化的 LPF_Speed 结构体
  */
 void LPF_Speed_Init(PLPF_Speed Pspeed) {
-    float dt = 1.0f / SAMPLE_FREQ;  // 计算采样周期 (s)
-    float alpha = 1.0f / (1.0f + (1.0f / (2.0f * PI * dt * CUTOFF_FREQ))); // 计算滤波系数
+    float dt = 1.0f / SPEED_SAMPLE_FREQ;  // 计算采样周期 (s)
+    float alpha = 1.0f / (1.0f + (1.0f / (2.0f * PI * dt * SPEED_CUTOFF_FREQ))); // 计算滤波系数
 
     // 初始化速度滤波器
     Pspeed->speed.alpha = alpha;

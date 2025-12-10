@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /* 调试打印开关：1开启，0关闭 */
-#define FOC_FLASH_DEBUG  1
+#define FOC_FLASH_DEBUG  0
 
 #if FOC_FLASH_DEBUG
     #define FOC_DBG_PRINTF(...)  printf(__VA_ARGS__)

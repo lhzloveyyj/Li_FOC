@@ -63,3 +63,4 @@
 .\objects\freertos_app.o: ..\tools\Math\filter.h
 .\objects\freertos_app.o: ..\Hardware\current_control.h
 .\objects\freertos_app.o: ..\Hardware\mostemp.h
+.\objects\freertos_app.o: ..\Hardware\speed_control.h

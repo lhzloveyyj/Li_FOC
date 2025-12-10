@@ -292,7 +292,7 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_TABC, &focData[0], 3); 
     }
     if(IabcEnabled == 1){
-        //focData[0] = g_pMotor->Ia;
+        focData[0] = g_pMotor->Ia;
         focData[1] = g_pMotor->Ib;
         focData[2] = g_pMotor->Ic;
         USART3_SendPacket(CMD_IABC, &focData[0], 3); 
@@ -316,6 +316,10 @@ void TMR2_GLOBAL_IRQHandler(void)
         focData[0] = g_pMotor->mechanicalAngle;
         USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 1); 
     }
+    if(speed_Enabled == 1){
+        focData[0] = g_pMotor->speed;
+        USART3_SendPacket(CMD_SPEED, &focData[0], 1); 
+        }
     
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         

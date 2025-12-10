@@ -41,6 +41,11 @@ typedef enum
     CMD_SPEED_LOOP              = 0x22,  // 速度-电流环
     CMD_POSITION_LOOP           = 0x23,  // 位置-速度-电流环
     CMD_MOSTEMP                 = 0x24,  // MOS温度
+    CMD_SETUD                   = 0x25,  ///< 设置Ud
+    CMD_SETIQPIDKP              = 0x26,  ///< 设置电流环KP
+    CMD_SETIQPIDKI              = 0x27,  ///< 设置电流环KI
+    CMD_SPEED                   = 0x28,  ///< 开启速度打印
+    CMD_SPEED_CLODE             = 0x29,  ///< 关闭速度打印
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 

@@ -83,7 +83,9 @@ void getAdoffset(void)
 	g_pMotor->current.voltageAOffset = offestA >> 4;
 	g_pMotor->current.voltageBOffset = offestB >> 4;
     g_pMotor->current.voltageCOffset = offestC >> 4;
-	
+    
+	printf("voltageAOffset: %d,voltageAOffset :%d,voltageAOffset :%d\r\n",
+        g_pMotor->current.voltageAOffset, g_pMotor->current.voltageAOffset, g_pMotor->current.voltageAOffset);
 }
 
 
@@ -150,20 +152,19 @@ void MotorApplyStrongDrag(float ud)
     MotorSetPwm(ua, ub, uc);
 }
 
-
 /**
  * @brief     角度模块初始化，采集零电角度偏移（调用强拖，进行多次平均）
  * @param     readAngleFunc   用于读取机械角度的函数指针（单位：rad）
  */
 void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
 {
-    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE);
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE); 
     MotorApplyStrongDrag(FOC_STRONGDRAG);           // 施加 Ud 强拖，固定转子磁极方向
-    vTaskDelay(2000);                       // 保持拖动 2 秒
+    vTaskDelay(1500);                       // 保持拖动 2 秒
 
     // 多次采样以降低抖动影响
     float sum = 0.0f;
-    const int sampleCount = 10;
+    const int sampleCount = 20;
 	float mechanicalAngle = 0.0f;
 
     for (int i = 0; i < sampleCount; i++) {
@@ -206,9 +207,9 @@ float g_pwmC = 0.0f;
 ******************************************************************************/
 static void setpwm_channel(float pwm_a, float pwm_b, float pwm_c)
 {
-	tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY * 0.95f);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY * 0.95f);
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY * 0.95f);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY );
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY );
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY );
 }
 
 /**
@@ -228,11 +229,42 @@ void MotorSetPwm(float ua, float ub, float uc)
     g_pwmA = LimitValue(ua / g_udc, 0.0f, 1.0f);
     g_pwmB = LimitValue(ub / g_udc, 0.0f, 1.0f);
     g_pwmC = LimitValue(uc / g_udc, 0.0f, 1.0f);
-
+    
     // 输出到定时器 PWM 寄存器
     setpwm_channel(g_pwmA, g_pwmB, g_pwmC);
 }
 
+/**
+ * @brief     电流重构
+ * @param     ua   A相电压（单位：V）
+ * @param     ub   B相电压（单位：V）
+ * @param     uc   C相电压（单位：V）
+ */
+static void CurrentReconstruction(PFocState pFOC, PSVpwm_State PSVpwm, float ia, float ib, float ic)
+{
+    switch (PSVpwm->sector) {
+        case 1:
+            pFOC->Ib = 0.0f - pFOC->Ia - pFOC->Ic;
+            break;
+        case 2:
+            pFOC->Ia =0.0f - pFOC->Ib - pFOC->Ic;
+            break;
+        case 3:
+            pFOC->Ia =0.0f - pFOC->Ib - pFOC->Ic;
+            break;
+        case 4:
+            pFOC->Ic =0.0f - pFOC->Ia - pFOC->Ib;
+            break;
+        case 5:
+            pFOC->Ib =0.0f - pFOC->Ia - pFOC->Ic;
+            break;
+        case 6:
+            pFOC->Ic =0.0f - pFOC->Ia - pFOC->Ib;
+            break;
+        default:
+            break;
+    }
+}
 
 // Clarke变换（电流）
 void clarke_transform(float Ia, float Ib, float *Ialpha, float *Ibeta) {
@@ -301,34 +333,35 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	pFOC->Ia = (pFOC->current.adA - pFOC->current.voltageAOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
 	pFOC->Ib = (pFOC->current.adB - pFOC->current.voltageBOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
     pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+    
+    CurrentReconstruction(g_pMotor, PSVpwm, pFOC->Ia , pFOC->Ib, pFOC->Ic);
+    
 	
     // 因为ia采样有点问题，暂时先用ibic  
-	clarke_transform(-pFOC->Ic, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
+	clarke_transform(-pFOC->Ia, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
     park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle, &pFOC->id, &pFOC->iq);
     
     //ID,IQ滤波
 	LPF_Update(PM1_LPF, pFOC->id, pFOC->iq, &(pFOC->id), &(pFOC->iq));
     
-	//PID控制器
-	CurrentPIControlID(pFOC);
-    pFOC->ud = pFOC->idPID.out;
-    CurrentPIControlIQ(pFOC);
-    pFOC->uq = pFOC->iqPID.out;
-
+    pFOC->ud = 0.000001f;
     
-	//pFOC->ud = 0.000001f;
-	//pFOC->uq = 0.0f;
+	//PID控制器
+    if(g_pMotor->ctrolmode == FPC_CURRENT_LOOP){
+        CurrentPIControlID(pFOC);
+        pFOC->ud = pFOC->idPID.out;
+        CurrentPIControlIQ(pFOC);
+        pFOC->uq = pFOC->iqPID.out;
+    }
 	
 	//逆park变换
 	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));
 	
 	//逆clarke变换
-	inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
-	
+	//inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
 	
 	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	
-	//设置SVPWM
 	setSVpwm(PSVpwm);
 }
 

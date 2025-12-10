@@ -1,5 +1,4 @@
 #include "speed_control.h"
-#include "filter.h"
 #include "math.h"
 #include "stdio.h"
 
@@ -85,5 +84,6 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
 //    pFOC->speedPID.outMax = outMax;
 //printf("set kp is %lf, ki is %lf, kd is %lf\r\n",kp,ki,kd);
 //}
+
 
 
