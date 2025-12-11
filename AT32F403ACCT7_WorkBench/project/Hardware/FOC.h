@@ -76,7 +76,9 @@ typedef struct {
 
     float speedLastAngle;       // 上次电角度（用于计算速度）
     float speed;                // 实际速度
-    //PIDController speedPID;     // 速度 PID 控制器
+    float speedDir;
+    float tar_speed;
+    struct PI_Struct speedPID;     // 速度 PID 控制器
     
     uint8_t ctrolmode;
 

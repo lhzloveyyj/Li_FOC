@@ -66,6 +66,7 @@ void foc_params_test(void)
     g_params.pole_pairs  = 11;
     g_params.reserved1   = 0.123;
     g_params.dir   = 1;
+    g_params.speeddir   = 1;
 
     foc_params_save(&g_params);
     FOC_DBG_PRINTF("Flash write OK!\r\n");
@@ -76,6 +77,7 @@ void foc_params_test(void)
     FOC_DBG_PRINTF("  pole   = %d\r\n", g_readback.pole_pairs);
     FOC_DBG_PRINTF("  res1   = %f\r\n", g_readback.reserved1);
     FOC_DBG_PRINTF("  dir   = %d\r\n", g_readback.dir);
+    FOC_DBG_PRINTF("  speeddir   = %d\r\n", g_readback.speeddir);
     FOC_DBG_PRINTF("\r\n");
 
     /* 可选：打印每个半字 */

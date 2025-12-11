@@ -9,6 +9,7 @@ typedef struct {
     int    pole_pairs;    /* 极对数 */
     float reserved1;
     int dir;
+    int speeddir;
 } foc_params_t;
 
 extern foc_params_t g_readback;

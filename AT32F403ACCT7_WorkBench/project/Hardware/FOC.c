@@ -164,7 +164,7 @@ void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
 
     // 多次采样以降低抖动影响
     float sum = 0.0f;
-    const int sampleCount = 20;
+    const int sampleCount = 50;
 	float mechanicalAngle = 0.0f;
 
     for (int i = 0; i < sampleCount; i++) {
@@ -347,12 +347,14 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
     pFOC->ud = 0.000001f;
     
 	//PID控制器
-    if(g_pMotor->ctrolmode == FPC_CURRENT_LOOP){
-        CurrentPIControlID(pFOC);
-        pFOC->ud = pFOC->idPID.out;
-        CurrentPIControlIQ(pFOC);
+    CurrentPIControlIQ(pFOC);
+    CurrentPIControlID(pFOC);
+    
+    if(g_pMotor->ctrolmode != FOC_OPEN_LOOP){
         pFOC->uq = pFOC->iqPID.out;
+        pFOC->ud = pFOC->idPID.out;
     }
+    
 	
 	//逆park变换
 	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));

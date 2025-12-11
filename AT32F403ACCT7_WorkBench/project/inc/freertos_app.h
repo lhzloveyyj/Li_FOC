@@ -45,6 +45,7 @@ extern volatile uint8_t UAlpha_BetaEnabled;
 extern volatile uint8_t IAlpha_BetaEnabled;
 extern volatile uint8_t IQ_ID_Enabled;
 extern volatile uint8_t speed_Enabled;
+extern volatile uint8_t speedOut_Enabled;
 /* add user code end exported macro */
 
 /* task handler */

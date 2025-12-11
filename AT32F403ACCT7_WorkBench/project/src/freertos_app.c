@@ -62,6 +62,8 @@ volatile uint8_t IAlpha_BetaEnabled = 0;
 volatile uint8_t IQ_ID_Enabled = 0;
 volatile uint8_t mostemp_Enabled = 0;
 volatile uint8_t speed_Enabled = 0;
+volatile uint8_t speedOut_Enabled = 0;
+
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -217,10 +219,13 @@ void comm_task_func(void *pvParameters)
     
     //ID , IQ
     SetCurrentPIDTar(g_pMotor, 0.0f, 0.0f);
-    //KP, KI, KD, OUT
-    SetCurrentPIDParams(g_pMotor, 0.008f, 0.5f, 0.0f, 12.0f);
+    SetSpeedPIDTar(g_pMotor, 0.0f);
     
-    float data[6] = {0.0f};
+    //KP, KI, KD, OUT
+    SetCurrentPIDParams(g_pMotor, 0.0035f, 0.5f, 0.0f, 12.0f);
+    SetSpeedPIDParams(g_pMotor, 0.002f, 0.08f, 0.0f, 12.0f);
+    
+    float data[9] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
   /* add user code end comm_task_func 2 */
@@ -245,13 +250,17 @@ void comm_task_func(void *pvParameters)
             g_pMotor->pole_pairs = g_readback.pole_pairs;
             g_pMotor->dir        = g_readback.dir;
             g_pMotor->zeroOffset = g_readback.elec_offset;
+            g_pMotor->speedDir   = g_readback.speeddir;
             data[0]   = (float)g_pMotor->pole_pairs;
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
             data[3]   = g_pMotor->iqPID.kp;
             data[4]   = g_pMotor->iqPID.ki;
             data[5]   = getVbus();
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 6);
+            data[6]   = g_pMotor->speedDir;
+            data[7]   = g_pMotor->speedPID.kp;
+            data[8]   = g_pMotor->speedPID.ki;
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 9);
         
             mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
@@ -430,7 +439,38 @@ void comm_task_func(void *pvParameters)
             speed_Enabled = 0;
             g_commCmd = CMD_NONE; 
             break;
-            
+        
+        case CMD_SETSPEEDDIR:
+            g_params.speeddir  = (int)g_cmdData;
+            foc_params_save(&g_params);
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SPEEDOUT:
+            speedOut_Enabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SPEEDOUT_CLOSE:
+            speedOut_Enabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETSPEEDTAR:
+            g_pMotor->tar_speed = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETSPEEDPIDKP:
+            g_pMotor->speedPID.kp = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETSPEEDPIDKI:
+            g_pMotor->speedPID.ki = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
         default:
             break;
     }
@@ -474,8 +514,10 @@ void control_task_func(void *pvParameters)
 //          sendata[0] = temp;
 //        //USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
 //      }
-    CalculateSpeed(g_pMotor, 0.001f, PM1_LPF_Speed);
-    vTaskDelay(1);
+    CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
+    SpeedPIControl(g_pMotor);
+      //printf("%f,%f,%f,%f\r\n", g_pMotor->speed, g_pMotor->speedPID.bias, g_pMotor->speedPID.lastBias, g_pMotor->speedPID.out);
+    vTaskDelay(2);
 
   /* add user code end control_task_func 1 */
   }

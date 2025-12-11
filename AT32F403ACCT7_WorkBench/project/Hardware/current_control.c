@@ -16,6 +16,7 @@ void CurrentPIControlID(PFocState pFOC)
     pFOC->idPID.pre = pFOC->id ;
     //获取目标值
     pFOC->idPID.tar = pFOC->tarid;
+    
     //计算偏差
     pFOC->idPID.bias = pFOC->idPID.tar - pFOC->idPID.pre;
     //计算PID输出值
@@ -47,9 +48,9 @@ void CurrentPIControlIQ(PFocState pFOC)
     //获取目标值
     pFOC->iqPID.tar = pFOC->tariq;
 
-    /*************速度环********************/
-    //pFOC->iqPID.tar = pFOC->speedPID.out;
-    /***************************************/
+    if(g_pMotor->ctrolmode == FOC_SPEED_LOOP || g_pMotor->ctrolmode == FOC_POSITION_LOOP){
+        pFOC->iqPID.tar = pFOC->speedPID.out;
+    }
 
     //计算偏差
     pFOC->iqPID.bias = pFOC->iqPID.tar - pFOC->iqPID.pre;

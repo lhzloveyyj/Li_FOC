@@ -6,9 +6,8 @@
 #include "filter.h"
 
 void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter);
-void CurrentPIControlID(PFocState pFOC);
-void CurrentPIControlIQ(PFocState pFOC);
-void SetCurrentPIDTar(PFocState pFOC,float tarid,float tariq);
-void SetCurrentPIDParams(PFocState pFOC,float kp,float ki,float kd,float outMax);
+void SetSpeedPIDParams(PFocState pFOC,float kp,float ki,float kd,float outMax);
+void SpeedPIControl(PFocState pFOC);
+void SetSpeedPIDTar(PFocState pFOC,float tarspeed);
 
 #endif
