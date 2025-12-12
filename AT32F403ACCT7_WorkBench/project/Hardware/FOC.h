@@ -80,6 +80,9 @@ typedef struct {
     float tar_speed;
     struct PI_Struct speedPID;     // 速度 PID 控制器
     
+    struct PI_Struct positionPID;     // 速度 PID 控制器
+    float tarPosition;
+    
     uint8_t ctrolmode;
 
     void (*setPwmCallback)(float pwmA, float pwmB, float pwmC); // 设置PWM函数指针

@@ -160,13 +160,15 @@ void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
 {
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE); 
     MotorApplyStrongDrag(FOC_STRONGDRAG);           // 施加 Ud 强拖，固定转子磁极方向
-    vTaskDelay(1500);                       // 保持拖动 2 秒
+    vTaskDelay(1000);                       // 保持拖动 2 秒
 
     // 多次采样以降低抖动影响
     float sum = 0.0f;
-    const int sampleCount = 50;
+    const int sampleCount = 10;
 	float mechanicalAngle = 0.0f;
-
+    
+    mechanicalAngle = Mt6701GetAngleWrapper();
+    mechanicalAngle = Mt6701GetAngleWrapper();
     for (int i = 0; i < sampleCount; i++) {
 		mechanicalAngle = Mt6701GetAngleWrapper();
         float elecAngle = CalculateElectricalAngle(mechanicalAngle);

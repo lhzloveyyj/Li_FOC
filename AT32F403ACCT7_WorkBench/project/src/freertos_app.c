@@ -23,6 +23,7 @@
 #include "current_control.h"
 #include "mostemp.h"
 #include "speed_control.h"
+#include "position_control.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -206,6 +207,7 @@ void comm_task_func(void *pvParameters)
     //加载参数
     vTaskDelay(100);
     
+    
     foc_params_load(&g_readback);
     g_pMotor->pole_pairs = g_readback.pole_pairs;
     g_pMotor->dir        = g_readback.dir;
@@ -220,10 +222,12 @@ void comm_task_func(void *pvParameters)
     //ID , IQ
     SetCurrentPIDTar(g_pMotor, 0.0f, 0.0f);
     SetSpeedPIDTar(g_pMotor, 0.0f);
+    SetPositionPIDTar(g_pMotor, 0.0f);
     
-    //KP, KI, KD, OUT
-    SetCurrentPIDParams(g_pMotor, 0.0035f, 0.5f, 0.0f, 12.0f);
-    SetSpeedPIDParams(g_pMotor, 0.002f, 0.08f, 0.0f, 12.0f);
+    //KP, KI, KD, OUTMAX
+    SetCurrentPIDParams(g_pMotor, 0.0005f, 0.1f, 0.0f, 12.0f);
+    SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 12.0f);
+    SetPositionPIDParams(g_pMotor, 0.002f, 0.08f, 0.0f, 100.0f);
     
     float data[9] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
@@ -261,7 +265,7 @@ void comm_task_func(void *pvParameters)
             data[7]   = g_pMotor->speedPID.kp;
             data[8]   = g_pMotor->speedPID.ki;
             USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 9);
-        
+          
             mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
             break;
@@ -277,12 +281,14 @@ void comm_task_func(void *pvParameters)
             break;
         
         case CMD_SETPAIRS:
+            foc_params_load(&g_params); 
             g_params.pole_pairs  = (int)g_cmdData;
             foc_params_save(&g_params);
             g_commCmd = CMD_NONE; 
             break;
         
         case CMD_SETDIR:
+            foc_params_load(&g_params); 
             g_params.dir  = (int)g_cmdData;
             foc_params_save(&g_params);
             g_commCmd = CMD_NONE; 
@@ -294,6 +300,7 @@ void comm_task_func(void *pvParameters)
             data[0] = g_zeroOffset;
             data[1] = g_correctedElecAngle;
             
+            foc_params_load(&g_params); 
             g_params.elec_offset  = g_zeroOffset;
             foc_params_save(&g_params);
             
@@ -441,6 +448,7 @@ void comm_task_func(void *pvParameters)
             break;
         
         case CMD_SETSPEEDDIR:
+            foc_params_load(&g_params); 
             g_params.speeddir  = (int)g_cmdData;
             foc_params_save(&g_params);
             g_commCmd = CMD_NONE; 
@@ -496,6 +504,7 @@ void control_task_func(void *pvParameters)
   /* add user code begin control_task_func 2 */
     float temp;
     float sendata[3] = {0.0f};
+    int num = 0;
   /* add user code end control_task_func 2 */
 
   /* Infinite loop */
@@ -516,7 +525,12 @@ void control_task_func(void *pvParameters)
 //      }
     CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
     SpeedPIControl(g_pMotor);
-      //printf("%f,%f,%f,%f\r\n", g_pMotor->speed, g_pMotor->speedPID.bias, g_pMotor->speedPID.lastBias, g_pMotor->speedPID.out);
+      
+      num ++;
+      if(num == 5){
+          PositionPDControl(g_pMotor);
+          num = 0;
+      }
     vTaskDelay(2);
 
   /* add user code end control_task_func 1 */
