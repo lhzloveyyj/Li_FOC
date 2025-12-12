@@ -324,6 +324,14 @@ void TMR2_GLOBAL_IRQHandler(void)
         focData[0] = g_pMotor->speedPID.out;
         USART3_SendPacket(CMD_SPEEDOUT, &focData[0], 1); 
     }
+    if(local_Enabled == 1){
+        focData[0] = g_pMotor->mechanicalAngle;
+        USART3_SendPacket(CMD_LOCAL, &focData[0], 1); 
+    }
+    if(localOut_Enabled == 1){
+        focData[0] = g_pMotor->positionPID.out;
+        USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1); 
+    }
     
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
         

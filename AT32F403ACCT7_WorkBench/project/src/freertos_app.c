@@ -64,6 +64,8 @@ volatile uint8_t IQ_ID_Enabled = 0;
 volatile uint8_t mostemp_Enabled = 0;
 volatile uint8_t speed_Enabled = 0;
 volatile uint8_t speedOut_Enabled = 0;
+volatile uint8_t local_Enabled = 0;
+volatile uint8_t localOut_Enabled = 0;
 
 /* add user code end private variables */
 
@@ -225,7 +227,7 @@ void comm_task_func(void *pvParameters)
     SetPositionPIDTar(g_pMotor, 0.0f);
     
     //KP, KI, KD, OUTMAX
-    SetCurrentPIDParams(g_pMotor, 0.0005f, 0.1f, 0.0f, 12.0f);
+    SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
     SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 12.0f);
     SetPositionPIDParams(g_pMotor, 0.002f, 0.08f, 0.0f, 100.0f);
     
@@ -478,6 +480,32 @@ void comm_task_func(void *pvParameters)
             g_pMotor->speedPID.ki = g_cmdData;
             g_commCmd = CMD_NONE; 
             break;
+        
+        case CMD_SETLOCALTAR:
+            g_pMotor->tarPosition = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_LOCAL:
+            local_Enabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_LOCAL_CLOSE:
+            local_Enabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_LOCALOUT:
+            localOut_Enabled = 1;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_LOCALOUT_CLOSE:
+            localOut_Enabled = 0;
+            g_commCmd = CMD_NONE; 
+            break;
+        
         
         default:
             break;

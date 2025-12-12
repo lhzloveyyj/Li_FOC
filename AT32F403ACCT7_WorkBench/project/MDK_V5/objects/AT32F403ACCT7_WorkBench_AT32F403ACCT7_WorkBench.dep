@@ -40,7 +40,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -62,7 +62,7 @@ I (..\inc\wk_tmr.h)(0x69397F1D)
 I (..\inc\wk_usart.h)(0x69397F1D)
 I (..\inc\wk_dma.h)(0x69397F1D)
 I (..\inc\wk_gpio.h)(0x69397F1D)
-I (..\Hardware\protocol.h)(0x693ACFC9)
+I (..\Hardware\protocol.h)(0x693C2955)
 F (..\src\at32f403a_407_wk_config.c)(0x69397F1D)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\at32f403a_407_wk_config.o --omf_browse .\objects\at32f403a_407_wk_config.crf --depend .\objects\at32f403a_407_wk_config.d)
 I (..\inc\at32f403a_407_wk_config.h)(0x69397F1D)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
@@ -103,7 +103,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -118,7 +118,7 @@ I (../../middlewares/freertos/source/include/semphr.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/queue.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/timers.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/event_groups.h)(0x692EE001)
-F (..\src\at32f403a_407_int.c)(0x693ABAC2)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\at32f403a_407_int.o --omf_browse .\objects\at32f403a_407_int.crf --depend .\objects\at32f403a_407_int.d)
+F (..\src\at32f403a_407_int.c)(0x693C29CF)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\at32f403a_407_int.o --omf_browse .\objects\at32f403a_407_int.crf --depend .\objects\at32f403a_407_int.d)
 I (..\inc\at32f403a_407_int.h)(0x69397F1E)
 I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x69357F0A)
 I (..\..\libraries\cmsis\cm4\core_support\core_cm4.h)(0x692EDFFF)
@@ -156,7 +156,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_usb.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -174,7 +174,7 @@ I (../../middlewares/freertos/source/include/event_groups.h)(0x692EE001)
 I (..\Hardware\usart3.h)(0x69207247)
 I (..\Hardware\foc.h)(0x693ADB77)
 I (..\Hardware\svpwm.h)(0x6909F9AF)
-I (..\Hardware\protocol.h)(0x693ACFC9)
+I (..\Hardware\protocol.h)(0x693C2955)
 F (..\src\wk_debug.c)(0x69397F1D)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\wk_debug.o --omf_browse .\objects\wk_debug.crf --depend .\objects\wk_debug.d)
 I (..\inc\wk_debug.h)(0x69397F1D)
 I (..\inc\at32f403a_407_wk_config.h)(0x69397F1D)
@@ -216,7 +216,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -272,7 +272,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -328,7 +328,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -343,8 +343,8 @@ I (../../middlewares/freertos/source/include/semphr.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/queue.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/timers.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/event_groups.h)(0x692EE001)
-F (../src/freertos_app.c)(0x693C1661)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\freertos_app.o --omf_browse .\objects\freertos_app.crf --depend .\objects\freertos_app.d)
-I (..\inc\freertos_app.h)(0x693ABA75)
+F (../src/freertos_app.c)(0x693C298F)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\freertos_app.o --omf_browse .\objects\freertos_app.crf --depend .\objects\freertos_app.d)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
@@ -397,7 +397,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_usb.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
-I (..\Hardware\protocol.h)(0x693ACFC9)
+I (..\Hardware\protocol.h)(0x693C2955)
 I (..\Hardware\led.h)(0x6919B1E5)
 I (..\Hardware\mt6701.h)(0x6909F9AF)
 I (..\Hardware\flash_ops.h)(0x693C0DED)
@@ -464,7 +464,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -520,7 +520,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -576,7 +576,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -632,7 +632,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
 I (..\Hardware\usart3.h)(0x69207247)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -1688,7 +1688,7 @@ I (..\..\libraries\drivers\inc\at32f403a_407_usb.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_wwdt.h)(0x69357F0C)
 I (..\..\libraries\drivers\inc\at32f403a_407_xmc.h)(0x69357F0C)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)
@@ -1703,7 +1703,7 @@ I (../../middlewares/freertos/source/include/semphr.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/queue.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/timers.h)(0x692EE001)
 I (../../middlewares/freertos/source/include/event_groups.h)(0x692EE001)
-I (..\Hardware\protocol.h)(0x693ACFC9)
+I (..\Hardware\protocol.h)(0x693C2955)
 F (..\Hardware\led.c)(0x6919B1EB)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\..\libraries\drivers\inc -I ..\..\libraries\cmsis\cm4\core_support -I ..\..\libraries\cmsis\cm4\device_support -I ..\inc -I ..\Hardware -I ..\tools\Math -I ../../middlewares/freertos/source/include -I ../../middlewares/freertos/source/portable/memmang -I ../../middlewares/freertos/source/portable/rvds/ARM_CM4F-ID:\download\keil5MDK\Packs\ArteryTek\AT32F403A_407_DFP\2.2.2\Device\Include-D__UVISION_VERSION="539" -DAT32F403ACCT7 -DAT32F403ACCT7 -DUSE_STDPERIPH_DRIVER -DAT_START_F403A_V1-o .\objects\led.o --omf_browse .\objects\led.crf --depend .\objects\led.d)
 I (..\Hardware\led.h)(0x6919B1E5)
 I (..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h)(0x69357F0A)
@@ -1908,7 +1908,7 @@ I (D:\download\keil5MDK\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (..\Hardware\mt6701.h)(0x6909F9AF)
 I (..\tools\Math\filter.h)(0x693984A7)
 I (..\Hardware\current_control.h)(0x69357F0D)
-I (..\inc\freertos_app.h)(0x693ABA75)
+I (..\inc\freertos_app.h)(0x693C299E)
 I (../../middlewares/freertos/source/include/FreeRTOS.h)(0x692EE001)
 I (D:\download\keil5MDK\ARM\ARMCC\include\stddef.h)(0x5E8E3CC2)
 I (..\inc\FreeRTOSConfig.h)(0x69397F1E)

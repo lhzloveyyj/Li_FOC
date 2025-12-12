@@ -52,6 +52,11 @@ typedef enum
     CMD_SETSPEEDTAR             = 0x33,  ///< 设置速度期望
     CMD_SETSPEEDPIDKP           = 0x34,  ///< 设置速度环KP
     CMD_SETSPEEDPIDKI           = 0x35,  ///< 设置速度环KI
+    CMD_SETLOCALTAR             = 0x36,  ///< 设置位置期望
+    CMD_LOCAL                   = 0x37,  ///< 开启位置打印
+    CMD_LOCAL_CLOSE             = 0x38,  ///< 关闭位置打印
+    CMD_LOCALOUT                = 0x39,  ///< 打印位置
+    CMD_LOCALOUT_CLOSE          = 0x40,  ///< 停止打印位置
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 

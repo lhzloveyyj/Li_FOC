@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\objects\AT32F403ACCT7_WorkBench.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\objects\AT32F403ACCT7_WorkBench.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Dec 12 21:20:09 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Dec 12 22:42:31 2025
 <BR><P>
 <H3>Maximum Stack Usage =        256 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -839,7 +839,7 @@ Global Symbols
 <P><STRONG><a name="[59]"></a>SystemInit</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, system_at32f403a_407.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
-<P><STRONG><a name="[27]"></a>TMR2_GLOBAL_IRQHandler</STRONG> (Thumb, 516 bytes, Stack size 8 bytes, at32f403a_407_int.o(i.TMR2_GLOBAL_IRQHandler))
+<P><STRONG><a name="[27]"></a>TMR2_GLOBAL_IRQHandler</STRONG> (Thumb, 580 bytes, Stack size 8 bytes, at32f403a_407_int.o(i.TMR2_GLOBAL_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = TMR2_GLOBAL_IRQHandler &rArr; USART3_SendPacket
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tmr_flag_clear
@@ -1032,7 +1032,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FocContorl
 </UL>
 
-<P><STRONG><a name="[5c]"></a>comm_task_func</STRONG> (Thumb, 1466 bytes, Stack size 40 bytes, freertos_app.o(i.comm_task_func))
+<P><STRONG><a name="[5c]"></a>comm_task_func</STRONG> (Thumb, 1564 bytes, Stack size 40 bytes, freertos_app.o(i.comm_task_func))
 <BR><BR>[Stack]<UL><LI>Max Depth = 196<LI>Call Chain = comm_task_func &rArr; AngleInitZeroOffset &rArr; MotorApplyStrongDrag &rArr; CalculateElectricalAngle &rArr; NormalizeAngle &rArr; __hardfp_fmodf &rArr; _frem &rArr; _float_epilogue
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
