@@ -81,6 +81,7 @@ typedef struct {
     struct PI_Struct speedPID;     // 速度 PID 控制器
     
     struct PI_Struct positionPID;     // 速度 PID 控制器
+    float position;
     float tarPosition;
     
     uint8_t ctrolmode;

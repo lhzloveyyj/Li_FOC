@@ -8,8 +8,7 @@
 
 #define PRINT_UART                       USART3
 
-#define N								 3
-#define USART3_TX_BUFFER_SIZE            (4 * N + 4)
+#define USART3_TX_BUFFER_SIZE       128
 
 
 typedef struct __attribute__((packed))
@@ -17,7 +16,7 @@ typedef struct __attribute__((packed))
     uint8_t header;      // 帧头
     uint8_t cmd;         // 命令字
     uint8_t length;      // 数据长度
-    uint8_t payload[32]; // 数据区
+    uint8_t payload[64]; // 数据区
     uint8_t checksum;    // 校验
     uint8_t tail;        // 帧尾
 } Frame_t;

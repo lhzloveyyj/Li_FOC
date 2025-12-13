@@ -41,3 +41,4 @@
 .\objects\position_control.o: ..\Hardware\svpwm.h
 .\objects\position_control.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\math.h
 .\objects\position_control.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\position_control.o: ..\Hardware\foc_config.h

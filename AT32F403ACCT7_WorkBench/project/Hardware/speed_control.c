@@ -39,7 +39,7 @@ void SpeedPIControl(PFocState pFOC)
     pFOC->speedPID.tar = pFOC->tar_speed;
     
     if(g_pMotor->ctrolmode == FOC_POSITION_LOOP){
-        //pFOC->idPID.tar = pFOC->speedPID.out;
+        pFOC->speedPID.tar = pFOC->positionPID.out;
     }
     //计算偏差
     pFOC->speedPID.bias = pFOC->speedPID.tar - pFOC->speedPID.pre;

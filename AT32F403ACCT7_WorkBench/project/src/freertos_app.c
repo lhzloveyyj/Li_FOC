@@ -228,10 +228,10 @@ void comm_task_func(void *pvParameters)
     
     //KP, KI, KD, OUTMAX
     SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
-    SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 12.0f);
-    SetPositionPIDParams(g_pMotor, 0.002f, 0.08f, 0.0f, 100.0f);
+    SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 10.0f);
+    SetPositionPIDParams(g_pMotor, 1.0f, 0.0f, 0.0001f, 400.0f);
     
-    float data[9] = {0.0f};
+    float data[14] = {0.0f};
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     
   /* add user code end comm_task_func 2 */
@@ -266,7 +266,12 @@ void comm_task_func(void *pvParameters)
             data[6]   = g_pMotor->speedDir;
             data[7]   = g_pMotor->speedPID.kp;
             data[8]   = g_pMotor->speedPID.ki;
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 9);
+            data[9]   = g_pMotor->positionPID.kp;
+            data[10]  = g_pMotor->positionPID.kd;
+            data[11]  = g_pMotor->iqPID.outMax;
+            data[12]  = g_pMotor->speedPID.outMax;
+            data[13]  = g_pMotor->positionPID.outMax;
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 14);
           
             mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
@@ -506,6 +511,30 @@ void comm_task_func(void *pvParameters)
             g_commCmd = CMD_NONE; 
             break;
         
+        case CMD_SETLOCALPIDKP:
+            g_pMotor->positionPID.kp = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETLOCALPIDKD:
+            g_pMotor->positionPID.kd = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETIQPIDOUT:
+            g_pMotor->iqPID.outMax = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETSPEEDPIDOUT:
+            g_pMotor->speedPID.outMax = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
+        
+        case CMD_SETLOCALPIDOUT:
+            g_pMotor->positionPID.outMax = g_cmdData;
+            g_commCmd = CMD_NONE; 
+            break;
         
         default:
             break;
@@ -530,8 +559,8 @@ void control_task_func(void *pvParameters)
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
-    float temp;
-    float sendata[3] = {0.0f};
+    //float temp;
+    //float sendata[3] = {0.0f};
     int num = 0;
   /* add user code end control_task_func 2 */
 
@@ -551,15 +580,16 @@ void control_task_func(void *pvParameters)
 //          sendata[0] = temp;
 //        //USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
 //      }
-    CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
-    SpeedPIControl(g_pMotor);
+        CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
+        SpeedPIControl(g_pMotor);
       
-      num ++;
-      if(num == 5){
-          PositionPDControl(g_pMotor);
-          num = 0;
-      }
-    vTaskDelay(2);
+        num ++;
+        if(num == 5){
+            CalculatePosition(g_pMotor);
+            PositionPDControl(g_pMotor);
+            num = 0;
+        }
+        vTaskDelay(2);
 
   /* add user code end control_task_func 1 */
   }

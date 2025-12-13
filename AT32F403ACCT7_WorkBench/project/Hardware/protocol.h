@@ -57,6 +57,11 @@ typedef enum
     CMD_LOCAL_CLOSE             = 0x38,  ///< 关闭位置打印
     CMD_LOCALOUT                = 0x39,  ///< 打印位置
     CMD_LOCALOUT_CLOSE          = 0x40,  ///< 停止打印位置
+    CMD_SETLOCALPIDKP           = 0x41,  ///< 设置速位置环KP
+    CMD_SETLOCALPIDKD           = 0x42,  ///< 设置位置环KD
+    CMD_SETIQPIDOUT             = 0X43,  // 设置电流环输出限制
+    CMD_SETSPEEDPIDOUT          = 0X44,  // 设置速度环输出限制
+    CMD_SETLOCALPIDOUT          = 0X45,  // 设置位置环输出限制
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 
