@@ -3,6 +3,6 @@
 
 #include "at32f403a_407.h"
 
-float ntc_temp_c(int adc_val);
+float GetMosTemp(void);
 
 #endif

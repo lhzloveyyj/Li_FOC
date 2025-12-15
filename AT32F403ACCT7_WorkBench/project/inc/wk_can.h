@@ -1,10 +1,10 @@
 /* add user code begin Header */
 /**
   **************************************************************************
-  * @file     wk_usart.h
+  * @file     wk_can.h
   * @brief    header file of work bench config
   **************************************************************************
-  *                       Copyright notice & Disclaimer
+  * Copyright (c) 2025, Artery Technology, All rights reserved.
   *
   * The software Board Support Package (BSP) that is made available to
   * download from Artery official website is the copyrighted work of Artery.
@@ -25,8 +25,8 @@
 /* add user code end Header */
 
 /* define to prevent recursive inclusion -----------------------------------*/
-#ifndef __WK_USART_H
-#define __WK_USART_H
+#ifndef __WK_CAN_H
+#define __WK_CAN_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,11 +57,8 @@ extern "C" {
 
 /* exported functions ------------------------------------------------------- */
 
-  /* init usart1 function. */
-  void wk_usart1_init(void);
-
-  /* init usart3 function. */
-  void wk_usart3_init(void);
+  /* init can1 function. */
+  void wk_can1_init(void);
 
 /* add user code begin exported functions */
 

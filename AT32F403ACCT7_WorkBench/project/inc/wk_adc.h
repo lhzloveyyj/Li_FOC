@@ -60,6 +60,9 @@ extern "C" {
   /* init adc1 function. */
   void wk_adc1_init(void);
 
+  /* init adc2 function. */
+  void wk_adc2_init(void);
+
 /* add user code begin exported functions */
 
 /* add user code end exported functions */

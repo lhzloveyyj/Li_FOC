@@ -27,6 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "at32f403a_407_wk_config.h"
 #include "wk_adc.h"
+#include "wk_can.h"
 #include "wk_debug.h"
 #include "wk_spi.h"
 #include "wk_tmr.h"
@@ -97,6 +98,9 @@ int main(void)
   /* init gpio function. */
   wk_gpio_config();
 
+  /* init adc2 function. */
+  wk_adc2_init();
+
   /* init adc1 function. */
   wk_adc1_init();
 
@@ -110,6 +114,9 @@ int main(void)
                         DMA1_CHANNEL1_BUFFER_SIZE);
   dma_channel_enable(DMA1_CHANNEL1, TRUE);
 
+  /* init usart1 function. */
+  wk_usart1_init();
+
   /* init usart3 function. */
   wk_usart3_init();
 
@@ -122,12 +129,16 @@ int main(void)
   /* init tmr2 function. */
   wk_tmr2_init();
 
+  /* init can1 function. */
+  wk_can1_init();
+
   /* add user code begin 2 */
   adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
   tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
     
   dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
   usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
+  
   /* add user code end 2 */
 
   /* init freertos function. */

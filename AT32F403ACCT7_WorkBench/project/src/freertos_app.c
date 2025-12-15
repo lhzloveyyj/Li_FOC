@@ -72,7 +72,6 @@ volatile uint8_t localOut_Enabled = 0;
 /* private function prototypes --------------------------------------------*/
 /* add user code begin function prototypes */
 static float getVbus(void);
-float ntc_temp_c(int adc_val);
 /* add user code end function prototypes */
 
 /* private user code ---------------------------------------------------------*/
@@ -83,11 +82,14 @@ float ntc_temp_c(int adc_val);
 /* task handler */
 TaskHandle_t comm_task_handle;
 TaskHandle_t control_task_handle;
+TaskHandle_t Monitor_task_handle;
 /* variables for task tcb and stack */
 StackType_t comm_task_stack[256];
 StackType_t control_task_stack[256];
+StackType_t Monitor_task_stack[128];
 StaticTask_t comm_task_buffer;
 StaticTask_t control_task_buffer;
+StaticTask_t Monitor_task_buffer;
 
 /* binary semaphore handler */
 SemaphoreHandle_t usart3_dma_tx_sem_handle;
@@ -152,6 +154,15 @@ void freertos_task_create(void)
                                        0,
                                        control_task_stack,
                                        &control_task_buffer);
+
+  /* create the Monitor_task task by static */
+  Monitor_task_handle = xTaskCreateStatic(Monitor_task_func,
+                                       "Monitor_task",
+                                       128,
+                                       NULL,
+                                       0,
+                                       Monitor_task_stack,
+                                       &Monitor_task_buffer);
 }
 
 /**
@@ -559,8 +570,6 @@ void control_task_func(void *pvParameters)
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
-    //float temp;
-    //float sendata[3] = {0.0f};
     int num = 0;
   /* add user code end control_task_func 2 */
 
@@ -568,18 +577,6 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-      
-      //printf("%f,%lf\r\n",g_pMotor->iAlpha, g_pMotor->iBeta);
-      //printf("%f,%lf\r\n",g_pMotor->id, g_pMotor->iq);
-      //getVbus();
-      //printf("%f,%f,%f,%f\r\n",  g_pMotor->iq, g_pMotor->id, g_pMotor->iqPID.out, g_pMotor->idPID.out);
-      //printf("%f,%f,%f,%f\r\n",PSVpwm->Ta, PSVpwm->Tb, PSVpwm->Tc, PSVpwm->sector/200.0+0.47);
-      //printf("%f,%f,%f,%f,%f,%f,%d\r\n",g_pMotor->Ia, g_pMotor->Ib, g_pMotor->Ic, g_pMotor->a, g_pMotor->b, g_pMotor->c, PSVpwm->sector);
-//      if(mostemp_Enabled == 1){
-//        temp = ntc_temp_c(adcMostemp);
-//          sendata[0] = temp;
-//        //USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
-//      }
         CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
         SpeedPIControl(g_pMotor);
       
@@ -590,8 +587,39 @@ void control_task_func(void *pvParameters)
             num = 0;
         }
         vTaskDelay(2);
-
   /* add user code end control_task_func 1 */
+  }
+}
+
+
+/**
+  * @brief Monitor_task function.
+  * @param  none
+  * @retval none
+  */
+void Monitor_task_func(void *pvParameters)
+{
+  /* add user code begin Monitor_task_func 0 */
+    
+  /* add user code end Monitor_task_func 0 */
+
+  /* add user code begin Monitor_task_func 2 */
+    float sendata[2] = {0.0f};
+  /* add user code end Monitor_task_func 2 */
+
+  /* Infinite loop */
+  while(1)
+  {
+  /* add user code begin Monitor_task_func 1 */
+      if(mostemp_Enabled == 1){
+        float temp = GetMosTemp();
+          sendata[0] = temp;
+        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
+      }
+      
+     vTaskDelay(500);
+
+  /* add user code end Monitor_task_func 1 */
   }
 }
 
@@ -599,7 +627,6 @@ void control_task_func(void *pvParameters)
 /* add user code begin 2 */
 static float getVbus(void)
 {
-    adc_ordinary_channel_set(ADC1, ADC_CHANNEL_4, 2, ADC_SAMPLETIME_41_5);
     adc_flag_clear(ADC1, ADC_CCE_FLAG);
 
     adc_ordinary_software_trigger_enable(ADC1, TRUE);
@@ -607,13 +634,16 @@ static float getVbus(void)
     while(adc_flag_get(ADC1, ADC_CCE_FLAG) == RESET);
 
     adc_flag_clear(ADC1, ADC_CCE_FLAG);
+    
 
     adcVbus = adc_ordinary_conversion_data_get(ADC1);
+   
     
     float vbus = (adcVbus/4096.0f)* ADC_VERF * (DCVBUS_R1 + DCVBUS_R2)/DCVBUS_R2;
     
     return vbus;
 }
+
 
 /* add user code end 2 */
 

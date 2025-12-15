@@ -55,6 +55,7 @@
 .\objects\main.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\main.o: ../../middlewares/freertos/source/include/event_groups.h
 .\objects\main.o: ..\inc\wk_adc.h
+.\objects\main.o: ..\inc\wk_can.h
 .\objects\main.o: ..\inc\wk_debug.h
 .\objects\main.o: ..\inc\wk_spi.h
 .\objects\main.o: ..\inc\wk_tmr.h

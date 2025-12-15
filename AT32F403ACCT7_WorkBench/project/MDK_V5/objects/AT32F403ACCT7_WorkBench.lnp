@@ -11,6 +11,7 @@
 ".\objects\wk_tmr.o"
 ".\objects\wk_spi.o"
 ".\objects\wk_adc.o"
+".\objects\wk_can.o"
 ".\objects\rtc.o"
 ".\objects\at32f403a_407_crm.o"
 ".\objects\at32f403a_407_tmr.o"
