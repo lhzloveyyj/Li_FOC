@@ -51,6 +51,7 @@
 ".\objects\mostemp.o"
 ".\objects\speed_control.o"
 ".\objects\position_control.o"
+".\objects\protocol.o"
 ".\objects\filter.o"
 ".\objects\my_math.o"
 ".\objects\croutine.o"

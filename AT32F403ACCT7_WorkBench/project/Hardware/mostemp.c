@@ -46,3 +46,26 @@ float GetMosTemp(void)
     return ntc_temp_c(GetTempAdc());
 }
 
+#define ADC_VERF    3.3f
+#define DCVBUS_R1   20
+#define DCVBUS_R2   1
+
+float getVbus(void)
+{
+    adc_flag_clear(ADC1, ADC_CCE_FLAG);
+
+    adc_ordinary_software_trigger_enable(ADC1, TRUE);
+
+    while(adc_flag_get(ADC1, ADC_CCE_FLAG) == RESET);
+
+    adc_flag_clear(ADC1, ADC_CCE_FLAG);
+    
+
+    uint16_t adcVbus = adc_ordinary_conversion_data_get(ADC1);
+   
+    
+    float vbus = (adcVbus/4096.0f)* ADC_VERF * (DCVBUS_R1 + DCVBUS_R2)/DCVBUS_R2;
+    
+    return vbus;
+}
+

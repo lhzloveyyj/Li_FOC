@@ -4,5 +4,6 @@
 #include "at32f403a_407.h"
 
 float GetMosTemp(void);
+float getVbus(void);
 
 #endif

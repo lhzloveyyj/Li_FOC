@@ -65,6 +65,21 @@ typedef enum
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 
-extern uint8_t g_Commcmd ;
+extern uint16_t adcMostemp;
+extern volatile uint8_t anglePrintingEnabled;
+extern volatile uint8_t uabcEnabled;
+extern volatile uint8_t adcEnabled;
+extern volatile uint8_t tabcEnabled;
+extern volatile uint8_t IabcEnabled;
+extern volatile uint8_t UAlpha_BetaEnabled;
+extern volatile uint8_t IAlpha_BetaEnabled;
+extern volatile uint8_t IQ_ID_Enabled;
+extern volatile uint8_t mostemp_Enabled;
+extern volatile uint8_t speed_Enabled;
+extern volatile uint8_t speedOut_Enabled;
+extern volatile uint8_t local_Enabled;
+extern volatile uint8_t localOut_Enabled;
+
+void Comm_CommandHandler(void);
 
 #endif
