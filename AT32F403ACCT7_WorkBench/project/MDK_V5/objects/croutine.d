@@ -1,7 +1,7 @@
 .\objects\croutine.o: ../../middlewares/freertos/source/croutine.c
 .\objects\croutine.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\croutine.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\croutine.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\croutine.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\croutine.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\croutine.o: ..\inc\FreeRTOSConfig.h
 .\objects\croutine.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\croutine.o: ../../middlewares/freertos/source/include/projdefs.h

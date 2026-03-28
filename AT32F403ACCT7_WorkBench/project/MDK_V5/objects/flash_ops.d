@@ -1,6 +1,6 @@
 .\objects\flash_ops.o: ..\Hardware\flash_ops.c
 .\objects\flash_ops.o: ..\Hardware\flash_ops.h
-.\objects\flash_ops.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\flash_ops.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\flash_ops.o: ..\inc\flash.h
 .\objects\flash_ops.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\flash_ops.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
@@ -38,5 +38,5 @@
 .\objects\flash_ops.o: ..\..\libraries\drivers\inc\at32f403a_407_wdt.h
 .\objects\flash_ops.o: ..\..\libraries\drivers\inc\at32f403a_407_wwdt.h
 .\objects\flash_ops.o: ..\..\libraries\drivers\inc\at32f403a_407_xmc.h
-.\objects\flash_ops.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
-.\objects\flash_ops.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\flash_ops.o: E:\tools\keil5\ARM\AC5\Bin\..\include\string.h
+.\objects\flash_ops.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h

@@ -1,8 +1,8 @@
 .\objects\freertos_app.o: ../src/freertos_app.c
 .\objects\freertos_app.o: ..\inc\freertos_app.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\freertos_app.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\freertos_app.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\freertos_app.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\freertos_app.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\freertos_app.o: ..\inc\FreeRTOSConfig.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/projdefs.h
@@ -16,7 +16,7 @@
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/event_groups.h
-.\objects\freertos_app.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\freertos_app.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
 .\objects\freertos_app.o: ..\Hardware\usart3.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h

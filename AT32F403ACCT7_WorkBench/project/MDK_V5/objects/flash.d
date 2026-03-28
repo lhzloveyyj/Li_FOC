@@ -2,7 +2,7 @@
 .\objects\flash.o: ..\inc\flash.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\flash.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\flash.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\flash.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h

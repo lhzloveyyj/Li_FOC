@@ -1,8 +1,8 @@
 .\objects\include_port.o: ../src/include_port.c
 .\objects\include_port.o: ..\..\libraries\drivers\inc\..\..\..\middlewares\freertos\source\portable\rvds\ARM_CM4F\port.c
 .\objects\include_port.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\include_port.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\include_port.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\include_port.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\include_port.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\include_port.o: ..\inc\FreeRTOSConfig.h
 .\objects\include_port.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\include_port.o: ../../middlewares/freertos/source/include/projdefs.h

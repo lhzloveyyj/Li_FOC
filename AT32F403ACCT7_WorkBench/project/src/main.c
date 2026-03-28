@@ -71,12 +71,12 @@
 /* add user code begin 0 */
 
 /* add user code end 0 */
-
 /**
   * @brief main function.
   * @param  none
   * @retval none
   */
+
 int main(void)
 {
   /* add user code begin 1 */
@@ -94,7 +94,6 @@ int main(void)
 
   /* nvic config. */
   wk_nvic_config();
-
   /* init gpio function. */
   wk_gpio_config();
 

@@ -2,7 +2,7 @@
 .\objects\current_control.o: ..\Hardware\current_control.h
 .\objects\current_control.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\current_control.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\current_control.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\current_control.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\current_control.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\current_control.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\current_control.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -39,5 +39,5 @@
 .\objects\current_control.o: ..\..\libraries\drivers\inc\at32f403a_407_xmc.h
 .\objects\current_control.o: ..\Hardware\FOC.h
 .\objects\current_control.o: ..\Hardware\svpwm.h
-.\objects\current_control.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\math.h
-.\objects\current_control.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\current_control.o: E:\tools\keil5\ARM\AC5\Bin\..\include\math.h
+.\objects\current_control.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h

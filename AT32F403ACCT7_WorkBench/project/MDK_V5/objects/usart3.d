@@ -1,11 +1,11 @@
 .\objects\usart3.o: ..\Hardware\usart3.c
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart3.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
+.\objects\usart3.o: E:\tools\keil5\ARM\AC5\Bin\..\include\string.h
+.\objects\usart3.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdarg.h
 .\objects\usart3.o: ..\Hardware\usart3.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usart3.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\usart3.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -42,7 +42,7 @@
 .\objects\usart3.o: ..\..\libraries\drivers\inc\at32f403a_407_xmc.h
 .\objects\usart3.o: ..\inc\freertos_app.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\usart3.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\usart3.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
 .\objects\usart3.o: ..\inc\FreeRTOSConfig.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/projdefs.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/portable.h

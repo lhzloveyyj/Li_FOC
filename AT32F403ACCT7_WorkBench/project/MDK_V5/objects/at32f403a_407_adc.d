@@ -3,7 +3,7 @@
 .\objects\at32f403a_407_adc.o: ..\..\libraries\drivers\inc\at32f403a_407_acc.h
 .\objects\at32f403a_407_adc.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\at32f403a_407_adc.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\at32f403a_407_adc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\at32f403a_407_adc.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\at32f403a_407_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\at32f403a_407_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\at32f403a_407_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h

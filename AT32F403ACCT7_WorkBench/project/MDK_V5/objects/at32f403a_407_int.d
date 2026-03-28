@@ -2,7 +2,7 @@
 .\objects\at32f403a_407_int.o: ..\inc\at32f403a_407_int.h
 .\objects\at32f403a_407_int.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\at32f403a_407_int.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\at32f403a_407_int.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\at32f403a_407_int.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\at32f403a_407_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\at32f403a_407_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\at32f403a_407_int.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -39,7 +39,7 @@
 .\objects\at32f403a_407_int.o: ..\..\libraries\drivers\inc\at32f403a_407_xmc.h
 .\objects\at32f403a_407_int.o: ..\inc\freertos_app.h
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\at32f403a_407_int.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\at32f403a_407_int.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
 .\objects\at32f403a_407_int.o: ..\inc\FreeRTOSConfig.h
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/projdefs.h
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/portable.h

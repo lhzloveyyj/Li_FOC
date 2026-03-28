@@ -1,8 +1,8 @@
 .\objects\timers.o: ../../middlewares/freertos/source/timers.c
-.\objects\timers.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\timers.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdlib.h
 .\objects\timers.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\timers.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\timers.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\timers.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\timers.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\timers.o: ..\inc\FreeRTOSConfig.h
 .\objects\timers.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\timers.o: ../../middlewares/freertos/source/include/projdefs.h

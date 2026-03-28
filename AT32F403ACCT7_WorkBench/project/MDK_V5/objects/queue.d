@@ -1,9 +1,9 @@
 .\objects\queue.o: ../../middlewares/freertos/source/queue.c
-.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\queue.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdlib.h
+.\objects\queue.o: E:\tools\keil5\ARM\AC5\Bin\..\include\string.h
 .\objects\queue.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\queue.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\queue.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\queue.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\queue.o: ..\inc\FreeRTOSConfig.h
 .\objects\queue.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\queue.o: ../../middlewares/freertos/source/include/projdefs.h

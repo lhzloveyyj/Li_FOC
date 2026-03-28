@@ -1,8 +1,8 @@
 .\objects\event_groups.o: ../../middlewares/freertos/source/event_groups.c
-.\objects\event_groups.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\event_groups.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdlib.h
 .\objects\event_groups.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\event_groups.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\event_groups.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\event_groups.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\event_groups.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\event_groups.o: ..\inc\FreeRTOSConfig.h
 .\objects\event_groups.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\event_groups.o: ../../middlewares/freertos/source/include/projdefs.h

@@ -1,8 +1,8 @@
 .\objects\stream_buffer.o: ../../middlewares/freertos/source/stream_buffer.c
-.\objects\stream_buffer.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\stream_buffer.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\stream_buffer.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
+.\objects\stream_buffer.o: E:\tools\keil5\ARM\AC5\Bin\..\include\string.h
 .\objects\stream_buffer.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\stream_buffer.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\stream_buffer.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
 .\objects\stream_buffer.o: ..\inc\FreeRTOSConfig.h
 .\objects\stream_buffer.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\stream_buffer.o: ../../middlewares/freertos/source/include/projdefs.h

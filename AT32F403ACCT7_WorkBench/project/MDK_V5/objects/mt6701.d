@@ -2,7 +2,7 @@
 .\objects\mt6701.o: ..\Hardware\mt6701.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\mt6701.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\mt6701.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\mt6701.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h

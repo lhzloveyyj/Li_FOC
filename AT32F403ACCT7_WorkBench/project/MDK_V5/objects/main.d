@@ -1,9 +1,9 @@
 .\objects\main.o: ..\src\main.c
 .\objects\main.o: ..\inc\at32f403a_407_wk_config.h
-.\objects\main.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
 .\objects\main.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\main.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\main.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\main.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\main.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\main.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -41,7 +41,7 @@
 .\objects\main.o: ..\Hardware\usart3.h
 .\objects\main.o: ..\inc\freertos_app.h
 .\objects\main.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\main.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\main.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
 .\objects\main.o: ..\inc\FreeRTOSConfig.h
 .\objects\main.o: ../../middlewares/freertos/source/include/projdefs.h
 .\objects\main.o: ../../middlewares/freertos/source/include/portable.h

@@ -1,9 +1,9 @@
 .\objects\tasks.o: ../../middlewares/freertos/source/tasks.c
-.\objects\tasks.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\tasks.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\tasks.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdlib.h
+.\objects\tasks.o: E:\tools\keil5\ARM\AC5\Bin\..\include\string.h
 .\objects\tasks.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\tasks.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\tasks.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\tasks.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
+.\objects\tasks.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\tasks.o: ..\inc\FreeRTOSConfig.h
 .\objects\tasks.o: ..\..\libraries\cmsis\cm4\device_support\system_at32f403a_407.h
 .\objects\tasks.o: ../../middlewares/freertos/source/include/projdefs.h

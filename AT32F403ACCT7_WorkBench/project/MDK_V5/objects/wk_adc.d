@@ -1,10 +1,10 @@
 .\objects\wk_adc.o: ..\src\wk_adc.c
 .\objects\wk_adc.o: ..\inc\wk_adc.h
 .\objects\wk_adc.o: ..\inc\at32f403a_407_wk_config.h
-.\objects\wk_adc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\wk_adc.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
 .\objects\wk_adc.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\wk_adc.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
-.\objects\wk_adc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\wk_adc.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdint.h
 .\objects\wk_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
 .\objects\wk_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_compiler.h
 .\objects\wk_adc.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_armcc.h
@@ -42,7 +42,7 @@
 .\objects\wk_adc.o: ..\Hardware\usart3.h
 .\objects\wk_adc.o: ..\inc\freertos_app.h
 .\objects\wk_adc.o: ../../middlewares/freertos/source/include/FreeRTOS.h
-.\objects\wk_adc.o: D:\download\keil5MDK\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\wk_adc.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stddef.h
 .\objects\wk_adc.o: ..\inc\FreeRTOSConfig.h
 .\objects\wk_adc.o: ../../middlewares/freertos/source/include/projdefs.h
 .\objects\wk_adc.o: ../../middlewares/freertos/source/include/portable.h
