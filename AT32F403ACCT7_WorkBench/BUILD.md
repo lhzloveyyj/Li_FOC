@@ -52,6 +52,26 @@ Direct Keil command:
 - Default build task: `Keil Build`
 - Optional task: `Keil Build (Force Close UV4)`
 
+## Flash Script
+
+Flash the current output with Keil:
+
+```powershell
+.\flash
+```
+
+Build first, then flash:
+
+```powershell
+.\flash -BuildFirst
+```
+
+Force close UV4 before building/flashing:
+
+```powershell
+.\flash -BuildFirst -ForceCloseUV4
+```
+
 ## Output
 
 - Build log: `E:\Li_FOC\AT32F403ACCT7_WorkBench\project\MDK_V5\objects\AT32F403ACCT7_WorkBench.build_log.htm`

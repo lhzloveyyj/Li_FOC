@@ -1,0 +1,3 @@
+Load "E:\\Li_FOC\\AT32F403ACCT7_WorkBench\\project\\MDK_V5\\objects\\AT32F403ACCT7_WorkBench.axf" 
+Erase Done.Programming Done.Verify OK.Application running ...
+Flash Load finished at 12:55:38

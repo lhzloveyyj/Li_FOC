@@ -43,6 +43,41 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Keil Flash",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\flash.cmd"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Keil Build + Flash",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\flash.cmd",
+        "-BuildFirst"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ]
 }
