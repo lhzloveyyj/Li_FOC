@@ -1,0 +1,37 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "AT32F403ACCT7",
+      "compilerPath": "E:/tools/keil5/ARM/AC5/Bin/armcc.exe",
+      "intelliSenseMode": "windows-gcc-arm",
+      "cStandard": "c11",
+      "defines": [
+        "AT32F403ACCT7",
+        "USE_STDPERIPH_DRIVER",
+        "AT_START_F403A_V1",
+        "__CC_ARM",
+        "__ARMCC_VERSION=5060000"
+      ],
+      "includePath": [
+        "${workspaceFolder}/project/inc",
+        "${workspaceFolder}/project/Hardware",
+        "${workspaceFolder}/project/tools/Math",
+        "${workspaceFolder}/libraries/drivers/inc",
+        "${workspaceFolder}/libraries/cmsis/cm4/core_support",
+        "${workspaceFolder}/libraries/cmsis/cm4/device_support",
+        "${workspaceFolder}/middlewares/freertos/source/include",
+        "${workspaceFolder}/middlewares/freertos/source/portable/memmang",
+        "${workspaceFolder}/middlewares/freertos/source/portable/rvds/ARM_CM4F"
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}/project",
+          "${workspaceFolder}/libraries",
+          "${workspaceFolder}/middlewares"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
+    }
+  ]
+}

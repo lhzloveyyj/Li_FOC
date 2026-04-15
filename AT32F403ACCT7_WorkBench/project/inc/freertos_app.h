@@ -19,6 +19,7 @@
 
 /* private includes -------------------------------------------------------------*/
 /* add user code begin private includes */
+#include "led.h"
 
 /* add user code end private includes */
 
@@ -62,6 +63,7 @@ extern SemaphoreHandle_t usart3_dma_tx_sem_handle;
 void freertos_task_create(void);
 void freertos_semaphore_create(void);
 void wk_freertos_init(void);
+led_device_t *freertos_get_run_led(void);
 
 /* add user code begin 1 */
 

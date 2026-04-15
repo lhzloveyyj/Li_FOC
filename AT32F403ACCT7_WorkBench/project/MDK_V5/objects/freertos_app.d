@@ -16,8 +16,7 @@
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\freertos_app.o: ../../middlewares/freertos/source/include/event_groups.h
-.\objects\freertos_app.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
-.\objects\freertos_app.o: ..\Hardware\usart3.h
+.\objects\freertos_app.o: ..\Hardware\led.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\device_support\at32f403a_407.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\core_support\core_cm4.h
 .\objects\freertos_app.o: ..\..\libraries\cmsis\cm4\core_support\cmsis_version.h
@@ -53,8 +52,9 @@
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_wdt.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_wwdt.h
 .\objects\freertos_app.o: ..\..\libraries\drivers\inc\at32f403a_407_xmc.h
+.\objects\freertos_app.o: E:\tools\keil5\ARM\AC5\Bin\..\include\stdio.h
+.\objects\freertos_app.o: ..\Hardware\usart3.h
 .\objects\freertos_app.o: ..\Hardware\protocol.h
-.\objects\freertos_app.o: ..\Hardware\led.h
 .\objects\freertos_app.o: ..\Hardware\mt6701.h
 .\objects\freertos_app.o: ..\Hardware\flash_ops.h
 .\objects\freertos_app.o: ..\Hardware\foc.h

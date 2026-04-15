@@ -55,4 +55,5 @@
 .\objects\usart3.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\usart3.o: ../../middlewares/freertos/source/include/event_groups.h
+.\objects\usart3.o: ..\Hardware\led.h
 .\objects\usart3.o: ..\Hardware\protocol.h

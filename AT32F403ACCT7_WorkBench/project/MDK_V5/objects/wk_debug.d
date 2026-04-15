@@ -55,3 +55,4 @@
 .\objects\wk_debug.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\wk_debug.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\wk_debug.o: ../../middlewares/freertos/source/include/event_groups.h
+.\objects\wk_debug.o: ..\Hardware\led.h

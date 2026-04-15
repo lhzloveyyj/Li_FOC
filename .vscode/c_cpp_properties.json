@@ -1,0 +1,37 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "AT32F403ACCT7",
+      "compilerPath": "E:/tools/keil5/ARM/AC5/Bin/armcc.exe",
+      "intelliSenseMode": "windows-gcc-arm",
+      "cStandard": "c11",
+      "defines": [
+        "AT32F403ACCT7",
+        "USE_STDPERIPH_DRIVER",
+        "AT_START_F403A_V1",
+        "__CC_ARM",
+        "__ARMCC_VERSION=5060000"
+      ],
+      "includePath": [
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/project/inc",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/project/Hardware",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/project/tools/Math",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/libraries/drivers/inc",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/libraries/cmsis/cm4/core_support",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/libraries/cmsis/cm4/device_support",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/middlewares/freertos/source/include",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/middlewares/freertos/source/portable/memmang",
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/middlewares/freertos/source/portable/rvds/ARM_CM4F"
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}/AT32F403ACCT7_WorkBench/project",
+          "${workspaceFolder}/AT32F403ACCT7_WorkBench/libraries",
+          "${workspaceFolder}/AT32F403ACCT7_WorkBench/middlewares"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
+    }
+  ]
+}

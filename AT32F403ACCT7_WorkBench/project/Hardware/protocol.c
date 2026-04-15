@@ -1,5 +1,6 @@
 #include "protocol.h"
 #include "usart3.h"  
+#include "freertos_app.h"
 #include "led.h"  
 #include "flash_ops.h"
 #include "foc.h"
@@ -24,13 +25,13 @@ static float g_correctedElecAngle = 0.0f;
 
 void Comm_CommandHandler(void)
 {
-    led_device_t ledRun;
+    led_device_t *ledRun = freertos_get_run_led();
     float data[14] = {0.0f};
     
-    if((g_commCmd != CMD_NONE) && (0 == led_get(&ledRun))){
-        led_set(&ledRun, 1);
+    if((g_commCmd != CMD_NONE) && (0 == led_get(ledRun))){
+        led_set(ledRun, 1);
         vTaskDelay(50);
-        led_set(&ledRun, 0);
+        led_set(ledRun, 0);
     }
     
     //数据回传上位机
@@ -87,7 +88,7 @@ void Comm_CommandHandler(void)
             break;
         
         case CMD_ZEROCALIBRATIO:
-            led_set(&ledRun, 1);
+            led_set(ledRun, 1);
             AngleInitZeroOffset(&g_zeroOffset, &g_correctedElecAngle);
             data[0] = g_zeroOffset;
             data[1] = g_correctedElecAngle;
@@ -97,7 +98,7 @@ void Comm_CommandHandler(void)
             foc_params_save(&g_params);
             
             USART3_SendPacket(CMD_ZEROCALIBRATIO_OVER, &data[0], 2);
-            led_set(&ledRun, 0);
+            led_set(ledRun, 0);
             g_commCmd = CMD_NONE; 
             break;
         

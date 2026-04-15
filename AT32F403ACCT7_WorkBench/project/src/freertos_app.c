@@ -183,6 +183,11 @@ void wk_freertos_init(void)
   vTaskStartScheduler();
 }
 
+led_device_t *freertos_get_run_led(void)
+{
+  return &g_ledRun;
+}
+
 /**
   * @brief comm_task function.
   * @param  none

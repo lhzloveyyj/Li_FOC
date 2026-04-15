@@ -62,3 +62,4 @@
 .\objects\foc.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\foc.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\foc.o: ../../middlewares/freertos/source/include/event_groups.h
+.\objects\foc.o: ..\Hardware\led.h

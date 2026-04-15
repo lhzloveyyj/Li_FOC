@@ -52,6 +52,7 @@
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\at32f403a_407_int.o: ../../middlewares/freertos/source/include/event_groups.h
+.\objects\at32f403a_407_int.o: ..\Hardware\led.h
 .\objects\at32f403a_407_int.o: ..\Hardware\usart3.h
 .\objects\at32f403a_407_int.o: ..\Hardware\foc.h
 .\objects\at32f403a_407_int.o: ..\Hardware\svpwm.h

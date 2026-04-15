@@ -54,3 +54,4 @@
 .\objects\at32f403a_407_wk_config.o: ../../middlewares/freertos/source/include/queue.h
 .\objects\at32f403a_407_wk_config.o: ../../middlewares/freertos/source/include/timers.h
 .\objects\at32f403a_407_wk_config.o: ../../middlewares/freertos/source/include/event_groups.h
+.\objects\at32f403a_407_wk_config.o: ..\Hardware\led.h
