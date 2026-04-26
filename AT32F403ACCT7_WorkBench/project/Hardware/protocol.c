@@ -3,7 +3,7 @@
 #include "freertos_app.h"
 #include "led.h"  
 #include "flash_ops.h"
-#include "foc.h"
+#include "FOC.h"
 #include "mostemp.h"
 
 volatile uint8_t anglePrintingEnabled = 0;
@@ -326,6 +326,5 @@ void Comm_CommandHandler(void)
             break;
     }
 }
-
 
 

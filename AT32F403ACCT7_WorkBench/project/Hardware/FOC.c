@@ -1,5 +1,5 @@
 #include "at32f403a_407.h"              // Device header
-#include "foc.h"
+#include "FOC.h"
 #include "foc_config.h"
 #include "math.h"
 #include "my_math.h"
@@ -368,7 +368,6 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	
 	setSVpwm(PSVpwm);
 }
-
 
 
 

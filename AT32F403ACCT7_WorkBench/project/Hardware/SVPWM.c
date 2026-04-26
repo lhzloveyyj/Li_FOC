@@ -1,5 +1,5 @@
 #include "SVPWM.h"
-#include "foc.h"
+#include "FOC.h"
 #include "foc_config.h"
 
 SVpwm_State TpSVpwm = {
@@ -133,6 +133,5 @@ void SVpwm(PSVpwm_State PSVpwm, float U_alpha, float U_beta)
 	}
 }   
     
-
 
 

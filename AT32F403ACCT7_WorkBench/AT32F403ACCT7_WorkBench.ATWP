@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Root>
     <WorkBenchVersion>
-        <Version>V1.2.02</Version>
+        <Version>V1.2.03</Version>
     </WorkBenchVersion>
     <MCUInfo>
         <MCUSerials>AT32F403A</MCUSerials>
@@ -275,9 +275,10 @@
     </PINInfo>
     <ProjectInfomation>
         <ProjectName>AT32F403ACCT7_WorkBench</ProjectName>
-        <ProjectLocation>E:/机器人/li_FOC</ProjectLocation>
-        <ToolchainIDE>MDK_V5</ToolchainIDE>
+        <ProjectLocation>/home/lhz/workspace/Li_FOC</ProjectLocation>
+        <ToolchainIDE>CMake</ToolchainIDE>
         <ARMCompiler>0</ARMCompiler>
+        <BackupCode>true</BackupCode>
         <KeepUserCode>true</KeepUserCode>
         <NotUsedPinAnalog>false</NotUsedPinAnalog>
         <CodeSplitIP>true</CodeSplitIP>

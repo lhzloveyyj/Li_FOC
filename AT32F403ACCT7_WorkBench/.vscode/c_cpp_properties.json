@@ -3,15 +3,13 @@
   "configurations": [
     {
       "name": "AT32F403ACCT7",
-      "compilerPath": "E:/tools/keil5/ARM/AC5/Bin/armcc.exe",
-      "intelliSenseMode": "windows-gcc-arm",
+      "compileCommands": "${workspaceFolder}/compile_commands.json",
+      "intelliSenseMode": "linux-gcc-arm",
       "cStandard": "c11",
       "defines": [
         "AT32F403ACCT7",
         "USE_STDPERIPH_DRIVER",
-        "AT_START_F403A_V1",
-        "__CC_ARM",
-        "__ARMCC_VERSION=5060000"
+        "AT_START_F403A_V1"
       ],
       "includePath": [
         "${workspaceFolder}/project/inc",

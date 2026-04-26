@@ -78,6 +78,65 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "OpenOCD Flash",
+      "type": "shell",
+      "command": "openocd",
+      "args": [
+        "-f", "${workspaceFolder}/openocd/at32f403acct7-cmsis-dap.cfg",
+        "-c", "program ${workspaceFolder}/build/Debug/AT32F403ACCT7_WorkBench.elf verify reset exit"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "OpenOCD Build + Flash",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cmake --build ${workspaceFolder}/build/Debug && openocd -f ${workspaceFolder}/openocd/at32f403acct7-cmsis-dap.cfg -c 'program ${workspaceFolder}/build/Debug/AT32F403ACCT7_WorkBench.elf verify reset exit'"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "OpenOCD Erase & Flash",
+      "type": "shell",
+      "command": "openocd",
+      "args": [
+        "-f", "${workspaceFolder}/openocd/at32f403acct7-cmsis-dap.cfg",
+        "-c", "init; halt; at32f4x flash erase_sector 0 0 last; program ${workspaceFolder}/build/Debug/AT32F403ACCT7_WorkBench.elf verify reset exit"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ]
 }

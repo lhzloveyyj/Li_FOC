@@ -17,7 +17,7 @@
 #include "led.h"  
 #include "mt6701.h"
 #include "flash_ops.h"
-#include "foc.h"
+#include "FOC.h"
 #include "foc_config.h"
 #include "filter.h"
 #include "current_control.h"
@@ -312,4 +312,3 @@ void Monitor_task_func(void *pvParameters)
 
 
 /* add user code end 2 */
-

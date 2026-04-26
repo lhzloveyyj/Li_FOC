@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/cmake_install.cmake",
+		"/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/cmake/at32_workbench/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

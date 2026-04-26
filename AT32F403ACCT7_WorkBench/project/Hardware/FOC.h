@@ -1,7 +1,7 @@
 #ifndef __FOC_H
 #define __FOC_H
 
-#include "svpwm.h"
+#include "SVPWM.h"
 #include "at32f403a_407.h"  // Device header
 
 #ifdef __cplusplus

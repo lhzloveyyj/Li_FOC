@@ -1,0 +1,6 @@
+# CMSIS-DAP adapters
+ATTRS{idVendor}=="0d28", ATTRS{idProduct}=="0204", MODE="0660", GROUP="plugdev"
+# Generic CMSIS-DAP
+ATTRS{idVendor}=="c251", MODE="0660", GROUP="plugdev"
+# Keil ULINK
+ATTRS{idVendor}=="1366", MODE="0660", GROUP="plugdev"

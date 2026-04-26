@@ -28,11 +28,12 @@
 #include "at32f403a_407_int.h"
 #include "freertos_app.h"
 
+
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include "usart3.h"   
 #include "freertos_app.h"
-#include "foc.h"  
+#include "FOC.h"  
 #include "protocol.h" 
 /* add user code end private includes */
 
