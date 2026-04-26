@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "OpenOCD Debug",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "openocd",
+      "executable": "${workspaceFolder}/AT32F403ACCT7_WorkBench/build/Debug/AT32F403ACCT7_WorkBench.elf",
+      "device": "AT32F403ACCT7",
+      "configFiles": [
+        "${workspaceFolder}/AT32F403ACCT7_WorkBench/openocd/at32f403acct7-cmsis-dap.cfg"
+      ],
+      "svdFile": "${workspaceFolder}/AT32F403ACCT7_WorkBench/openocd/AT32F403ACCT7.svd",
+      "runToEntryPoint": "main"
+    }
+  ]
+}
