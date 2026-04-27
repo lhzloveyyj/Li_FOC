@@ -21,13 +21,15 @@
             <ParametersSub name="SamplingRate_OrdinarySequence_1" value="1.429"/>
             <ParametersSub name="EnablePreemptedConversion" value="ENABLE"/>
             <ParametersSub name="PreemptedTriggerSource" value="ADC12_PREEMPT_TRIG_TMR1CH4"/>
-            <ParametersSub name="NbrOfPreemptedSequence" value="3"/>
+            <ParametersSub name="NbrOfPreemptedSequence" value="4"/>
             <ParametersSub name="Channel_PreemptedSequence_1" value="ADC_CHANNEL_0"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_1" value="1.429"/>
             <ParametersSub name="Channel_PreemptedSequence_2" value="ADC_CHANNEL_1"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_2" value="1.429"/>
             <ParametersSub name="Channel_PreemptedSequence_3" value="ADC_CHANNEL_2"/>
             <ParametersSub name="SamplingRate_PreemptedSequence_3" value="1.429"/>
+            <ParametersSub name="Channel_PreemptedSequence_4" value="ADC_CHANNEL_4"/>
+            <ParametersSub name="SamplingRate_PreemptedSequence_4" value="1.429"/>
         </Parameters>
         <Interrupts>
             <InterruptsSub name="Interrupt_PCCE" value="TRUE"/>

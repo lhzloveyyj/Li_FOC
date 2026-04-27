@@ -1,0 +1,16 @@
+#!/bin/bash
+# Configure, build, and flash in one step
+# Usage: atbuild_flash [preset]
+#   preset defaults to Debug
+
+set -eu
+
+cd "$(dirname "$0")"
+
+PRESET="${1:-Debug}"
+
+cmake --preset "$PRESET"
+cmake --build --preset "$PRESET"
+openocd \
+  -f openocd/at32f403acct7-cmsis-dap.cfg \
+  -c "program build/${PRESET}/AT32F403ACCT7_WorkBench.elf verify reset exit"

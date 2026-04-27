@@ -5640,114 +5640,6 @@ Discarded input sections
  .text          0x00000000       0x14 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
  .data          0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
  .bss           0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text          0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .data          0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .bss           0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .bss.calendar  0x00000000        0x8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .rodata.table_week
-                0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .rodata.mon_table
-                0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.rtc_init
-                0x00000000       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.is_leap_year
-                0x00000000       0x68 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.rtc_time_set
-                0x00000000      0x168 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.rtc_alarm_clock_set
-                0x00000000      0x160 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.rtc_week_get
-                0x00000000       0xcc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .text.rtc_time_get
-                0x00000000      0x1b4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .bss.daycnt.0  0x00000000        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_info    0x00000000      0x824 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_abbrev  0x00000000      0x2a9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_aranges
-                0x00000000       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_rnglists
-                0x00000000       0x36 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x18c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x62 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x34e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x22 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xfb CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000     0x1011 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x11f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x22 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x296 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xb8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x2f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x4f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x138 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x11 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xad CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xa1 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x20f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x2f0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x8f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x152 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x2ed CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xaf CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x16 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x29 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x41 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x125 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x76 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xe4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0xa7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000      0x234 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x16 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_macro   0x00000000       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_line    0x00000000      0x810 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_str     0x00000000    0x144ce CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .comment       0x00000000       0x27 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .debug_frame   0x00000000       0xf0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
- .ARM.attributes
-                0x00000000       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
  .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
  .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
  .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
@@ -7508,6 +7400,114 @@ Discarded input sections
  .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
  .debug_macro   0x00000000       0x16 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
  .debug_macro   0x00000000       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .group         0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text          0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .data          0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .bss           0x00000000        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .bss.calendar  0x00000000        0x8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .rodata.table_week
+                0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .rodata.mon_table
+                0x00000000        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.rtc_init
+                0x00000000       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.is_leap_year
+                0x00000000       0x68 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.rtc_time_set
+                0x00000000      0x168 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.rtc_alarm_clock_set
+                0x00000000      0x160 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.rtc_week_get
+                0x00000000       0xcc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .text.rtc_time_get
+                0x00000000      0x1b4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .bss.daycnt.0  0x00000000        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_info    0x00000000      0x824 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_abbrev  0x00000000      0x2a9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_aranges
+                0x00000000       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_rnglists
+                0x00000000       0x36 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x18c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0xad8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x62 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x34e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x22 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xfb CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000     0x1011 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x11f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x22 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x296 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xb8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x2f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x4f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x138 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x11 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xad CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xa1 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x20f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x2f0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x8f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x152 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x2ed CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xaf CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x16 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x29 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x41 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x125 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x76 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xe4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0xa7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000      0x234 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x1d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x16 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_macro   0x00000000       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_line    0x00000000      0x810 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_str     0x00000000    0x144ce CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .comment       0x00000000       0x27 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .debug_frame   0x00000000       0xf0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
+ .ARM.attributes
+                0x00000000       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
  .text          0x00000000      0x254 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldf3.o)
  .data          0x00000000        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldf3.o)
  .bss           0x00000000        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldf3.o)
@@ -7724,7 +7724,6 @@ LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
-LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
@@ -7742,6 +7741,7 @@ LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
 LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+LOAD CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
 START GROUP
 LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
 LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a
@@ -7764,7 +7764,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
                 0x08000000                g_pfnVectors
                 0x08000184                        . = ALIGN (0x4)
 
-.text           0x08000190     0xc23c
+.text           0x08000190     0xc29c
                 0x08000190                        . = ALIGN (0x4)
  *(.text)
  .text          0x08000190       0x88 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
@@ -8485,404 +8485,405 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
                 0x08008870       0x98 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
                 0x08008870                ADC1_2_IRQHandler
  .text.TMR2_GLOBAL_IRQHandler
-                0x08008908      0x264 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
+                0x08008908      0x294 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
                 0x08008908                TMR2_GLOBAL_IRQHandler
  .text.USART3_IRQHandler
-                0x08008b6c       0x3c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
-                0x08008b6c                USART3_IRQHandler
+                0x08008b9c       0x3c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
+                0x08008b9c                USART3_IRQHandler
  .text.wk_adc1_init
-                0x08008ba8      0x154 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
-                0x08008ba8                wk_adc1_init
+                0x08008bd8      0x168 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
+                0x08008bd8                wk_adc1_init
  .text.wk_adc2_init
-                0x08008cfc       0xb4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
-                0x08008cfc                wk_adc2_init
+                0x08008d40       0xb4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
+                0x08008d40                wk_adc2_init
  .text.wk_can1_init
-                0x08008db0       0xf0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
-                0x08008db0                wk_can1_init
+                0x08008df4       0xf0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
+                0x08008df4                wk_can1_init
  .text.wk_debug_config
-                0x08008ea0       0x14 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
-                0x08008ea0                wk_debug_config
+                0x08008ee4       0x14 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
+                0x08008ee4                wk_debug_config
  .text.wk_spi1_init
-                0x08008eb4       0xbc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
-                0x08008eb4                wk_spi1_init
+                0x08008ef8       0xbc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
+                0x08008ef8                wk_spi1_init
  .text.wk_tmr1_init
-                0x08008f70      0x2a4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
-                0x08008f70                wk_tmr1_init
+                0x08008fb4      0x2a4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
+                0x08008fb4                wk_tmr1_init
  .text.wk_tmr2_init
-                0x08009214       0x52 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
-                0x08009214                wk_tmr2_init
- *fill*         0x08009266        0x2 
+                0x08009258       0x52 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
+                0x08009258                wk_tmr2_init
+ *fill*         0x080092aa        0x2 
  .text.wk_usart1_init
-                0x08009268       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
-                0x08009268                wk_usart1_init
+                0x080092ac       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
+                0x080092ac                wk_usart1_init
  .text.wk_usart3_init
-                0x08009304       0xa0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
-                0x08009304                wk_usart3_init
+                0x08009348       0xa0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
+                0x08009348                wk_usart3_init
  .text.wk_dma1_channel1_init
-                0x080093a4       0x54 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
-                0x080093a4                wk_dma1_channel1_init
+                0x080093e8       0x54 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
+                0x080093e8                wk_dma1_channel1_init
  .text.wk_dma_channel_config
-                0x080093f8       0x2c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
-                0x080093f8                wk_dma_channel_config
+                0x0800943c       0x2c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
+                0x0800943c                wk_dma_channel_config
  .text.wk_gpio_config
-                0x08009424       0x68 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
-                0x08009424                wk_gpio_config
+                0x08009468       0x68 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
+                0x08009468                wk_gpio_config
  .text.Reset_Handler
-                0x0800948c       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
-                0x0800948c                Reset_Handler
+                0x080094d0       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
+                0x080094d0                Reset_Handler
  .text.Default_Handler
-                0x080094d4        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
-                0x080094d4                SDIO1_IRQHandler
-                0x080094d4                XMC_IRQHandler
-                0x080094d4                EXINT2_IRQHandler
-                0x080094d4                USBFS_L_CAN1_RX0_IRQHandler
-                0x080094d4                UART8_IRQHandler
-                0x080094d4                SPI4_IRQHandler
-                0x080094d4                I2C2_EVT_IRQHandler
-                0x080094d4                TMR1_OVF_TMR10_IRQHandler
-                0x080094d4                TMR8_TRG_HALL_TMR14_IRQHandler
-                0x080094d4                USBFS_H_CAN1_TX_IRQHandler
-                0x080094d4                I2C1_ERR_IRQHandler
-                0x080094d4                EXINT9_5_IRQHandler
-                0x080094d4                EMAC_IRQHandler
-                0x080094d4                CAN2_RX1_IRQHandler
-                0x080094d4                TMR5_GLOBAL_IRQHandler
-                0x080094d4                SDIO2_IRQHandler
-                0x080094d4                SPI1_IRQHandler
-                0x080094d4                TAMPER_IRQHandler
-                0x080094d4                CAN2_RX0_IRQHandler
-                0x080094d4                DMA2_Channel2_IRQHandler
-                0x080094d4                DMA1_Channel4_IRQHandler
-                0x080094d4                TMR8_CH_IRQHandler
-                0x080094d4                USART6_IRQHandler
-                0x080094d4                EXINT0_IRQHandler
-                0x080094d4                RTC_IRQHandler
-                0x080094d4                DMA1_Channel7_IRQHandler
-                0x080094d4                CAN1_RX1_IRQHandler
-                0x080094d4                UART5_IRQHandler
-                0x080094d4                ADC3_IRQHandler
-                0x080094d4                ACC_IRQHandler
-                0x080094d4                EMAC_WKUP_IRQHandler
-                0x080094d4                DMA2_Channel1_IRQHandler
-                0x080094d4                EXINT3_IRQHandler
-                0x080094d4                DMA1_Channel6_IRQHandler
-                0x080094d4                UART4_IRQHandler
-                0x080094d4                Default_Handler
-                0x080094d4                USBFS_MAPH_IRQHandler
-                0x080094d4                TMR3_GLOBAL_IRQHandler
-                0x080094d4                TMR7_GLOBAL_IRQHandler
-                0x080094d4                CAN1_SE_IRQHandler
-                0x080094d4                CAN2_TX_IRQHandler
-                0x080094d4                I2C3_ERR_IRQHandler
-                0x080094d4                SPI3_I2S3EXT_IRQHandler
-                0x080094d4                TMR1_BRK_TMR9_IRQHandler
-                0x080094d4                USBFS_MAPL_IRQHandler
-                0x080094d4                TMR8_BRK_TMR12_IRQHandler
-                0x080094d4                TMR1_TRG_HALL_TMR11_IRQHandler
-                0x080094d4                DMA1_Channel5_IRQHandler
-                0x080094d4                TMR4_GLOBAL_IRQHandler
-                0x080094d4                EXINT4_IRQHandler
-                0x080094d4                CAN2_SE_IRQHandler
-                0x080094d4                DMA2_Channel6_7_IRQHandler
-                0x080094d4                PVM_IRQHandler
-                0x080094d4                I2C3_EVT_IRQHandler
-                0x080094d4                DMA1_Channel3_IRQHandler
-                0x080094d4                I2C1_EVT_IRQHandler
-                0x080094d4                TMR8_OVF_TMR13_IRQHandler
-                0x080094d4                TMR6_GLOBAL_IRQHandler
-                0x080094d4                EXINT1_IRQHandler
-                0x080094d4                RTCAlarm_IRQHandler
-                0x080094d4                DMA2_Channel4_5_IRQHandler
-                0x080094d4                UART7_IRQHandler
-                0x080094d4                USART2_IRQHandler
-                0x080094d4                DMA1_Channel2_IRQHandler
-                0x080094d4                FLASH_IRQHandler
-                0x080094d4                SPI2_I2S2EXT_IRQHandler
-                0x080094d4                I2C2_ERR_IRQHandler
-                0x080094d4                USBFSWakeUp_IRQHandler
-                0x080094d4                USART1_IRQHandler
-                0x080094d4                TMR1_CH_IRQHandler
-                0x080094d4                CRM_IRQHandler
-                0x080094d4                EXINT15_10_IRQHandler
-                0x080094d4                WWDT_IRQHandler
-                0x080094d4                DMA2_Channel3_IRQHandler
- *fill*         0x080094d6        0x2 
+                0x08009518        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
+                0x08009518                SDIO1_IRQHandler
+                0x08009518                XMC_IRQHandler
+                0x08009518                EXINT2_IRQHandler
+                0x08009518                USBFS_L_CAN1_RX0_IRQHandler
+                0x08009518                UART8_IRQHandler
+                0x08009518                SPI4_IRQHandler
+                0x08009518                I2C2_EVT_IRQHandler
+                0x08009518                TMR1_OVF_TMR10_IRQHandler
+                0x08009518                TMR8_TRG_HALL_TMR14_IRQHandler
+                0x08009518                USBFS_H_CAN1_TX_IRQHandler
+                0x08009518                I2C1_ERR_IRQHandler
+                0x08009518                EXINT9_5_IRQHandler
+                0x08009518                EMAC_IRQHandler
+                0x08009518                CAN2_RX1_IRQHandler
+                0x08009518                TMR5_GLOBAL_IRQHandler
+                0x08009518                SDIO2_IRQHandler
+                0x08009518                SPI1_IRQHandler
+                0x08009518                TAMPER_IRQHandler
+                0x08009518                CAN2_RX0_IRQHandler
+                0x08009518                DMA2_Channel2_IRQHandler
+                0x08009518                DMA1_Channel4_IRQHandler
+                0x08009518                TMR8_CH_IRQHandler
+                0x08009518                USART6_IRQHandler
+                0x08009518                EXINT0_IRQHandler
+                0x08009518                RTC_IRQHandler
+                0x08009518                DMA1_Channel7_IRQHandler
+                0x08009518                CAN1_RX1_IRQHandler
+                0x08009518                UART5_IRQHandler
+                0x08009518                ADC3_IRQHandler
+                0x08009518                ACC_IRQHandler
+                0x08009518                EMAC_WKUP_IRQHandler
+                0x08009518                DMA2_Channel1_IRQHandler
+                0x08009518                EXINT3_IRQHandler
+                0x08009518                DMA1_Channel6_IRQHandler
+                0x08009518                UART4_IRQHandler
+                0x08009518                Default_Handler
+                0x08009518                USBFS_MAPH_IRQHandler
+                0x08009518                TMR3_GLOBAL_IRQHandler
+                0x08009518                TMR7_GLOBAL_IRQHandler
+                0x08009518                CAN1_SE_IRQHandler
+                0x08009518                CAN2_TX_IRQHandler
+                0x08009518                I2C3_ERR_IRQHandler
+                0x08009518                SPI3_I2S3EXT_IRQHandler
+                0x08009518                TMR1_BRK_TMR9_IRQHandler
+                0x08009518                USBFS_MAPL_IRQHandler
+                0x08009518                TMR8_BRK_TMR12_IRQHandler
+                0x08009518                TMR1_TRG_HALL_TMR11_IRQHandler
+                0x08009518                DMA1_Channel5_IRQHandler
+                0x08009518                TMR4_GLOBAL_IRQHandler
+                0x08009518                EXINT4_IRQHandler
+                0x08009518                CAN2_SE_IRQHandler
+                0x08009518                DMA2_Channel6_7_IRQHandler
+                0x08009518                PVM_IRQHandler
+                0x08009518                I2C3_EVT_IRQHandler
+                0x08009518                DMA1_Channel3_IRQHandler
+                0x08009518                I2C1_EVT_IRQHandler
+                0x08009518                TMR8_OVF_TMR13_IRQHandler
+                0x08009518                TMR6_GLOBAL_IRQHandler
+                0x08009518                EXINT1_IRQHandler
+                0x08009518                RTCAlarm_IRQHandler
+                0x08009518                DMA2_Channel4_5_IRQHandler
+                0x08009518                UART7_IRQHandler
+                0x08009518                USART2_IRQHandler
+                0x08009518                DMA1_Channel2_IRQHandler
+                0x08009518                FLASH_IRQHandler
+                0x08009518                SPI2_I2S2EXT_IRQHandler
+                0x08009518                I2C2_ERR_IRQHandler
+                0x08009518                USBFSWakeUp_IRQHandler
+                0x08009518                USART1_IRQHandler
+                0x08009518                TMR1_CH_IRQHandler
+                0x08009518                CRM_IRQHandler
+                0x08009518                EXINT15_10_IRQHandler
+                0x08009518                WWDT_IRQHandler
+                0x08009518                DMA2_Channel3_IRQHandler
+ *fill*         0x0800951a        0x2 
  .text.vApplicationGetIdleTaskMemory
-                0x080094d8       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x080094d8                vApplicationGetIdleTaskMemory
+                0x0800951c       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x0800951c                vApplicationGetIdleTaskMemory
  .text.vApplicationGetTimerTaskMemory
-                0x0800950c       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x0800950c                vApplicationGetTimerTaskMemory
+                0x08009550       0x34 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009550                vApplicationGetTimerTaskMemory
  .text.freertos_task_create
-                0x08009540       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x08009540                freertos_task_create
+                0x08009584       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009584                freertos_task_create
  .text.freertos_semaphore_create
-                0x080095e8       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x080095e8                freertos_semaphore_create
+                0x0800962c       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x0800962c                freertos_semaphore_create
  .text.wk_freertos_init
-                0x08009604       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x08009604                wk_freertos_init
+                0x08009648       0x1c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009648                wk_freertos_init
  .text.freertos_get_run_led
-                0x08009620       0x14 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x08009620                freertos_get_run_led
+                0x08009664       0x14 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009664                freertos_get_run_led
  .text.comm_task_func
-                0x08009634      0x114 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x08009634                comm_task_func
+                0x08009678      0x114 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009678                comm_task_func
  .text.control_task_func
-                0x08009748       0x74 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x08009748                control_task_func
+                0x0800978c       0x74 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x0800978c                control_task_func
  .text.Monitor_task_func
-                0x080097bc       0x50 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x080097bc                Monitor_task_func
- .text.f1       0x0800980c       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- .text.f2       0x080098b4       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009800       0x40 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x08009800                Monitor_task_func
+ .text.f1       0x08009840       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ .text.f2       0x080098e8       0xa8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.fast_sin
-                0x0800995c       0xc0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009990       0xc0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.fast_cos
-                0x08009a1c       0xb8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009a50       0xb8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.getAdoffset
-                0x08009ad4       0x98 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009ad4                getAdoffset
+                0x08009b08       0x98 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009b08                getAdoffset
  .text.NormalizeAngle
-                0x08009b6c       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009b6c                NormalizeAngle
+                0x08009ba0       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009ba0                NormalizeAngle
  .text.CalculateElectricalAngle
-                0x08009bb4       0x50 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009bb4                CalculateElectricalAngle
+                0x08009be8       0x50 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009be8                CalculateElectricalAngle
  .text.AngleGetCorrectedElec
-                0x08009c04       0x4c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009c04                AngleGetCorrectedElec
+                0x08009c38       0x4c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009c38                AngleGetCorrectedElec
  .text.MotorApplyStrongDrag
-                0x08009c50      0x13c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009c50                MotorApplyStrongDrag
+                0x08009c84      0x13c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009c84                MotorApplyStrongDrag
  .text.AngleInitZeroOffset
-                0x08009d8c       0xec CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009d8c                AngleInitZeroOffset
+                0x08009dc0       0xec CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009dc0                AngleInitZeroOffset
  .text.setpwm_channel
-                0x08009e78       0x78 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009eac       0x78 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.MotorSetPwm
-                0x08009ef0      0x118 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x08009ef0                MotorSetPwm
+                0x08009f24      0x118 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x08009f24                MotorSetPwm
  .text.CurrentReconstruction
-                0x0800a008      0x114 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x0800a03c      0x114 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.clarke_transform
-                0x0800a11c       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x0800a11c                clarke_transform
+                0x0800a150       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x0800a150                clarke_transform
  .text.park_transform
-                0x0800a164       0x8e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x0800a164                park_transform
+                0x0800a198       0x8e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x0800a198                park_transform
  .text.setSVpwm
-                0x0800a1f2       0x32 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x0800a226       0x32 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
  .text.inv_park_transform
-                0x0800a224       0x8e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- *fill*         0x0800a2b2        0x2 
+                0x0800a258       0x8e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ *fill*         0x0800a2e6        0x2 
  .text.FocContorl
-                0x0800a2b4      0x250 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
-                0x0800a2b4                FocContorl
- .text.SVpwm    0x0800a504      0x6c8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
-                0x0800a504                SVpwm
+                0x0800a2e8      0x250 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+                0x0800a2e8                FocContorl
+ .text.SVpwm    0x0800a538      0x6c8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
+                0x0800a538                SVpwm
  .text.CurrentPIControlID
-                0x0800abcc      0x118 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
-                0x0800abcc                CurrentPIControlID
+                0x0800ac00      0x118 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+                0x0800ac00                CurrentPIControlID
  .text.CurrentPIControlIQ
-                0x0800ace4      0x14c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
-                0x0800ace4                CurrentPIControlIQ
+                0x0800ad18      0x14c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+                0x0800ad18                CurrentPIControlIQ
  .text.SetCurrentPIDTar
-                0x0800ae30       0x50 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
-                0x0800ae30                SetCurrentPIDTar
+                0x0800ae64       0x50 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+                0x0800ae64                SetCurrentPIDTar
  .text.SetCurrentPIDParams
-                0x0800ae80       0x90 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
-                0x0800ae80                SetCurrentPIDParams
+                0x0800aeb4       0x90 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+                0x0800aeb4                SetCurrentPIDParams
  .text.crc32_compute
-                0x0800af10       0x78 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
-                0x0800af10                crc32_compute
+                0x0800af44       0x78 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+                0x0800af44                crc32_compute
  .text.foc_params_save
-                0x0800af88       0xc4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
-                0x0800af88                foc_params_save
+                0x0800afbc       0xc4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+                0x0800afbc                foc_params_save
  .text.foc_params_load
-                0x0800b04c       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
-                0x0800b04c                foc_params_load
+                0x0800b080       0x9c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+                0x0800b080                foc_params_load
  .text.led_init
-                0x0800b0e8       0x32 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
-                0x0800b0e8                led_init
- .text.led_set  0x0800b11a       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
-                0x0800b11a                led_set
- .text.led_get  0x0800b15e       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
-                0x0800b15e                led_get
- *fill*         0x0800b176        0x2 
+                0x0800b11c       0x32 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+                0x0800b11c                led_init
+ .text.led_set  0x0800b14e       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+                0x0800b14e                led_set
+ .text.led_get  0x0800b192       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+                0x0800b192                led_get
+ *fill*         0x0800b1aa        0x2 
  .text.GetTempAdc
-                0x0800b178       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
-                0x0800b178                GetTempAdc
+                0x0800b1ac       0x48 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+                0x0800b1ac                GetTempAdc
+ *fill*         0x0800b1f4        0x4 
  .text.ntc_temp_c
-                0x0800b1c0      0x15c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
-                0x0800b1c0                ntc_temp_c
+                0x0800b1f8      0x15c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+                0x0800b1f8                ntc_temp_c
  .text.GetMosTemp
-                0x0800b31c       0x1a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
-                0x0800b31c                GetMosTemp
- *fill*         0x0800b336        0x2 
- .text.getVbus  0x0800b338       0x7c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
-                0x0800b338                getVbus
+                0x0800b354       0x1a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+                0x0800b354                GetMosTemp
+ *fill*         0x0800b36e        0x2 
+ .text.getVbus  0x0800b370       0x7c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+                0x0800b370                getVbus
  .text.Mt6701SpiReadByte
-                0x0800b3b4       0x7a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
- *fill*         0x0800b42e        0x2 
+                0x0800b3ec       0x7a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+ *fill*         0x0800b466        0x2 
  .text.Mt6701GetAngle
-                0x0800b430       0xb0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
-                0x0800b430                Mt6701GetAngle
+                0x0800b468       0xb0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+                0x0800b468                Mt6701GetAngle
  .text.Mt6701GetAngleWrapper
-                0x0800b4e0       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
-                0x0800b4e0                Mt6701GetAngleWrapper
+                0x0800b518       0x18 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+                0x0800b518                Mt6701GetAngleWrapper
  .text.CalculatePosition
-                0x0800b4f8       0x98 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
-                0x0800b4f8                CalculatePosition
+                0x0800b530       0x98 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+                0x0800b530                CalculatePosition
  .text.PositionPDControl
-                0x0800b590      0x11a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
-                0x0800b590                PositionPDControl
+                0x0800b5c8      0x11a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+                0x0800b5c8                PositionPDControl
  .text.SetPositionPIDTar
-                0x0800b6aa       0x20 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
-                0x0800b6aa                SetPositionPIDTar
+                0x0800b6e2       0x20 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+                0x0800b6e2                SetPositionPIDTar
  .text.SetPositionPIDParams
-                0x0800b6ca       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
-                0x0800b6ca                SetPositionPIDParams
- *fill*         0x0800b70e        0x2 
+                0x0800b702       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+                0x0800b702                SetPositionPIDParams
+ *fill*         0x0800b746        0x2 
  .text.Comm_CommandHandler
-                0x0800b710      0x684 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
-                0x0800b710                Comm_CommandHandler
+                0x0800b748      0x6ac CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+                0x0800b748                Comm_CommandHandler
  .text.CalculateSpeed
-                0x0800bd94       0xbc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
-                0x0800bd94                CalculateSpeed
+                0x0800bdf4       0xbc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+                0x0800bdf4                CalculateSpeed
  .text.SpeedPIControl
-                0x0800be50      0x140 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
-                0x0800be50                SpeedPIControl
+                0x0800beb0      0x140 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+                0x0800beb0                SpeedPIControl
  .text.SetSpeedPIDTar
-                0x0800bf90       0x20 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
-                0x0800bf90                SetSpeedPIDTar
+                0x0800bff0       0x20 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+                0x0800bff0                SetSpeedPIDTar
  .text.SetSpeedPIDParams
-                0x0800bfb0       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
-                0x0800bfb0                SetSpeedPIDParams
+                0x0800c010       0x44 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+                0x0800c010                SetSpeedPIDParams
  .text.USART3_SendPacket
-                0x0800bff4       0xe4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
-                0x0800bff4                USART3_SendPacket
+                0x0800c054       0xe4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+                0x0800c054                USART3_SendPacket
  .text.USART3_ParseFixedCommand
-                0x0800c0d8       0xf4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
-                0x0800c0d8                USART3_ParseFixedCommand
+                0x0800c138       0xf4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+                0x0800c138                USART3_ParseFixedCommand
  .text.LPF_Init
-                0x0800c1cc       0x6c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
-                0x0800c1cc                LPF_Init
+                0x0800c22c       0x6c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+                0x0800c22c                LPF_Init
  .text.LPF_Update
-                0x0800c238       0x80 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
-                0x0800c238                LPF_Update
+                0x0800c298       0x80 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+                0x0800c298                LPF_Update
  .text.LPF_Speed_Init
-                0x0800c2b8       0x60 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
-                0x0800c2b8                LPF_Speed_Init
+                0x0800c318       0x60 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+                0x0800c318                LPF_Speed_Init
  .text.LPF_Speed_Update
-                0x0800c318       0x4a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
-                0x0800c318                LPF_Speed_Update
+                0x0800c378       0x4a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+                0x0800c378                LPF_Speed_Update
  .text.LimitValue
-                0x0800c362       0x52 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
-                0x0800c362                LimitValue
+                0x0800c3c2       0x52 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+                0x0800c3c2                LimitValue
  *(.glue_7)
- .glue_7        0x0800c3b4        0x0 linker stubs
+ .glue_7        0x0800c414        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x0800c3b4        0x0 linker stubs
+ .glue_7t       0x0800c414        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x0800c3b4        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .eh_frame      0x0800c414        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.init)
- .init          0x0800c3b4        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crti.o
-                0x0800c3b4                _init
- .init          0x0800c3b8        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
+ .init          0x0800c414        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crti.o
+                0x0800c414                _init
+ .init          0x0800c418        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
  *(.fini)
- .fini          0x0800c3c0        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crti.o
-                0x0800c3c0                _fini
- .fini          0x0800c3c4        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
-                0x0800c3cc                        . = ALIGN (0x4)
-                0x0800c3cc                        _etext = .
+ .fini          0x0800c420        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crti.o
+                0x0800c420                _fini
+ .fini          0x0800c424        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
+                0x0800c42c                        . = ALIGN (0x4)
+                0x0800c42c                        _etext = .
 
-.vfp11_veneer   0x0800c3cc        0x0
- .vfp11_veneer  0x0800c3cc        0x0 linker stubs
+.vfp11_veneer   0x0800c42c        0x0
+ .vfp11_veneer  0x0800c42c        0x0 linker stubs
 
-.v4_bx          0x0800c3cc        0x0
- .v4_bx         0x0800c3cc        0x0 linker stubs
+.v4_bx          0x0800c42c        0x0
+ .v4_bx         0x0800c42c        0x0 linker stubs
 
-.iplt           0x0800c3cc        0x0
- .iplt          0x0800c3cc        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+.iplt           0x0800c42c        0x0
+ .iplt          0x0800c42c        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.rodata         0x0800c3cc      0x27c
-                0x0800c3cc                        . = ALIGN (0x4)
+.rodata         0x0800c42c      0x27c
+                0x0800c42c                        . = ALIGN (0x4)
  *(.rodata)
- .rodata        0x0800c3cc        0x5 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
- *fill*         0x0800c3d1        0x3 
- .rodata        0x0800c3d4        0xd cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/timers.c.obj
- *fill*         0x0800c3e1        0x3 
- .rodata        0x0800c3e4       0x31 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
- *fill*         0x0800c415        0x3 
- .rodata        0x0800c418       0x3b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- *fill*         0x0800c453        0x1 
- .rodata        0x0800c454       0x4a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
- *fill*         0x0800c49e        0x2 
- .rodata        0x0800c4a0      0x126 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
- *fill*         0x0800c5c6        0x2 
- .rodata        0x0800c5c8        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a(libm_a-ef_fmod.o)
+ .rodata        0x0800c42c        0x5 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
+ *fill*         0x0800c431        0x3 
+ .rodata        0x0800c434        0xd cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/timers.c.obj
+ *fill*         0x0800c441        0x3 
+ .rodata        0x0800c444       0x31 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+ *fill*         0x0800c475        0x3 
+ .rodata        0x0800c478       0x3b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ *fill*         0x0800c4b3        0x1 
+ .rodata        0x0800c4b4       0x4a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+ *fill*         0x0800c4fe        0x2 
+ .rodata        0x0800c500      0x126 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+ *fill*         0x0800c626        0x2 
+ .rodata        0x0800c628        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a(libm_a-ef_fmod.o)
  *(.rodata*)
  .rodata.sys_ahb_div_table.0
-                0x0800c5d0       0x10 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/cmsis/cm4/device_support/system_at32f403a_407.c.obj
+                0x0800c630       0x10 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/cmsis/cm4/device_support/system_at32f403a_407.c.obj
  .rodata.sclk_ahb_div_table.3
-                0x0800c5e0       0x10 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
+                0x0800c640       0x10 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
  .rodata.ahb_apb1_div_table.2
-                0x0800c5f0        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
+                0x0800c650        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
  .rodata.ahb_apb2_div_table.1
-                0x0800c5f8        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
+                0x0800c658        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
  .rodata.adc_div_table.0
-                0x0800c600        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
+                0x0800c660        0x8 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
  .rodata.uxTopUsedPriority
-                0x0800c608        0x4 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
-                0x0800c608                uxTopUsedPriority
+                0x0800c668        0x4 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
+                0x0800c668                uxTopUsedPriority
  .rodata.str1.4
-                0x0800c60c       0x39 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
+                0x0800c66c       0x39 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
                                  0x13 (size before relaxing)
  .rodata.str1.4
-                0x0800c645        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
+                0x0800c6a5        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
                                  0x25 (size before relaxing)
  .rodata.str1.4
-                0x0800c645        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a(libm_a-w_log.o)
+                0x0800c6a5        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a(libm_a-w_log.o)
                                   0x1 (size before relaxing)
-                0x0800c648                        . = ALIGN (0x4)
- *fill*         0x0800c645        0x3 
+                0x0800c6a8                        . = ALIGN (0x4)
+ *fill*         0x0800c6a5        0x3 
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0800c648        0x8
-                0x0800c648                        __exidx_start = .
+.ARM            0x0800c6a8        0x8
+                0x0800c6a8                        __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x0800c648        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
- .ARM.exidx     0x0800c650        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
+ .ARM.exidx     0x0800c6a8        0x8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
+ .ARM.exidx     0x0800c6b0        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
                                   0x8 (size before relaxing)
-                0x0800c650                        __exidx_end = .
+                0x0800c6b0                        __exidx_end = .
 
-.rel.dyn        0x0800c650        0x0
- .rel.iplt      0x0800c650        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+.rel.dyn        0x0800c6b0        0x0
+ .rel.iplt      0x0800c6b0        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.preinit_array  0x0800c650        0x0
-                0x0800c650                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x0800c6b0        0x0
+                0x0800c6b0                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x0800c650                        PROVIDE (__preinit_array_end = .)
+                0x0800c6b0                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0800c650        0x4
-                0x0800c650                        PROVIDE (__init_array_start = .)
+.init_array     0x0800c6b0        0x4
+                0x0800c6b0                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x0800c650        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
-                0x0800c654                        PROVIDE (__init_array_end = .)
+ .init_array    0x0800c6b0        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+                0x0800c6b4                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x0800c654        0x4
-                0x0800c654                        PROVIDE (__fini_array_start = .)
+.fini_array     0x0800c6b4        0x4
+                0x0800c6b4                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x0800c654        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
-                0x0800c658                        PROVIDE (__fini_array_end = .)
-                0x0800c658                        _sidata = LOADADDR (.data)
+ .fini_array    0x0800c6b4        0x4 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
+                0x0800c6b8                        PROVIDE (__fini_array_end = .)
+                0x0800c6b8                        _sidata = LOADADDR (.data)
 
-.data           0x20000000      0x1e8 load address 0x0800c658
+.data           0x20000000      0x1e8 load address 0x0800c6b8
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -8922,13 +8923,13 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
                 0x00000000                        _spim_init_length = SIZEOF (.spim)
 
 .tm_clone_table
-                0x200001e8        0x0 load address 0x0800c840
+                0x200001e8        0x0 load address 0x0800c8a0
  .tm_clone_table
                 0x200001e8        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
  .tm_clone_table
                 0x200001e8        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtend.o
 
-.igot.plt       0x200001e8        0x0 load address 0x0800c840
+.igot.plt       0x200001e8        0x0 load address 0x0800c8a0
  .igot.plt      0x200001e8        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtbegin.o
 
 .spim           0x08400000        0x0
@@ -9040,9 +9041,8 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
                 0x20002ec0        0x4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj
  .bss.focData   0x20002ec4        0xc CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
  .bss.g_ledRun  0x20002ed0       0x10 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
- .bss.adcMostemp
-                0x20002ee0        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                0x20002ee0                adcMostemp
+ .bss.adcvbus   0x20002ee0        0x2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                0x20002ee0                adcvbus
  *fill*         0x20002ee2        0x2 
  .bss.comm_task_handle
                 0x20002ee4        0x4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
@@ -9141,7 +9141,10 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtn.o
  .bss.localOut_Enabled
                 0x20004118        0x1 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
                 0x20004118                localOut_Enabled
- *fill*         0x20004119        0x3 
+ .bss.adcvbus_Enabled
+                0x20004119        0x1 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+                0x20004119                adcvbus_Enabled
+ *fill*         0x2000411a        0x2 
  .bss.g_zeroOffset
                 0x2000411c        0x4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
  .bss.g_correctedElecAngle
@@ -9525,7 +9528,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
  .comment       0x00000026        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/crtend.o
                                  0x27 (size before relaxing)
 
-.debug_info     0x00000000    0x3e434
+.debug_info     0x00000000    0x3e474
  .debug_info    0x00000000      0x135 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
  .debug_info    0x00000135      0x10b /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
  .debug_info    0x00000240      0xe8c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
@@ -9563,52 +9566,52 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
  .debug_info    0x0001e978      0x6a3 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/syscalls.c.obj
  .debug_info    0x0001f01b      0x150 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj
  .debug_info    0x0001f16b      0xd19 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_wk_config.c.obj
- .debug_info    0x0001fe84     0x27dd CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
- .debug_info    0x00022661     0x1b7d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
- .debug_info    0x000241de     0x2035 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
- .debug_info    0x00026213       0xe5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
- .debug_info    0x000262f8     0x134b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
- .debug_info    0x00027643     0x1dca CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
- .debug_info    0x0002940d     0x11f0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
- .debug_info    0x0002a5fd      0xaff CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
- .debug_info    0x0002b0fc      0xb62 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
- .debug_info    0x0002bc5e       0x30 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
- .debug_info    0x0002bc8e     0x25d5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
- .debug_info    0x0002e263     0x2574 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- .debug_info    0x000307d7      0x272 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
- .debug_info    0x00030a49      0x486 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
- .debug_info    0x00030ecf      0x3ec CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
- .debug_info    0x000312bb      0xb19 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
- .debug_info    0x00031dd4      0xb7b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
- .debug_info    0x0003294f     0x11d7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
- .debug_info    0x00033b26      0x445 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
- .debug_info    0x00033f6b      0x8d0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
- .debug_info    0x0003483b      0x532 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
- .debug_info    0x00034d6d     0x1069 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
- .debug_info    0x00035dd6      0x2f7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
- .debug_info    0x000360cd       0xba CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
- .debug_info    0x00036187       0xd3 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
- .debug_info    0x0003625a       0x57 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
- .debug_info    0x000362b1       0xdf /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
- .debug_info    0x00036390       0x3f /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
- .debug_info    0x000363cf       0x33 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
- .debug_info    0x00036402      0x8f8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
- .debug_info    0x00036cfa      0x837 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
- .debug_info    0x00037531     0x108f /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_info    0x000385c0      0x6f1 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
- .debug_info    0x00038cb1      0x7b1 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
- .debug_info    0x00039462       0x25 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
- .debug_info    0x00039487      0xdd7 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_info    0x0003a25e      0x863 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
- .debug_info    0x0003aac1      0xbe6 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
- .debug_info    0x0003b6a7      0xb24 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
- .debug_info    0x0003c1cb      0x8cd /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
- .debug_info    0x0003ca98      0x753 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
- .debug_info    0x0003d1eb      0x78a /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
- .debug_info    0x0003d975      0x148 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
- .debug_info    0x0003dabd      0x977 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
+ .debug_info    0x0001fe84     0x27f5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
+ .debug_info    0x00022679     0x1b7d CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
+ .debug_info    0x000241f6     0x2035 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
+ .debug_info    0x0002622b       0xe5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
+ .debug_info    0x00026310     0x134b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
+ .debug_info    0x0002765b     0x1dca CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
+ .debug_info    0x00029425     0x11f0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
+ .debug_info    0x0002a615      0xaff CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
+ .debug_info    0x0002b114      0xb62 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
+ .debug_info    0x0002bc76       0x30 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
+ .debug_info    0x0002bca6     0x25d9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+ .debug_info    0x0002e27f     0x2574 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ .debug_info    0x000307f3      0x272 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
+ .debug_info    0x00030a65      0x486 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+ .debug_info    0x00030eeb      0x3ec CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+ .debug_info    0x000312d7      0xb19 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+ .debug_info    0x00031df0      0xb7b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+ .debug_info    0x0003296b     0x11d7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+ .debug_info    0x00033b42      0x445 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+ .debug_info    0x00033f87      0x8f4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+ .debug_info    0x0003487b      0x532 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+ .debug_info    0x00034dad     0x1069 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+ .debug_info    0x00035e16      0x2f7 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+ .debug_info    0x0003610d       0xba CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+ .debug_info    0x000361c7       0xd3 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
+ .debug_info    0x0003629a       0x57 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
+ .debug_info    0x000362f1       0xdf /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
+ .debug_info    0x000363d0       0x3f /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
+ .debug_info    0x0003640f       0x33 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
+ .debug_info    0x00036442      0x8f8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
+ .debug_info    0x00036d3a      0x837 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
+ .debug_info    0x00037571     0x108f /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_info    0x00038600      0x6f1 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
+ .debug_info    0x00038cf1      0x7b1 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
+ .debug_info    0x000394a2       0x25 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
+ .debug_info    0x000394c7      0xdd7 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_info    0x0003a29e      0x863 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
+ .debug_info    0x0003ab01      0xbe6 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
+ .debug_info    0x0003b6e7      0xb24 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
+ .debug_info    0x0003c20b      0x8cd /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
+ .debug_info    0x0003cad8      0x753 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
+ .debug_info    0x0003d22b      0x78a /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
+ .debug_info    0x0003d9b5      0x148 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
+ .debug_info    0x0003dafd      0x977 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
 
-.debug_abbrev   0x00000000     0x95f7
+.debug_abbrev   0x00000000     0x95f5
  .debug_abbrev  0x00000000       0xb7 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
  .debug_abbrev  0x000000b7       0xc9 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
  .debug_abbrev  0x00000180      0x408 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
@@ -9656,40 +9659,40 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
  .debug_abbrev  0x00005a6e      0x1ac CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
  .debug_abbrev  0x00005c1a      0x14f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
  .debug_abbrev  0x00005d69       0x24 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
- .debug_abbrev  0x00005d8d      0x372 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
- .debug_abbrev  0x000060ff      0x408 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- .debug_abbrev  0x00006507       0xf9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
- .debug_abbrev  0x00006600      0x168 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
- .debug_abbrev  0x00006768      0x1d6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
- .debug_abbrev  0x0000693e      0x1b8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
- .debug_abbrev  0x00006af6      0x208 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
- .debug_abbrev  0x00006cfe      0x21b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
- .debug_abbrev  0x00006f19      0x143 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
- .debug_abbrev  0x0000705c      0x1a6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
- .debug_abbrev  0x00007202      0x185 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
- .debug_abbrev  0x00007387      0x349 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
- .debug_abbrev  0x000076d0      0x141 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
- .debug_abbrev  0x00007811       0x5c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
- .debug_abbrev  0x0000786d       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
- .debug_abbrev  0x00007895       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
- .debug_abbrev  0x000078bd       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
- .debug_abbrev  0x000078e5       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
- .debug_abbrev  0x0000790d       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
- .debug_abbrev  0x00007935      0x29c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
- .debug_abbrev  0x00007bd1      0x21a /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
- .debug_abbrev  0x00007deb      0x36e /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_abbrev  0x00008159      0x15e /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
- .debug_abbrev  0x000082b7      0x1e2 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
- .debug_abbrev  0x00008499       0x14 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
- .debug_abbrev  0x000084ad      0x284 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_abbrev  0x00008731      0x236 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
- .debug_abbrev  0x00008967      0x29d /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
- .debug_abbrev  0x00008c04      0x21b /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
- .debug_abbrev  0x00008e1f      0x20c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
- .debug_abbrev  0x0000902b      0x1b0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
- .debug_abbrev  0x000091db      0x196 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
- .debug_abbrev  0x00009371       0xc3 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
- .debug_abbrev  0x00009434      0x1c3 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
+ .debug_abbrev  0x00005d8d      0x370 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+ .debug_abbrev  0x000060fd      0x408 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ .debug_abbrev  0x00006505       0xf9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
+ .debug_abbrev  0x000065fe      0x168 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+ .debug_abbrev  0x00006766      0x1d6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+ .debug_abbrev  0x0000693c      0x1b8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+ .debug_abbrev  0x00006af4      0x208 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+ .debug_abbrev  0x00006cfc      0x21b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+ .debug_abbrev  0x00006f17      0x143 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+ .debug_abbrev  0x0000705a      0x1a6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+ .debug_abbrev  0x00007200      0x185 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+ .debug_abbrev  0x00007385      0x349 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+ .debug_abbrev  0x000076ce      0x141 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+ .debug_abbrev  0x0000780f       0x5c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+ .debug_abbrev  0x0000786b       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
+ .debug_abbrev  0x00007893       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
+ .debug_abbrev  0x000078bb       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
+ .debug_abbrev  0x000078e3       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
+ .debug_abbrev  0x0000790b       0x28 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
+ .debug_abbrev  0x00007933      0x29c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
+ .debug_abbrev  0x00007bcf      0x21a /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
+ .debug_abbrev  0x00007de9      0x36e /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_abbrev  0x00008157      0x15e /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
+ .debug_abbrev  0x000082b5      0x1e2 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
+ .debug_abbrev  0x00008497       0x14 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
+ .debug_abbrev  0x000084ab      0x284 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_abbrev  0x0000872f      0x236 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
+ .debug_abbrev  0x00008965      0x29d /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
+ .debug_abbrev  0x00008c02      0x21b /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
+ .debug_abbrev  0x00008e1d      0x20c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
+ .debug_abbrev  0x00009029      0x1b0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
+ .debug_abbrev  0x000091d9      0x196 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
+ .debug_abbrev  0x0000936f       0xc3 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
+ .debug_abbrev  0x00009432      0x1c3 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
 
 .debug_loclists
                 0x00000000     0x2a4e
@@ -9912,7 +9915,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
  .debug_aranges
                 0x00001a60       0x20 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
 
-.debug_line     0x00000000    0x1edcf
+.debug_line     0x00000000    0x1ede6
  .debug_line    0x00000000      0x1a7 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
  .debug_line    0x000001a7      0x11e /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
  .debug_line    0x000002c5      0x4fc /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
@@ -9950,213 +9953,213 @@ LOAD /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a
  .debug_line    0x0000efb3      0x51b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/syscalls.c.obj
  .debug_line    0x0000f4ce      0x1e9 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj
  .debug_line    0x0000f6b7      0x9bf CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_wk_config.c.obj
- .debug_line    0x00010076      0x98f CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
- .debug_line    0x00010a05      0x8b4 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
- .debug_line    0x000112b9      0x873 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
- .debug_line    0x00011b2c      0x817 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
- .debug_line    0x00012343      0x858 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
- .debug_line    0x00012b9b      0x92e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
- .debug_line    0x000134c9      0x875 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
- .debug_line    0x00013d3e      0x843 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
- .debug_line    0x00014581      0x833 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
- .debug_line    0x00014db4       0x75 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
- .debug_line    0x00014e29      0xa3a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
- .debug_line    0x00015863      0xe4c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
- .debug_line    0x000166af      0x888 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
- .debug_line    0x00016f37      0x791 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
- .debug_line    0x000176c8      0x77e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
- .debug_line    0x00017e46      0x53a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
- .debug_line    0x00018380      0x6f6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
- .debug_line    0x00018a76      0x5a5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
- .debug_line    0x0001901b      0x72b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
- .debug_line    0x00019746      0x9d6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
- .debug_line    0x0001a11c      0x778 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
- .debug_line    0x0001a894      0x929 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
- .debug_line    0x0001b1bd      0x5b2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
- .debug_line    0x0001b76f      0x50a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
- .debug_line    0x0001bc79      0x16f /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
- .debug_line    0x0001bde8      0x184 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
- .debug_line    0x0001bf6c       0xa6 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
- .debug_line    0x0001c012       0x76 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
- .debug_line    0x0001c088       0xb9 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
- .debug_line    0x0001c141      0x2cf /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
- .debug_line    0x0001c410      0x1c5 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
- .debug_line    0x0001c5d5      0x6bb /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
- .debug_line    0x0001cc90      0x10c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
- .debug_line    0x0001cd9c      0x338 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
- .debug_line    0x0001d0d4       0x84 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
- .debug_line    0x0001d158      0x769 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
- .debug_line    0x0001d8c1      0x256 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
- .debug_line    0x0001db17      0x3a0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
- .debug_line    0x0001deb7      0x5ad /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
- .debug_line    0x0001e464      0x1f8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
- .debug_line    0x0001e65c      0x194 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
- .debug_line    0x0001e7f0      0x176 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
- .debug_line    0x0001e966      0x24d /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
- .debug_line    0x0001ebb3      0x21c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
+ .debug_line    0x00010076      0x99e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
+ .debug_line    0x00010a14      0x8b6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
+ .debug_line    0x000112ca      0x873 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
+ .debug_line    0x00011b3d      0x817 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
+ .debug_line    0x00012354      0x858 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
+ .debug_line    0x00012bac      0x92e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
+ .debug_line    0x000134da      0x875 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
+ .debug_line    0x00013d4f      0x843 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
+ .debug_line    0x00014592      0x833 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
+ .debug_line    0x00014dc5       0x75 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
+ .debug_line    0x00014e3a      0xa2e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+ .debug_line    0x00015868      0xe4c CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ .debug_line    0x000166b4      0x888 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
+ .debug_line    0x00016f3c      0x791 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+ .debug_line    0x000176cd      0x77e CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+ .debug_line    0x00017e4b      0x53a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+ .debug_line    0x00018385      0x6f6 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+ .debug_line    0x00018a7b      0x5a5 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+ .debug_line    0x00019020      0x72b CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+ .debug_line    0x0001974b      0x9e8 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+ .debug_line    0x0001a133      0x778 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+ .debug_line    0x0001a8ab      0x929 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+ .debug_line    0x0001b1d4      0x5b2 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+ .debug_line    0x0001b786      0x50a CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+ .debug_line    0x0001bc90      0x16f /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
+ .debug_line    0x0001bdff      0x184 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
+ .debug_line    0x0001bf83       0xa6 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
+ .debug_line    0x0001c029       0x76 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
+ .debug_line    0x0001c09f       0xb9 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
+ .debug_line    0x0001c158      0x2cf /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
+ .debug_line    0x0001c427      0x1c5 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
+ .debug_line    0x0001c5ec      0x6bb /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_line    0x0001cca7      0x10c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
+ .debug_line    0x0001cdb3      0x338 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
+ .debug_line    0x0001d0eb       0x84 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
+ .debug_line    0x0001d16f      0x769 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_line    0x0001d8d8      0x256 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
+ .debug_line    0x0001db2e      0x3a0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
+ .debug_line    0x0001dece      0x5ad /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
+ .debug_line    0x0001e47b      0x1f8 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
+ .debug_line    0x0001e673      0x194 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
+ .debug_line    0x0001e807      0x176 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
+ .debug_line    0x0001e97d      0x24d /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
+ .debug_line    0x0001ebca      0x21c /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
 
-.debug_str      0x00000000    0x2fd55
- .debug_str     0x00000000    0x2fd55 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
+.debug_str      0x00000000    0x2fd80
+ .debug_str     0x00000000    0x2fd80 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
                                 0x1ad (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
                                 0x1fa (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
                                 0x6bf (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-fflush.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-fflush.o)
                                 0x543 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-fwalk.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-fwalk.o)
                                 0x4cc (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-stdio.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-stdio.o)
                                 0x529 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
                                 0x59d (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-readr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-readr.o)
                                 0x4c0 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-freer.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-freer.o)
                                 0x53c (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-closer.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-closer.o)
                                 0x4b2 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lseekr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lseekr.o)
                                 0x4c0 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
                                 0x4db (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
                                 0x4da (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-writer.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-writer.o)
                                 0x4c2 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-impure.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-impure.o)
                                 0x4bc (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-sbrkr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-sbrkr.o)
                                 0x4c5 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/cmsis/cm4/device_support/system_at32f403a_407.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/cmsis/cm4/device_support/system_at32f403a_407.c.obj
                               0x14391 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
                               0x1599d (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_tmr.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_tmr.c.obj
                               0x15886 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_gpio.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_gpio.c.obj
                               0x14c25 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_usart.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_usart.c.obj
                               0x14678 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_adc.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_adc.c.obj
                               0x150cb (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_spi.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_spi.c.obj
                               0x14a75 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_dma.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_dma.c.obj
                               0x14734 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_flash.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_flash.c.obj
                               0x143ff (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_misc.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_misc.c.obj
                               0x14353 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_can.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_can.c.obj
                               0x14ff6 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/list.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/list.c.obj
                                0xa490 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/queue.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/queue.c.obj
                                0xcb15 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj
                                0xd621 (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/timers.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/timers.c.obj
                                0xd07f (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/portable/GCC/ARM_CM4F/port.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/portable/GCC/ARM_CM4F/port.c.obj
                                0x906b (size before relaxing)
- .debug_str     0x0002fd55        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/portable/memmang/heap_4.c.obj
+ .debug_str     0x0002fd80        0x0 cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/portable/memmang/heap_4.c.obj
                                0xb94f (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/main.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/main.c.obj
                               0x1df5b (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/syscalls.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/syscalls.c.obj
                                0x92dc (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj
                                0x6e76 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_wk_config.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_wk_config.c.obj
                               0x1e8d8 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
-                              0x1b329 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/at32f403a_407_int.c.obj
+                              0x1b354 (size before relaxing)
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_adc.c.obj
                               0x1e8cd (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_can.c.obj
                               0x1e503 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_debug.c.obj
                               0x1d513 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj
                               0x1df07 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_tmr.c.obj
                               0x1e419 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_usart.c.obj
                               0x1dda2 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
                               0x1e164 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
                               0x1da1a (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
                                  0xa7 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
-                              0x1eaf1 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
+                              0x1eb04 (size before relaxing)
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
                               0x1ec75 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
                               0x13d43 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj
                               0x17b1b (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj
                               0x17495 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj
                               0x13dc1 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj
                               0x176b8 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj
                               0x14354 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj
                               0x17c74 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
-                              0x1a97c (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj
+                              0x1a9aa (size before relaxing)
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj
                               0x17c0a (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
                               0x1dd71 (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
                               0x13cdb (size before relaxing)
- .debug_str     0x0002fd55        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+ .debug_str     0x0002fd80        0x0 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
                               0x139fe (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
                                 0x154 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_muldivdf3.o)
                                  0xd4 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_cmpdf2.o)
                                 0x15d (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
                                  0xc1 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memcpy.o)
                                  0xaf (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-puts.o)
                                 0x503 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-printf.o)
                                 0x4f7 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf.o)
                                 0x829 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-errno.o)
                                 0x4b6 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wsetup.o)
                                 0x4ed (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memchr.o)
                                  0xa1 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-nano-vfprintf_i.o)
                                 0x79b (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-wbuf.o)
                                 0x4f2 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-makebuf.o)
                                 0x64f (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fvwrite.o)
                                 0x560 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-reallocr.o)
                                 0x532 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-isattyr.o)
                                 0x4bc (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-msizer.o)
                                 0x505 (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-memmove.o)
                                 0x1cc (size before relaxing)
- .debug_str     0x0002fd55        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
+ .debug_str     0x0002fd80        0x0 /usr/lib/gcc/arm-none-eabi/14.2.1/../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libg_nano.a(libc_a-fstatr.o)
                                 0x604 (size before relaxing)
 
 .debug_frame    0x00000000     0x616c

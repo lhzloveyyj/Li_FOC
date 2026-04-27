@@ -43,7 +43,7 @@
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
 static led_device_t g_ledRun;
-uint16_t adcMostemp = 0;
+uint16_t adcvbus = 0;
 float dcVbus = 0.0f;
 
 /* add user code end private variables */
@@ -288,7 +288,7 @@ void Monitor_task_func(void *pvParameters)
   /* add user code end Monitor_task_func 0 */
 
   /* add user code begin Monitor_task_func 2 */
-    float sendata[2] = {0.0f};
+    float sendata[1] = {0.0f};
   /* add user code end Monitor_task_func 2 */
 
   /* Infinite loop */
@@ -297,8 +297,7 @@ void Monitor_task_func(void *pvParameters)
   /* add user code begin Monitor_task_func 1 */
       if(mostemp_Enabled == 1){
           sendata[0] = GetMosTemp();
-          sendata[1] = getVbus();
-        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 2); 
+        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 1); 
       }
       
      vTaskDelay(500);

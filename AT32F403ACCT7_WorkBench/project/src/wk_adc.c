@@ -96,7 +96,7 @@ void wk_adc1_init(void)
   adc_ordinary_part_mode_enable(ADC1, FALSE);
 
   /* adc_preempt_conversionmode--------------------------------------------- */
-  adc_preempt_channel_length_set(ADC1, 3);
+  adc_preempt_channel_length_set(ADC1, 4);
 
   adc_preempt_channel_set(ADC1, ADC_CHANNEL_0, 1, ADC_SAMPLETIME_1_5);
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_1, 0x0);
@@ -104,6 +104,8 @@ void wk_adc1_init(void)
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_2, 0x0);
   adc_preempt_channel_set(ADC1, ADC_CHANNEL_2, 3, ADC_SAMPLETIME_1_5);
   adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_3, 0x0);
+  adc_preempt_channel_set(ADC1, ADC_CHANNEL_4, 4, ADC_SAMPLETIME_1_5);
+  adc_preempt_offset_value_set(ADC1, ADC_PREEMPT_CHANNEL_4, 0x0);
 
   /* When "ADCx_PREEMPT_TRIG_SOFTWARE" is selected, user can only use software trigger. \
   The software trigger function is adc_preempt_software_trigger_enable(ADCx, TRUE); */

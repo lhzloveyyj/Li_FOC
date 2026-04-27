@@ -62,10 +62,12 @@ typedef enum
     CMD_SETIQPIDOUT             = 0X43,  // 设置电流环输出限制
     CMD_SETSPEEDPIDOUT          = 0X44,  // 设置速度环输出限制
     CMD_SETLOCALPIDOUT          = 0X45,  // 设置位置环输出限制
+    CMD_ADCVBUS                 = 0X46,  // 母线电压ADC原始值
+    CMD_ADCVBUS_CLOSE           = 0X47,  // 关闭母线电压ADC原始值
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 
-extern uint16_t adcMostemp;
+extern uint16_t adcvbus;
 extern volatile uint8_t anglePrintingEnabled;
 extern volatile uint8_t uabcEnabled;
 extern volatile uint8_t adcEnabled;
@@ -79,6 +81,7 @@ extern volatile uint8_t speed_Enabled;
 extern volatile uint8_t speedOut_Enabled;
 extern volatile uint8_t local_Enabled;
 extern volatile uint8_t localOut_Enabled;
+extern volatile uint8_t adcvbus_Enabled;
 
 void Comm_CommandHandler(void);
 

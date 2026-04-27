@@ -267,24 +267,10 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling ASM source to assembly CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.s"
 	/usr/bin/arm-none-eabi-gcc $(ASM_DEFINES) $(ASM_INCLUDES) $(ASM_FLAGS) -S /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/startup_at32f403a_407.s -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.s
 
-CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
-CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: project/src/rtc.c
-CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c
-
-CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c > CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i
-
-CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s"
-	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s
-
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj: project/src/freertos_app.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/freertos_app.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.i: cmake_force
@@ -298,7 +284,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj: project/Hardware/FOC.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/FOC.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.i: cmake_force
@@ -312,7 +298,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj: project/Hardware/SVPWM.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/SVPWM.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.i: cmake_force
@@ -326,7 +312,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj: project/Hardware/current_control.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/current_control.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.i: cmake_force
@@ -340,7 +326,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/current_control.c.s: cma
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj: project/Hardware/delay.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/delay.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.i: cmake_force
@@ -354,7 +340,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/delay.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj: project/Hardware/flash.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/flash.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.i: cmake_force
@@ -368,7 +354,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj: project/Hardware/flash_ops.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/flash_ops.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.i: cmake_force
@@ -382,7 +368,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/flash_ops.c.s: cmake_for
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj: project/Hardware/led.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/led.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.i: cmake_force
@@ -396,7 +382,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/led.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj: project/Hardware/mostemp.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/mostemp.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.i: cmake_force
@@ -410,7 +396,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mostemp.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj: project/Hardware/mt6701.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/mt6701.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.i: cmake_force
@@ -424,7 +410,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/mt6701.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj: project/Hardware/position_control.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/position_control.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.i: cmake_force
@@ -438,7 +424,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/position_control.c.s: cm
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj: project/Hardware/protocol.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/protocol.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.i: cmake_force
@@ -452,7 +438,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/protocol.c.s: cmake_forc
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj: project/Hardware/speed_app.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/speed_app.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.i: cmake_force
@@ -466,7 +452,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_app.c.s: cmake_for
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj: project/Hardware/speed_control.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/speed_control.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.i: cmake_force
@@ -480,7 +466,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.s: cmake
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj: project/Hardware/usart3.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/Hardware/usart3.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.i: cmake_force
@@ -494,7 +480,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.s: cmake_force
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj: project/tools/Math/filter.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/tools/Math/filter.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.i: cmake_force
@@ -508,7 +494,7 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.s: cmake_forc
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj: project/tools/Math/my_math.c
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/tools/Math/my_math.c
 
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.i: cmake_force
@@ -518,6 +504,20 @@ CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.i: cmake_for
 CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.s"
 	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/tools/Math/my_math.c -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.s
+
+CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/flags.make
+CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: project/src/rtc.c
+CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj: CMakeFiles/AT32F403ACCT7_WorkBench.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building C object CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj -MF CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj.d -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj -c /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c
+
+CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c > CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.i
+
+CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s"
+	/usr/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench/project/src/rtc.c -o CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.s
 
 # Object files for target AT32F403ACCT7_WorkBench
 AT32F403ACCT7_WorkBench_OBJECTS = \
@@ -535,7 +535,6 @@ AT32F403ACCT7_WorkBench_OBJECTS = \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj" \
-"CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj" \
@@ -552,7 +551,8 @@ AT32F403ACCT7_WorkBench_OBJECTS = \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/speed_control.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj" \
 "CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj" \
-"CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj"
+"CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj" \
+"CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj"
 
 # External object files for target AT32F403ACCT7_WorkBench
 AT32F403ACCT7_WorkBench_EXTERNAL_OBJECTS = \
@@ -606,7 +606,6 @@ AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/startup_at32f403a_407.s.obj
-AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/freertos_app.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/FOC.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/SVPWM.c.obj
@@ -624,6 +623,7 @@ AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hard
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/Hardware/usart3.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/filter.c.obj
 AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/tools/Math/my_math.c.obj
+AT32F403ACCT7_WorkBench.elf: CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj
 AT32F403ACCT7_WorkBench.elf: cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/cmsis/cm4/device_support/system_at32f403a_407.c.obj
 AT32F403ACCT7_WorkBench.elf: cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_crm.c.obj
 AT32F403ACCT7_WorkBench.elf: cmake/at32_workbench/CMakeFiles/AT32_Drivers.dir/__/__/libraries/drivers/src/at32f403a_407_tmr.c.obj

@@ -245,7 +245,7 @@ void ADC1_2_IRQHandler(void)
         g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_1);
         g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_2);
         g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_3);
-        adcMostemp = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_4);
+        adcvbus = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_4);
         
         FocContorl(g_pMotor, PSVpwm);
         adc_flag_clear(ADC1, ADC_PCCE_FLAG);
@@ -332,6 +332,10 @@ void TMR2_GLOBAL_IRQHandler(void)
     if(localOut_Enabled == 1){
         focData[0] = g_pMotor->positionPID.out;
         USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1); 
+    }
+    if(adcvbus_Enabled == 1){
+        focData[0] = (float)adcvbus;
+        USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
     }
     
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);

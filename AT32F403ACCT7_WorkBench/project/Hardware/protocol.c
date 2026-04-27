@@ -19,6 +19,7 @@ volatile uint8_t speed_Enabled = 0;
 volatile uint8_t speedOut_Enabled = 0;
 volatile uint8_t local_Enabled = 0;
 volatile uint8_t localOut_Enabled = 0;
+volatile uint8_t adcvbus_Enabled = 0;
 
 static float g_zeroOffset = 0.0f;
 static float g_correctedElecAngle = 0.0f;
@@ -125,6 +126,16 @@ void Comm_CommandHandler(void)
         case CMD_ADC_CLOSE:
             adcEnabled = 0;
             g_commCmd = CMD_NONE; 
+            break;
+
+        case CMD_ADCVBUS:
+            adcvbus_Enabled = 1;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_ADCVBUS_CLOSE:
+            adcvbus_Enabled = 0;
+            g_commCmd = CMD_NONE;
             break;
         
         case CMD_DCVBUS:
@@ -326,5 +337,4 @@ void Comm_CommandHandler(void)
             break;
     }
 }
-
 
