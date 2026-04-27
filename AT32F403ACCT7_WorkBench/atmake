@@ -1,0 +1,11 @@
+#!/bin/bash
+# Build the project
+# Usage: at_make [preset] [extra build args...]
+#   preset defaults to Debug
+
+set -e
+
+PRESET="${1:-Debug}"
+shift 2>/dev/null || true
+
+cmake --build --preset "$PRESET" "$@"

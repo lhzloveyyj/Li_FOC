@@ -95,7 +95,6 @@ int main(void)
   /* nvic config. */
   wk_nvic_config();
 
-  
   /* init gpio function. */
   wk_gpio_config();
 

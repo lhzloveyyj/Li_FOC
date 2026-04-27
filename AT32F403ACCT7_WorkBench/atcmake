@@ -1,0 +1,11 @@
+#!/bin/bash
+# Run cmake configuration
+# Usage: at_cmake [preset] [extra cmake args...]
+#   preset defaults to Debug
+
+set -e
+
+PRESET="${1:-Debug}"
+shift 2>/dev/null || true
+
+cmake --preset "$PRESET" "$@"

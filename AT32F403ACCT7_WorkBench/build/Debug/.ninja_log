@@ -3,7 +3,7 @@
 2	66	1777208388102536700	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/sysmem.c.obj	246d9befdb32a33
 1	85	1777208388102362019	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/syscalls.c.obj	ed341d4dcaccb643
 33	168	1777208388132625407	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/rtc.c.obj	c22f70283631b2a1
-1	134	1777208411228659327	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/main.c.obj	c6dfd560377c9bf0
+5	90	1777294745649631034	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/main.c.obj	c6dfd560377c9bf0
 2	97	1777208411231232038	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_spi.c.obj	daf1154a02c8cbff
 4	101	1777208411232804061	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_dma.c.obj	9c8b6db220bdcf23
 6	103	1777208411234029483	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/wk_gpio.c.obj	b80456d41998b5df
@@ -66,6 +66,4 @@
 251	342	1777208411480148611	cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/queue.c.obj	c301d4b2b0bb7067
 291	351	1777208411518659753	cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/stream_buffer.c.obj	50a2d2fe928cad96
 253	369	1777208411480659697	cmake/at32_workbench/CMakeFiles/FreeRTOS.dir/__/__/middlewares/freertos/source/tasks.c.obj	9f1bf470b48af542
-369	424	1777208411596659866	AT32F403ACCT7_WorkBench.elf	9b21100e0a998cb2
-2	53	1777219031116749624	CMakeFiles/AT32F403ACCT7_WorkBench.dir/project/src/main.c.obj	c6dfd560377c9bf0
-53	111	1777219031168749684	AT32F403ACCT7_WorkBench.elf	9b21100e0a998cb2
+90	197	1777294745734631169	AT32F403ACCT7_WorkBench.elf	9b21100e0a998cb2
