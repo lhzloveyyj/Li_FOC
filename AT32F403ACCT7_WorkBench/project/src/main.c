@@ -2,24 +2,20 @@
 /**
   **************************************************************************
   * @file     main.c
-  * @brief    main program
-  **************************************************************************
-  *                       Copyright notice & Disclaimer
+  * @brief    主程序入口
   *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
+  * 系统启动流程：
+  *   1. 配置系统时钟
+  *   2. 初始化各外设（ADC、DMA、USART、SPI、定时器、CAN）
+  *   3. 使能相关中断
+  *   4. 启动 FreeRTOS 调度器
   *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
+  * 启动后，控制逻辑主要在以下路径中执行：
+  *   - ADC1 中断 → FocContorl()（电流环，10kHz~20kHz）
+  *   - TMR2 中断 → 遥测数据发送
+  *   - comm_task  → 上位机命令处理
+  *   - control_task → 速度/位置控制
+  *   - Monitor_task → 温度监控
   **************************************************************************
   */
 /* add user code end Header */
@@ -38,128 +34,78 @@
 
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
-#include "usart3.h"  
-#include "protocol.h"  
+#include "usart3.h"
+#include "protocol.h"
 /* add user code end private includes */
 
-/* private typedef -----------------------------------------------------------*/
-/* add user code begin private typedef */
-
-/* add user code end private typedef */
-
-/* private define ------------------------------------------------------------*/
-/* add user code begin private define */
-
-/* add user code end private define */
-
-/* private macro -------------------------------------------------------------*/
-/* add user code begin private macro */
-
-/* add user code end private macro */
-
-/* private variables ---------------------------------------------------------*/
-/* add user code begin private variables */
-
-/* add user code end private variables */
-
-/* private function prototypes --------------------------------------------*/
-/* add user code begin function prototypes */
-
-/* add user code end function prototypes */
-
-/* private user code ---------------------------------------------------------*/
-/* add user code begin 0 */
-
-/* add user code end 0 */
-
 /**
-  * @brief main function.
+  * @brief  主函数
   * @param  none
   * @retval none
+  *
+  * 执行流程：
+  *   1. 系统时钟配置
+  *   2. 外设时钟配置
+  *   3. 调试串口初始化
+  *   4. NVIC 中断优先级配置
+  *   5. GPIO 初始化
+  *   6. ADC1/ADC2 初始化
+  *   7. DMA1 通道 1 初始化（USART3 TX）
+  *   8. USART1/USART3 初始化
+  *   9. SPI1 初始化（MT6701 编码器）
+  *   10. TMR1/TMR2 初始化（PWM + 定时触发）
+  *   11. CAN1 初始化
+  *   12. 使能相关中断
+  *   13. 启动 FreeRTOS
   */
 int main(void)
 {
-  /* add user code begin 1 */
-
-  /* add user code end 1 */
-
-  /* system clock config. */
+  /* system clock config */
   wk_system_clock_config();
-
-  /* config periph clock. */
+  /* config periph clock */
   wk_periph_clock_config();
-
-  /* init debug function. */
+  /* init debug function */
   wk_debug_config();
-
-  /* nvic config. */
+  /* nvic config */
   wk_nvic_config();
-
-  /* init gpio function. */
+  /* init gpio function */
   wk_gpio_config();
-
-  /* init adc2 function. */
+  /* init adc2 function */
   wk_adc2_init();
-
-  /* init adc1 function. */
+  /* init adc1 function */
   wk_adc1_init();
-
   /* init dma1 channel1 */
   wk_dma1_channel1_init();
   /* config dma channel transfer parameter */
-  /* user need to modify define values DMAx_CHANNELy_XXX_BASE_ADDR 
-     and DMAx_CHANNELy_BUFFER_SIZE in at32xxx_wk_config.h */
-  wk_dma_channel_config(DMA1_CHANNEL1, 
-                        (uint32_t)&USART3->dt, 
-                        DMA1_CHANNEL1_MEMORY_BASE_ADDR, 
+  wk_dma_channel_config(DMA1_CHANNEL1,
+                        (uint32_t)&USART3->dt,
+                        DMA1_CHANNEL1_MEMORY_BASE_ADDR,
                         DMA1_CHANNEL1_BUFFER_SIZE);
   dma_channel_enable(DMA1_CHANNEL1, TRUE);
 
-  /* init usart1 function. */
+  /* init usart1 function (debug) */
   wk_usart1_init();
-
-  /* init usart3 function. */
+  /* init usart3 function (communication with host) */
   wk_usart3_init();
-
-  /* init spi1 function. */
+  /* init spi1 function (MT6701 encoder) */
   wk_spi1_init();
-
-  /* init tmr1 function. */
+  /* init tmr1 function (PWM generation) */
   wk_tmr1_init();
-
-  /* init tmr2 function. */
+  /* init tmr2 function (ADC trigger & telemetry timer) */
   wk_tmr2_init();
-
-  /* init can1 function. */
+  /* init can1 function */
   wk_can1_init();
 
-  /* add user code begin 2 */
-  adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
-  tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
-    
-  dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
-  usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
-  
-  /* add user code end 2 */
+  /* ---- 使能中断 ---- */
+  adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);     // ADC 转换完成中断
+  tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);       // TMR2 溢出中断
+  dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);  // DMA 发送完成中断
+  usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);    // USART3 接收中断
 
-  /* init freertos function. */
+  /* ---- 启动 FreeRTOS ---- */
   wk_freertos_init();
 
-  while(1)
-  {
-    /* add user code begin 3 */
-    //float foc_data[4] = {0.01f, 0.02f, 0.03f,0.04f};
-   //USART3_SendPacket(foc_data, 4);
-    //printf("111\r\n");
-//      if(g_Commcmd == 0x01 && flag == 0)
-//      {
-//          usart_data_transmit(USART3, 0x01);
-//          flag = 1;
-//      }
-    /* add user code end 3 */
+  /* FreeRTOS 启动后不会执行到这里 */
+  while (1) {
   }
 }
-
-  /* add user code begin 4 */
-
-  /* add user code end 4 */

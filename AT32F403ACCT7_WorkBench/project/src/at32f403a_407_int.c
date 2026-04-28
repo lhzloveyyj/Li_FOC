@@ -4,23 +4,6 @@
   * @file     at32f403a_407_int.c
   * @brief    main interrupt service routines.
   **************************************************************************
-  *                       Copyright notice & Disclaimer
-  *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
-  *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
-  **************************************************************************
   */
 /* add user code end Header */
 
@@ -28,167 +11,91 @@
 #include "at32f403a_407_int.h"
 #include "freertos_app.h"
 
-
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
-#include "usart3.h"   
+#include "usart3.h"
 #include "freertos_app.h"
-#include "FOC.h"  
+#include "FOC.h"
 #include "protocol.h"
-#include "mostemp.h" 
+#include "mostemp.h"
 #include "smo_observer.h"
 /* add user code end private includes */
 
-/* private typedef -----------------------------------------------------------*/
-/* add user code begin private typedef */
-
-/* add user code end private typedef */
-
-/* private define ------------------------------------------------------------*/
-/* add user code begin private define */
-
-/* add user code end private define */
-
-/* private macro -------------------------------------------------------------*/
 /* add user code begin private macro */
+/** 遥测数据缓存 */
 static float focData[3] = {0.0f};
+/** SMO 遥测轮询槽位（用于多路复用一个 DMA 通道发送） */
 static uint8_t smoTelemetrySlot = 0;
 /* add user code end private macro */
 
-/* private variables ---------------------------------------------------------*/
-/* add user code begin private variables */
+/* ... 省略 Artery 库默认的中断函数 ... */
 
-/* add user code end private variables */
-
-/* private function prototypes --------------------------------------------*/
-/* add user code begin function prototypes */
-
-/* add user code end function prototypes */
-
-/* private user code ---------------------------------------------------------*/
 /* add user code begin 0 */
 
 /* add user code end 0 */
 
-/* external variables ---------------------------------------------------------*/
-/* add user code begin external variables */
-
-/* add user code end external variables */
-
 /**
-  * @brief  this function handles nmi exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles NMI exception.
   */
 void NMI_Handler(void)
 {
-  /* add user code begin NonMaskableInt_IRQ 0 */
-
-  /* add user code end NonMaskableInt_IRQ 0 */
-
-  /* add user code begin NonMaskableInt_IRQ 1 */
-
-  /* add user code end NonMaskableInt_IRQ 1 */
 }
 
 /**
-  * @brief  this function handles hard fault exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles Hard Fault exception.
   */
 void HardFault_Handler(void)
 {
-  /* add user code begin HardFault_IRQ 0 */
-
-  /* add user code end HardFault_IRQ 0 */
-  /* go to infinite loop when hard fault exception occurs */
-  while (1)
+  /* go to infinite loop when Hard Fault exception occurs */
+  while(1)
   {
-    /* add user code begin W1_HardFault_IRQ 0 */
-
-    /* add user code end W1_HardFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles memory manage exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles Memory Manage exception.
   */
 void MemManage_Handler(void)
 {
-  /* add user code begin MemoryManagement_IRQ 0 */
-
-  /* add user code end MemoryManagement_IRQ 0 */
-  /* go to infinite loop when memory manage exception occurs */
-  while (1)
+  /* go to infinite loop when Memory Manage exception occurs */
+  while(1)
   {
-    /* add user code begin W1_MemoryManagement_IRQ 0 */
-
-    /* add user code end W1_MemoryManagement_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles bus fault exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles Bus Fault exception.
   */
 void BusFault_Handler(void)
 {
-  /* add user code begin BusFault_IRQ 0 */
-
-  /* add user code end BusFault_IRQ 0 */
-  /* go to infinite loop when bus fault exception occurs */
-  while (1)
+  /* go to infinite loop when Bus Fault exception occurs */
+  while(1)
   {
-    /* add user code begin W1_BusFault_IRQ 0 */
-
-    /* add user code end W1_BusFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles usage fault exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles Usage Fault exception.
   */
 void UsageFault_Handler(void)
 {
-  /* add user code begin UsageFault_IRQ 0 */
-
-  /* add user code end UsageFault_IRQ 0 */
-  /* go to infinite loop when usage fault exception occurs */
-  while (1)
+  /* go to infinite loop when Usage Fault exception occurs */
+  while(1)
   {
-    /* add user code begin W1_UsageFault_IRQ 0 */
-
-    /* add user code end W1_UsageFault_IRQ 0 */
   }
 }
 
-
 /**
-  * @brief  this function handles debug monitor exception.
-  * @param  none
-  * @retval none
+  * @brief  this function handles Debug Monitor exception.
   */
 void DebugMon_Handler(void)
 {
-  /* add user code begin DebugMonitor_IRQ 0 */
-
-  /* add user code end DebugMonitor_IRQ 0 */
-  /* add user code begin DebugMonitor_IRQ 1 */
-
-  /* add user code end DebugMonitor_IRQ 1 */
 }
 
 extern void xPortSysTickHandler(void);
 
 /**
-  * @brief  this function handles systick handler.
-  * @param  none
-  * @retval none
+  * @brief  this function handles SysTick exception.
   */
 void SysTick_Handler(void)
 {
@@ -210,160 +117,174 @@ void SysTick_Handler(void)
   /* add user code end SysTick_IRQ 1 */
 }
 
-/**
-  * @brief  this function handles DMA1 Channel 1 handler.
-  * @param  none
-  * @retval none
-  */
-void DMA1_Channel1_IRQHandler(void)
-{
-  /* add user code begin DMA1_Channel1_IRQ 0 */
-    
-    if(dma_interrupt_flag_get(DMA1_FDT1_FLAG))
-	{
-        
-		dma_flag_clear(DMA1_FDT1_FLAG);
-		dma_channel_enable(DMA1_CHANNEL1, FALSE);
-        
-        usart3_tx_dma_status = 1;
-        
-    }
-  /* add user code end DMA1_Channel1_IRQ 0 */
+/* add user code begin 0 */
 
-  /* add user code begin DMA1_Channel1_IRQ 1 */
+/* add user code end 0 */
 
-  /* add user code end DMA1_Channel1_IRQ 1 */
-}
-
-/**
-  * @brief  this function handles ADC1 & ADC2 handler.
-  * @param  none
-  * @retval none
-  */
+/******************************************************************************
+ * 中断服务函数：ADC1_2_IRQHandler
+ *
+ * 功能描述：ADC1 抢占转换完成中断（PCCE）。
+ *           FOC 控制主循环在此中断中触发，每个 ADC 转换完成执行一次。
+ *
+ * 执行流程：
+ *   1. 读取三相电流 + 母线电压的 ADC 值
+ *   2. 调用 FocContorl() 执行完整的 FOC 控制算法
+ *   3. 清除中断标志
+ *
+ * 中断频率：由 TIM1 触发 ADC 采样决定，通常为 10kHz~20kHz。
+ ******************************************************************************/
 void ADC1_2_IRQHandler(void)
 {
   /* add user code begin ADC1_2_IRQ 0 */
-    if(adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET)
-    {
+    if (adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET) {
+        /* 读取三相电流 ADC 值 */
         g_motorAdValues[0] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_1);
         g_motorAdValues[1] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_2);
         g_motorAdValues[2] = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_3);
         adcvbus = adc_preempt_conversion_data_get(ADC1, ADC_PREEMPT_CHANNEL_4);
-        
+
+        /* FOC 控制主循环 */
         FocContorl(g_pMotor, PSVpwm);
+
         adc_flag_clear(ADC1, ADC_PCCE_FLAG);
     }
-    
   /* add user code end ADC1_2_IRQ 0 */
 
-  if(adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET)
-  {
-    /* add user code begin ADC1_ADC_PCCE_FLAG */
-    /* clear flag */
+  if (adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET) {
     adc_flag_clear(ADC1, ADC_PCCE_FLAG);
-    /* add user code end ADC1_ADC_PCCE_FLAG */ 
   }
-
-  /* add user code begin ADC1_2_IRQ 1 */
-
-  /* add user code end ADC1_2_IRQ 1 */
 }
 
-/**
-  * @brief  this function handles TMR2 handler.
-  * @param  none
-  * @retval none
-  */
+/******************************************************************************
+ * 中断服务函数：TMR2_GLOBAL_IRQHandler
+ *
+ * 功能描述：TMR2 定时器溢出中断。
+ *           用于定时发送遥测数据到上位机。
+ *           根据各使能标志位的状态，选择性发送调试数据。
+ *
+ * SMO 遥测轮询机制：
+ *   SMO 角度/速度/反电势和实际电角度共用 DMA 通道发送，
+ *   通过轮询槽位（smoTelemetrySlot）交替发送，避免冲突。
+ ******************************************************************************/
 void TMR2_GLOBAL_IRQHandler(void)
 {
   /* add user code begin TMR2_GLOBAL_IRQ 0 */
-    if(uabcEnabled == 1){
-        focData[0] =  g_pMotor->ua;
+    /* ---- 三相电压 ---- */
+    if (uabcEnabled == 1) {
+        focData[0] = g_pMotor->ua;
         focData[1] = g_pMotor->ub;
         focData[2] = g_pMotor->uc;
-        USART3_SendPacket(CMD_UABC, &focData[0], 3); 
+        USART3_SendPacket(CMD_UABC, &focData[0], 3);
     }
-    if(adcEnabled == 1){
+
+    /* ---- ADC 原始值 ---- */
+    if (adcEnabled == 1) {
         focData[0] = g_motorAdValues[0] - g_ADoffest[0];
         focData[1] = g_motorAdValues[1] - g_ADoffest[1];
         focData[2] = g_motorAdValues[2] - g_ADoffest[2];
-        USART3_SendPacket(CMD_ADC, &focData[0], 3); 
+        USART3_SendPacket(CMD_ADC, &focData[0], 3);
     }
-    if(tabcEnabled == 1){
+
+    /* ---- SVPWM 占空比 ---- */
+    if (tabcEnabled == 1) {
         focData[0] = PSVpwm->Ta;
         focData[1] = PSVpwm->Tb;
         focData[2] = PSVpwm->Tc;
-        USART3_SendPacket(CMD_TABC, &focData[0], 3); 
+        USART3_SendPacket(CMD_TABC, &focData[0], 3);
     }
-    if(IabcEnabled == 1){
+
+    /* ---- 三相电流 ---- */
+    if (IabcEnabled == 1) {
         focData[0] = g_pMotor->Ia;
         focData[1] = g_pMotor->Ib;
         focData[2] = g_pMotor->Ic;
-        USART3_SendPacket(CMD_IABC, &focData[0], 3); 
+        USART3_SendPacket(CMD_IABC, &focData[0], 3);
     }
-    if(UAlpha_BetaEnabled == 1){
+
+    /* ---- Uα/Uβ ---- */
+    if (UAlpha_BetaEnabled == 1) {
         focData[0] = g_pMotor->uAlpha;
         focData[1] = g_pMotor->uBeta;
-        USART3_SendPacket(CMD_UALPHA_BETA, &focData[0], 2); 
+        USART3_SendPacket(CMD_UALPHA_BETA, &focData[0], 2);
     }
-    if(IAlpha_BetaEnabled == 1){
+
+    /* ---- Iα/Iβ ---- */
+    if (IAlpha_BetaEnabled == 1) {
         focData[0] = g_pMotor->iAlpha;
         focData[1] = g_pMotor->iBeta;
-        USART3_SendPacket(CMD_IALPHA_BETA, &focData[0], 2); 
+        USART3_SendPacket(CMD_IALPHA_BETA, &focData[0], 2);
     }
-    if(IQ_ID_Enabled == 1){
+
+    /* ---- Id/Iq ---- */
+    if (IQ_ID_Enabled == 1) {
         focData[0] = g_pMotor->iq;
         focData[1] = g_pMotor->id;
-        USART3_SendPacket(CMD_IQ_ID, &focData[0], 2); 
+        USART3_SendPacket(CMD_IQ_ID, &focData[0], 2);
     }
-    if(anglePrintingEnabled == 1){
+
+    /* ---- 机械角度 ---- */
+    if (anglePrintingEnabled == 1) {
         focData[0] = g_pMotor->mechanicalAngle;
-        USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 1); 
+        USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 1);
     }
-    if(speed_Enabled == 1){
+
+    /* ---- 速度 ---- */
+    if (speed_Enabled == 1) {
         focData[0] = g_pMotor->speed;
-        USART3_SendPacket(CMD_SPEED, &focData[0], 1); 
+        USART3_SendPacket(CMD_SPEED, &focData[0], 1);
     }
-    if(speedOut_Enabled == 1){
+
+    /* ---- 速度环输出 ---- */
+    if (speedOut_Enabled == 1) {
         focData[0] = g_pMotor->speedPID.out;
-        USART3_SendPacket(CMD_SPEEDOUT, &focData[0], 1); 
+        USART3_SendPacket(CMD_SPEEDOUT, &focData[0], 1);
     }
-    if(local_Enabled == 1){
+
+    /* ---- 位置 ---- */
+    if (local_Enabled == 1) {
         focData[0] = g_pMotor->position;
-        USART3_SendPacket(CMD_LOCAL, &focData[0], 1); 
+        USART3_SendPacket(CMD_LOCAL, &focData[0], 1);
     }
-    if(localOut_Enabled == 1){
+
+    /* ---- 位置环输出 ---- */
+    if (localOut_Enabled == 1) {
         focData[0] = g_pMotor->positionPID.out;
-        USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1); 
+        USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1);
     }
-    if(adcvbus_Enabled == 1){
+
+    /* ---- 母线电压 ---- */
+    if (adcvbus_Enabled == 1) {
         focData[0] = adcToVbus(adcvbus);
         USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
     }
-    /* SMO调试允许多路同时打开。串口DMA一次只能稳定发一帧，所以这里按轮询发送：
-     * 例如同时打开“实际电角度”和“SMO角度”时，两路会交替输出，而不是互相覆盖DMA缓冲。
+
+    /* ---- SMO + 电角度轮询发送 ----
+     * SMO 角度/速度/反电势和编码器电角度共用串口带宽。
+     * 通过轮询槽位交替发送，确保多路打开时公平分配。
      */
-    for(uint8_t i = 0; i < 4; i++){
+    for (uint8_t i = 0; i < 4; i++) {
         uint8_t slot = (uint8_t)((smoTelemetrySlot + i) & 0x03U);
-        if((slot == 0U) && (electricalAngle_Enabled == 1)){
+
+        if ((slot == 0U) && (electricalAngle_Enabled == 1)) {
             focData[0] = g_pMotor->correctedAngle;
             USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
             smoTelemetrySlot = 1U;
             break;
         }
-        if((slot == 1U) && (smoAngle_Enabled == 1)){
+        if ((slot == 1U) && (smoAngle_Enabled == 1)) {
             focData[0] = g_smoObserver.angle;
             USART3_SendPacket(CMD_SMO_ANGLE, &focData[0], 1);
             smoTelemetrySlot = 2U;
             break;
         }
-        if((slot == 2U) && (smoSpeed_Enabled == 1)){
+        if ((slot == 2U) && (smoSpeed_Enabled == 1)) {
             focData[0] = g_smoObserver.speed;
             USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
             smoTelemetrySlot = 3U;
             break;
         }
-        if((slot == 3U) && (smoBackEmf_Enabled == 1)){
+        if ((slot == 3U) && (smoBackEmf_Enabled == 1)) {
             focData[0] = g_smoObserver.eAlpha;
             focData[1] = g_smoObserver.eBeta;
             USART3_SendPacket(CMD_SMO_BACKEMF, &focData[0], 2);
@@ -371,38 +292,38 @@ void TMR2_GLOBAL_IRQHandler(void)
             break;
         }
     }
-    
+
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
-        
   /* add user code end TMR2_GLOBAL_IRQ 0 */
-
-  /* add user code begin TMR2_GLOBAL_IRQ 1 */
-
-  /* add user code end TMR2_GLOBAL_IRQ 1 */
 }
 
-/**
-  * @brief  this function handles USART3 handler.
-  * @param  none
-  * @retval none
-  */
+/******************************************************************************
+ * 中断服务函数：USART3_IRQHandler
+ *
+ * 功能描述：USART3 接收中断。
+ *           逐字节接收上位机命令帧，交由 USART3_ParseFixedCommand 解析。
+ ******************************************************************************/
 void USART3_IRQHandler(void)
 {
   /* add user code begin USART3_IRQ 0 */
-    if(usart_interrupt_flag_get(USART3, USART_RDBF_FLAG) != RESET)
-    {
+    if (usart_interrupt_flag_get(USART3, USART_RDBF_FLAG) != RESET) {
         uint8_t byte = usart_data_receive(USART3);
         USART3_ParseFixedCommand(byte);
-        
         usart_flag_clear(USART3, USART_RDBF_FLAG);
     }
   /* add user code end USART3_IRQ 0 */
-
-  /* add user code begin USART3_IRQ 1 */
-
-  /* add user code end USART3_IRQ 1 */
 }
 
-/* add user code begin 1 */
-
-/* add user code end 1 */
+/**
+  * @brief  this function handles DMA1_Channel1 handler.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* add user code begin DMA1_Channel1_IRQ 0 */
+    if(dma_interrupt_flag_get(DMA1_FDT1_FLAG) != RESET) {
+        dma_flag_clear(DMA1_FDT1_FLAG);
+        dma_channel_enable(DMA1_CHANNEL1, FALSE);
+        usart3_tx_dma_status = 1;
+    }
+  /* add user code end DMA1_Channel1_IRQ 0 */
+}

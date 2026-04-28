@@ -13,35 +13,33 @@
 
 #include "freertos_app.h"
 
-/*******************************全局变量***************************/
-float g_udc = 24.0f;
+/******************************************************************************
+ * 全局变量
+ ******************************************************************************/
+float g_udc = 24.0f;                    // 母线电压（单位：V），用于 SVPWM 计算
 
-float  zero = 0.0f;	
-volatile int g_motorAdValues[3]={0};
-volatile uint16_t g_ADoffest[3]={0};
+float  zero = 0.0f;                     // 保留通用零值变量
+volatile int g_motorAdValues[3] = {0};  // ADC 三相电流 DMA 采样原始值
+volatile uint16_t g_ADoffest[3] = {0};  // ADC 三相补偿值
 
-int cnt =0;
+int cnt = 0;                            // 通用计数变量
 
-/*******************************************************************/
-
-/*****************定义电机1的FOC状态结构体*************************/
+/******************************************************************************
+ * 电机 FOC 状态对象
+ * 定义并初始化电机全局状态对象 Motor，g_pMotor 是其指针别名。
+ * ID/IQ 各 PID 参数及零偏移等在运行阶段的初始化函数中设置。
+ ******************************************************************************/
 FocState Motor = {
-   // current 可视情况初始化
-  .current = {
-      .adA = 0,
-      .adB = 0,
-      .adC = 0,
-      .voltageAOffset = 0,
-      .voltageBOffset = 0,
-      .voltageCOffset = 0,
-  },
-
-    .uAlpha = 0.0f, .uBeta = 0.0f, 	
-    .iAlpha = 0.0f, .iBeta = 0.0f, 	
-    .Ia = 0.0f, .Ib = 0.0f, .Ic = 0.0f,			
-    .ua = 0.0f, .ub = 0.0f, .uc = 0.0f, 		
-    .uq = 0.0f, .ud = 0.0f, 			
-    .iq = 0.0f, .id = 0.0f, 			
+    .current = {
+        .adA = 0, .adB = 0, .adC = 0,
+        .voltageAOffset = 0, .voltageBOffset = 0, .voltageCOffset = 0,
+    },
+    .uAlpha = 0.0f, .uBeta = 0.0f,
+    .iAlpha = 0.0f, .iBeta = 0.0f,
+    .Ia = 0.0f, .Ib = 0.0f, .Ic = 0.0f,
+    .ua = 0.0f, .ub = 0.0f, .uc = 0.0f,
+    .uq = 0.0f, .ud = 0.0f,
+    .iq = 0.0f, .id = 0.0f,
     .rs = 0.198f, .lq = 0.000074f, .ld = 0.000040f,
 
     .mechanicalAngle = 0.0f,
@@ -49,104 +47,105 @@ FocState Motor = {
     .correctedAngle = 0.0f,
     .zeroOffset = 0.0f,
 
-    //.idPID = {0},
-    //.iqPID = {0},
-
     .speedLastAngle = 0.0f,
     .speed = 0.0f,
-    //.speedPID = {0},
-  
-    .ctrolmode = 1,
 
-    .setPwmCallback = NULL  // 或者设为具体函数名
+    .ctrolmode = 1,                     // 默认开环模式
+    .setPwmCallback = NULL
 };
 
-
-PFocState g_pMotor = &Motor;
+PFocState g_pMotor = &Motor;            // 电机对象的全局指针
 
 void MotorSetPwm(float ua, float ub, float uc);
 
 /******************************************************************************
-  函数说明：获取电压偏置
-  @brief  通过多次采样计算电压偏置值，用于后续电流测量补偿
-  @param  pFOC 指向FOC状态结构体的指针
-  @retval 无
-******************************************************************************/
+ * 函数名称：getAdoffset
+ * 功能描述：通过多次采样计算三相电流 ADC 的零点偏置，
+ *           用于后续电流测量时减去偏置得到真实值。
+ * 输入参数：无
+ * 输出参数：无
+ * 注意事项：在电机静止、无电流时调用，默认采样 16 次取平均。
+ ******************************************************************************/
 void getAdoffset(void)
 {
-	int offestA = 0,offestB = 0,offestC = 0;
-	
-	for(int i=0;i<16;i++)
-	{	
-		offestA += g_motorAdValues[0];
-		offestB += g_motorAdValues[1];
+    int offestA = 0, offestB = 0, offestC = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        offestA += g_motorAdValues[0];
+        offestB += g_motorAdValues[1];
         offestC += g_motorAdValues[2];
-	}
-	g_pMotor->current.voltageAOffset = offestA >> 4;
-	g_pMotor->current.voltageBOffset = offestB >> 4;
+    }
+    g_pMotor->current.voltageAOffset = offestA >> 4;
+    g_pMotor->current.voltageBOffset = offestB >> 4;
     g_pMotor->current.voltageCOffset = offestC >> 4;
-    
-	printf("voltageAOffset: %d,voltageAOffset :%d,voltageAOffset :%d\r\n",
-        g_pMotor->current.voltageAOffset, g_pMotor->current.voltageAOffset, g_pMotor->current.voltageAOffset);
+
+    printf("voltageAOffset: %d, voltageBOffset: %d, voltageCOffset: %d\r\n",
+           g_pMotor->current.voltageAOffset,
+           g_pMotor->current.voltageBOffset,
+           g_pMotor->current.voltageCOffset);
 }
 
-
-
-/**
- * @brief     将角度值归一化到 [0, 2π) 区间
- * @param     angle   输入角度（单位：rad）
- * @return    归一化后的角度值，范围为 [0, 2π)
- */
+/******************************************************************************
+ * 函数名称：NormalizeAngle
+ * 功能描述：将任意角度归一化到 [0, 2π) 区间。
+ *           使用 fmodf 取余后处理负数情况。
+ * 输入参数：angle - 输入角度（单位：rad）
+ * 返回值：归一化后的角度，范围 [0, 2π)
+ ******************************************************************************/
 float NormalizeAngle(float angle)
 {
-    float result = fmodf(angle, FOC_2PI);  // 使用浮点取余
+    float result = fmodf(angle, FOC_2PI);
     return (result >= 0.0f) ? result : (result + FOC_2PI);
 }
 
-
-/**
- * @brief     计算电角度：电角度 = 机械角度 × 极对数，并归一化到 [0, 2π)
- * @param     mechAngle   机械角度（单位：rad）
- * @return    电角度（单位：rad），范围 [0, 2π)
- */
+/******************************************************************************
+ * 函数名称：CalculateElectricalAngle
+ * 功能描述：计算电角度：电角度 = 方向 × 机械角度 × 极对数。
+ *           结果归一化到 [0, 2π)。
+ * 输入参数：mechAngle - 机械角度（单位：rad）
+ * 返回值：电角度（单位：rad），范围 [0, 2π)
+ ******************************************************************************/
 float CalculateElectricalAngle(float mechAngle)
 {
     float elecAngle = g_pMotor->dir * mechAngle * g_pMotor->pole_pairs;
     return NormalizeAngle(elecAngle);
 }
 
-/**
- * @brief     获取修正后的电角度（减去零电角度偏移并归一化到 [0, 2π)）
- * @param     mechAngle    机械角度（单位：rad）
- * @return    电角度（单位：rad），范围 [0, 2π)
- */
+/******************************************************************************
+ * 函数名称：AngleGetCorrectedElec
+ * 功能描述：获取修正后的电角度。
+ *           从编码器机械角度计算出电角度后，减去零位偏移得到修正后的电角度。
+ * 输入参数：mechAngle - 机械角度（单位：rad）
+ * 返回值：修正后的电角度（单位：rad），范围 [0, 2π)
+ ******************************************************************************/
 float AngleGetCorrectedElec(float mechAngle)
 {
-    float elecAngle = CalculateElectricalAngle(mechAngle);       // 电角度 = 机械角 × 极对数
-    float corrected = elecAngle - g_pMotor->zeroOffset;             // 减去零电位偏移
-    corrected = NormalizeAngle(corrected);                  // 归一化到 [0, 2π)
-
+    float elecAngle = CalculateElectricalAngle(mechAngle);
+    float corrected = elecAngle - g_pMotor->zeroOffset;
+    corrected = NormalizeAngle(corrected);
     return corrected;
 }
 
-/**
- * @brief     施加恒定 Ud 电压进行强制对准（锁定电角度）
- * @param     ud   d轴电压（单位：V）
- */
+/******************************************************************************
+ * 函数名称：MotorApplyStrongDrag
+ * 功能描述：施加恒定的 Ud 电压进行强制对准（锁定电角度）。
+ *           用于初始角度标定：给一个固定方向的磁场，让转子锁到已知位置。
+ * 输入参数：ud - d 轴电压幅值（单位：V）
+ ******************************************************************************/
 void MotorApplyStrongDrag(float ud)
 {
     float uAlpha = 0.0f;
     float uBeta = 0.0f;
     float uq = 0.0f;
 
-    // 获取修正后的电角度（theta_e）
     float angleEl = CalculateElectricalAngle(0.0f);
 
-    // Park 逆变换（dq -> αβ）
+    // 逆 Park 变换（dq → αβ）
     uAlpha = -uq * fast_sin(angleEl) + ud * fast_cos(angleEl);
     uBeta  =  uq * fast_cos(angleEl) + ud * fast_sin(angleEl);
 
-    // Clarke 逆变换（αβ -> abc），带中点电压偏移
+    // 逆 Clarke 变换（αβ → ABC）并叠加母线中点电压偏移
     float ua = uAlpha + g_udc / 2.0f;
     float ub = (FOC_SQRT3 * uBeta - uAlpha) / 2.0f + g_udc / 2.0f;
     float uc = (-FOC_SQRT3 * uBeta - uAlpha) / 2.0f + g_udc / 2.0f;
@@ -154,96 +153,112 @@ void MotorApplyStrongDrag(float ud)
     MotorSetPwm(ua, ub, uc);
 }
 
-/**
- * @brief     角度模块初始化，采集零电角度偏移（调用强拖，进行多次平均）
- * @param     readAngleFunc   用于读取机械角度的函数指针（单位：rad）
- */
-void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle)
+/******************************************************************************
+ * 函数名称：AngleInitZeroOffset
+ * 功能描述：零电角度标定。
+ *           过程：
+ *           1. 施加 Ud 强拖电压锁定转子
+ *           2. 多次采样编码器角度取平均值
+ *           3. 计算电角度平均值作为零偏
+ *           4. 停止强拖并恢复 ADC 中断
+ * 输入参数：zeroOffset         - 输出：零电角度偏移
+ *           correctedElecAngle - 输出：当前修正后的电角度
+ ******************************************************************************/
+void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle)
 {
-    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE); 
-    MotorApplyStrongDrag(FOC_STRONGDRAG);           // 施加 Ud 强拖，固定转子磁极方向
-    vTaskDelay(1000);                       // 保持拖动 2 秒
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE);
+    MotorApplyStrongDrag(FOC_STRONGDRAG);
+    vTaskDelay(1000);                       // 保持强拖 1 秒让转子稳定
 
-    // 多次采样以降低抖动影响
     float sum = 0.0f;
     const int sampleCount = 10;
-	float mechanicalAngle = 0.0f;
-    
-    mechanicalAngle = Mt6701GetAngleWrapper();
-    mechanicalAngle = Mt6701GetAngleWrapper();
+
+    // 两次读取丢弃不稳定值
+    Mt6701GetAngleWrapper();
+    Mt6701GetAngleWrapper();
+
     for (int i = 0; i < sampleCount; i++) {
-		mechanicalAngle = Mt6701GetAngleWrapper();
+        float mechanicalAngle = Mt6701GetAngleWrapper();
         float elecAngle = CalculateElectricalAngle(mechanicalAngle);
         sum += elecAngle;
         vTaskDelay(10);
     }
-	*zeroOffset = sum / sampleCount;  // 计算平均值作为零偏
-	mechanicalAngle = Mt6701GetAngleWrapper();
-    
-    float elecAngle = CalculateElectricalAngle(mechanicalAngle);    //当前电角度
-    
-    *correctedElecAngle = elecAngle - *zeroOffset; //修正后的电角度
-    
-    vTaskDelay(500); 
-    
-	MotorApplyStrongDrag(0.0f);
+    *zeroOffset = sum / sampleCount;        // 平均电角度即为零偏
+
+    float mechanicalAngle = Mt6701GetAngleWrapper();
+    float elecAngle = CalculateElectricalAngle(mechanicalAngle);
+    *correctedElecAngle = elecAngle - *zeroOffset;
+
+    vTaskDelay(500);
+
+    MotorApplyStrongDrag(0.0f);             // 停止强拖
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
 }
 
-
+/******************************************************************************
+ * 函数名称：adc_tigger
+ * 功能描述：触发 ADC 采样的 PWM 时序控制。
+ *           通过 TIM2 的通道 3 输出一个提前触发的信号来同步 ADC 采样。
+ * 输入参数：time_pwm - PWM 周期计数值
+ ******************************************************************************/
 void adc_tigger(int time_pwm)
 {
-	tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_3, time_pwm-10);
+    tmr_channel_value_set(TMR2, TMR_SELECT_CHANNEL_3, time_pwm - 10);
 }
 
-
+/******************************************************************************
+ * 全局 PWM 占空比缓存变量
+ ******************************************************************************/
 float g_pwmA = 0.0f;
 float g_pwmB = 0.0f;
 float g_pwmC = 0.0f;
 
 /******************************************************************************
-  函数说明：电机 PWM输出设置函数
-  @brief  根据输入占空比设置电机1三相PWM输出
-  @param  pwm_a 相A占空比
-  @param  pwm_b 相B占空比
-  @param  pwm_c 相C占空比
-  @retval 无
-******************************************************************************/
+ * 函数名称：setpwm_channel
+ * 功能描述：底层 PWM 寄存器写入。
+ *           将归一化占空比（0~1）乘以 FOC_ALL_DUTY 后写入 TIM1 比较寄存器。
+ * 输入参数：pwm_a/b/c - 归一化占空比（0~1）
+ ******************************************************************************/
 static void setpwm_channel(float pwm_a, float pwm_b, float pwm_c)
 {
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, pwm_a * FOC_ALL_DUTY );
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, pwm_b * FOC_ALL_DUTY );
-    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, pwm_c * FOC_ALL_DUTY );
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, (uint32_t)(pwm_a * FOC_ALL_DUTY));
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, (uint32_t)(pwm_b * FOC_ALL_DUTY));
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, (uint32_t)(pwm_c * FOC_ALL_DUTY));
 }
 
-/**
- * @brief     设置三相 PWM 输出（Ua、Ub、Uc 为 SVPWM 输出电压）
- * @param     ua   A相电压（单位：V）
- * @param     ub   B相电压（单位：V）
- * @param     uc   C相电压（单位：V）
- */
+/******************************************************************************
+ * 函数名称：MotorSetPwm
+ * 功能描述：设置三相 PWM 输出。
+ *           输入三相电压值（Ua/Ub/Uc），经过限幅和归一化后写入 PWM 寄存器。
+ * 输入参数：ua - A 相电压（单位：V）
+ *           ub - B 相电压（单位：V）
+ *           uc - C 相电压（单位：V）
+ ******************************************************************************/
 void MotorSetPwm(float ua, float ub, float uc)
 {
-    // 电压限幅保护（防止超出允许范围）
+    // 电压限幅
     ua = LimitValue(ua, 0.0f, g_udc);
     ub = LimitValue(ub, 0.0f, g_udc);
     uc = LimitValue(uc, 0.0f, g_udc);
 
-    // 电压归一化到占空比 [0, 1]
+    // 电压 → 占空比归一化
     g_pwmA = LimitValue(ua / g_udc, 0.0f, 1.0f);
     g_pwmB = LimitValue(ub / g_udc, 0.0f, 1.0f);
     g_pwmC = LimitValue(uc / g_udc, 0.0f, 1.0f);
-    
-    // 输出到定时器 PWM 寄存器
+
     setpwm_channel(g_pwmA, g_pwmB, g_pwmC);
 }
 
-/**
- * @brief     电流重构
- * @param     ua   A相电压（单位：V）
- * @param     ub   B相电压（单位：V）
- * @param     uc   C相电压（单位：V）
- */
+/******************************************************************************
+ * 函数名称：CurrentReconstruction
+ * 功能描述：单电阻/双电阻采样电流重构。
+ *           根据当前 SVPWM 扇区，利用 Ia + Ib + Ic = 0 补全无法直接采样的那一相。
+ *           注意：本实现各 case 语句中有些是同类操作，暂未做合并优化，
+ *           后续可根据实际采样拓扑统一。
+ * 输入参数：pFOC  - FOC 状态指针
+ *           PSVpwm - SVPWM 状态指针（含扇区信息）
+ *           ia, ib, ic - 直接采样到的三相电流
+ ******************************************************************************/
 static void CurrentReconstruction(PFocState pFOC, PSVpwm_State PSVpwm, float ia, float ib, float ic)
 {
     switch (PSVpwm->sector) {
@@ -251,126 +266,171 @@ static void CurrentReconstruction(PFocState pFOC, PSVpwm_State PSVpwm, float ia,
             pFOC->Ib = 0.0f - pFOC->Ia - pFOC->Ic;
             break;
         case 2:
-            pFOC->Ia =0.0f - pFOC->Ib - pFOC->Ic;
+            pFOC->Ia = 0.0f - pFOC->Ib - pFOC->Ic;
             break;
         case 3:
-            pFOC->Ia =0.0f - pFOC->Ib - pFOC->Ic;
+            pFOC->Ia = 0.0f - pFOC->Ib - pFOC->Ic;
             break;
         case 4:
-            pFOC->Ic =0.0f - pFOC->Ia - pFOC->Ib;
+            pFOC->Ic = 0.0f - pFOC->Ia - pFOC->Ib;
             break;
         case 5:
-            pFOC->Ib =0.0f - pFOC->Ia - pFOC->Ic;
+            pFOC->Ib = 0.0f - pFOC->Ia - pFOC->Ic;
             break;
         case 6:
-            pFOC->Ic =0.0f - pFOC->Ia - pFOC->Ib;
+            pFOC->Ic = 0.0f - pFOC->Ia - pFOC->Ib;
             break;
         default:
             break;
     }
 }
 
-// Clarke变换（电流）
-void clarke_transform(float Ia, float Ib, float *Ialpha, float *Ibeta) {
+/******************************************************************************
+ * 函数名称：clarke_transform
+ * 功能描述：Clarke 变换（三相 ABC → 两相 αβ）。
+ *           将 ABC 自然坐标系电流变换到 αβ 静止坐标系。
+ *           使用幅值不变约定：Ialpha = Ia, Ibeta = (Ia + 2*Ib) / sqrt(3)
+ * 输入参数：Ia, Ib - A/B 相电流
+ * 输出参数：Ialpha, Ibeta - αβ 轴电流
+ ******************************************************************************/
+void clarke_transform(float Ia, float Ib, float *Ialpha, float *Ibeta)
+{
     *Ialpha = Ia;
-    *Ibeta = (1 / FOC_SQRT3) * (Ia + 2 * Ib);  // Clarke变换公式，线性组合
+    *Ibeta = (1.0f / FOC_SQRT3) * (Ia + 2.0f * Ib);
 }
 
-// Park变换（电流）
-void park_transform(float Ialpha, float Ibeta, float angle_el, float *Id, float *Iq) {
-    *Id = Ialpha * fast_cos(angle_el) + Ibeta * fast_sin(angle_el);  // Park变换公式
+/******************************************************************************
+ * 函数名称：park_transform
+ * 功能描述：Park 变换（静止 αβ → 旋转 dq）。
+ *           使用电角度将 αβ 电流变换到与转子同步旋转的 dq 坐标系。
+ *           Id = Ialpha*cos(θ) + Ibeta*sin(θ)
+ *           Iq = -Ialpha*sin(θ) + Ibeta*cos(θ)
+ * 输入参数：Ialpha, Ibeta - αβ 轴电流
+ *           angle_el       - 电角度
+ * 输出参数：Id, Iq - dq 轴电流
+ ******************************************************************************/
+void park_transform(float Ialpha, float Ibeta, float angle_el, float *Id, float *Iq)
+{
+    *Id = Ialpha * fast_cos(angle_el) + Ibeta * fast_sin(angle_el);
     *Iq = -Ialpha * fast_sin(angle_el) + Ibeta * fast_cos(angle_el);
 }
 
 /******************************************************************************
-  函数说明：设置SVPWM输出
-  @brief  根据SVPWM算法计算结果设置PWM输出
-  @param  pFOC 指向FOC状态结构体的指针
-  @param  PSVpwm 指向SVPWM状态结构体的指针
-  @retval 无
-******************************************************************************/
+ * 函数名称：setSVpwm
+ * 功能描述：将 SVPWM 计算的导通时间写入 PWM 寄存器。
+ * 输入参数：PSVpwm - SVPWM 状态结构体指针
+ ******************************************************************************/
 static void setSVpwm(PSVpwm_State PSVpwm)
 {
-	
     setpwm_channel(PSVpwm->Ta, PSVpwm->Tb, PSVpwm->Tc);
 }
 
 /******************************************************************************
-  函数说明：逆Park变换
-  @brief  将dq坐标系的电压转换为αβ坐标系，以便进行SVPWM计算
-  @param  pFOC 指向FOC状态结构体的指针
-  @retval 无
-******************************************************************************/
-static void inv_park_transform(float Uq, float Ud, float corr_angle, float *Out_Ualpha, float *Out_Ubeta)
+ * 函数名称：inv_park_transform
+ * 功能描述：逆 Park 变换（旋转 dq → 静止 αβ）。
+ *           将 dq 电压指令变换到 αβ 坐标系，用于 SVPWM 调制。
+ *           Ualpha = -Uq*sin(θ) + Ud*cos(θ)
+ *           Ubeta  =  Uq*cos(θ) + Ud*sin(θ)
+ * 输入参数：Uq, Ud     - dq 轴电压指令
+ *           corr_angle - 修正后的电角度
+ * 输出参数：Out_Ualpha, Out_Ubeta - αβ 轴电压
+ ******************************************************************************/
+static void inv_park_transform(float Uq, float Ud, float corr_angle,
+                               float *Out_Ualpha, float *Out_Ubeta)
 {
-	*Out_Ualpha = -Uq * fast_sin(corr_angle) + Ud * fast_cos(corr_angle);
-	*Out_Ubeta  =  Uq * fast_cos(corr_angle) + Ud * fast_sin(corr_angle);
+    *Out_Ualpha = -Uq * fast_sin(corr_angle) + Ud * fast_cos(corr_angle);
+    *Out_Ubeta  =  Uq * fast_cos(corr_angle) + Ud * fast_sin(corr_angle);
 }
 
 /******************************************************************************
-  函数说明：逆Clarke变换
-  @brief  将αβ坐标系的电压转换为三相电压，适用于PWM输出
-  @param  pFOC 指向FOC状态结构体的指针
-  @retval 无
-******************************************************************************/
-static void inv_clarke_transform(float Ualpha, float Ubeta, float *Out_Ua, float *Out_Ub, float *Out_Uc)
+ * 函数名称：inv_clarke_transform
+ * 功能描述：逆 Clarke 变换（αβ → ABC）。
+ *           当前未在控制主循环中使用（SVPWM 直接使用 αβ），
+ *           保留用于调试或附加输出。
+ * 输入参数：Ualpha, Ubeta - αβ 轴电压
+ * 输出参数：Out_Ua/b/c - 三相电压
+ ******************************************************************************/
+static void inv_clarke_transform(float Ualpha, float Ubeta,
+                                  float *Out_Ua, float *Out_Ub, float *Out_Uc)
 {
-	*Out_Ua = Ualpha + g_udc/2;
-	*Out_Ub = (FOC_SQRT3 * Ubeta - Ualpha)/2 + g_udc/2;
-	*Out_Uc = (-FOC_SQRT3 * Ubeta - Ualpha)/2 + g_udc/2;
+    *Out_Ua = Ualpha + g_udc / 2.0f;
+    *Out_Ub = (FOC_SQRT3 * Ubeta - Ualpha) / 2.0f + g_udc / 2.0f;
+    *Out_Uc = (-FOC_SQRT3 * Ubeta - Ualpha) / 2.0f + g_udc / 2.0f;
 }
 
-// FOC 控制主函数
-void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
+/******************************************************************************
+ * 函数名称：FocContorl
+ * 功能描述：FOC 主控制函数（在 ADC 中断中调用，每个 PWM 周期执行一次）。
+ *
+ * 执行流程：
+ *   1. 读取编码器获取机械角度 → 计算修正后的电角度
+ *   2. 读取三相电流 ADC 值 → 计算实际电流值
+ *   3. 电流重构（补全未采样的相）
+ *   4. Clarke 变换（ABC → αβ）
+ *   5. Park 变换（αβ → dq）
+ *   6. Id/Iq 低通滤波
+ *   7. Id/Iq PI 控制
+ *   8. 逆 Park 变换（dq → αβ）
+ *   9. SVPWM 调制
+ *   10. SMO 观测器更新（在后台同步观测）
+ *
+ * 输入参数：pFOC   - FOC 状态指针
+ *           PSVpwm - SVPWM 状态指针
+ *
+ * 注意事项：当前 Id 给定为极小值（0.000001），目的是维持 Id≈0 控制策略。
+ *           开环模式下不更新 PID 输出（保持 Uq/Ud 手动设定值）。
+ ******************************************************************************/
+void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
-	//获取机械角度
-	pFOC->mechanicalAngle = Mt6701GetAngleWrapper();
-	
-	//计算电角度
-	pFOC->correctedAngle = AngleGetCorrectedElec(pFOC->mechanicalAngle);
-	
-	pFOC->current.adA = g_motorAdValues[0];
-	pFOC->current.adB = g_motorAdValues[1];
+    /* ==== 步骤 1：获取角度 ==== */
+    pFOC->mechanicalAngle = Mt6701GetAngleWrapper();
+    pFOC->correctedAngle = AngleGetCorrectedElec(pFOC->mechanicalAngle);
+
+    /* ==== 步骤 2：读取电流 ==== */
+    pFOC->current.adA = g_motorAdValues[0];
+    pFOC->current.adB = g_motorAdValues[1];
     pFOC->current.adC = g_motorAdValues[2];
 
-	//I = adc采样的电压 / 增益 / 电阻
-	pFOC->Ia = (pFOC->current.adA - pFOC->current.voltageAOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
-	pFOC->Ib = (pFOC->current.adB - pFOC->current.voltageBOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
-    pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset)/4096.0f * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
-    
-    CurrentReconstruction(g_pMotor, PSVpwm, pFOC->Ia , pFOC->Ib, pFOC->Ic);
-    
-	
-    // 因为ia采样有点问题，暂时先用ibic  
-	clarke_transform(-pFOC->Ia, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
-    park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle, &pFOC->id, &pFOC->iq);
-    
-    //ID,IQ滤波
-	LPF_Update(PM1_LPF, pFOC->id, pFOC->iq, &(pFOC->id), &(pFOC->iq));
-    
+    /* ==== 步骤 3：ADC 值 → 实际电流
+     * I = (ADC_raw - offset) / 4096 * Vref / Gain / Rshunt
+     */
+    pFOC->Ia = (pFOC->current.adA - pFOC->current.voltageAOffset) / 4096.0f
+               * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+    pFOC->Ib = (pFOC->current.adB - pFOC->current.voltageBOffset) / 4096.0f
+               * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+    pFOC->Ic = (pFOC->current.adC - pFOC->current.voltageCOffset) / 4096.0f
+               * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+
+    /* ==== 步骤 4：电流重构 + 坐标变换 ==== */
+    CurrentReconstruction(g_pMotor, PSVpwm, pFOC->Ia, pFOC->Ib, pFOC->Ic);
+
+    // 注释：Ia 采样有异常，当前暂用 Ib/Ic 重构
+    clarke_transform(-pFOC->Ia, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
+    park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle,
+                   &pFOC->id, &pFOC->iq);
+
+    /* ==== 步骤 5：Id/Iq 滤波 ==== */
+    LPF_Update(PM1_LPF, pFOC->id, pFOC->iq, &(pFOC->id), &(pFOC->iq));
+
+    /* ==== 步骤 6：电流 PI 控制 ==== */
     pFOC->ud = 0.000001f;
-    
-	//PID控制器
     CurrentPIControlIQ(pFOC);
     CurrentPIControlID(pFOC);
-    
-    if(g_pMotor->ctrolmode != FOC_OPEN_LOOP){
+
+    /* 非开环模式下采用 PID 输出值 */
+    if (g_pMotor->ctrolmode != FOC_OPEN_LOOP) {
         pFOC->uq = pFOC->iqPID.out;
         pFOC->ud = pFOC->idPID.out;
     }
-    
-	
-	//逆park变换
-	inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle, &(pFOC->uAlpha), &(pFOC->uBeta));
-	
-	//逆clarke变换
-	//inv_clarke_transform(pFOC->uAlpha, pFOC->uBeta , &(pFOC->ua), &(pFOC->ub), &(pFOC->uc));
-	
-	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
-	
-	setSVpwm(PSVpwm);
 
-    SMO_Update(&g_smoObserver, pFOC->uAlpha, pFOC->uBeta, pFOC->iAlpha, pFOC->iBeta);
+    /* ==== 步骤 7：逆 Park → SVPWM 调制 ==== */
+    inv_park_transform(pFOC->uq, pFOC->ud, pFOC->correctedAngle,
+                       &(pFOC->uAlpha), &(pFOC->uBeta));
+
+    SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
+    setSVpwm(PSVpwm);
+
+    /* ==== 步骤 8：SMO 滑模观测器同步更新（后台观测，不参与控制）==== */
+    SMO_Update(&g_smoObserver, pFOC->uAlpha, pFOC->uBeta,
+               pFOC->iAlpha, pFOC->iBeta);
 }
-
-

@@ -1,6 +1,14 @@
 #include "led.h"
 
-/* 初始化 LED 对象（只记录端口和引脚） */
+/******************************************************************************
+ * 函数名称：led_init
+ * 功能描述：初始化 LED 设备对象。
+ *           记录端口和引脚信息，初始状态为熄灭。
+ * 输入参数：led  - LED 设备对象指针
+ *           name  - 名称字符串
+ *           port  - GPIO 端口
+ *           pin   - GPIO 引脚编号
+ ******************************************************************************/
 void led_init(led_device_t *led, const char *name, void *port, uint32_t pin)
 {
     led->name  = name;
@@ -9,18 +17,29 @@ void led_init(led_device_t *led, const char *name, void *port, uint32_t pin)
     led->state = 0;
 }
 
-/* 设置 LED */
+/******************************************************************************
+ * 函数名称：led_set
+ * 功能描述：设置 LED 的亮灭状态。
+ *           AT32 的 GPIO 低电平点亮（GPIO 输出低 = LED 亮）。
+ * 输入参数：led - LED 设备对象指针
+ *           on  - 非 0 点亮，0 熄灭
+ ******************************************************************************/
 void led_set(led_device_t *led, int on)
 {
-    if(on)
-        gpio_bits_reset(led->port, led->pin);  // 点亮
+    if (on)
+        gpio_bits_reset(led->port, led->pin);   // 低电平点亮
     else
-        gpio_bits_set(led->port, led->pin);    // 熄灭
+        gpio_bits_set(led->port, led->pin);     // 高电平熄灭
 
     led->state = on;
 }
 
-/* 获取 LED 状态 */
+/******************************************************************************
+ * 函数名称：led_get
+ * 功能描述：获取 LED 当前亮灭状态。
+ * 输入参数：led - LED 设备对象指针
+ * 返回值：0 = 熄灭，1 = 点亮
+ ******************************************************************************/
 int led_get(led_device_t *led)
 {
     return led->state;

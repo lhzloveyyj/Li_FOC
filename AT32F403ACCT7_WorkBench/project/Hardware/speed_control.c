@@ -2,90 +2,95 @@
 #include "math.h"
 #include "stdio.h"
 
+/******************************************************************************
+ * 函数名称：CalculateSpeed
+ * 功能描述：通过机械角度差分计算实际速度，再经低通滤波平滑。
+ *
+ * 算法：
+ *   delta = mechanicalAngle - mechanicalAngle_last
+ *   并处理 0/2π 跨周期跳变
+ *   speed = speedDir * delta / dt
+ *   最后经一阶低通滤波输出
+ *
+ * 输入参数：pFOC         - FOC 状态指针
+ *           dt           - 速度计算周期（单位：s）
+ *           pSpeedFilter - 速度低通滤波器指针
+ ******************************************************************************/
 void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
 {
     static float mechanicalAngle_last;
     float angle_diff = (pFOC->mechanicalAngle - mechanicalAngle_last);
 
-    // 处理跨 0 和 2π 的跳变
+    /* 处理跨 0/2π 跳变 */
     if (angle_diff > 3.14159f)
         angle_diff -= 6.28318f;
     else if (angle_diff < -3.14159f)
         angle_diff += 6.28318f;
 
-    // 计算原始速度
+    /* 计算原始速度 */
     pFOC->speed = pFOC->speedDir * angle_diff / dt;
 
-    // 使用滤波器平滑速度
+    /* 低通滤波平滑 */
     LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));
 
-    // 更新上一次的角度值
     mechanicalAngle_last = pFOC->mechanicalAngle;
 }
 
-/*************************************************************
-** Function name:       SpeedPIControlID
-** Descriptions:        速度闭环
-** Input parameters:    pFOC:结构体指针
-** Output parameters:   None
-** Returned value:      None
-** Remarks:             None
-*************************************************************/
+/******************************************************************************
+ * 函数名称：SpeedPIControl
+ * 功能描述：速度 PI 控制。
+ *           增量式 PI：out += Ki*(bias - lastBias) + Kp*bias
+ *           位置环模式时，速度目标由位置环 PID 输出提供。
+ * 输入参数：pFOC - FOC 状态指针
+ ******************************************************************************/
 void SpeedPIControl(PFocState pFOC)
 {
-    //获取实际值
-    pFOC->speedPID.pre = pFOC->speed ;
-    //获取目标值
+    pFOC->speedPID.pre = pFOC->speed;
     pFOC->speedPID.tar = pFOC->tar_speed;
-    
-    if(g_pMotor->ctrolmode == FOC_POSITION_LOOP){
+
+    /* 位置环模式下，速度目标由位置 PD 输出提供 */
+    if (g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
         pFOC->speedPID.tar = pFOC->positionPID.out;
     }
-    //计算偏差
+
     pFOC->speedPID.bias = pFOC->speedPID.tar - pFOC->speedPID.pre;
-    //计算PID输出值
-    pFOC->speedPID.out += pFOC->speedPID.ki * (pFOC->speedPID.bias - pFOC->speedPID.lastBias) + pFOC->speedPID.kp * pFOC->speedPID.bias;
-    //保存偏差
+    pFOC->speedPID.out += pFOC->speedPID.ki
+                          * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
+                          + pFOC->speedPID.kp * pFOC->speedPID.bias;
     pFOC->speedPID.lastBias = pFOC->speedPID.bias;
 
     if (pFOC->speedPID.out > fabs(pFOC->speedPID.outMax)) {
         pFOC->speedPID.out = fabs(pFOC->speedPID.outMax);
     }
-
     if (pFOC->speedPID.out < -fabs(pFOC->speedPID.outMax)) {
         pFOC->speedPID.out = -fabs(pFOC->speedPID.outMax);
     }
 }
 
 /******************************************************************************
-  函数说明：设置速度PID目标值
-  @brief  设置速度环PID控制中速度的目标值
-  @param  pFOC   指向FOC状态结构体的指针
-  @param  tarspeed  速度目标值
-  @retval 无
-******************************************************************************/
-void SetSpeedPIDTar(PFocState pFOC,float tarspeed)
+ * 函数名称：SetSpeedPIDTar
+ * 功能描述：设置速度目标值。
+ * 输入参数：pFOC     - FOC 状态指针
+ *           tarspeed - 目标速度
+ ******************************************************************************/
+void SetSpeedPIDTar(PFocState pFOC, float tarspeed)
 {
     pFOC->tar_speed = tarspeed;
 }
 
 /******************************************************************************
-  函数说明：设置速度PID控制参数
-  @brief  设置速度PID控制器的比例、积分、微分系数以及输出限幅
-  @param  pFOC   指向FOC状态结构体的指针
-  @param  kp     比例系数
-  @param  ki     积分系数
-  @param  kd     微分系数
-  @param  outMax PID输出的最大值
-  @retval 无
-******************************************************************************/
-void SetSpeedPIDParams(PFocState pFOC,float kp,float ki,float kd,float outMax)
+ * 函数名称：SetSpeedPIDParams
+ * 功能描述：设置速度环 PID 参数。
+ * 输入参数：pFOC   - FOC 状态指针
+ *           kp     - 比例系数
+ *           ki     - 积分系数
+ *           kd     - 微分系数（预留）
+ *           outMax - 输出最大值
+ ******************************************************************************/
+void SetSpeedPIDParams(PFocState pFOC, float kp, float ki, float kd, float outMax)
 {
     pFOC->speedPID.kp = kp;
     pFOC->speedPID.ki = ki;
     pFOC->speedPID.kd = kd;
     pFOC->speedPID.outMax = outMax;
 }
-
-
-

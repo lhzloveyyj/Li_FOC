@@ -15,11 +15,15 @@
 foc_params_t g_params;
 foc_params_t g_readback;
 
+/******************************************************************************
+ * 函数名称：foc_params_set_defaults
+ * 功能描述：将参数结构体设置为默认值。
+ *           电机参数使用当前实测值：Rs=0.198Ω, Lq=74µH, Ld=40µH。
+ * 输入参数：p - 参数结构体指针
+ ******************************************************************************/
 void foc_params_set_defaults(foc_params_t *p)
 {
-    if (p == NULL) {
-        return;
-    }
+    if (p == NULL) return;
 
     memset(p, 0, sizeof(*p));
     p->elec_offset = 0.0f;
@@ -27,17 +31,18 @@ void foc_params_set_defaults(foc_params_t *p)
     p->reserved1 = 0.0f;
     p->dir = 1;
     p->speeddir = 1;
-
-    /* 默认电机模型参数：
-     * Rs = 0.198 R, Lq = 74 uH, Ld = 40 uH。
-     * 单位保持为协议层直接传输的 float 单位：R/ohm 和 H。
-     */
     p->rs = 0.198f;
     p->lq = 0.000074f;
     p->ld = 0.000040f;
 }
 
-/* ========== CRC32 ========== */
+/******************************************************************************
+ * 函数名称：crc32_compute
+ * 功能描述：计算 CRC32 校验值（标准 CRC32 算法）。
+ * 输入参数：data - 数据指针
+ *           len  - 数据长度
+ * 返回值：CRC32 校验值
+ ******************************************************************************/
 uint32_t crc32_compute(const uint8_t *data, uint32_t len)
 {
     uint32_t crc = 0xFFFFFFFF;
@@ -55,7 +60,12 @@ uint32_t crc32_compute(const uint8_t *data, uint32_t len)
     return ~crc;
 }
 
-/* ========== 写入参数 ========== */
+/******************************************************************************
+ * 函数名称：foc_params_save
+ * 功能描述：将电机参数写入 Flash（含 CRC32 校验）。
+ *           先扇区擦除，再按半字编程写入。
+ * 输入参数：p - 参数结构体指针
+ ******************************************************************************/
 void foc_params_save(foc_params_t *p)
 {
     foc_params_block_t block;
@@ -69,31 +79,36 @@ void foc_params_save(foc_params_t *p)
     flash_unlock();
     flash_sector_erase(FOC_PARAMS_FLASH_ADDR);
 
-    /* 半字写入 */
-    for (uint32_t i = 0; i < sizeof(block); i += 2)
-    {
-        uint16_t half = raw[i] | (raw[i+1] << 8);
+    for (uint32_t i = 0; i < sizeof(block); i += 2) {
+        uint16_t half = raw[i] | (raw[i + 1] << 8);
         flash_halfword_program(FOC_PARAMS_FLASH_ADDR + i, half);
-
         FOC_DBG("  0x%08lX : 0x%04X\n", (uint32_t)(FOC_PARAMS_FLASH_ADDR + i), half);
     }
 
     flash_lock();
-
     FOC_DBG("Save Done.\n\n");
 }
 
-/* ========== 读取参数 ========== */
-/* 返回：1 = OK，0 = CRC 错误 */
+/******************************************************************************
+ * 函数名称：foc_params_load
+ * 功能描述：从 Flash 读取电机参数。
+ *
+ * 流程：
+ *   1. 按新版结构体从 Flash 半字读取数据
+ *   2. 校验 CRC32
+ *   3. 如果 CRC 错误，尝试旧版结构体（兼容升级）
+ *   4. 旧版也不匹配则返回默认值
+ *
+ * 返回值：1 - 加载成功，0 - CRC 错误（已填入默认值）
+ ******************************************************************************/
 int foc_params_load(foc_params_t *p)
 {
     foc_params_block_t block;
     foc_params_legacy_block_t legacy_block;
     uint8_t *raw = (uint8_t*)&block;
 
-    /* 半字读取 */
-    for (uint32_t i = 0; i < sizeof(block); i += 2)
-    {
+    /* 半字读取（Flash 半字编程的对齐要求） */
+    for (uint32_t i = 0; i < sizeof(block); i += 2) {
         uint16_t half = *(uint16_t*)(FOC_PARAMS_FLASH_ADDR + i);
         raw[i]   = half & 0xFF;
         raw[i+1] = (half >> 8) & 0xFF;
@@ -101,50 +116,48 @@ int foc_params_load(foc_params_t *p)
 
     uint32_t calc_crc = crc32_compute((uint8_t*)&block.params, sizeof(foc_params_t));
 
-    if (calc_crc != block.crc)
-    {
-        /* 如果新结构 CRC 不匹配，再按旧结构试读一次。
-         * 这样已出厂/已调零的板子升级固件后，不会因为新增 Rs/Lq/Ld 丢掉旧参数。
-         */
+    if (calc_crc != block.crc) {
+        /* 新版 CRC 不匹配 → 尝试旧版结构体读取 */
         uint8_t *legacy_raw = (uint8_t*)&legacy_block;
-        for (uint32_t i = 0; i < sizeof(legacy_block); i += 2)
-        {
+        for (uint32_t i = 0; i < sizeof(legacy_block); i += 2) {
             uint16_t half = *(uint16_t*)(FOC_PARAMS_FLASH_ADDR + i);
             legacy_raw[i]   = half & 0xFF;
             legacy_raw[i+1] = (half >> 8) & 0xFF;
         }
 
-        uint32_t legacy_crc = crc32_compute((uint8_t*)&legacy_block.params, sizeof(foc_params_legacy_t));
-        if (legacy_crc == legacy_block.crc)
-        {
-            /* 旧结构能通过 CRC 时，先填默认值，再覆盖旧结构中真实存在的字段。 */
+        uint32_t legacy_crc = crc32_compute(
+            (uint8_t*)&legacy_block.params, sizeof(foc_params_legacy_t));
+
+        if (legacy_crc == legacy_block.crc) {
+            /* 旧版有效：用默认新参数 + 旧版标定参数 */
             foc_params_set_defaults(p);
             p->elec_offset = legacy_block.params.elec_offset;
-            p->pole_pairs = legacy_block.params.pole_pairs;
-            p->reserved1 = legacy_block.params.reserved1;
-            p->dir = legacy_block.params.dir;
-            p->speeddir = legacy_block.params.speeddir;
+            p->pole_pairs  = legacy_block.params.pole_pairs;
+            p->reserved1   = legacy_block.params.reserved1;
+            p->dir         = legacy_block.params.dir;
+            p->speeddir    = legacy_block.params.speeddir;
             FOC_DBG("Legacy params loaded, motor Rs/Lq/Ld use defaults.\n");
             return 1;
         }
 
         foc_params_set_defaults(p);
         FOC_DBG("CRC ERROR! Flash data invalid, using defaults.\n");
-        return 0;   // fail!
+        return 0;
     }
 
     memcpy(p, &block.params, sizeof(foc_params_t));
-
     FOC_DBG("Load OK.\n");
     return 1;
 }
 
-/* ========== 测试函数 ========== */
+/******************************************************************************
+ * 函数名称：foc_params_test
+ * 功能描述：测试函数，用于验证 Flash 读写和 CRC 校验功能。
+ ******************************************************************************/
 void foc_params_test(void)
 {
     printf("sizeof(foc_params_t) = %lu\n", (uint32_t)sizeof(foc_params_t));
 
-    /* 填充测试值 */
     g_params.elec_offset = 66.6f;
     g_params.pole_pairs  = 11;
     g_params.reserved1   = 0.123f;
@@ -157,9 +170,7 @@ void foc_params_test(void)
     foc_params_save(&g_params);
 
     printf("Try loading...\n");
-
-    if (!foc_params_load(&g_readback))
-    {
+    if (!foc_params_load(&g_readback)) {
         printf("Flash invalid, using default!\n");
         return;
     }
