@@ -83,7 +83,8 @@ Li_FOC/
 在 `freertos_app.c`：
 - `comm_task`：命令处理、参数加载、初始化 PID 与滤波
 - `control_task`：周期计算速度/位置与外环控制
-- `Monitor_task`：周期发送 MOS 温度与母线电压
+- `Monitor_task`：周期发送 MOS 温度
+- `TMR2_GLOBAL_IRQHandler`：按开关回传实时波形数据，包括母线电压 ADC 原始值
 
 ---
 
@@ -124,11 +125,18 @@ Li_FOC/
 主要命令与 `LiJointMaster` 上位机侧保持一致，包含：
 - 电机连接、机械角打印开关、零点校准
 - Uabc / ADC / Tabc / Iabc / Uαβ / Iαβ / IqId 打印开关
+- `CMD_ADCVBUS / CMD_ADCVBUS_CLOSE`：打开/关闭母线电压 ADC 原始值曲线回传
 - Uq/Ud、Iq/Id 目标设置
 - 模式切换（开环/电流环/速度环/位置环）
 - 速度目标、位置目标、PID 参数与输出限幅设置
 
 命令枚举详见：`project/Hardware/protocol.h`。
+
+### 4.3 母线电压 ADC 原始值回传
+
+ADC1 预注入通道 4 的采样值保存到全局变量 `adcvbus`。上位机发送 `CMD_ADCVBUS` 后，`protocol.c` 将 `adcvbus_Enabled` 置 1；`TMR2_GLOBAL_IRQHandler` 在该开关打开时通过 `CMD_ADCVBUS` 回传 1 个 float，内容为 `(float)adcvbus`。上位机发送 `CMD_ADCVBUS_CLOSE` 后关闭该回传。
+
+`CMD_MOSTEMP` 保持用于 MOS 温度，当前只回传 `GetMosTemp()` 的 1 个 float，不再携带 `getVbus()`。
 
 ---
 
@@ -199,7 +207,7 @@ cd AT32F403ACCT7_WorkBench
 ## 9. 配套上位机
 
 推荐与仓库 `lhzloveyyj/LiJointMaster` 配套使用。
-上位机命令与本固件 `protocol.h` 的命令枚举保持对应，可直接进行参数整定与波形观测。
+上位机命令与本固件 `protocol.h` 的命令枚举保持对应，可直接进行参数整定与波形观测。当前配套上位机已包含“母线ADC”曲线按钮，对应 `CMD_ADCVBUS / CMD_ADCVBUS_CLOSE`。
 
 ---
 
