@@ -1,0 +1,39 @@
+# === 构建输出 ===
+*.elf
+*.map
+*.hex
+*.bin
+*.obj
+*.obj.d
+*.o
+*.d
+
+# === CMake ===
+CMakeFiles/
+cmake/
+build/
+compile_commands.json
+Makefile
+*.ninja
+*.ninja_deps
+*.ninja_log
+progress.marks
+CMakeCache.txt
+CMakeUserPresets.json
+
+# === Keil MDK ===
+MDK_V5/objects/
+MDK_V5/listings/
+*.uvguix.*
+*.dep
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
