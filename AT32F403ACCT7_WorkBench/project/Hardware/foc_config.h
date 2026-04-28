@@ -27,6 +27,17 @@
 #define FOC_GAIN                10 
 #define FOC_SHUNT_R             0.01f 
 
+/* ---------------- SMO观测器 ----------------
+ * 参数先按后台观测给一组保守默认值，后续可根据电机实际 Rs/Ls 和PWM频率标定。
+ */
+#define FOC_SMO_RS                  0.198f
+#define FOC_SMO_LS                  0.000057f
+#define FOC_SMO_TS                  0.0001f
+#define FOC_SMO_K_SLIDE             8.0f
+#define FOC_SMO_E_LPF_ALPHA         0.08f
+#define FOC_SMO_SPEED_LPF_ALPHA     0.02f
+#define FOC_SMO_CURRENT_ERR_BAND    0.5f
+
 /* ---------------- 调试功能开关 ---------------- */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）
 

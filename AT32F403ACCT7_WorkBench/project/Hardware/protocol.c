@@ -5,6 +5,7 @@
 #include "flash_ops.h"
 #include "FOC.h"
 #include "mostemp.h"
+#include "smo_observer.h"
 
 volatile uint8_t anglePrintingEnabled = 0;
 volatile uint8_t uabcEnabled = 0;
@@ -20,6 +21,10 @@ volatile uint8_t speedOut_Enabled = 0;
 volatile uint8_t local_Enabled = 0;
 volatile uint8_t localOut_Enabled = 0;
 volatile uint8_t adcvbus_Enabled = 0;
+volatile uint8_t smoAngle_Enabled = 0;
+volatile uint8_t smoSpeed_Enabled = 0;
+volatile uint8_t smoBackEmf_Enabled = 0;
+volatile uint8_t electricalAngle_Enabled = 0;
 
 static float g_zeroOffset = 0.0f;
 static float g_correctedElecAngle = 0.0f;
@@ -27,7 +32,7 @@ static float g_correctedElecAngle = 0.0f;
 void Comm_CommandHandler(void)
 {
     led_device_t *ledRun = freertos_get_run_led();
-    float data[14] = {0.0f};
+    float data[17] = {0.0f};
     
     if((g_commCmd != CMD_NONE) && (0 == led_get(ledRun))){
         led_set(ledRun, 1);
@@ -44,6 +49,9 @@ void Comm_CommandHandler(void)
             g_pMotor->dir        = g_readback.dir;
             g_pMotor->zeroOffset = g_readback.elec_offset;
             g_pMotor->speedDir   = g_readback.speeddir;
+            g_pMotor->rs         = g_readback.rs;
+            g_pMotor->lq         = g_readback.lq;
+            g_pMotor->ld         = g_readback.ld;
             data[0]   = (float)g_pMotor->pole_pairs;
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
@@ -58,7 +66,10 @@ void Comm_CommandHandler(void)
             data[11]  = g_pMotor->iqPID.outMax;
             data[12]  = g_pMotor->speedPID.outMax;
             data[13]  = g_pMotor->positionPID.outMax;
-            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 14);
+            data[14]  = g_pMotor->rs;
+            data[15]  = g_pMotor->lq;
+            data[16]  = g_pMotor->ld;
+            USART3_SendPacket(CMD_CONNECT_MOTOR, &data[0], 17);
           
             mostemp_Enabled = 1;
             g_commCmd = CMD_NONE;  
@@ -135,6 +146,46 @@ void Comm_CommandHandler(void)
 
         case CMD_ADCVBUS_CLOSE:
             adcvbus_Enabled = 0;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_ANGLE:
+            smoAngle_Enabled = 1;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_ANGLE_CLOSE:
+            smoAngle_Enabled = 0;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_SPEED:
+            smoSpeed_Enabled = 1;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_SPEED_CLOSE:
+            smoSpeed_Enabled = 0;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_BACKEMF:
+            smoBackEmf_Enabled = 1;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SMO_BACKEMF_CLOSE:
+            smoBackEmf_Enabled = 0;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_ELECTRICALANGLE:
+            electricalAngle_Enabled = 1;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_ELECTRICALANGLE_CLOSE:
+            electricalAngle_Enabled = 0;
             g_commCmd = CMD_NONE;
             break;
         
@@ -332,9 +383,42 @@ void Comm_CommandHandler(void)
             g_pMotor->positionPID.outMax = g_cmdData;
             g_commCmd = CMD_NONE; 
             break;
+
+        case CMD_SETMOTORRS:
+            /* Rs/Lq/Ld 是 flash 参数，也是 SMO 运行参数。
+             * 收到 QT 设置命令后同时更新两处：掉电保存 + 当前运行立即生效。
+             */
+            foc_params_load(&g_params);
+            g_params.rs = g_cmdData;
+            foc_params_save(&g_params);
+            g_pMotor->rs = g_cmdData;
+            g_smoObserver.cfg.rs = g_pMotor->rs;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SETMOTORLQ:
+            /* 当前 SMO 使用 Lq/Ld 的平均值作为 alpha-beta 等效电感。 */
+            foc_params_load(&g_params);
+            g_params.lq = g_cmdData;
+            foc_params_save(&g_params);
+            g_pMotor->lq = g_cmdData;
+            g_smoObserver.cfg.ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f;
+            g_commCmd = CMD_NONE;
+            break;
+
+        case CMD_SETMOTORLD:
+            /* 修改 Ld 后同样刷新等效 Ls，不需要重启控制任务。 */
+            foc_params_load(&g_params);
+            g_params.ld = g_cmdData;
+            foc_params_save(&g_params);
+            g_pMotor->ld = g_cmdData;
+            g_smoObserver.cfg.ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f;
+            g_commCmd = CMD_NONE;
+            break;
         
         default:
+            /* 未识别命令也要清掉，避免上位机发了新命令但旧固件不支持时 LED 一直闪。 */
+            g_commCmd = CMD_NONE;
             break;
     }
 }
-

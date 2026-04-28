@@ -76,6 +76,7 @@ void USART3_SendPacket(uint8_t cmd, float *values, uint8_t count)
     if(usart3_tx_dma_status == 1)
     {
         // DMA 空闲，可以启动
+        usart3_tx_dma_status = 0;
         dma_data_number_set(DMA1_CHANNEL1, idx);
         dma_channel_enable(DMA1_CHANNEL1, TRUE);
     }
@@ -149,4 +150,3 @@ void USART3_ParseFixedCommand(uint8_t byte)
         }
     }
 }
-

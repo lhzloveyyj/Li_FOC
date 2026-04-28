@@ -24,6 +24,7 @@
 #include "mostemp.h"
 #include "speed_control.h"
 #include "position_control.h"
+#include "smo_observer.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -209,6 +210,10 @@ void comm_task_func(void *pvParameters)
     g_pMotor->pole_pairs = g_readback.pole_pairs;
     g_pMotor->dir        = g_readback.dir;
     g_pMotor->zeroOffset = g_readback.elec_offset;
+    g_pMotor->speedDir   = g_readback.speeddir;
+    g_pMotor->rs         = g_readback.rs;
+    g_pMotor->lq         = g_readback.lq;
+    g_pMotor->ld         = g_readback.ld;
     
     
     getAdoffset();
@@ -225,6 +230,15 @@ void comm_task_func(void *pvParameters)
     SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
     SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 10.0f);
     SetPositionPIDParams(g_pMotor, 1.0f, 0.0f, 0.0001f, 400.0f);
+    const SmoObserverConfig smoConfig = {
+        .rs = g_pMotor->rs,
+        .ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f,
+        .ts = FOC_SMO_TS,
+        .k_slide = FOC_SMO_K_SLIDE,
+        .e_lpf_alpha = FOC_SMO_E_LPF_ALPHA,
+        .speed_lpf_alpha = FOC_SMO_SPEED_LPF_ALPHA,
+    };
+    SMO_Init(&g_smoObserver, &smoConfig);
     
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
     

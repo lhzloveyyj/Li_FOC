@@ -51,6 +51,7 @@ set(WK_Application_Src
     ${CMAKE_SOURCE_DIR}/project/Hardware/protocol.c
     ${CMAKE_SOURCE_DIR}/project/Hardware/speed_app.c
     ${CMAKE_SOURCE_DIR}/project/Hardware/speed_control.c
+    ${CMAKE_SOURCE_DIR}/project/Hardware/smo_observer.c
     ${CMAKE_SOURCE_DIR}/project/Hardware/usart3.c
     ${CMAKE_SOURCE_DIR}/project/tools/Math/filter.c
     ${CMAKE_SOURCE_DIR}/project/tools/Math/my_math.c

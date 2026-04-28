@@ -15,6 +15,28 @@
 foc_params_t g_params;
 foc_params_t g_readback;
 
+void foc_params_set_defaults(foc_params_t *p)
+{
+    if (p == NULL) {
+        return;
+    }
+
+    memset(p, 0, sizeof(*p));
+    p->elec_offset = 0.0f;
+    p->pole_pairs = 11;
+    p->reserved1 = 0.0f;
+    p->dir = 1;
+    p->speeddir = 1;
+
+    /* 默认电机模型参数：
+     * Rs = 0.198 R, Lq = 74 uH, Ld = 40 uH。
+     * 单位保持为协议层直接传输的 float 单位：R/ohm 和 H。
+     */
+    p->rs = 0.198f;
+    p->lq = 0.000074f;
+    p->ld = 0.000040f;
+}
+
 /* ========== CRC32 ========== */
 uint32_t crc32_compute(const uint8_t *data, uint32_t len)
 {
@@ -53,7 +75,7 @@ void foc_params_save(foc_params_t *p)
         uint16_t half = raw[i] | (raw[i+1] << 8);
         flash_halfword_program(FOC_PARAMS_FLASH_ADDR + i, half);
 
-        FOC_DBG("  0x%08X : 0x%04X\n", FOC_PARAMS_FLASH_ADDR + i, half);
+        FOC_DBG("  0x%08lX : 0x%04X\n", (uint32_t)(FOC_PARAMS_FLASH_ADDR + i), half);
     }
 
     flash_lock();
@@ -66,6 +88,7 @@ void foc_params_save(foc_params_t *p)
 int foc_params_load(foc_params_t *p)
 {
     foc_params_block_t block;
+    foc_params_legacy_block_t legacy_block;
     uint8_t *raw = (uint8_t*)&block;
 
     /* 半字读取 */
@@ -80,7 +103,33 @@ int foc_params_load(foc_params_t *p)
 
     if (calc_crc != block.crc)
     {
-        FOC_DBG("CRC ERROR! Flash data invalid.\n");
+        /* 如果新结构 CRC 不匹配，再按旧结构试读一次。
+         * 这样已出厂/已调零的板子升级固件后，不会因为新增 Rs/Lq/Ld 丢掉旧参数。
+         */
+        uint8_t *legacy_raw = (uint8_t*)&legacy_block;
+        for (uint32_t i = 0; i < sizeof(legacy_block); i += 2)
+        {
+            uint16_t half = *(uint16_t*)(FOC_PARAMS_FLASH_ADDR + i);
+            legacy_raw[i]   = half & 0xFF;
+            legacy_raw[i+1] = (half >> 8) & 0xFF;
+        }
+
+        uint32_t legacy_crc = crc32_compute((uint8_t*)&legacy_block.params, sizeof(foc_params_legacy_t));
+        if (legacy_crc == legacy_block.crc)
+        {
+            /* 旧结构能通过 CRC 时，先填默认值，再覆盖旧结构中真实存在的字段。 */
+            foc_params_set_defaults(p);
+            p->elec_offset = legacy_block.params.elec_offset;
+            p->pole_pairs = legacy_block.params.pole_pairs;
+            p->reserved1 = legacy_block.params.reserved1;
+            p->dir = legacy_block.params.dir;
+            p->speeddir = legacy_block.params.speeddir;
+            FOC_DBG("Legacy params loaded, motor Rs/Lq/Ld use defaults.\n");
+            return 1;
+        }
+
+        foc_params_set_defaults(p);
+        FOC_DBG("CRC ERROR! Flash data invalid, using defaults.\n");
         return 0;   // fail!
     }
 
@@ -101,6 +150,9 @@ void foc_params_test(void)
     g_params.reserved1   = 0.123f;
     g_params.dir         = 1;
     g_params.speeddir    = 1;
+    g_params.rs          = 0.198f;
+    g_params.lq          = 0.000074f;
+    g_params.ld          = 0.000040f;
 
     foc_params_save(&g_params);
 
@@ -114,8 +166,11 @@ void foc_params_test(void)
 
     printf("Readback:\n");
     printf("  offset    = %.3f\n", g_readback.elec_offset);
-    printf("  pole      = %d\n",   g_readback.pole_pairs);
+    printf("  pole      = %ld\n",  g_readback.pole_pairs);
     printf("  reserved1 = %.3f\n", g_readback.reserved1);
-    printf("  dir       = %d\n",   g_readback.dir);
-    printf("  speeddir  = %d\n",   g_readback.speeddir);
+    printf("  dir       = %ld\n",  g_readback.dir);
+    printf("  speeddir  = %ld\n",  g_readback.speeddir);
+    printf("  rs        = %.6f\n", g_readback.rs);
+    printf("  lq        = %.6f\n", g_readback.lq);
+    printf("  ld        = %.6f\n", g_readback.ld);
 }

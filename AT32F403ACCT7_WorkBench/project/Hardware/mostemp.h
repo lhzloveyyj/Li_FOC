@@ -5,5 +5,6 @@
 
 float GetMosTemp(void);
 float getVbus(void);
+float adcToVbus(uint16_t adc);
 
 #endif

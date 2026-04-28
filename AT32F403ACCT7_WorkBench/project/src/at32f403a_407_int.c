@@ -34,7 +34,9 @@
 #include "usart3.h"   
 #include "freertos_app.h"
 #include "FOC.h"  
-#include "protocol.h" 
+#include "protocol.h"
+#include "mostemp.h" 
+#include "smo_observer.h"
 /* add user code end private includes */
 
 /* private typedef -----------------------------------------------------------*/
@@ -50,6 +52,7 @@
 /* private macro -------------------------------------------------------------*/
 /* add user code begin private macro */
 static float focData[3] = {0.0f};
+static uint8_t smoTelemetrySlot = 0;
 /* add user code end private macro */
 
 /* private variables ---------------------------------------------------------*/
@@ -334,8 +337,39 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1); 
     }
     if(adcvbus_Enabled == 1){
-        focData[0] = (float)adcvbus;
+        focData[0] = adcToVbus(adcvbus);
         USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
+    }
+    /* SMO调试允许多路同时打开。串口DMA一次只能稳定发一帧，所以这里按轮询发送：
+     * 例如同时打开“实际电角度”和“SMO角度”时，两路会交替输出，而不是互相覆盖DMA缓冲。
+     */
+    for(uint8_t i = 0; i < 4; i++){
+        uint8_t slot = (uint8_t)((smoTelemetrySlot + i) & 0x03U);
+        if((slot == 0U) && (electricalAngle_Enabled == 1)){
+            focData[0] = g_pMotor->correctedAngle;
+            USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
+            smoTelemetrySlot = 1U;
+            break;
+        }
+        if((slot == 1U) && (smoAngle_Enabled == 1)){
+            focData[0] = g_smoObserver.angle;
+            USART3_SendPacket(CMD_SMO_ANGLE, &focData[0], 1);
+            smoTelemetrySlot = 2U;
+            break;
+        }
+        if((slot == 2U) && (smoSpeed_Enabled == 1)){
+            focData[0] = g_smoObserver.speed;
+            USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
+            smoTelemetrySlot = 3U;
+            break;
+        }
+        if((slot == 3U) && (smoBackEmf_Enabled == 1)){
+            focData[0] = g_smoObserver.eAlpha;
+            focData[1] = g_smoObserver.eBeta;
+            USART3_SendPacket(CMD_SMO_BACKEMF, &focData[0], 2);
+            smoTelemetrySlot = 0U;
+            break;
+        }
     }
     
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);

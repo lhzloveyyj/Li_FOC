@@ -64,6 +64,9 @@ typedef struct {
     
     int   pole_pairs;
     int   dir;
+    float rs;
+    float lq;
+    float ld;
     float mechanicalAngle;      // 机械角度（rad）
     float electricalAngle;      // 电角度（rad）
     float correctedAngle;       // 修正后的电角度
@@ -101,6 +104,7 @@ extern int cnt;
 void AngleInitZeroOffset(float *zeroOffset , float *correctedElecAngle);
 void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm);
 void getAdoffset(void);
+float NormalizeAngle(float angle);
 
 #ifdef __cplusplus
 }

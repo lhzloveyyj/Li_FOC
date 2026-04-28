@@ -64,6 +64,17 @@ typedef enum
     CMD_SETLOCALPIDOUT          = 0X45,  // 设置位置环输出限制
     CMD_ADCVBUS                 = 0X46,  // 母线电压ADC原始值
     CMD_ADCVBUS_CLOSE           = 0X47,  // 关闭母线电压ADC原始值
+    CMD_SMO_ANGLE               = 0X48,  // 打印SMO估算电角度
+    CMD_SMO_ANGLE_CLOSE         = 0X49,  // 关闭SMO估算电角度
+    CMD_SMO_SPEED               = 0X4A,  // 打印SMO估算电速度
+    CMD_SMO_SPEED_CLOSE         = 0X4B,  // 关闭SMO估算电速度
+    CMD_SMO_BACKEMF             = 0X4C,  // 打印SMO反电势eAlpha/eBeta
+    CMD_SMO_BACKEMF_CLOSE       = 0X4D,  // 关闭SMO反电势eAlpha/eBeta
+    CMD_SETMOTORRS              = 0X4E,  // 设置电机相电阻Rs
+    CMD_SETMOTORLQ              = 0X4F,  // 设置电机q轴电感Lq
+    CMD_SETMOTORLD              = 0X50,  // 设置电机d轴电感Ld
+    CMD_ELECTRICALANGLE         = 0X51,  // 打印实际电角度 correctedAngle
+    CMD_ELECTRICALANGLE_CLOSE   = 0X52,  // 关闭实际电角度 correctedAngle
     // ... 未来可以继续扩展
 } CMD_TypeDef;
 
@@ -82,6 +93,10 @@ extern volatile uint8_t speedOut_Enabled;
 extern volatile uint8_t local_Enabled;
 extern volatile uint8_t localOut_Enabled;
 extern volatile uint8_t adcvbus_Enabled;
+extern volatile uint8_t smoAngle_Enabled;
+extern volatile uint8_t smoSpeed_Enabled;
+extern volatile uint8_t smoBackEmf_Enabled;
+extern volatile uint8_t electricalAngle_Enabled;
 
 void Comm_CommandHandler(void);
 

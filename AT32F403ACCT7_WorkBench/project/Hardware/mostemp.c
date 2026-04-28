@@ -69,3 +69,8 @@ float getVbus(void)
     return vbus;
 }
 
+float adcToVbus(uint16_t adc)
+{
+    return (adc / 4096.0f) * ADC_VERF * (DCVBUS_R1 + DCVBUS_R2) / DCVBUS_R2;
+}
+

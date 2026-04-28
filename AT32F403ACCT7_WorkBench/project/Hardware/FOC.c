@@ -9,6 +9,7 @@
 #include "mt6701.h"
 #include "filter.h"
 #include "current_control.h"
+#include "smo_observer.h"
 
 #include "freertos_app.h"
 
@@ -41,6 +42,7 @@ FocState Motor = {
     .ua = 0.0f, .ub = 0.0f, .uc = 0.0f, 		
     .uq = 0.0f, .ud = 0.0f, 			
     .iq = 0.0f, .id = 0.0f, 			
+    .rs = 0.198f, .lq = 0.000074f, .ld = 0.000040f,
 
     .mechanicalAngle = 0.0f,
     .electricalAngle = 0.0f,
@@ -367,9 +369,8 @@ void FocContorl(PFocState pFOC,  PSVpwm_State PSVpwm)
 	SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
 	
 	setSVpwm(PSVpwm);
+
+    SMO_Update(&g_smoObserver, pFOC->uAlpha, pFOC->uBeta, pFOC->iAlpha, pFOC->iBeta);
 }
-
-
-
 
 
