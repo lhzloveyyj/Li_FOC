@@ -71,8 +71,8 @@ typedef enum
     CMD_SETLOCALPIDOUT        = 0X45,  // 设置位置环输出限幅
     CMD_ADCVBUS               = 0X46,  // 母线电压 ADC 原始值
     CMD_ADCVBUS_CLOSE         = 0X47,  // 关闭母线电压 ADC
-    CMD_SMO_ANGLE             = 0X48,  // SMO 估算电角度
-    CMD_SMO_ANGLE_CLOSE       = 0X49,  // 关闭 SMO 电角度
+    CMD_SMO_ANGLE             = 0X48,  // PLL 角度（SMO 反电势经 PLL 后）
+    CMD_SMO_ANGLE_CLOSE       = 0X49,  // 关闭 PLL 角度
     CMD_SMO_SPEED             = 0X4A,  // SMO 估算电速度
     CMD_SMO_SPEED_CLOSE       = 0X4B,  // 关闭 SMO 电速度
     CMD_SMO_BACKEMF           = 0X4C,  // SMO 反电势 eAlpha/eBeta
@@ -82,6 +82,11 @@ typedef enum
     CMD_SETMOTORLD            = 0X50,  // 设置电机 d 轴电感 Ld
     CMD_ELECTRICALANGLE       = 0X51,  // 编码器实际电角度
     CMD_ELECTRICALANGLE_CLOSE = 0X52,  // 关闭实际电角度
+    CMD_SMO_RAW_ANGLE         = 0X53,  // SMO 角度（反电势 atan2，不经 PLL）
+    CMD_SMO_RAW_ANGLE_CLOSE   = 0X54,  // 关闭 SMO 角度
+    CMD_SMO_DIAG              = 0X55,  // SMO 诊断量：PLL误差/反电势幅值
+    CMD_SMO_DIAG_CLOSE        = 0X56,  // 关闭 SMO 诊断量
+    CMD_SMO_RESET             = 0X57,  // 复位 SMO/PLL 状态
 } CMD_TypeDef;
 
 /* =================== 遥测使能标志（外部使用） =================== */
@@ -104,6 +109,8 @@ extern volatile uint8_t smoAngle_Enabled;
 extern volatile uint8_t smoSpeed_Enabled;
 extern volatile uint8_t smoBackEmf_Enabled;
 extern volatile uint8_t electricalAngle_Enabled;
+extern volatile uint8_t smoRawAngle_Enabled;
+extern volatile uint8_t smoDiag_Enabled;
 
 /* =================== 函数声明 =================== */
 void Comm_CommandHandler(void);

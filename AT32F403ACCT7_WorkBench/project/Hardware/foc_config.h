@@ -33,15 +33,16 @@
  */
 #define FOC_SMO_RS                  0.198f      // 电机相电阻（单位：Ω）
 #define FOC_SMO_LS                  0.000057f   // 等效电感（Lq+Ld)/2（单位：H）
-#define FOC_SMO_TS                  0.0001f     // SMO 采样周期（单位：s，对应 10kHz）
+#define FOC_SMO_TS                  0.00005f    // SMO 采样周期（单位：s，对应 20kHz）
 #define FOC_SMO_K_SLIDE             0.2f        // 滑模增益（适配低电感电机，Ls~57uH）
 #define FOC_SMO_E_LPF_ALPHA         0.02f       // 反电势低通滤波系数
 #define FOC_SMO_SPEED_LPF_ALPHA     0.02f       // 速度低通滤波系数
 #define FOC_SMO_CURRENT_ERR_BAND    10.0f       // 电流误差饱和带，用于平滑滑模切换
 
 /* =================== SMO PLL 锁相环参数 =================== */
-#define FOC_SMO_PLL_KP             30.0f       // PLL 比例增益
-#define FOC_SMO_PLL_KI             10.0f       // PLL 积分增益
+#define FOC_SMO_PLL_KP             800.0f      // PLL 比例增益；提高带宽，让 PLL 角度跟上低电感电机电角速度
+#define FOC_SMO_PLL_KI             80000.0f    // PLL 积分增益；用于消除长期速度误差，SMO角度正确但PLL慢时优先增大
+#define FOC_SMO_PLL_SPEED_FF_ALPHA 0.05f       // PLL 速度前馈系数；用SMO角度差分速度帮助高速捕获，越大越快但越吃噪声
 
 /* =================== 调试功能开关 =================== */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）

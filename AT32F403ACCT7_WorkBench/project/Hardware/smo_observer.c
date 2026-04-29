@@ -105,6 +105,7 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
     float errBeta;
     float invLs;
     float pllErr;
+    float rawDelta;
 
     if (smo == NULL) {
         return;
@@ -167,23 +168,52 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
      * 首次更新时用 atan2 初始化 PLL 角度，之后由 PLL 自主跟踪。
      * ============================================================ */
 
-    /* 计算反电势幅值 */
-    float eMag = sqrtf(smo->eAlpha * smo->eAlpha + smo->eBeta * smo->eBeta);
+    /* 计算反电势幅值和不经过 PLL 的原始角度，供上位机诊断 SMO 本体 */
+    smo->eMag = sqrtf(smo->eAlpha * smo->eAlpha + smo->eBeta * smo->eBeta);
+    /* SMO 角度：只反映 eAlpha/eBeta 的方向，不包含 PLL 动态 */
+    smo->rawAngle = NormalizeAngle(atan2f(-smo->eAlpha, smo->eBeta));
+
+    /* 使用 SMO 角度差分估算电角速度，作为 PLL 高速捕获的速度前馈。
+     * 这样直接给高速时，PLL 不需要从 0rad/s 仅靠误差积分慢慢追上。
+     */
+    if (smo->rawAngleValid != 0U) {
+        rawDelta = smo->rawAngle - smo->prevRawAngle;
+        if (rawDelta > FOC_PI) {
+            rawDelta -= FOC_2PI;
+        } else if (rawDelta < -FOC_PI) {
+            rawDelta += FOC_2PI;
+        }
+        smo->rawSpeed = rawDelta / smo->cfg.ts;
+    } else {
+        smo->rawSpeed = 0.0f;
+        smo->rawAngleValid = 1U;
+    }
+    smo->prevRawAngle = smo->rawAngle;
 
     /* PLL 误差计算 */
     pllErr = -smo->eAlpha * cosf(smo->pll.theta)
              - smo->eBeta  * sinf(smo->pll.theta);
 
     /* 幅值归一化（使 PLL 增益与转速无关） */
-    if (eMag > FOC_EPSILON) {
-        pllErr /= eMag;
+    if (smo->eMag > FOC_EPSILON) {
+        pllErr /= smo->eMag;
     }
+    /* 保存 PLL 误差给上位机，便于观察 PLL 是否长期饱和或跟踪过慢 */
+    smo->pllError = pllErr;
 
     /* 首次更新：用 atan2 初始化 PLL 角度 */
     if (smo->pll.valid == 0U) {
-        float angle = atan2f(-smo->eAlpha, smo->eBeta);
-        PLL_SetInitialAngle(&smo->pll, NormalizeAngle(angle));
+        PLL_SetInitialAngle(&smo->pll, smo->rawAngle);
+        /* 首次锁相时把积分项设置为 SMO 差分速度，避免高速启动时 PLL 从零速开始爬升 */
+        smo->pll.integral = smo->rawSpeed;
+        smo->pll.omega = smo->rawSpeed;
     }
+
+    /* 高速捕获辅助：缓慢把 PLL 的速度状态拉向 SMO 差分速度。
+     * PLL_Update 仍然用 pllErr 修正角度误差，因此最终角度不会直接等于 rawAngle。
+     */
+    smo->pll.integral += FOC_SMO_PLL_SPEED_FF_ALPHA
+                         * (smo->rawSpeed - smo->pll.integral);
 
     /* PLL 跟踪更新 */
     PLL_Update(&smo->pll, pllErr);

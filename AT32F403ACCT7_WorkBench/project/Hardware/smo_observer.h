@@ -45,6 +45,12 @@ typedef struct {
     float zBeta;            /**< β 轴滑模注入量 */
     float eAlpha;           /**< α 轴反电势估计值（z 经低通滤波后） */
     float eBeta;            /**< β 轴反电势估计值 */
+    float rawAngle;         /**< 由反电势直接 atan2 得到的原始电角度（未经过 PLL） */
+    float prevRawAngle;     /**< 上一次 SMO 原始角度，用于差分估算 rawSpeed */
+    float rawSpeed;         /**< SMO 原始角度差分得到的电角速度，作为 PLL 高速捕获前馈 */
+    float pllError;         /**< PLL 当前归一化误差 */
+    float eMag;             /**< 反电势矢量幅值 */
+    uint8_t rawAngleValid;  /**< rawAngle 是否已有上一拍数据，可用于速度差分 */
 
     /* == PLL 锁相环（替代 atan2 + 速度低通） == */
     PllObserver pll;        /**< PLL 锁相环实例 */

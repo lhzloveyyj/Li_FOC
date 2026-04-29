@@ -164,7 +164,7 @@ void ADC1_2_IRQHandler(void)
  *           根据各使能标志位的状态，选择性发送调试数据。
  *
  * SMO 遥测轮询机制：
- *   SMO 角度/速度/反电势和实际电角度共用 DMA 通道发送，
+ *   SMO 角度/速度/反电势/原始角度/诊断量和实际电角度共用 DMA 通道发送，
  *   通过轮询槽位（smoTelemetrySlot）交替发送，避免冲突。
  ******************************************************************************/
 void TMR2_GLOBAL_IRQHandler(void)
@@ -260,19 +260,21 @@ void TMR2_GLOBAL_IRQHandler(void)
     }
 
     /* ---- SMO + 电角度轮询发送 ----
-     * SMO 角度/速度/反电势和编码器电角度共用串口带宽。
+     * SMO 角度/速度/反电势/原始角度/诊断量和编码器电角度共用串口带宽。
      * 通过轮询槽位交替发送，确保多路打开时公平分配。
      */
-    for (uint8_t i = 0; i < 4; i++) {
-        uint8_t slot = (uint8_t)((smoTelemetrySlot + i) & 0x03U);
+    for (uint8_t i = 0; i < 6; i++) {
+        uint8_t slot = (uint8_t)((smoTelemetrySlot + i) % 6U);
 
         if ((slot == 0U) && (electricalAngle_Enabled == 1)) {
+            /* 编码器电角度：有感真实参考，用来和 SMO/PLL 两个角度对比 */
             focData[0] = g_pMotor->correctedAngle;
             USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
             smoTelemetrySlot = 1U;
             break;
         }
         if ((slot == 1U) && (smoAngle_Enabled == 1)) {
+            /* PLL 角度：SMO 反电势经 PLL 锁相后的最终角度 */
             focData[0] = g_smoObserver.angle;
             USART3_SendPacket(CMD_SMO_ANGLE, &focData[0], 1);
             smoTelemetrySlot = 2U;
@@ -285,9 +287,25 @@ void TMR2_GLOBAL_IRQHandler(void)
             break;
         }
         if ((slot == 3U) && (smoBackEmf_Enabled == 1)) {
+            /* 反电势波形：先看 eAlpha/eBeta 是否接近正交正弦，再判断角度 */
             focData[0] = g_smoObserver.eAlpha;
             focData[1] = g_smoObserver.eBeta;
             USART3_SendPacket(CMD_SMO_BACKEMF, &focData[0], 2);
+            smoTelemetrySlot = 4U;
+            break;
+        }
+        if ((slot == 4U) && (smoRawAngle_Enabled == 1)) {
+            /* SMO 角度：直接 atan2(-eAlpha, eBeta)，不经过 PLL */
+            focData[0] = g_smoObserver.rawAngle;
+            USART3_SendPacket(CMD_SMO_RAW_ANGLE, &focData[0], 1);
+            smoTelemetrySlot = 5U;
+            break;
+        }
+        if ((slot == 5U) && (smoDiag_Enabled == 1)) {
+            /* 诊断量：pllError 看锁相误差，eMag 看反电势幅值是否足够 */
+            focData[0] = g_smoObserver.pllError;
+            focData[1] = g_smoObserver.eMag;
+            USART3_SendPacket(CMD_SMO_DIAG, &focData[0], 2);
             smoTelemetrySlot = 0U;
             break;
         }

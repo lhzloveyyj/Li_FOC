@@ -22,10 +22,12 @@ volatile uint8_t speedOut_Enabled = 0;          // 速度环 PID 输出
 volatile uint8_t local_Enabled = 0;             // 实际位置
 volatile uint8_t localOut_Enabled = 0;          // 位置环 PID 输出
 volatile uint8_t adcvbus_Enabled = 0;           // 母线电压
-volatile uint8_t smoAngle_Enabled = 0;          // SMO 估计电角度
+volatile uint8_t smoAngle_Enabled = 0;          // PLL 角度：SMO 反电势经 PLL 锁相后的最终角度
 volatile uint8_t smoSpeed_Enabled = 0;          // SMO 估计速度
 volatile uint8_t smoBackEmf_Enabled = 0;        // SMO 反电势 eAlpha/eBeta
 volatile uint8_t electricalAngle_Enabled = 0;    // 编码器实际电角度
+volatile uint8_t smoRawAngle_Enabled = 0;       // SMO 角度：反电势 atan2 直接角度，不经过 PLL
+volatile uint8_t smoDiag_Enabled = 0;           // SMO 诊断量：pllError/eMag，判断 PLL 跟踪和反电势幅值
 
 static float g_zeroOffset = 0.0f;               // 零电角度偏移（标定结果）
 static float g_correctedElecAngle = 0.0f;       // 当前修正后的电角度
@@ -153,6 +155,19 @@ void Comm_CommandHandler(void)
         case CMD_SMO_SPEED_CLOSE: smoSpeed_Enabled = 0;     g_commCmd = CMD_NONE; break;
         case CMD_SMO_BACKEMF:     smoBackEmf_Enabled = 1;   g_commCmd = CMD_NONE; break;
         case CMD_SMO_BACKEMF_CLOSE: smoBackEmf_Enabled = 0; g_commCmd = CMD_NONE; break;
+        /* SMO 角度是不经过 PLL 的 atan2 角度，用来判断反电势估计本体是否正确 */
+        case CMD_SMO_RAW_ANGLE:       smoRawAngle_Enabled = 1; g_commCmd = CMD_NONE; break;
+        case CMD_SMO_RAW_ANGLE_CLOSE: smoRawAngle_Enabled = 0; g_commCmd = CMD_NONE; break;
+
+        /* 诊断量包含 PLL 归一化误差和反电势幅值，用来判断 PLL 是否跟丢或反电势是否过弱 */
+        case CMD_SMO_DIAG:       smoDiag_Enabled = 1;     g_commCmd = CMD_NONE; break;
+        case CMD_SMO_DIAG_CLOSE: smoDiag_Enabled = 0;     g_commCmd = CMD_NONE; break;
+
+        /* 有感运行稳定后可手动复位，让 PLL 从当前有效反电势重新初始化 */
+        case CMD_SMO_RESET:
+            SMO_Reset(&g_smoObserver);
+            g_commCmd = CMD_NONE;
+            break;
 
         /* ---- 电角度遥测 ---- */
         case CMD_ELECTRICALANGLE:       electricalAngle_Enabled = 1; g_commCmd = CMD_NONE; break;
