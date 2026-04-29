@@ -55,9 +55,10 @@ typedef struct {
     /* == PLL 锁相环（替代 atan2 + 速度低通） == */
     PllObserver pll;        /**< PLL 锁相环实例 */
 
-    /* == 输出量（兼容旧接口）== */
-    float angle;            /**< 最终估计电角度（rad），等于 pll.theta */
-    float speed;            /**< 最终估计电角速度（rad/s），等于 pll.omega */
+    /* == 输出量 == */
+    float angle;            /**< 补偿后的估计电角度（rad） */
+    float speed;            /**< 估计电角速度（rad/s），等于 pll.omega */
+    float phaseComp;        /**< 反电势 LPF 相位补偿角（rad） */
 } SmoObserver;
 
 /** 全局 SMO 观测器实例 */

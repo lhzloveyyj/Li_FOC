@@ -218,7 +218,19 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
     /* PLL 跟踪更新 */
     PLL_Update(&smo->pll, pllErr);
 
+    /* ============================================================
+     * 第六步：相位滞后补偿
+     *
+     * 反电势 LPF (e += alpha*(z-e)) 是一阶低通滤波器，在频率 ω 处
+     * 产生相位滞后 φ_lag = atan(ω * Ts / alpha)。
+     *
+     * 补偿方法：根据当前估计速度计算滞后角，超前补偿到输出角度上。
+     * FOC_SMO_PHASE_COMP_GAIN 用于调节补偿强度（1.0 = 完全补偿）。
+     * ============================================================ */
+    smo->phaseComp = FOC_SMO_PHASE_COMP_GAIN
+                     * atanf(smo->pll.omega * smo->cfg.ts / smo->cfg.e_lpf_alpha);
+
     /* 同步输出 */
-    smo->angle = smo->pll.theta;
+    smo->angle = NormalizeAngle(smo->pll.theta + smo->phaseComp);
     smo->speed = smo->pll.omega;
 }
