@@ -11,7 +11,9 @@
 #ifndef FAST_SIN_H
 #define FAST_SIN_H
 
+#ifndef M_PI
 #define M_PI (3.1415926f)
+#endif
 
 /**
  * @brief 多项式 f1(x)：用于 sin 的泰勒展开校正

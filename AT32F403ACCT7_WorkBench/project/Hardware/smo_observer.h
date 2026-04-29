@@ -2,6 +2,7 @@
 #define __SMO_OBSERVER_H
 
 #include "at32f403a_407.h"
+#include "pll_observer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,7 +10,7 @@ extern "C" {
 
 /**
  * @brief 滑模观测器（SMO）配置结构体
- * 包含电机参数、滑模增益、滤波系数和 PLL 锁相环参数。
+ * 包含电机参数、滑模增益、滤波系数和 PLL 参数。
  */
 typedef struct {
     float rs;               /**< 电机相电阻（单位：Ω） */
@@ -17,8 +18,7 @@ typedef struct {
     float ts;               /**< 采样周期（单位：s） */
     float k_slide;          /**< 滑模切换增益 */
     float e_lpf_alpha;      /**< 反电势低通滤波系数（0~1，越大截止频率越高） */
-    float pll_kp;           /**< PLL 比例增益 */
-    float pll_ki;           /**< PLL 积分增益 */
+    PllConfig pll;          /**< PLL 锁相环配置 */
 } SmoObserverConfig;
 
 /**
@@ -46,16 +46,12 @@ typedef struct {
     float eAlpha;           /**< α 轴反电势估计值（z 经低通滤波后） */
     float eBeta;            /**< β 轴反电势估计值 */
 
-    /* == PLL 锁相环状态（替代 atan2 + 速度低通） == */
-    float pllTheta;         /**< PLL 估计的电角度（单位：rad） */
-    float pllOmega;         /**< PLL 估计的电角速度（单位：rad/s） */
-    float pllIntegral;      /**< PLL 积分器累积值 */
+    /* == PLL 锁相环（替代 atan2 + 速度低通） == */
+    PllObserver pll;        /**< PLL 锁相环实例 */
 
     /* == 输出量（兼容旧接口）== */
-    float angle;            /**< 最终估计电角度（rad），等于 pllTheta */
-    float speed;            /**< 最终估计电角速度（rad/s），等于 pllOmega */
-
-    uint8_t valid;          /**< 观测器是否已有效（首次更新后置 1） */
+    float angle;            /**< 最终估计电角度（rad），等于 pll.theta */
+    float speed;            /**< 最终估计电角速度（rad/s），等于 pll.omega */
 } SmoObserver;
 
 /** 全局 SMO 观测器实例 */

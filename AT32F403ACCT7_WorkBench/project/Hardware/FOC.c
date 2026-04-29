@@ -261,6 +261,9 @@ void MotorSetPwm(float ua, float ub, float uc)
  ******************************************************************************/
 static void CurrentReconstruction(PFocState pFOC, PSVpwm_State PSVpwm, float ia, float ib, float ic)
 {
+    (void)ia;
+    (void)ib;
+    (void)ic;
     switch (PSVpwm->sector) {
         case 1:
             pFOC->Ib = 0.0f - pFOC->Ia - pFOC->Ic;
@@ -340,22 +343,6 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
 {
     *Out_Ualpha = -Uq * fast_sin(corr_angle) + Ud * fast_cos(corr_angle);
     *Out_Ubeta  =  Uq * fast_cos(corr_angle) + Ud * fast_sin(corr_angle);
-}
-
-/******************************************************************************
- * 函数名称：inv_clarke_transform
- * 功能描述：逆 Clarke 变换（αβ → ABC）。
- *           当前未在控制主循环中使用（SVPWM 直接使用 αβ），
- *           保留用于调试或附加输出。
- * 输入参数：Ualpha, Ubeta - αβ 轴电压
- * 输出参数：Out_Ua/b/c - 三相电压
- ******************************************************************************/
-static void inv_clarke_transform(float Ualpha, float Ubeta,
-                                  float *Out_Ua, float *Out_Ub, float *Out_Uc)
-{
-    *Out_Ua = Ualpha + g_udc / 2.0f;
-    *Out_Ub = (FOC_SQRT3 * Ubeta - Ualpha) / 2.0f + g_udc / 2.0f;
-    *Out_Uc = (-FOC_SQRT3 * Ubeta - Ualpha) / 2.0f + g_udc / 2.0f;
 }
 
 /******************************************************************************

@@ -29,6 +29,7 @@ volatile uint8_t usart3_tx_dma_status = 0;
  ******************************************************************************/
 int fputc(int ch, FILE *f)
 {
+    (void)f;
     while (usart_flag_get(PRINT_UART, USART_TDBE_FLAG) == RESET);
     usart_data_transmit(PRINT_UART, (uint16_t)ch);
     while (usart_flag_get(PRINT_UART, USART_TDC_FLAG) == RESET);

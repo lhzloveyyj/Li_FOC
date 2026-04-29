@@ -12,9 +12,6 @@ SmoObserver g_smoObserver;
  * SMO 内部辅助函数
  ******************************************************************************/
 
-/**
- * @brief 限幅函数
- */
 static float smo_limit(float value, float min_value, float max_value)
 {
     if (value > max_value) return max_value;
@@ -36,6 +33,7 @@ static float smo_sat(float value)
  * 功能描述：初始化滑模观测器。
  *           - 清空所有状态量
  *           - 复制配置参数并做安全限幅
+ *           - 初始化 PLL 锁相环
  * 输入参数：smo - SMO 对象指针
  *           cfg - SMO 配置参数指针
  ******************************************************************************/
@@ -52,8 +50,9 @@ void SMO_Init(SmoObserver *smo, const SmoObserverConfig *cfg)
     smo->cfg.ls = fabsf(smo->cfg.ls) > FOC_EPSILON ? smo->cfg.ls : FOC_SMO_LS;
     smo->cfg.ts = fabsf(smo->cfg.ts) > FOC_EPSILON ? smo->cfg.ts : FOC_SMO_TS;
     smo->cfg.e_lpf_alpha = smo_limit(smo->cfg.e_lpf_alpha, 0.0f, 1.0f);
-    smo->cfg.pll_kp = smo_limit(smo->cfg.pll_kp, 0.0f, 10000.0f);
-    smo->cfg.pll_ki = smo_limit(smo->cfg.pll_ki, 0.0f, 10000.0f);
+
+    /* 初始化 PLL */
+    PLL_Init(&smo->pll, &smo->cfg.pll);
 }
 
 /******************************************************************************
@@ -73,6 +72,9 @@ void SMO_Reset(SmoObserver *smo)
     cfg = smo->cfg;
     memset(smo, 0, sizeof(*smo));
     smo->cfg = cfg;
+
+    /* 重新初始化 PLL */
+    PLL_Init(&smo->pll, &smo->cfg.pll);
 }
 
 /******************************************************************************
@@ -85,13 +87,10 @@ void SMO_Reset(SmoObserver *smo)
  *   3. 电流观测器离散积分：
  *        i_hat += Ts/Ls * (u - Rs*i_hat - e_hat - z)
  *   4. 反电势低通滤波：e += alpha * (z - e)
- *   5. PLL 锁相环从反电势中提取角度和速度：
- *        a. 误差检测：err_pll = (-eAlpha*cos(θ̂) - eBeta*sin(θ̂)) / |e|
- *        b. PI 调节器：ω̂ += Ki*err_pll*Ts, ω̂_out = Kp*err_pll + ω̂_int
- *        c. 角度积分：θ̂ += ω̂*Ts
+ *   5. 从反电势计算 PLL 误差，调用 PLL 模块提取角度和速度
  *
  * 相比 atan2 + 差分求速，PLL 方式更平滑、抗噪性更好。
- * 首次更新时不计算速度（等待角度稳定）。
+ * 首次更新时使用 atan2 初始化 PLL 角度。
  *
  * 输入参数：smo    - SMO 对象指针
  *           uAlpha - α 轴电压（单位：V）
@@ -105,7 +104,7 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
     float errAlpha;
     float errBeta;
     float invLs;
-    float angle;
+    float pllErr;
 
     if (smo == NULL) {
         return;
@@ -146,13 +145,13 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
      * 第四步：反电势低通滤波
      * 滑模注入量 z 中包含高频开关噪声，经一阶 LPF 后得到平滑的反电势。
      * e += e_lpf_alpha * (z - e)
-     * 截至频率由 e_lpf_alpha 决定：fc = alpha / (2*pi*Ts)
+     * 截止频率由 e_lpf_alpha 决定：fc = alpha / (2*pi*Ts)
      * ============================================================ */
     smo->eAlpha += smo->cfg.e_lpf_alpha * (smo->zAlpha - smo->eAlpha);
     smo->eBeta  += smo->cfg.e_lpf_alpha * (smo->zBeta  - smo->eBeta);
 
     /* ============================================================
-     * 第五步：PLL 锁相环提取角度和速度
+     * 第五步：从反电势计算 PLL 误差，调用 PLL 锁相环
      *
      * 反电势矢量：E = [eAlpha, eBeta] = E_mag * [-sin(θ), cos(θ)]
      * 所以真实角度 θ = atan2(-eAlpha, eBeta)
@@ -165,51 +164,31 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
      * 归一化去除幅值影响：
      *   ε_norm = ε / |E|（当 |E| > 阈值时）
      *
-     * PI 调节器更新速度：
-     *   integrator += Ki * ε_norm * Ts
-     *   ω̂ = Kp * ε_norm + integrator
-     *
-     * 角度积分：
-     *   θ̂ += ω̂ * Ts
-     *   θ̂ = normalize(θ̂)
+     * 首次更新时用 atan2 初始化 PLL 角度，之后由 PLL 自主跟踪。
      * ============================================================ */
 
     /* 计算反电势幅值 */
     float eMag = sqrtf(smo->eAlpha * smo->eAlpha + smo->eBeta * smo->eBeta);
 
     /* PLL 误差计算 */
-    float pllErr = -smo->eAlpha * cosf(smo->pllTheta)
-                   - smo->eBeta  * sinf(smo->pllTheta);
+    pllErr = -smo->eAlpha * cosf(smo->pll.theta)
+             - smo->eBeta  * sinf(smo->pll.theta);
 
     /* 幅值归一化（使 PLL 增益与转速无关） */
     if (eMag > FOC_EPSILON) {
         pllErr /= eMag;
     }
 
-    if (smo->valid != 0U) {
-        /* ===== PLL 正常跟踪模式 ===== */
-
-        /* PI 调节器（积分项） */
-        smo->pllIntegral += smo->cfg.pll_ki * pllErr * smo->cfg.ts;
-
-        /* PI 输出 = 比例 + 积分（即估算电角速度） */
-        smo->pllOmega = smo->cfg.pll_kp * pllErr + smo->pllIntegral;
-
-        /* 角度积分 */
-        smo->pllTheta += smo->pllOmega * smo->cfg.ts;
-    } else {
-        /* ===== 首次更新：使用 atan2 初始化 PLL 角度 ===== */
-        angle = atan2f(-smo->eAlpha, smo->eBeta);
-        smo->pllTheta = NormalizeAngle(angle);
-        smo->pllOmega = 0.0f;
-        smo->pllIntegral = 0.0f;
-        smo->valid = 1U;
+    /* 首次更新：用 atan2 初始化 PLL 角度 */
+    if (smo->pll.valid == 0U) {
+        float angle = atan2f(-smo->eAlpha, smo->eBeta);
+        PLL_SetInitialAngle(&smo->pll, NormalizeAngle(angle));
     }
 
-    /* 归一化 PLL 角度 */
-    smo->pllTheta = NormalizeAngle(smo->pllTheta);
+    /* PLL 跟踪更新 */
+    PLL_Update(&smo->pll, pllErr);
 
-    /* 更新输出 */
-    smo->angle = smo->pllTheta;
-    smo->speed = smo->pllOmega;
+    /* 同步输出 */
+    smo->angle = smo->pll.theta;
+    smo->speed = smo->pll.omega;
 }

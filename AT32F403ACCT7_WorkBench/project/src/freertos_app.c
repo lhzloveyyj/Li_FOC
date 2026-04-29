@@ -137,6 +137,7 @@ led_device_t *freertos_get_run_led(void)
  ******************************************************************************/
 void comm_task_func(void *pvParameters)
 {
+    (void)pvParameters;
   /* add user code begin comm_task_func 2 */
     vTaskDelay(100);
 
@@ -174,8 +175,11 @@ void comm_task_func(void *pvParameters)
         .ts = FOC_SMO_TS,
         .k_slide = FOC_SMO_K_SLIDE,
         .e_lpf_alpha = FOC_SMO_E_LPF_ALPHA,
-        .pll_kp = FOC_SMO_PLL_KP,
-        .pll_ki = FOC_SMO_PLL_KI,
+        .pll = {
+            .kp = FOC_SMO_PLL_KP,
+            .ki = FOC_SMO_PLL_KI,
+            .ts = FOC_SMO_TS,
+        },
     };
     SMO_Init(&g_smoObserver, &smoConfig);
 
@@ -203,6 +207,7 @@ void comm_task_func(void *pvParameters)
  ******************************************************************************/
 void control_task_func(void *pvParameters)
 {
+    (void)pvParameters;
   /* add user code begin control_task_func 0 */
     /* 设置 TIM1 通道 4 占空比（用于 PWM 输出 brake 或附加输出） */
     tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, (uint32_t)(FOC_ALL_DUTY * 0.99f));
@@ -235,6 +240,7 @@ void control_task_func(void *pvParameters)
  ******************************************************************************/
 void Monitor_task_func(void *pvParameters)
 {
+    (void)pvParameters;
   /* add user code begin Monitor_task_func 2 */
     float sendata[1] = {0.0f};
   /* add user code end Monitor_task_func 2 */
