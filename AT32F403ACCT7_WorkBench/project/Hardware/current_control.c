@@ -1,4 +1,5 @@
 #include "current_control.h"
+#include "foc_config.h"
 #include "math.h"
 #include "stdio.h"
 
@@ -44,6 +45,24 @@ void CurrentPIControlIQ(PFocState pFOC)
     if (g_pMotor->ctrolmode == FOC_SPEED_LOOP
         || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
         pFOC->iqPID.tar = pFOC->speedPID.out;
+
+        /* tariq 在级联模式下作为电流上限钳位 speedPID 输出 */
+        if (pFOC->tariq > FOC_EPSILON) {
+            if (pFOC->iqPID.tar > pFOC->tariq) {
+                pFOC->iqPID.tar = pFOC->tariq;
+            }
+            if (pFOC->iqPID.tar < -pFOC->tariq) {
+                pFOC->iqPID.tar = -pFOC->tariq;
+            }
+        }
+    }
+
+    /* tariqMax 是绝对安全上限，所有模式下均生效 */
+    if (pFOC->iqPID.tar > pFOC->tariqMax) {
+        pFOC->iqPID.tar = pFOC->tariqMax;
+    }
+    if (pFOC->iqPID.tar < -pFOC->tariqMax) {
+        pFOC->iqPID.tar = -pFOC->tariqMax;
     }
 
     pFOC->iqPID.bias = pFOC->iqPID.tar - pFOC->iqPID.pre;

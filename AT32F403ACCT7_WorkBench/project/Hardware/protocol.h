@@ -89,6 +89,7 @@ typedef enum
     CMD_SMO_RESET             = 0X57,  // 复位 SMO/PLL 状态
     CMD_SENSOR_SENSORED       = 0X58,  // 切换到有感控制（MT6701）
     CMD_SENSOR_SENSORLESS     = 0X59,  // 切换到无感控制（SMO+PLL）
+    CMD_SETIQMAX              = 0X5A,  // 设置 Iq 参考电流上限（A）
 } CMD_TypeDef;
 
 /* =================== 遥测使能标志（外部使用） =================== */

@@ -104,6 +104,7 @@ typedef struct {
     struct PI_Struct iqPID;     // q 轴电流 PI 控制器
     float tariq;                // q 轴电流目标值
     float tarid;                // d 轴电流目标值
+    float tariqMax;             // Iq 参考电流上限（单位：A），防止过流
 
     /* -------- 速度环相关 -------- */
     float speedLastAngle;       // 上次电角度（用于差分法速度计算）

@@ -355,6 +355,12 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
 
+        /* ---- 设置 Iq 参考电流上限 ---- */
+        case CMD_SETIQMAX:
+            g_pMotor->tariqMax = g_cmdData;
+            g_commCmd = CMD_NONE;
+            break;
+
         default:
             /* 未识别命令也要清掉，避免上位机发了新命令但旧固件不支持时 LED 一直闪 */
             g_commCmd = CMD_NONE;

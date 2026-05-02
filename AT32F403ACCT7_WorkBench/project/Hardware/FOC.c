@@ -40,6 +40,7 @@ FocState Motor = {
     .ua = 0.0f, .ub = 0.0f, .uc = 0.0f,
     .uq = 0.0f, .ud = 0.0f,
     .iq = 0.0f, .id = 0.0f,
+    .tariqMax = FOC_IQ_MAX,
     .rs = 0.198f, .lq = 0.000074f, .ld = 0.000040f,
 
     .mechanicalAngle = 0.0f,

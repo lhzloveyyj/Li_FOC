@@ -1,4 +1,5 @@
 #include "speed_control.h"
+#include "foc_config.h"
 #include "math.h"
 #include "stdio.h"
 
@@ -74,6 +75,16 @@ void SpeedPIControl(PFocState pFOC)
     }
     if (pFOC->speedPID.out < -fabs(pFOC->speedPID.outMax)) {
         pFOC->speedPID.out = -fabs(pFOC->speedPID.outMax);
+    }
+
+    /* tariq 在级联模式下作为电流上限，阻止速度环积分饱和 */
+    if (pFOC->tariq > FOC_EPSILON) {
+        if (pFOC->speedPID.out > pFOC->tariq) {
+            pFOC->speedPID.out = pFOC->tariq;
+        }
+        if (pFOC->speedPID.out < -pFOC->tariq) {
+            pFOC->speedPID.out = -pFOC->tariq;
+        }
     }
 }
 
