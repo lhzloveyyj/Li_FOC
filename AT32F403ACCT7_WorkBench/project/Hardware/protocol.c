@@ -169,6 +169,16 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
 
+        /* ---- FOC 反馈来源切换 ---- */
+        case CMD_SENSOR_SENSORED:
+            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORED);
+            g_commCmd = CMD_NONE;
+            break;
+        case CMD_SENSOR_SENSORLESS:
+            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORLESS);
+            g_commCmd = CMD_NONE;
+            break;
+
         /* ---- 电角度遥测 ---- */
         case CMD_ELECTRICALANGLE:       electricalAngle_Enabled = 1; g_commCmd = CMD_NONE; break;
         case CMD_ELECTRICALANGLE_CLOSE: electricalAngle_Enabled = 0; g_commCmd = CMD_NONE; break;
@@ -224,6 +234,7 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
         case CMD_POSITION_LOOP:
+            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORED);
             g_pMotor->ctrolmode = FOC_POSITION_LOOP;
             g_commCmd = CMD_NONE;
             break;

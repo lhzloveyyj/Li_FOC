@@ -4,12 +4,13 @@
 
 /******************************************************************************
  * 函数名称：CalculateSpeed
- * 功能描述：通过机械角度差分计算实际速度，再经低通滤波平滑。
+ * 功能描述：按当前反馈来源计算实际速度，再经低通滤波平滑。
  *
  * 算法：
- *   delta = mechanicalAngle - mechanicalAngle_last
+ *   有感：delta = mechanicalAngle - mechanicalAngle_last
  *   并处理 0/2π 跨周期跳变
  *   speed = speedDir * delta / dt
+ *   无感：speed = SMO/PLL 电速度 / 极对数
  *   最后经一阶低通滤波输出
  *
  * 输入参数：pFOC         - FOC 状态指针
@@ -19,7 +20,16 @@
 void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
 {
     static float mechanicalAngle_last;
-    float angle_diff = (pFOC->mechanicalAngle - mechanicalAngle_last);
+    float angle_diff;
+
+    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
+        pFOC->speed = pFOC->sensorlessMechanicalSpeed;
+        LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));
+        mechanicalAngle_last = pFOC->mechanicalAngle;
+        return;
+    }
+
+    angle_diff = (pFOC->mechanicalAngle - mechanicalAngle_last);
 
     /* 处理跨 0/2π 跳变 */
     if (angle_diff > 3.14159f)

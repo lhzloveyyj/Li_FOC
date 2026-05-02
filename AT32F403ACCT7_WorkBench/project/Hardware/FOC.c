@@ -46,6 +46,12 @@ FocState Motor = {
     .electricalAngle = 0.0f,
     .correctedAngle = 0.0f,
     .zeroOffset = 0.0f,
+    .sensoredMechanicalAngle = 0.0f,
+    .sensoredCorrectedAngle = 0.0f,
+    .sensorlessElectricalAngle = 0.0f,
+    .sensorlessMechanicalSpeed = 0.0f,
+    .sensorlessOpenLoopAngle = 0.0f,
+    .sensorMode = FOC_SENSOR_MODE_SENSORED,
 
     .speedLastAngle = 0.0f,
     .speed = 0.0f,
@@ -125,6 +131,42 @@ float AngleGetCorrectedElec(float mechAngle)
     float corrected = elecAngle - g_pMotor->zeroOffset;
     corrected = NormalizeAngle(corrected);
     return corrected;
+}
+
+/******************************************************************************
+ * 函数名称：FOC_SetSensorMode
+ * 功能描述：切换 FOC 反馈来源。
+ *           有感模式使用 MT6701；无感模式使用 SMO + PLL 的电角度/速度。
+ ******************************************************************************/
+void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode)
+{
+    if (pFOC == NULL) {
+        return;
+    }
+
+    if (mode == FOC_SENSOR_MODE_SENSORLESS) {
+        pFOC->sensorMode = FOC_SENSOR_MODE_SENSORLESS;
+        pFOC->sensorlessOpenLoopAngle = pFOC->correctedAngle;
+        SMO_Reset(&g_smoObserver);
+    } else {
+        pFOC->sensorMode = FOC_SENSOR_MODE_SENSORED;
+    }
+
+    pFOC->speedPID.out = 0.0f;
+    pFOC->speedPID.lastBias = 0.0f;
+    pFOC->positionPID.lastBias = 0.0f;
+}
+
+/******************************************************************************
+ * 函数名称：FOC_GetSensorMode
+ * 功能描述：读取当前 FOC 反馈来源。
+ ******************************************************************************/
+FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC)
+{
+    if (pFOC == NULL) {
+        return FOC_SENSOR_MODE_SENSORED;
+    }
+    return (FocSensorMode_TypeDef)pFOC->sensorMode;
 }
 
 /******************************************************************************
@@ -350,7 +392,7 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  * 功能描述：FOC 主控制函数（在 ADC 中断中调用，每个 PWM 周期执行一次）。
  *
  * 执行流程：
- *   1. 读取编码器获取机械角度 → 计算修正后的电角度
+ *   1. 同时维护编码器角度和 SMO/PLL 角度，按 sensorMode 选择控制角度
  *   2. 读取三相电流 ADC 值 → 计算实际电流值
  *   3. 电流重构（补全未采样的相）
  *   4. Clarke 变换（ABC → αβ）
@@ -369,9 +411,48 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
-    /* ==== 步骤 1：获取角度 ==== */
-    pFOC->mechanicalAngle = Mt6701GetAngleWrapper();
-    pFOC->correctedAngle = AngleGetCorrectedElec(pFOC->mechanicalAngle);
+    /* ==== 步骤 1：获取并选择角度 ==== */
+    if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORED) {
+        pFOC->sensoredMechanicalAngle = Mt6701GetAngleWrapper();
+        pFOC->sensoredCorrectedAngle = AngleGetCorrectedElec(pFOC->sensoredMechanicalAngle);
+    }
+
+    pFOC->sensorlessElectricalAngle = g_smoObserver.angle;
+    if (pFOC->pole_pairs != 0) {
+        pFOC->sensorlessMechanicalSpeed =
+            g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir;
+    } else {
+        pFOC->sensorlessMechanicalSpeed = 0.0f;
+    }
+
+    if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
+        if (pFOC->ctrolmode == FOC_OPEN_LOOP) {
+            float openLoopMechSpeed = pFOC->tar_speed;
+            if ((fabsf(openLoopMechSpeed) <= FOC_EPSILON)
+                && (fabsf(pFOC->uq) > FOC_EPSILON)) {
+                openLoopMechSpeed = FOC_SENSORLESS_OPEN_LOOP_DEFAULT_SPEED;
+            }
+            float openLoopElecSpeed = openLoopMechSpeed * (float)pFOC->pole_pairs * pFOC->speedDir;
+            pFOC->sensorlessOpenLoopAngle =
+                NormalizeAngle(pFOC->sensorlessOpenLoopAngle + openLoopElecSpeed * FOC_SMO_TS);
+            pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
+            if (pFOC->pole_pairs != 0) {
+                pFOC->mechanicalAngle =
+                    NormalizeAngle(pFOC->sensorlessOpenLoopAngle / (float)pFOC->pole_pairs);
+            }
+        } else if (g_smoObserver.pll.valid != 0U) {
+            pFOC->correctedAngle = pFOC->sensorlessElectricalAngle;
+            if (pFOC->pole_pairs != 0) {
+                pFOC->mechanicalAngle =
+                    NormalizeAngle(pFOC->sensorlessElectricalAngle / (float)pFOC->pole_pairs);
+            }
+        } else {
+            pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
+        }
+    } else {
+        pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
+        pFOC->correctedAngle = pFOC->sensoredCorrectedAngle;
+    }
 
     /* ==== 步骤 2：读取电流 ==== */
     pFOC->current.adA = g_motorAdValues[0];

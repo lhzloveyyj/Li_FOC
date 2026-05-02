@@ -13,7 +13,14 @@
 void CalculatePosition(PFocState pFOC)
 {
     static float mechanicalAngle_last;
-    float delta = pFOC->mechanicalAngle - mechanicalAngle_last;
+    float delta;
+
+    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
+        mechanicalAngle_last = pFOC->mechanicalAngle;
+        return;
+    }
+
+    delta = pFOC->mechanicalAngle - mechanicalAngle_last;
 
     /* 角度跨周期修正 */
     if (delta >  FOC_PI) delta -= FOC_2PI;

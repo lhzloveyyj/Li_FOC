@@ -268,7 +268,7 @@ void TMR2_GLOBAL_IRQHandler(void)
 
         if ((slot == 0U) && (electricalAngle_Enabled == 1)) {
             /* 编码器电角度：有感真实参考，用来和 SMO/PLL 两个角度对比 */
-            focData[0] = g_pMotor->correctedAngle;
+            focData[0] = g_pMotor->sensoredCorrectedAngle;
             USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
             smoTelemetrySlot = 1U;
             break;

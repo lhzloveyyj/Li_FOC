@@ -44,6 +44,7 @@
 #define FOC_SMO_PLL_KI             80000.0f    // PLL 积分增益；用于消除长期速度误差，SMO角度正确但PLL慢时优先增大
 #define FOC_SMO_PLL_SPEED_FF_ALPHA 0.05f       // PLL 速度前馈系数；用SMO角度差分速度帮助高速捕获，越大越快但越吃噪声
 #define FOC_SMO_PHASE_COMP_GAIN   1.0f        // 相位补偿增益（1.0=完全补偿反电势 LPF 滞后，0=关闭）
+#define FOC_SENSORLESS_OPEN_LOOP_DEFAULT_SPEED 5.0f  // 无感开环默认机械角速度；只设置Uq时用于拖动虚拟角度
 
 /* =================== 调试功能开关 =================== */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）

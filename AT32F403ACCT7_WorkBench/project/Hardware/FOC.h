@@ -19,6 +19,15 @@ typedef enum
     FOC_POSITION_LOOP = 0x04,  // 位置闭环模式：位置 PD → 速度 PI → 电流 PI 串联
 } CtrolMode_TypeDef;
 
+/**
+ * @brief FOC 角度/速度反馈来源
+ */
+typedef enum
+{
+    FOC_SENSOR_MODE_SENSORED   = 0x00,  // 有感：MT6701 编码器
+    FOC_SENSOR_MODE_SENSORLESS = 0x01,  // 无感：SMO + PLL
+} FocSensorMode_TypeDef;
+
 extern float g_udc;
 
 /**
@@ -79,10 +88,16 @@ typedef struct {
     float ld;                   // d 轴电感（单位：H）
 
     /* -------- 角度 & 速度 -------- */
-    float mechanicalAngle;      // 机械角度（单位：rad，来自编码器）
-    float electricalAngle;      // 电角度 = 机械角 × 极对数（未修正）
-    float correctedAngle;       // 修正后的电角度（减去 zeroOffset）
+    float mechanicalAngle;      // 当前控制使用的机械角度（单位：rad）
+    float electricalAngle;      // 当前控制使用的电角度（未修正/保留）
+    float correctedAngle;       // 当前控制使用的修正电角度
     float zeroOffset;           // 零电角度偏移（对准时标定得到）
+    float sensoredMechanicalAngle;    // 编码器机械角度（单位：rad）
+    float sensoredCorrectedAngle;     // 编码器修正电角度（单位：rad）
+    float sensorlessElectricalAngle;  // SMO/PLL 电角度（单位：rad）
+    float sensorlessMechanicalSpeed;  // SMO/PLL 换算机械速度（单位：rad/s）
+    float sensorlessOpenLoopAngle;    // 无感开环虚拟电角度（单位：rad）
+    uint8_t sensorMode;               // 当前反馈来源（FocSensorMode_TypeDef）
 
     /* -------- 电流环 PID -------- */
     struct PI_Struct idPID;     // d 轴电流 PI 控制器
@@ -119,6 +134,8 @@ void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle);
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm);
 void getAdoffset(void);
 float NormalizeAngle(float angle);
+void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode);
+FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC);
 
 #ifdef __cplusplus
 }

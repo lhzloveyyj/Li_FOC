@@ -87,6 +87,8 @@ typedef enum
     CMD_SMO_DIAG              = 0X55,  // SMO 诊断量：PLL误差/反电势幅值
     CMD_SMO_DIAG_CLOSE        = 0X56,  // 关闭 SMO 诊断量
     CMD_SMO_RESET             = 0X57,  // 复位 SMO/PLL 状态
+    CMD_SENSOR_SENSORED       = 0X58,  // 切换到有感控制（MT6701）
+    CMD_SENSOR_SENSORLESS     = 0X59,  // 切换到无感控制（SMO+PLL）
 } CMD_TypeDef;
 
 /* =================== 遥测使能标志（外部使用） =================== */
