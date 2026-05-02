@@ -223,19 +223,34 @@ void Comm_CommandHandler(void)
         /* ---- 控制模式切换 ---- */
         case CMD_OPEN_LOOP:
             g_pMotor->ctrolmode = FOC_OPEN_LOOP;
+            g_pMotor->iqPID.lastBias = 0.0f;
+            g_pMotor->speedPID.out = 0.0f;
+            g_pMotor->speedPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;
         case CMD_CURRENT_LOOP:
             g_pMotor->ctrolmode = FPC_CURRENT_LOOP;
+            g_pMotor->iqPID.out = g_pMotor->uq;
+            g_pMotor->iqPID.lastBias = g_pMotor->iqPID.tar - g_pMotor->iqPID.pre;
+            g_pMotor->speedPID.out = 0.0f;
+            g_pMotor->speedPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;
         case CMD_SPEED_LOOP:
             g_pMotor->ctrolmode = FOC_SPEED_LOOP;
+            g_pMotor->speedPID.out = g_pMotor->iq;
+            g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
+            g_pMotor->iqPID.out = g_pMotor->uq;
+            g_pMotor->iqPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;
         case CMD_POSITION_LOOP:
             FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORED);
             g_pMotor->ctrolmode = FOC_POSITION_LOOP;
+            g_pMotor->speedPID.out = g_pMotor->iq;
+            g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
+            g_pMotor->iqPID.out = g_pMotor->uq;
+            g_pMotor->iqPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;
 

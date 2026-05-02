@@ -219,14 +219,20 @@ void control_task_func(void *pvParameters)
 
   while (1) {
       CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
-      SpeedPIControl(g_pMotor);
+
+      if (g_pMotor->ctrolmode == FOC_SPEED_LOOP
+          || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
+          SpeedPIControl(g_pMotor);
+      }
 
       /* 位置环以较低频率运行（每 5 个周期 = 10ms 执行一次） */
-      num++;
-      if (num == 5) {
-          CalculatePosition(g_pMotor);
-          PositionPDControl(g_pMotor);
-          num = 0;
+      if (g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
+          num++;
+          if (num == 5) {
+              CalculatePosition(g_pMotor);
+              PositionPDControl(g_pMotor);
+              num = 0;
+          }
       }
       vTaskDelay(2);
   }

@@ -428,10 +428,11 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
         if (pFOC->ctrolmode == FOC_OPEN_LOOP) {
-            float openLoopMechSpeed = pFOC->tar_speed;
-            if ((fabsf(openLoopMechSpeed) <= FOC_EPSILON)
-                && (fabsf(pFOC->uq) > FOC_EPSILON)) {
-                openLoopMechSpeed = FOC_SENSORLESS_OPEN_LOOP_DEFAULT_SPEED;
+            float openLoopMechSpeed;
+            if (fabsf(pFOC->uq) > FOC_EPSILON) {
+                openLoopMechSpeed = pFOC->uq * FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED;
+            } else {
+                openLoopMechSpeed = 0.0f;
             }
             float openLoopElecSpeed = openLoopMechSpeed * (float)pFOC->pole_pairs * pFOC->speedDir;
             pFOC->sensorlessOpenLoopAngle =
@@ -441,14 +442,14 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
                 pFOC->mechanicalAngle =
                     NormalizeAngle(pFOC->sensorlessOpenLoopAngle / (float)pFOC->pole_pairs);
             }
-        } else if (g_smoObserver.pll.valid != 0U) {
+        } else {
+            /* 非开环模式：即使 PLL 未锁定也用 PLL 角度（至少随真实反电势转动），
+             * 避免回退到已冻结的虚拟角度导致 Park 变换完全失效 */
             pFOC->correctedAngle = pFOC->sensorlessElectricalAngle;
             if (pFOC->pole_pairs != 0) {
                 pFOC->mechanicalAngle =
                     NormalizeAngle(pFOC->sensorlessElectricalAngle / (float)pFOC->pole_pairs);
             }
-        } else {
-            pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
         }
     } else {
         pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
