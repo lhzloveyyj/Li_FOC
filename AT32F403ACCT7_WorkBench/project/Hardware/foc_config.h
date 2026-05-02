@@ -34,7 +34,7 @@
 #define FOC_SMO_RS                  0.198f      // 电机相电阻（单位：Ω）
 #define FOC_SMO_LS                  0.000057f   // 等效电感（Lq+Ld)/2（单位：H）
 #define FOC_SMO_TS                  0.00005f    // SMO 采样周期（单位：s，对应 20kHz）
-#define FOC_SMO_K_SLIDE             0.2f        // 滑模增益（适配低电感电机，Ls~57uH）
+#define FOC_SMO_K_SLIDE             20.0f       // 滑模增益（需大于最大反电势，24V母线设20V以上）
 #define FOC_SMO_E_LPF_ALPHA         0.02f       // 反电势低通滤波系数
 #define FOC_SMO_SPEED_LPF_ALPHA     0.02f       // 速度低通滤波系数
 #define FOC_SMO_CURRENT_ERR_BAND    10.0f       // 电流误差饱和带，用于平滑滑模切换
