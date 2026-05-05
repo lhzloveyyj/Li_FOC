@@ -10,8 +10,8 @@
  * 算法：
  *   有感：delta = mechanicalAngle - mechanicalAngle_last
  *   并处理 0/2π 跨周期跳变
- *   speed = speedDir * delta / dt
- *   无感：speed = SMO/PLL 电速度 / 极对数
+ *   speed = speedDir * delta / dt * 60/(2π)  → rpm
+ *   无感：speed = sensorlessMechanicalSpeed（已是 rpm）
  *   最后经一阶低通滤波输出
  *
  * 输入参数：pFOC         - FOC 状态指针
@@ -38,8 +38,8 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
     else if (angle_diff < -3.14159f)
         angle_diff += 6.28318f;
 
-    /* 计算原始速度 */
-    pFOC->speed = pFOC->speedDir * angle_diff / dt;
+    /* 计算机械转速并转为 rpm */
+    pFOC->speed = pFOC->speedDir * angle_diff / dt * 60.0f / FOC_2PI;
 
     /* 低通滤波平滑 */
     LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));

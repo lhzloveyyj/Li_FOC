@@ -421,7 +421,8 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
     pFOC->sensorlessElectricalAngle = g_smoObserver.angle;
     if (pFOC->pole_pairs != 0) {
         pFOC->sensorlessMechanicalSpeed =
-            g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir;
+            g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir
+            * 60.0f / FOC_2PI;
     } else {
         pFOC->sensorlessMechanicalSpeed = 0.0f;
     }
@@ -434,7 +435,8 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
             } else {
                 openLoopMechSpeed = 0.0f;
             }
-            float openLoopElecSpeed = openLoopMechSpeed * (float)pFOC->pole_pairs * pFOC->speedDir;
+            float openLoopElecSpeed = openLoopMechSpeed * FOC_2PI / 60.0f
+                                     * (float)pFOC->pole_pairs * pFOC->speedDir;
             pFOC->sensorlessOpenLoopAngle =
                 NormalizeAngle(pFOC->sensorlessOpenLoopAngle + openLoopElecSpeed * FOC_SMO_TS);
             pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;

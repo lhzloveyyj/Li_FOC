@@ -1,45 +1,22 @@
-# 速度遥测单位说明
+# 速度单位说明
 
-## 原始问题描述
+## 当前状态
 
-用户现场描述：
+速度内部存储和遥测都已统一为 **rpm（转/分钟）**。
 
-> 有感速度环测出来满转速度是 900 多，SMO 测出来的速度是 9000 多，但是感觉转速差不多。感觉 SMO 的可能更准一些，因为确实转得特别快。有感测出来的为什么低很多，是因为单位问题还是什么？
+- `g_pMotor->speed` — 实际转速，单位 rpm
+- `g_pMotor->tar_speed` — 目标转速，单位 rpm
+- `CMD_SPEED` 遥测 — 直接发送 `g_pMotor->speed`，单位 rpm
+- `CMD_SMO_SPEED` 遥测 — 从 PLL 电角速度换算为 rpm
+- `sensorlessMechanicalSpeed` — 从 SMO/PLL 换算的机械转速，单位 rpm
 
-## 结论
-
-这两个速度大概率不是同一个单位含义：
-
-- `CMD_SPEED` 发送的是 `g_pMotor->speed`，在有感模式下是机械角速度，单位是 `rad/s`。
-- `CMD_SMO_SPEED` 发送的是 `g_smoObserver.speed`，这是 SMO/PLL 输出的电角速度，单位也是 `rad/s`，但它是电角度的速度。
-
-电角速度和机械角速度关系：
-
-```text
-electrical_speed = mechanical_speed * pole_pairs
-mechanical_speed = electrical_speed / pole_pairs
-```
-
-所以看到：
-
-```text
-有感速度 CMD_SPEED     ~= 900
-SMO 速度 CMD_SMO_SPEED ~= 9000
-```
-
-如果电机极对数 `pole_pairs = 10`：
-
-```text
-9000 / 10 = 900
-```
-
-这说明两者其实是匹配的，只是一个是机械角速度，一个是电角速度。
+速度环 PID 也在 rpm 下运算。
 
 ## 代码链路
 
-### 有感速度遥测
+### CMD_SPEED 遥测
 
-在 `AT32F403ACCT7_WorkBench/project/src/at32f403a_407_int.c` 中：
+在 `at32f403a_407_int.c` 中直接发送 rpm：
 
 ```c
 if (speed_Enabled == 1) {
@@ -48,124 +25,72 @@ if (speed_Enabled == 1) {
 }
 ```
 
-`g_pMotor->speed` 在 `AT32F403ACCT7_WorkBench/project/Hardware/speed_control.c` 中计算。
+### CMD_SMO_SPEED 遥测
 
-有感模式下：
+从 PLL 电角速度（rad/s）换算为 rpm：
+
+```c
+focData[0] = g_smoObserver.speed / (float)g_pMotor->pole_pairs
+             * 60.0f / FOC_2PI;
+USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
+```
+
+其中 `g_smoObserver.speed = smo->pll.omega`，是 SMO/PLL 估算的电角速度（rad/s）。
+
+### 有感速度计算（speed_control.c）
+
+编码器机械角度差分后转为 rpm：
 
 ```c
 angle_diff = (pFOC->mechanicalAngle - mechanicalAngle_last);
-pFOC->speed = pFOC->speedDir * angle_diff / dt;
-LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));
+// 处理 0/2π 跨周期跳变
+pFOC->speed = pFOC->speedDir * angle_diff / dt * 60.0f / FOC_2PI;
 ```
 
-这里的 `mechanicalAngle` 是机械角度，所以计算结果是机械角速度，单位是 `rad/s`。
+### 无感速度计算（FOC.c）
 
-### SMO 速度遥测
-
-在 `AT32F403ACCT7_WorkBench/project/src/at32f403a_407_int.c` 中：
-
-```c
-if ((slot == 2U) && (smoSpeed_Enabled == 1)) {
-    focData[0] = g_smoObserver.speed;
-    USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
-}
-```
-
-`g_smoObserver.speed` 在 `AT32F403ACCT7_WorkBench/project/Hardware/smo_observer.c` 中来自 PLL：
-
-```c
-smo->speed = smo->pll.omega;
-```
-
-PLL 追踪的是 SMO 反电动势得到的电角度，所以这里的速度是电角速度，单位是 `rad/s`。
-
-### 无感速度环实际使用的速度
-
-在 `AT32F403ACCT7_WorkBench/project/Hardware/FOC.c` 中，代码已经把 SMO 电角速度换算成机械角速度：
+PLL 电角速度先换算为机械角速度，再转为 rpm：
 
 ```c
 pFOC->sensorlessMechanicalSpeed =
-    g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir;
+    g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir
+    * 60.0f / FOC_2PI;
 ```
 
-然后 `CalculateSpeed()` 在无感模式下使用：
+### 无感开环
+
+`FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED` 单位为 rpm/V，开环角度积分时内部转为电角速度：
 
 ```c
-pFOC->speed = pFOC->sensorlessMechanicalSpeed;
-```
-
-因此，无感速度环实际使用的 `g_pMotor->speed` 应该是机械角速度，而不是原始 `g_smoObserver.speed`。
-
-## rpm 换算
-
-当前速度变量都是 `rad/s`，不是 `rpm`。
-
-机械角速度转 rpm：
-
-```text
-rpm = mechanical_rad_s * 60 / (2*pi)
-```
-
-例如：
-
-```text
-900 rad/s ~= 900 * 60 / 6.28318 ~= 8594 rpm
-```
-
-所以有感速度显示 `900` 并不低，它对应的机械转速已经接近 `8600 rpm`。
-
-如果 SMO 显示 `9000`，需要先除以极对数再换 rpm：
-
-```text
-mechanical_rad_s = 9000 / pole_pairs
-rpm = mechanical_rad_s * 60 / (2*pi)
+openLoopMechSpeed = pFOC->uq * FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED;  // rpm
+openLoopElecSpeed = openLoopMechSpeed * FOC_2PI / 60.0f * pole_pairs * speedDir;  // elec rad/s
 ```
 
 ## 对比方法
 
-判断有感速度和 SMO 速度是否一致时，不要直接比较：
+`CMD_SPEED` 和 `CMD_SMO_SPEED` 都是 rpm，可直接对比。
 
-```text
-CMD_SPEED vs CMD_SMO_SPEED
-```
+## 速度环 PID 参数
 
-应该比较：
+`speed` 从 rad/s 改为 rpm 后，数值放大约 **9.55 倍**（= 60 / 2π）。
 
-```text
-CMD_SPEED ~= CMD_SMO_SPEED / pole_pairs
-```
+- 同样物理转速，速度误差放大了 9.55 倍
+- P 项输出 = kp × 误差，电流给定也随之放大 9.55 倍
+- 积分项累积速度加快，更容易饱和 → 转矩剧烈波动 → 电机抖动
 
-或者比较 rpm：
+因此速度环 kp / ki 需要同比例缩小。推荐参数：
 
-```text
-sensored_rpm = CMD_SPEED * 60 / (2*pi)
-smo_rpm      = CMD_SMO_SPEED / pole_pairs * 60 / (2*pi)
-```
+| 参数 | 旧值 (rad/s) | 新值 (rpm) |
+|------|-------------|-----------|
+| kp   | 0.002       | **0.0002** |
+| ki   | 0.1         | **0.01**   |
 
-## 建议改进
-
-为了避免后续混淆，建议新增一个无感机械速度遥测，例如：
-
-```c
-focData[0] = g_pMotor->sensorlessMechanicalSpeed;
-USART3_SendPacket(CMD_SMO_MECH_SPEED, &focData[0], 1);
-```
-
-或者把上位机中 `CMD_SMO_SPEED` 标注为：
-
-```text
-SMO electrical speed, rad/s
-```
-
-并在界面中额外显示：
-
-```text
-SMO mechanical speed = SMO electrical speed / pole_pairs
-```
+这个参数组合经实测验证，稳态平稳、动态响应正常。
 
 ## 注意事项
 
-- 极对数 `pole_pairs` 必须配置正确，否则 SMO 电角速度换算机械速度会错。
-- `speedDir` 只影响方向符号，不改变速度单位。
-- `CMD_SPEED` 在有感模式下是编码器机械角速度；在无感模式下会被 `sensorlessMechanicalSpeed` 覆盖，仍然应理解为机械角速度。
-- `CMD_SMO_SPEED` 当前是原始 SMO/PLL 电角速度，不能直接和机械速度比较。
+- `pole_pairs` 必须配置正确，否则 SMO 速度换算 rpm 会出错。
+- `speedDir` 只影响符号，不影响幅值。
+- 上位机发送速度目标（`CMD_SETSPEEDTAR`）时，数据单位为 rpm。
+- 转速 rad/s ↔ rpm 换算：`rpm = rad_per_s * 60 / (2π)`，`rad_per_s = rpm * (2π) / 60`。
+- **开环/电流环模式不受影响**，`speed` 在这两种模式下不参与控制。

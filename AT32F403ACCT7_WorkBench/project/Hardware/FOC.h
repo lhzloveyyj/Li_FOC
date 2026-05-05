@@ -95,7 +95,7 @@ typedef struct {
     float sensoredMechanicalAngle;    // 编码器机械角度（单位：rad）
     float sensoredCorrectedAngle;     // 编码器修正电角度（单位：rad）
     float sensorlessElectricalAngle;  // SMO/PLL 电角度（单位：rad）
-    float sensorlessMechanicalSpeed;  // SMO/PLL 换算机械速度（单位：rad/s）
+    float sensorlessMechanicalSpeed;  // SMO/PLL 换算机械转速（单位：rpm）
     float sensorlessOpenLoopAngle;    // 无感开环虚拟电角度（单位：rad）
     uint8_t sensorMode;               // 当前反馈来源（FocSensorMode_TypeDef）
 
@@ -108,9 +108,9 @@ typedef struct {
 
     /* -------- 速度环相关 -------- */
     float speedLastAngle;       // 上次电角度（用于差分法速度计算）
-    float speed;                // 当前实际速度
-    float speedDir;             // 速度方向
-    float tar_speed;            // 速度目标值
+    float speed;                // 当前实际转速（单位：rpm）
+    float speedDir;             // 速度方向符号（1 或 -1）
+    float tar_speed;            // 速度目标值（单位：rpm）
     struct PI_Struct speedPID;  // 速度 PI 控制器
 
     /* -------- 位置环相关 -------- */

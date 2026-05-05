@@ -16,6 +16,7 @@
 #include "usart3.h"
 #include "freertos_app.h"
 #include "FOC.h"
+#include "foc_config.h"
 #include "protocol.h"
 #include "mostemp.h"
 #include "smo_observer.h"
@@ -229,7 +230,7 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 1);
     }
 
-    /* ---- 速度 ---- */
+    /* ---- 速度（rpm） ---- */
     if (speed_Enabled == 1) {
         focData[0] = g_pMotor->speed;
         USART3_SendPacket(CMD_SPEED, &focData[0], 1);
@@ -281,7 +282,8 @@ void TMR2_GLOBAL_IRQHandler(void)
             break;
         }
         if ((slot == 2U) && (smoSpeed_Enabled == 1)) {
-            focData[0] = g_smoObserver.speed;
+            focData[0] = g_smoObserver.speed / (float)g_pMotor->pole_pairs
+                         * 60.0f / FOC_2PI;
             USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
             smoTelemetrySlot = 3U;
             break;
