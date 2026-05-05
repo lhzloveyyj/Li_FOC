@@ -117,6 +117,31 @@ Li_FOC/
 | `control_task` | 256 words | 2ms | 速度/位置外环控制 |
 | `Monitor_task` | 128 words | 500ms | MOS 温度监控上传 |
 
+### 3.5 电流限制机制
+
+`tariq`（通过 `CMD_SETIQ` 设置，默认 0）在不同控制模式中扮演不同角色：
+
+| 模式 | tariq 的作用 | 说明 |
+|------|-------------|------|
+| 电流环 (`FPC_CURRENT_LOOP`) | **目标电流** | `iqPID.tar = tariq`，PI 直接跟踪 |
+| 速度环 (`FOC_SPEED_LOOP`) | **电流上限** | `iqPID.tar = clamp(speedPID.out, ±tariq)`，阻止速度环输出过量 Iq 参考 |
+| 位置环 (`FOC_POSITION_LOOP`) | **电流上限** | 同上 |
+
+同时新增 `tariqMax`（通过 `CMD_SETIQMAX` 设置，默认 40A），作为**绝对安全上限**在所有模式下生效，无法被超越。
+
+**典型用法**（速度环 + 电流限制）：
+```
+CMD_SPEED_LOOP              # 切换速度环
+CMD_SETIQ = 2.0             # 电流上限 2A
+CMD_SETSPEEDTAR = 50        # 目标速度 50 rad/s
+# 电机跟踪速度，但 Iq 参考不会超过 2A
+```
+
+**电流限制双层结构**：
+- **第一层** `tariq`（`CMD_SETIQ`）：用户可调的电流限制 / 电流环目标
+- **第二层** `tariqMax`（`CMD_SETIQMAX`）：硬件安全上限，不可被超越
+- **第三层** `iqPID.outMax`（`CMD_SETIQPIDOUT`）：输出电压 Uq 限幅（V），非电流限制
+
 ---
 
 ## 4. SMO 滑模观测器（无传感器角度观测）
@@ -162,12 +187,17 @@ PLL 锁相环提取角度/速度：
 |------|--------|------|
 | Rs | 0.198 Ω | 电机相电阻 |
 | Ls | 57 µH | 等效电感 (Lq+Ld)/2 |
-| K_slide | 8.0 | 滑模增益 |
-| e_lpf_alpha | 0.08 | 反电势低通滤波系数 |
-| PLL_Kp | 200.0 | PLL 比例增益 |
-| PLL_Ki | 50.0 | PLL 积分增益 |
+| K_slide | 20.0 | 滑模增益，需 > 最大反电势（24V 母线设 >20V） |
+| e_lpf_alpha | 0.02 | 反电势低通滤波系数 |
+| current_err_band | 10.0 | 电流误差饱和带，平滑滑模切换 |
+| PLL_Kp | 800.0 | PLL 比例增益 |
+| PLL_Ki | 80000.0 | PLL 积分增益 |
+| PLL_speed_ff_alpha | 0.05 | PLL 速度前馈系数 |
+| phase_comp_gain | 1.0 | 反电势 LPF 相位滞后补偿增益（1.0 = 完全补偿） |
 
 参数通过上位机 `CMD_SETMOTORRS/LQ/LD` 在线调整，掉电保存至 Flash。
+
+**K_slide 选取原则**：稳态下 SMO 能估计的最大反电势 ≈ 2 × K_slide。K_slide 必须大于电机最高转速下的反电势幅值，否则观测器发散、角度错误、电机抽搐。24V 母线电机建议 ≥ 20。
 
 ---
 
@@ -199,6 +229,7 @@ PLL 锁相环提取角度/速度：
 | 参数设置 | `CMD_SETPAIRS`, `CMD_SETDIR`, `CMD_SETUQ` 等 |
 | 模式切换 | `CMD_OPEN_LOOP`, `CMD_CURRENT_LOOP`, `CMD_SPEED_LOOP`, `CMD_POSITION_LOOP` |
 | PID 整定 | `CMD_SETIQPIDKP/KI`, `CMD_SETSPEEDPIDKP/KI`, `CMD_SETLOCALPIDKP/KD` |
+| 电流限制 | `CMD_SETIQ`（目标/上限）, `CMD_SETIQMAX`（绝对安全上限 0x5A） |
 | 标定校准 | `CMD_ZEROCALIBRATIO`（强拖 + 角度零偏标定）|
 | SMO 调试 | `CMD_SMO_ANGLE`, `CMD_SMO_SPEED`, `CMD_SMO_BACKEMF` |
 | 电机参数 | `CMD_SETMOTORRS/LQ/LD` |
@@ -272,9 +303,21 @@ PLL 锁相环提取角度/速度：
 ### 8.3 控制模式切换
 
 1. 开环验证：`CMD_OPEN_LOOP` + 设置 Uq 观察电机转动
-2. 电流闭环：`CMD_CURRENT_LOOP` + 设置目标 Iq
-3. 速度闭环：`CMD_SPEED_LOOP` + 设置目标速度
+2. 电流闭环：`CMD_CURRENT_LOOP` + `CMD_SETIQ` 设置目标 Iq
+3. 速度闭环：`CMD_SPEED_LOOP` + `CMD_SETSPEEDTAR` 设置目标速度
+   - 建议同时设 `CMD_SETIQ` 作为电流上限，防止启动过流
 4. 位置闭环：`CMD_POSITION_LOOP` + 设置目标位置
+
+### 8.4 常见问题排查
+
+**无感模式电机抽搐**
+- **原因**：SMO 滑模增益 `K_slide` 小于电机反电势。稳态下 SMO 最大估计反电势 ≈ 2 × K_slide，若 K_slide 过小，反电势稍增大即导致观测器发散。
+- **解决**：增大 `FOC_SMO_K_SLIDE`（24V 母线建议 ≥ 20）
+- **验证**：同时开启 `CMD_SMO_ANGLE` 和 `CMD_ELECTRICALANGLE` 对比，若 SMO 角度严重偏离编码器角度则说明参数不当。
+
+**电流限制不生效**
+- 速度环/位置环模式下，`CMD_SETIQ` 设置的值作为电流上限（非目标）。若设为 0 则不限制（`tariq = 0` 视为关闭限制）。
+- 绝对安全上限 `CMD_SETIQMAX`（默认 40A）在所有模式下生效。
 
 ---
 
@@ -323,10 +366,11 @@ cd AT32F403ACCT7_WorkBench
 ## 12. 注意事项
 
 1. **SMO 参数整定**：Rs/Lq/Ld 必须与电机实际参数匹配，否则观测角度偏差大
-2. **PLL 参数**：PLL Kp/Ki 根据转速范围和 PWM 频率调整
-3. **启动流程**：先开环强拖到一定转速后，SMO 角速度稳定后方可切换闭环
-4. **电流采样**：Ia 采样通道存在异常，当前使用 Ib/Ic 重构
-5. **构建产物**：`MDK_V5/objects`、`listings` 等建议加入 `.gitignore`
+2. **SMO 增益要求**：K_slide 必须大于电机最大反电势（稳态下可估计反电势 ≈ 2×K_slide）。24V 母线建议 ≥ 20，否则高速时观测器发散导致电机抽搐
+3. **PLL 参数**：PLL Kp/Ki 根据转速范围和 PWM 频率调整
+4. **启动流程**：先开环强拖到一定转速后，SMO 角速度稳定后方可切换闭环
+5. **电流采样**：Ia 采样通道存在异常，当前使用 Ib/Ic 重构
+6. **构建产物**：`MDK_V5/objects`、`listings` 等建议加入 `.gitignore`
 
 ---
 
