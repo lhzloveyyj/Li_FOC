@@ -46,6 +46,7 @@
 #define FOC_SMO_PHASE_COMP_GAIN   1.0f        // 相位补偿增益（1.0=完全补偿反电势 LPF 滞后，0=关闭）
 #define FOC_SENSORLESS_OPEN_LOOP_DEFAULT_SPEED 47.7f   // 无感开环默认转速 rpm（仅 tar_speed=0 且 uq=0 时使用）
 #define FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED   477.5f  // 无感开环 uq→转速 转换系数 rpm/V；tar_speed=0 时生效
+#define FOC_SPEED_LOOP_TS                      0.002f   // 速度环任务周期（单位：s）
 
 /* =================== 调试功能开关 =================== */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）

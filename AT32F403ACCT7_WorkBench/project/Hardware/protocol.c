@@ -4,6 +4,7 @@
 #include "led.h"
 #include "flash_ops.h"
 #include "FOC.h"
+#include "foc_config.h"
 #include "mostemp.h"
 #include "smo_observer.h"
 
@@ -213,6 +214,16 @@ void Comm_CommandHandler(void)
         /* ---- 设置目标 Id/Iq ---- */
         case CMD_SETIQ:
             g_pMotor->tariq = g_cmdData;
+            if ((g_pMotor->ctrolmode == FOC_SPEED_LOOP
+                 || g_pMotor->ctrolmode == FOC_POSITION_LOOP)
+                && (g_pMotor->tariq > FOC_EPSILON)) {
+                if (g_pMotor->speedPID.out > g_pMotor->tariq) {
+                    g_pMotor->speedPID.out = g_pMotor->tariq;
+                }
+                if (g_pMotor->speedPID.out < -g_pMotor->tariq) {
+                    g_pMotor->speedPID.out = -g_pMotor->tariq;
+                }
+            }
             g_commCmd = CMD_NONE;
             break;
         case CMD_SETID:

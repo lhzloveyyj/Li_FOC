@@ -412,6 +412,9 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
+    static float sensorlessElectricalAngleLast = 0.0f;
+    static uint8_t sensorlessSpeedValid = 0U;
+
     /* ==== 步骤 1：获取并选择角度 ==== */
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORED) {
         pFOC->sensoredMechanicalAngle = Mt6701GetAngleWrapper();
@@ -420,12 +423,27 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 
     pFOC->sensorlessElectricalAngle = g_smoObserver.angle;
     if (pFOC->pole_pairs != 0) {
-        pFOC->sensorlessMechanicalSpeed =
-            g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir
-            * 60.0f / FOC_2PI;
+        float sensorlessAngleDiff = pFOC->sensorlessElectricalAngle
+                                    - sensorlessElectricalAngleLast;
+        if (sensorlessAngleDiff > FOC_PI) {
+            sensorlessAngleDiff -= FOC_2PI;
+        } else if (sensorlessAngleDiff < -FOC_PI) {
+            sensorlessAngleDiff += FOC_2PI;
+        }
+
+        if (sensorlessSpeedValid == 0U) {
+            pFOC->sensorlessMechanicalSpeed = 0.0f;
+            sensorlessSpeedValid = 1U;
+        } else {
+            pFOC->sensorlessMechanicalSpeed =
+                pFOC->speedDir * sensorlessAngleDiff / (float)pFOC->pole_pairs
+                / FOC_SMO_TS * 60.0f / FOC_2PI;
+        }
     } else {
         pFOC->sensorlessMechanicalSpeed = 0.0f;
+        sensorlessSpeedValid = 0U;
     }
+    sensorlessElectricalAngleLast = pFOC->sensorlessElectricalAngle;
 
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
         if (pFOC->ctrolmode == FOC_OPEN_LOOP) {

@@ -11,7 +11,7 @@
  *   有感：delta = mechanicalAngle - mechanicalAngle_last
  *   并处理 0/2π 跨周期跳变
  *   speed = speedDir * delta / dt * 60/(2π)  → rpm
- *   无感：speed = sensorlessMechanicalSpeed（已是 rpm）
+ *   无感：speed = sensorlessMechanicalSpeed（FOC 高频中断内已算成 rpm）
  *   最后经一阶低通滤波输出
  *
  * 输入参数：pFOC         - FOC 状态指针
@@ -50,7 +50,8 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
 /******************************************************************************
  * 函数名称：SpeedPIControl
  * 功能描述：速度 PI 控制。
- *           增量式 PI：out += Ki*(bias - lastBias) + Kp*bias
+ *           有感：沿用原增量式参数语义
+ *           无感：标准增量式 PI，避免 Kp*误差被周期性累加到失控
  *           位置环模式时，速度目标由位置环 PID 输出提供。
  * 输入参数：pFOC - FOC 状态指针
  ******************************************************************************/
@@ -65,9 +66,17 @@ void SpeedPIControl(PFocState pFOC)
     }
 
     pFOC->speedPID.bias = pFOC->speedPID.tar - pFOC->speedPID.pre;
-    pFOC->speedPID.out += pFOC->speedPID.ki
-                          * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
-                          + pFOC->speedPID.kp * pFOC->speedPID.bias;
+    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
+        pFOC->speedPID.out += pFOC->speedPID.kp
+                              * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
+                              + pFOC->speedPID.ki
+                              * pFOC->speedPID.bias
+                              * FOC_SPEED_LOOP_TS;
+    } else {
+        pFOC->speedPID.out += pFOC->speedPID.ki
+                              * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
+                              + pFOC->speedPID.kp * pFOC->speedPID.bias;
+    }
     pFOC->speedPID.lastBias = pFOC->speedPID.bias;
 
     if (pFOC->speedPID.out > fabs(pFOC->speedPID.outMax)) {
