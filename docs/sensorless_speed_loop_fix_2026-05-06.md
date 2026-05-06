@@ -11,6 +11,7 @@
 - 低速、小 `Iq` 时偶尔可控；目标速度升高或 `Iq` 稍大时容易失控、满转。
 - 无感速度反馈曾经抖动很乱，但 `PLL速度` 相对稳定。
 - 加入 I/F 启动后，早期版本偶尔能启动，后来加了对齐状态后出现过完全不转的问题。
+- 正转 `1000 rpm` 可以正常启动和闭环，反转 `-1000 rpm` 能启动转一下，但切闭环后会卡住。
 
 最终目标是让无感模式能从静止可靠启动，并切入速度闭环。
 
@@ -88,6 +89,57 @@ iqPID.tar 被 tariq 限幅
 Iq限流 = 1A
 目标速度 = 1000 rpm
 ```
+
+### 5. 反转时 SMO 反电势角度会差 pi
+
+反转问题的最终根因在 SMO 角度提取。永磁同步电机反电势和转子磁链角的关系为：
+
+```text
+E = omega_e * psi * [-sin(theta), cos(theta)]
+```
+
+正电角速度时，`omega_e > 0`，可以直接用：
+
+```c
+rawAngle = atan2(-eAlpha, eBeta);
+```
+
+得到磁链角。
+
+但负电角速度时，`omega_e < 0`，反电势矢量整体翻转 `pi`。如果仍然使用同一个公式，SMO/PLL 输出角度会和实际磁链角差 `pi`。
+
+现场现象正好对应这个问题：
+
+```text
+目标速度 = -1000
+I/F 可以拖动一下
+切到 SMO/PLL 闭环后卡住
+```
+
+原因是 I/F 阶段使用虚拟角度，方向正确；切闭环后使用差 `pi` 的 PLL 角度，`Iq` 力矩方向变乱，电机立即卡住。
+
+最终修复是在 SMO 内部按当前电角速度方向统一反电势极性：
+
+```c
+bemfDir = sign(electrical_speed);
+eAlphaFlux = bemfDir * eAlpha;
+eBetaFlux  = bemfDir * eBeta;
+
+rawAngle = atan2(-eAlphaFlux, eBetaFlux);
+pllErr = -eAlphaFlux * cos(theta_hat)
+         -eBetaFlux  * sin(theta_hat);
+```
+
+正转时 `bemfDir = +1`，原公式不变；反转时 `bemfDir = -1`，先把反电势矢量翻回来，再计算磁链角和 PLL 误差。
+
+当前实现中，电角速度方向优先来自 I/F 启动速度和目标速度，并结合 `speedDir`：
+
+```text
+electrical direction = sign(sensorlessIfSpeed * speedDir)
+备用方向 = sign(tar_speed * speedDir)
+```
+
+这样反转启动时，SMO/PLL 在切闭环前就按正确方向解释反电势。
 
 ## 最终 I/F 启动方案
 
@@ -176,6 +228,8 @@ abs(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR
 
 可以正常启动并切入速度闭环。
 
+反转修复后，`目标速度 = -1000 rpm` 也可以正常启动并切入速度闭环。
+
 ## 调试步骤
 
 推荐启动顺序：
@@ -186,6 +240,17 @@ abs(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR
 设置目标速度 = 1000
 打开速度环
 ```
+
+反转启动顺序：
+
+```text
+切无感
+设置 Iq限流 = 1
+设置目标速度 = -1000
+打开速度环
+```
+
+注意：速度环下 `Iq限流 = 1` 表示允许 `speedPID.out` 在 `-1A ~ +1A` 范围内变化，不需要为了反转手动设置 `Iq = -1`。目标速度为负时，速度环和 I/F 启动会自动给负向 `Iq`。
 
 优先观察变量：
 
@@ -218,6 +283,12 @@ abs(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR
 
 - 优先看 `PLL速度` 和 `速度反馈` 是否一致。
 - 不要再回到 2ms 电角度差分速度，容易在高极对电机上混叠。
+
+如果正转正常、反转切闭环卡住：
+
+- 优先检查 SMO 反电势角度是否处理了电角速度符号。
+- 观察 `PLL速度` 和 `速度反馈` 在反转时是否为负。
+- 如果 I/F 能反转拖动，但 `DONE` 后卡住，重点怀疑 SMO/PLL 角度差 `pi` 或 PLL 误差符号。
 
 ## 本次修复涉及的主要文件
 

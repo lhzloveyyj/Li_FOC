@@ -247,6 +247,8 @@ static void FOC_UpdateSensorlessIF(PFocState pFOC)
     float handoverAbs = FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM;
     float speedAbs = FOC_AbsF(pFOC->sensorlessIfSpeed);
     float rampStep = FOC_SENSORLESS_IF_RAMP_RPM_PER_S * FOC_SMO_TS;
+    float pllMechSpeed = 0.0f;
+    float pllSpeedAbs;
     float elecSpeed;
 
     if (iqLimit > FOC_EPSILON) {
@@ -292,7 +294,15 @@ static void FOC_UpdateSensorlessIF(PFocState pFOC)
 
     pFOC->speedPID.out = pFOC->sensorlessIfIq;
 
+    if (pFOC->pole_pairs != 0) {
+        pllMechSpeed = g_smoObserver.speed / (float)pFOC->pole_pairs
+                       * pFOC->speedDir * 60.0f / FOC_2PI;
+    }
+    pllSpeedAbs = FOC_AbsF(pllMechSpeed);
+
     if ((speedAbs >= FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM)
+        && ((pllMechSpeed * targetSign) > (FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM * 0.5f))
+        && (pllSpeedAbs > (FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM * 0.5f))
         && (g_smoObserver.eMag > FOC_SENSORLESS_IF_MIN_EMAG)
         && (FOC_AbsF(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR)) {
         if (pFOC->sensorlessIfLockCount < FOC_SENSORLESS_IF_LOCK_COUNT) {

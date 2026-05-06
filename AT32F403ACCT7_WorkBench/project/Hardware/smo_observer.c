@@ -28,6 +28,42 @@ static float smo_sat(float value)
     return smo_limit(value, -1.0f, 1.0f);
 }
 
+static float smo_sign(float value)
+{
+    if (value > FOC_EPSILON) {
+        return 1.0f;
+    }
+    if (value < -FOC_EPSILON) {
+        return -1.0f;
+    }
+    return 0.0f;
+}
+
+static float SMO_GetElectricalDirectionSign(const SmoObserver *smo)
+{
+    float dir = 0.0f;
+
+    if (g_pMotor != NULL) {
+        if ((g_pMotor->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN)
+            || (g_pMotor->sensorlessIfState == FOC_SENSORLESS_IF_RAMP)) {
+            dir = smo_sign(g_pMotor->sensorlessIfSpeed * g_pMotor->speedDir);
+        }
+
+        if (dir == 0.0f) {
+            dir = smo_sign(g_pMotor->tar_speed * g_pMotor->speedDir);
+        }
+    }
+
+    if ((dir == 0.0f) && (smo != NULL)) {
+        dir = smo_sign(smo->pll.omega);
+        if (dir == 0.0f) {
+            dir = smo_sign(smo->rawSpeed);
+        }
+    }
+
+    return (dir < 0.0f) ? -1.0f : 1.0f;
+}
+
 /******************************************************************************
  * 函数名称：SMO_Init
  * 功能描述：初始化滑模观测器。
@@ -106,6 +142,9 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
     float invLs;
     float pllErr;
     float rawDelta;
+    float bemfDir;
+    float eAlphaFlux;
+    float eBetaFlux;
 
     if (smo == NULL) {
         return;
@@ -170,8 +209,15 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
 
     /* 计算反电势幅值和不经过 PLL 的原始角度，供上位机诊断 SMO 本体 */
     smo->eMag = sqrtf(smo->eAlpha * smo->eAlpha + smo->eBeta * smo->eBeta);
+    /* 反电势 E = omega_e * psi * [-sin(theta), cos(theta)]。
+     * omega_e 为负时，E 相对磁链角翻转 pi；先按电角速度方向统一极性，
+     * 再提取磁链角，避免反转时 PLL 角度差 pi。
+     */
+    bemfDir = SMO_GetElectricalDirectionSign(smo);
+    eAlphaFlux = bemfDir * smo->eAlpha;
+    eBetaFlux = bemfDir * smo->eBeta;
     /* SMO 角度：只反映 eAlpha/eBeta 的方向，不包含 PLL 动态 */
-    smo->rawAngle = NormalizeAngle(atan2f(-smo->eAlpha, smo->eBeta));
+    smo->rawAngle = NormalizeAngle(atan2f(-eAlphaFlux, eBetaFlux));
 
     /* 使用 SMO 角度差分估算电角速度，作为 PLL 高速捕获的速度前馈。
      * 这样直接给高速时，PLL 不需要从 0rad/s 仅靠误差积分慢慢追上。
@@ -191,8 +237,8 @@ void SMO_Update(SmoObserver *smo, float uAlpha, float uBeta,
     smo->prevRawAngle = smo->rawAngle;
 
     /* PLL 误差计算 */
-    pllErr = -smo->eAlpha * cosf(smo->pll.theta)
-             - smo->eBeta  * sinf(smo->pll.theta);
+    pllErr = -eAlphaFlux * cosf(smo->pll.theta)
+             - eBetaFlux  * sinf(smo->pll.theta);
 
     /* 幅值归一化（使 PLL 增益与转速无关） */
     if (smo->eMag > FOC_EPSILON) {
