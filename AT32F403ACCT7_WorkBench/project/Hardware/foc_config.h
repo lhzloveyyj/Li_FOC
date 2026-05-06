@@ -48,6 +48,19 @@
 #define FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED   477.5f  // 无感开环 uq→转速 转换系数 rpm/V；tar_speed=0 时生效
 #define FOC_SPEED_LOOP_TS                      0.002f   // 速度环任务周期（单位：s）
 
+/* =================== 无感 I/F 启动参数 =================== */
+#define FOC_SENSORLESS_IF_ALIGN_ID             0.50f    // I/F 启动前对齐 Id（A）
+#define FOC_SENSORLESS_IF_ALIGN_COUNT          6000U    // 对齐保持 PWM 周期数（6000*50us=300ms）
+#define FOC_SENSORLESS_IF_START_IQ             1.00f    // 默认启动 Iq（A），tariq 未设置时使用
+#define FOC_SENSORLESS_IF_START_SPEED_RPM      20.0f    // I/F 初始机械转速（rpm）
+#define FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM   1000.0f  // I/F 切闭环最低机械转速（rpm）
+#define FOC_SENSORLESS_IF_RAMP_RPM_PER_S       1500.0f  // I/F 机械转速爬坡斜率（rpm/s）
+#define FOC_SENSORLESS_IF_START_MAX_SPEED_RPM  150.0f   // 低于该速度才自动启动 I/F
+#define FOC_SENSORLESS_IF_MIN_TARGET_RPM       10.0f    // 目标速度小于该值时不启动 I/F
+#define FOC_SENSORLESS_IF_MIN_EMAG             0.15f    // SMO 反电势幅值切换阈值
+#define FOC_SENSORLESS_IF_MAX_PLL_ERROR        0.35f    // PLL 误差切换阈值
+#define FOC_SENSORLESS_IF_LOCK_COUNT           200U     // 连续满足锁定条件的 PWM 周期数
+
 /* =================== 调试功能开关 =================== */
 #define FOC_ENABLE_DEBUG        1             // 调试开关（1=开启，0=关闭）
 

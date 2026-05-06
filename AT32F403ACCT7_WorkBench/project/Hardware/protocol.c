@@ -249,9 +249,21 @@ void Comm_CommandHandler(void)
             break;
         case CMD_SPEED_LOOP:
             g_pMotor->ctrolmode = FOC_SPEED_LOOP;
-            g_pMotor->speedPID.out = g_pMotor->iq;
-            g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
-            g_pMotor->iqPID.out = g_pMotor->uq;
+            if (FOC_GetSensorMode(g_pMotor) == FOC_SENSOR_MODE_SENSORLESS) {
+                g_pMotor->sensorlessIfState = FOC_SENSORLESS_IF_OFF;
+                g_pMotor->sensorlessIfAlignCount = 0U;
+                g_pMotor->sensorlessIfLockCount = 0U;
+                g_pMotor->sensorlessIfSpeed = 0.0f;
+                g_pMotor->sensorlessIfIq = 0.0f;
+                g_pMotor->sensorlessIfId = 0.0f;
+                g_pMotor->speedPID.out = 0.0f;
+                g_pMotor->speedPID.lastBias = 0.0f;
+                g_pMotor->iqPID.out = 0.0f;
+            } else {
+                g_pMotor->speedPID.out = g_pMotor->iq;
+                g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
+                g_pMotor->iqPID.out = g_pMotor->uq;
+            }
             g_pMotor->iqPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;

@@ -53,6 +53,13 @@ FocState Motor = {
     .sensorlessMechanicalSpeed = 0.0f,
     .sensorlessOpenLoopAngle = 0.0f,
     .sensorMode = FOC_SENSOR_MODE_SENSORED,
+    .sensorlessIfState = FOC_SENSORLESS_IF_OFF,
+    .sensorlessIfAlignCount = 0U,
+    .sensorlessIfLockCount = 0U,
+    .sensorlessIfAngle = 0.0f,
+    .sensorlessIfSpeed = 0.0f,
+    .sensorlessIfIq = 0.0f,
+    .sensorlessIfId = 0.0f,
 
     .speedLastAngle = 0.0f,
     .speed = 0.0f,
@@ -156,6 +163,12 @@ void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode)
     pFOC->speedPID.out = 0.0f;
     pFOC->speedPID.lastBias = 0.0f;
     pFOC->positionPID.lastBias = 0.0f;
+    pFOC->sensorlessIfState = FOC_SENSORLESS_IF_OFF;
+    pFOC->sensorlessIfAlignCount = 0U;
+    pFOC->sensorlessIfLockCount = 0U;
+    pFOC->sensorlessIfSpeed = 0.0f;
+    pFOC->sensorlessIfIq = 0.0f;
+    pFOC->sensorlessIfId = 0.0f;
 }
 
 /******************************************************************************
@@ -168,6 +181,134 @@ FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC)
         return FOC_SENSOR_MODE_SENSORED;
     }
     return (FocSensorMode_TypeDef)pFOC->sensorMode;
+}
+
+static float FOC_AbsF(float value)
+{
+    return (value >= 0.0f) ? value : -value;
+}
+
+static float FOC_SignF(float value)
+{
+    return (value >= 0.0f) ? 1.0f : -1.0f;
+}
+
+static float FOC_MinF(float a, float b)
+{
+    return (a < b) ? a : b;
+}
+
+static void FOC_ResetSensorlessIF(PFocState pFOC)
+{
+    pFOC->sensorlessIfState = FOC_SENSORLESS_IF_OFF;
+    pFOC->sensorlessIfAlignCount = 0U;
+    pFOC->sensorlessIfLockCount = 0U;
+    pFOC->sensorlessIfSpeed = 0.0f;
+    pFOC->sensorlessIfIq = 0.0f;
+    pFOC->sensorlessIfId = 0.0f;
+}
+
+static void FOC_StartSensorlessIF(PFocState pFOC)
+{
+    float targetSign = FOC_SignF(pFOC->tar_speed);
+    float iqLimit = FOC_AbsF(pFOC->tariqMax);
+    float iqStart = FOC_SENSORLESS_IF_START_IQ;
+
+    if (iqLimit > FOC_EPSILON) {
+        iqStart = FOC_MinF(iqStart, iqLimit);
+    }
+
+    pFOC->sensorlessIfState = FOC_SENSORLESS_IF_ALIGN;
+    pFOC->sensorlessIfAlignCount = 0U;
+    pFOC->sensorlessIfLockCount = 0U;
+    pFOC->sensorlessIfAngle = pFOC->correctedAngle;
+    pFOC->sensorlessIfSpeed = 0.0f;
+    pFOC->sensorlessIfIq = 0.0f;
+    if (iqLimit > FOC_EPSILON) {
+        pFOC->sensorlessIfId = FOC_MinF(FOC_SENSORLESS_IF_ALIGN_ID, iqLimit);
+    } else {
+        pFOC->sensorlessIfId = FOC_SENSORLESS_IF_ALIGN_ID;
+    }
+
+    pFOC->speedPID.out = 0.0f;
+    pFOC->speedPID.lastBias = 0.0f;
+    pFOC->idPID.lastBias = 0.0f;
+    pFOC->iqPID.lastBias = 0.0f;
+
+    (void)targetSign;
+    (void)iqStart;
+}
+
+static void FOC_UpdateSensorlessIF(PFocState pFOC)
+{
+    float targetSign = FOC_SignF(pFOC->tar_speed);
+    float iqLimit = FOC_AbsF(pFOC->tariqMax);
+    float iqStart = FOC_SENSORLESS_IF_START_IQ;
+    float handoverAbs = FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM;
+    float speedAbs = FOC_AbsF(pFOC->sensorlessIfSpeed);
+    float rampStep = FOC_SENSORLESS_IF_RAMP_RPM_PER_S * FOC_SMO_TS;
+    float elecSpeed;
+
+    if (iqLimit > FOC_EPSILON) {
+        iqStart = FOC_MinF(iqStart, iqLimit);
+    }
+
+    if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN) {
+        pFOC->correctedAngle = pFOC->sensorlessIfAngle;
+        if (pFOC->pole_pairs != 0) {
+            pFOC->mechanicalAngle =
+                NormalizeAngle(pFOC->sensorlessIfAngle / (float)pFOC->pole_pairs);
+        }
+
+        pFOC->sensorlessIfAlignCount++;
+        if (pFOC->sensorlessIfAlignCount >= FOC_SENSORLESS_IF_ALIGN_COUNT) {
+            pFOC->sensorlessIfState = FOC_SENSORLESS_IF_RAMP;
+            pFOC->sensorlessIfSpeed = targetSign * FOC_SENSORLESS_IF_START_SPEED_RPM;
+            pFOC->sensorlessIfIq = targetSign * iqStart;
+            pFOC->sensorlessIfId = 0.0f;
+            pFOC->sensorlessIfLockCount = 0U;
+        }
+        return;
+    }
+
+    if (speedAbs < handoverAbs) {
+        speedAbs += rampStep;
+        if (speedAbs > handoverAbs) {
+            speedAbs = handoverAbs;
+        }
+    }
+
+    pFOC->sensorlessIfSpeed = targetSign * speedAbs;
+    elecSpeed = pFOC->sensorlessIfSpeed * FOC_2PI / 60.0f
+                * (float)pFOC->pole_pairs * pFOC->speedDir;
+    pFOC->sensorlessIfAngle =
+        NormalizeAngle(pFOC->sensorlessIfAngle + elecSpeed * FOC_SMO_TS);
+
+    pFOC->correctedAngle = pFOC->sensorlessIfAngle;
+    if (pFOC->pole_pairs != 0) {
+        pFOC->mechanicalAngle =
+            NormalizeAngle(pFOC->sensorlessIfAngle / (float)pFOC->pole_pairs);
+    }
+
+    pFOC->speedPID.out = pFOC->sensorlessIfIq;
+
+    if ((speedAbs >= FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM)
+        && (g_smoObserver.eMag > FOC_SENSORLESS_IF_MIN_EMAG)
+        && (FOC_AbsF(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR)) {
+        if (pFOC->sensorlessIfLockCount < FOC_SENSORLESS_IF_LOCK_COUNT) {
+            pFOC->sensorlessIfLockCount++;
+        }
+    } else {
+        pFOC->sensorlessIfLockCount = 0U;
+    }
+
+    if (pFOC->sensorlessIfLockCount >= FOC_SENSORLESS_IF_LOCK_COUNT) {
+        pFOC->sensorlessIfState = FOC_SENSORLESS_IF_DONE;
+        pFOC->sensorlessIfLockCount = 0U;
+        pFOC->speedPID.out = pFOC->sensorlessIfIq;
+        pFOC->speedPID.lastBias = pFOC->tar_speed - pFOC->speed;
+        pFOC->iqPID.lastBias = 0.0f;
+    }
 }
 
 /******************************************************************************
@@ -412,9 +553,6 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
-    static float sensorlessElectricalAngleLast = 0.0f;
-    static uint8_t sensorlessSpeedValid = 0U;
-
     /* ==== 步骤 1：获取并选择角度 ==== */
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORED) {
         pFOC->sensoredMechanicalAngle = Mt6701GetAngleWrapper();
@@ -423,30 +561,30 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 
     pFOC->sensorlessElectricalAngle = g_smoObserver.angle;
     if (pFOC->pole_pairs != 0) {
-        float sensorlessAngleDiff = pFOC->sensorlessElectricalAngle
-                                    - sensorlessElectricalAngleLast;
-        if (sensorlessAngleDiff > FOC_PI) {
-            sensorlessAngleDiff -= FOC_2PI;
-        } else if (sensorlessAngleDiff < -FOC_PI) {
-            sensorlessAngleDiff += FOC_2PI;
-        }
-
-        if (sensorlessSpeedValid == 0U) {
-            pFOC->sensorlessMechanicalSpeed = 0.0f;
-            sensorlessSpeedValid = 1U;
-        } else {
-            pFOC->sensorlessMechanicalSpeed =
-                pFOC->speedDir * sensorlessAngleDiff / (float)pFOC->pole_pairs
-                / FOC_SMO_TS * 60.0f / FOC_2PI;
-        }
+        pFOC->sensorlessMechanicalSpeed =
+            g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir
+            * 60.0f / FOC_2PI;
     } else {
         pFOC->sensorlessMechanicalSpeed = 0.0f;
-        sensorlessSpeedValid = 0U;
     }
-    sensorlessElectricalAngleLast = pFOC->sensorlessElectricalAngle;
 
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
-        if (pFOC->ctrolmode == FOC_OPEN_LOOP) {
+        if ((pFOC->ctrolmode == FOC_SPEED_LOOP)
+            && (FOC_AbsF(pFOC->tar_speed) > FOC_SENSORLESS_IF_MIN_TARGET_RPM)
+            && (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF)
+            && (FOC_AbsF(pFOC->speed) < FOC_SENSORLESS_IF_START_MAX_SPEED_RPM)) {
+            FOC_StartSensorlessIF(pFOC);
+        }
+
+        if ((pFOC->ctrolmode != FOC_SPEED_LOOP)
+            || (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM)) {
+            FOC_ResetSensorlessIF(pFOC);
+        }
+
+        if ((pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN)
+            || (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP)) {
+            FOC_UpdateSensorlessIF(pFOC);
+        } else if (pFOC->ctrolmode == FOC_OPEN_LOOP) {
             float openLoopMechSpeed;
             if (fabsf(pFOC->uq) > FOC_EPSILON) {
                 openLoopMechSpeed = pFOC->uq * FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED;
@@ -472,6 +610,7 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
             }
         }
     } else {
+        FOC_ResetSensorlessIF(pFOC);
         pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
         pFOC->correctedAngle = pFOC->sensoredCorrectedAngle;
     }

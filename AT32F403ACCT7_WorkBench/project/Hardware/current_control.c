@@ -15,6 +15,9 @@ void CurrentPIControlID(PFocState pFOC)
 {
     pFOC->idPID.pre = pFOC->id;
     pFOC->idPID.tar = pFOC->tarid;
+    if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN) {
+        pFOC->idPID.tar = pFOC->sensorlessIfId;
+    }
 
     pFOC->idPID.bias = pFOC->idPID.tar - pFOC->idPID.pre;
     pFOC->idPID.out += pFOC->idPID.ki * (pFOC->idPID.bias - pFOC->idPID.lastBias)
@@ -46,8 +49,15 @@ void CurrentPIControlIQ(PFocState pFOC)
         || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
         pFOC->iqPID.tar = pFOC->speedPID.out;
 
-        /* tariq 在级联模式下作为电流上限钳位 speedPID 输出 */
-        if (pFOC->tariq > FOC_EPSILON) {
+        if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN
+            || pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP) {
+            pFOC->iqPID.tar = pFOC->sensorlessIfIq;
+        }
+
+        /* I/F 启动阶段使用独立启动电流；正常级联模式下 tariq 作为速度环电流上限。 */
+        if ((pFOC->sensorlessIfState != FOC_SENSORLESS_IF_ALIGN)
+            && (pFOC->sensorlessIfState != FOC_SENSORLESS_IF_RAMP)
+            && (pFOC->tariq > FOC_EPSILON)) {
             if (pFOC->iqPID.tar > pFOC->tariq) {
                 pFOC->iqPID.tar = pFOC->tariq;
             }

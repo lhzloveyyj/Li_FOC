@@ -57,6 +57,13 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
  ******************************************************************************/
 void SpeedPIControl(PFocState pFOC)
 {
+    if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN
+        || pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP) {
+        pFOC->speedPID.out = pFOC->sensorlessIfIq;
+        pFOC->speedPID.lastBias = 0.0f;
+        return;
+    }
+
     pFOC->speedPID.pre = pFOC->speed;
     pFOC->speedPID.tar = pFOC->tar_speed;
 
