@@ -1,22 +1,24 @@
-# 无感速度环失控问题排查与修复记录
+# 无感速度环与 I/F 启动问题排查记录
 
 日期：2026-05-06
 
-## 问题现象
+## 背景
 
-无感速度环调试过程中出现多个连续现象：
+调试时有感速度环已经工作正常，但无感速度环存在明显问题：
 
-1. 有感速度环工作正常。
-2. 无感速度环设置目标速度后，电机最初只抖一下，速度控制不了。
-3. 无感开环给正 `Uq` 时速度方向为正；无感电流环给正 `Iq` 时，最初速度反馈显示为负。
-4. 修正速度方向后，无感速度环开始能影响速度，但低速、小 `Iq` 时可控，高速或稍大 `Iq` 时容易失控。
-5. `Iq < 1A` 且目标速度低于约 `1200 rpm` 时可以控制；目标速度大于约 `1200 rpm`，或从 `100 rpm` 直接给到 `2000 rpm` 时，电机会直接满转。
+- 开启无感速度环后，设置目标速度时电机只抖一下，不能稳定启动。
+- 手动拨一下电机后，速度环能接管，说明闭环本身不是完全断开。
+- 低速、小 `Iq` 时偶尔可控；目标速度升高或 `Iq` 稍大时容易失控、满转。
+- 无感速度反馈曾经抖动很乱，但 `PLL速度` 相对稳定。
+- 加入 I/F 启动后，早期版本偶尔能启动，后来加了对齐状态后出现过完全不转的问题。
 
-## 链路对比
+最终目标是让无感模式能从静止可靠启动，并切入速度闭环。
 
-速度环到电流环的主链路，有感和无感是一样的：
+## 控制链路确认
 
-```c
+有感和无感速度环的主链路一致：
+
+```text
 tar_speed
   -> SpeedPIControl()
   -> speedPID.out
@@ -27,200 +29,201 @@ tar_speed
   -> SVPWM
 ```
 
-关键区别在角度和速度反馈：
+所以问题不是速度目标没有进入电流环，而是无感模式下的角度、速度反馈、启动状态切换和限流语义需要单独处理。
 
-### 有感模式
+## 关键问题
 
-- 控制角度：MT6701 编码器角度 `sensoredCorrectedAngle`
-- 速度反馈：机械角度差分
-- 正 `Uq`、正 `Iq`、速度反馈方向一致
+### 1. 无感静止时不能直接闭速度环
 
-### 无感模式
+SMO/PLL 依赖反电势。电机静止或极低速时反电势很小，PLL 角度和速度还没有可靠锁定。
 
-- 控制角度：SMO/PLL 输出角度 `g_smoObserver.angle`
-- 速度反馈：SMO/PLL 相关速度估算
-- 速度环依赖无感速度反馈方向、幅值和采样频率
+如果这时直接进入速度闭环，电流环会使用不可靠的无感角度做 Park 变换，表现就是电机抖动、不转，手动拨一下后反而能接管。
 
-## 排查过程
+解决方式：加入无感 I/F 启动，先用虚拟角度和固定电流把电机拖到足够转速，再交给 SMO/PLL。
 
-### 1. 确认不是速度环链路断开
+### 2. 速度反馈不能用低频角度差分
 
-检查代码确认速度环输出确实进入了电流环：
-
-```c
-if (g_pMotor->ctrolmode == FOC_SPEED_LOOP
-    || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
-    pFOC->iqPID.tar = pFOC->speedPID.out;
-}
-```
-
-所以问题不是速度目标没有接到 `Iq`，而是无感反馈或速度环输出异常。
-
-### 2. 确认 SMO/PLL 角度方向
-
-对比：
-
-- 编码器电角度 `electricalAngle`
-- PLL 角度 `smoAngle`
-- SMO 原始角度 `smoRawAngle`
-
-实测 PLL 角度和实际电角度接近，增长方向一致。因此排除了“SMO 角度整体反向”或“差 `π`”的问题。
-
-### 3. 发现无感速度反馈方向异常
-
-现象：
-
-- 无感开环正 `Uq`，实际转向为正
-- 无感电流环正 `Iq`，实际转向也为正
-- 但无感速度反馈曾显示为负
-
-因此问题集中到无感速度反馈符号，而不是实际转矩方向。
-
-最初修复方法是：无感速度不直接使用 `g_smoObserver.speed`，而是对 `sensorlessElectricalAngle` 做差分。这样速度反馈方向与 PLL 角度增长方向一致。
-
-### 4. 发现 1200 rpm 附近失控
-
-修正速度方向后，低速可控，但目标速度超过约 `1200 rpm` 就满转。
-
-原因是当时无感速度是在 2ms 速度任务里对电角度差分：
-
-```c
-angle_diff = sensorlessElectricalAngle - sensorlessElectricalAngle_last;
-speed = speedDir * angle_diff / pole_pairs / dt * 60 / 2π;
-```
-
-速度任务周期：
-
-```c
-dt = 0.002s
-```
-
-对于 `11` 极对电机，电角度差分的无歧义机械转速上限约为：
+中间曾尝试在 2ms 速度任务中对电角度差分计算无感速度。对于 11 极对电机，2ms 差分的无混叠速度上限约为：
 
 ```text
 60 / (2 * 0.002 * 11) = 1363 rpm
 ```
 
-超过这个速度，电角度每 2ms 变化超过 `π`，差分会混叠，导致速度反馈方向或幅值错误。速度环看到错误反馈后会把输出顶满，表现为直接满转。
+这解释了为什么目标速度在 `1200 rpm` 附近容易失控。
 
-这解释了为什么 `1200 rpm` 附近开始失控，也解释了从 `100 rpm` 直接给到 `2000 rpm` 会控制不住。
-
-## 最终修复
-
-### 1. 无感速度差分移到 FOC 高频中断
-
-把无感速度计算从 2ms 速度任务移到 `FocContorl()` 中，使用 `FOC_SMO_TS = 0.00005s` 的高频周期进行电角度差分。
-
-修复后速度混叠上限大幅提高：
-
-```text
-60 / (2 * 0.00005 * 11) ≈ 54545 rpm
-```
-
-核心代码：
+最终改为直接使用 PLL 内部速度：
 
 ```c
-static float sensorlessElectricalAngleLast = 0.0f;
-static uint8_t sensorlessSpeedValid = 0U;
-
-pFOC->sensorlessElectricalAngle = g_smoObserver.angle;
-if (pFOC->pole_pairs != 0) {
-    float sensorlessAngleDiff = pFOC->sensorlessElectricalAngle
-                                - sensorlessElectricalAngleLast;
-    if (sensorlessAngleDiff > FOC_PI) {
-        sensorlessAngleDiff -= FOC_2PI;
-    } else if (sensorlessAngleDiff < -FOC_PI) {
-        sensorlessAngleDiff += FOC_2PI;
-    }
-
-    if (sensorlessSpeedValid == 0U) {
-        pFOC->sensorlessMechanicalSpeed = 0.0f;
-        sensorlessSpeedValid = 1U;
-    } else {
-        pFOC->sensorlessMechanicalSpeed =
-            pFOC->speedDir * sensorlessAngleDiff / (float)pFOC->pole_pairs
-            / FOC_SMO_TS * 60.0f / FOC_2PI;
-    }
-} else {
-    pFOC->sensorlessMechanicalSpeed = 0.0f;
-    sensorlessSpeedValid = 0U;
-}
-sensorlessElectricalAngleLast = pFOC->sensorlessElectricalAngle;
+pFOC->sensorlessMechanicalSpeed =
+    g_smoObserver.speed / (float)pFOC->pole_pairs * pFOC->speedDir
+    * 60.0f / FOC_2PI;
 ```
 
-### 2. 速度任务只读取无感速度并低通
+速度任务 `CalculateSpeed()` 只读取 `sensorlessMechanicalSpeed` 并低通，避免 2ms 电角度差分混叠。
 
-`CalculateSpeed()` 中，无感模式不再做 2ms 电角度差分，只读取高频侧计算好的 `sensorlessMechanicalSpeed`：
+### 3. 无感速度 PI 需要避免持续顶满
 
-```c
-if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
-    pFOC->speed = pFOC->sensorlessMechanicalSpeed;
-    LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));
-    mechanicalAngle_last = pFOC->mechanicalAngle;
-    return;
-}
-```
+原速度 PI 公式会在每个周期重复累加 `kp * bias`，无感反馈异常时很容易把输出推到限幅。
 
-### 3. 无感速度环 PI 改为标准增量式
-
-原速度 PI 公式：
-
-```c
-out += ki * (bias - lastBias) + kp * bias;
-```
-
-这个公式会在每个 2ms 周期重复累加 `kp * bias`。当 `Iq` 限流很小时，输出被压住，看起来能控制；当 `Iq` 放大后，速度环输出容易快速顶满。
-
-无感速度环改为标准增量式：
+无感速度环改为标准增量式 PI：
 
 ```c
 out += kp * (bias - lastBias) + ki * bias * FOC_SPEED_LOOP_TS;
 ```
 
-为避免影响已经调好的有感速度环，当前只在无感模式使用新公式，有感模式仍沿用原公式。
+有感速度环已经调好，所以保留原有公式，只对无感速度环使用新公式。
 
-### 4. 保留 `SETIQ` 作为速度环限流
+### 4. 速度环下 `Iq` 是限流，不是直接目标
 
-速度环下 `SETIQ` 设置的 `tariq` 仍然作为 `speedPID.out` / `iqPID.tar` 的电流限幅。
+在速度环和位置环模式下，`CMD_SETIQ` 设置的 `tariq` 被用作速度环输出限幅：
 
-需要注意：
+```text
+speedPID.out -> iqPID.tar
+iqPID.tar 被 tariq 限幅
+```
+
+因此调无感速度环时，需要先设置一个合理的 `Iq` 限流。当前启动调试使用：
+
+```text
+Iq限流 = 1A
+目标速度 = 1000 rpm
+```
+
+## 最终 I/F 启动方案
+
+当前无感速度环启动状态：
+
+```text
+FOC_SENSORLESS_IF_OFF
+  -> FOC_SENSORLESS_IF_ALIGN
+  -> FOC_SENSORLESS_IF_RAMP
+  -> FOC_SENSORLESS_IF_DONE
+```
+
+### ALIGN 阶段
+
+目的：用固定虚拟电角度和 `Id` 对齐转子，降低随机初始角度导致的起步失败。
+
+行为：
+
+- 固定 `sensorlessIfAngle`
+- `Id = sensorlessIfId`
+- `Iq = 0`
+- 速度 PI 输出清零并暂停
+
+注意：加 `ALIGN` 后必须在主控制链路中持续调用 `FOC_UpdateSensorlessIF()`。曾经出现过只在 `RAMP` 状态调用更新函数，导致状态卡在 `ALIGN`，电机完全不转。
+
+修复后的判断：
 
 ```c
-if (pFOC->tariq > FOC_EPSILON) {
-    ...
+if ((pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN)
+    || (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP)) {
+    FOC_UpdateSensorlessIF(pFOC);
 }
 ```
 
-因此 `tariq = 0` 表示不启用该限流，不是限流为 0。调无感速度环时建议先设置一个小的非零 `Iq` 限流。
+### RAMP 阶段
 
-另外，在线调整 `SETIQ` 时，同步夹住 `speedPID.out`，避免速度环内部输出残留超过新的限流。
+目的：使用虚拟角度和固定 `Iq` 做 I/F 拖动，让电机产生足够反电势。
 
-## 当前结论
+行为：
 
-这次无感速度环失控的根因不是速度环没有接通，也不是 SMO/PLL 角度整体反向，而是两个问题叠加：
+- `sensorlessIfSpeed` 从启动速度开始爬坡
+- `sensorlessIfAngle` 按虚拟速度积分
+- `Iq = sensorlessIfIq`
+- 速度 PI 暂停，避免速度环和 I/F 输出叠加
 
-1. 无感速度反馈方向最初取自 `g_smoObserver.speed`，符号与实际控制角度差分不一致。
-2. 后续用 2ms 任务差分电角度后，在 11 极对电机上约 `1363 rpm` 就会发生角度差分混叠，导致 `1200 rpm` 以上速度环满转。
+### DONE 阶段
 
-最终通过在 FOC 高频中断内计算无感速度，并让 2ms 速度任务只做低通和速度环控制，解决了 `1200 rpm` 附近失控的问题。
+当 SMO/PLL 满足锁定条件后，切回正常无感速度闭环：
 
-## 调试建议
+- 控制角度回到 `g_smoObserver.angle`
+- 速度反馈使用 PLL 速度
+- `speedPID.out` 初始化为 I/F 启动电流，减小切换冲击
 
-无感速度环继续调参时建议观察：
+切换条件：
 
-- `speed`：控制实际使用的速度反馈
-- `smoAngle`：PLL 输出角度
-- `smoRawAngle`：SMO 原始角度
-- `smoSpeed`：PLL 原始速度，仅作参考
-- `speedPID.out`：速度环输出，即期望 `Iq`
-- `iqPID.tar`：最终进入电流环的 `Iq` 目标
-- `iq`：实际 q 轴电流反馈
-- `smoDiag`：`pllError` 和 `eMag`
+```text
+I/F 虚拟速度 >= FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM
+g_smoObserver.eMag > FOC_SENSORLESS_IF_MIN_EMAG
+abs(g_smoObserver.pllError) < FOC_SENSORLESS_IF_MAX_PLL_ERROR
+连续满足 FOC_SENSORLESS_IF_LOCK_COUNT 个 PWM 周期
+```
 
-推荐调参顺序：
+## 当前有效参数
 
-1. 先设小的非零 `Iq` 限流，例如 `0.1A ~ 0.5A`。
-2. 无感电流环验证正 `Iq` 时实际转向和 `speed` 符号一致。
-3. 低速目标开始测试，例如 `100 rpm`、`300 rpm`、`600 rpm`。
-4. 再测试跨越 `1200 rpm` 到 `2000 rpm`。
-5. 无感速度环参数重新从小调起，尤其是改成标准增量式后，`kp/ki` 含义已经和有感旧公式不同。
+位置：`AT32F403ACCT7_WorkBench/project/Hardware/foc_config.h`
+
+```c
+#define FOC_SENSORLESS_IF_ALIGN_ID             0.50f
+#define FOC_SENSORLESS_IF_ALIGN_COUNT          6000U
+#define FOC_SENSORLESS_IF_START_IQ             1.00f
+#define FOC_SENSORLESS_IF_START_SPEED_RPM      20.0f
+#define FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM   1000.0f
+#define FOC_SENSORLESS_IF_RAMP_RPM_PER_S       1500.0f
+#define FOC_SENSORLESS_IF_START_MAX_SPEED_RPM  150.0f
+#define FOC_SENSORLESS_IF_MIN_TARGET_RPM       10.0f
+#define FOC_SENSORLESS_IF_MIN_EMAG             0.15f
+#define FOC_SENSORLESS_IF_MAX_PLL_ERROR        0.35f
+#define FOC_SENSORLESS_IF_LOCK_COUNT           200U
+```
+
+当前实测结论：
+
+- `Iq = 1A`
+- `目标速度 = 1000 rpm`
+- `I/F 爬坡 = 1500 rpm/s`
+
+可以正常启动并切入速度闭环。
+
+## 调试步骤
+
+推荐启动顺序：
+
+```text
+切无感
+设置 Iq限流 = 1
+设置目标速度 = 1000
+打开速度环
+```
+
+优先观察变量：
+
+1. `速度反馈`：应平滑，方向应与实际转向一致。
+2. `PLL速度`：应比角度差分速度更稳定。
+3. `Iq/Id`：`ALIGN` 阶段应接近 `Id=0.5, Iq=0`；`RAMP` 阶段应接近 `Iq=1, Id=0`。
+4. `速度环输出`：`ALIGN/RAMP` 阶段应被 I/F 启动电流接管，切闭环后才由速度 PI 正常调节。
+5. `PLL误差/eMag`：正常转起来后，`eMag` 应有明显幅值，`pllError` 应较小。
+
+## 后续调参方向
+
+如果启动失败或抖动：
+
+- 增大 `FOC_SENSORLESS_IF_START_IQ`，例如从 `1.0A` 试到 `1.2A`。
+- 增大 `FOC_SENSORLESS_IF_ALIGN_ID`，例如从 `0.5A` 试到 `0.7A`。
+- 降低 `FOC_SENSORLESS_IF_RAMP_RPM_PER_S`，例如从 `1500 rpm/s` 降到 `800 rpm/s`。
+
+如果启动可靠但太慢：
+
+- 增大 `FOC_SENSORLESS_IF_RAMP_RPM_PER_S`。
+- 当前已经从 `300 rpm/s -> 800 rpm/s -> 1500 rpm/s`，实测 `1500 rpm/s` 可用。
+
+如果启动能拖起来，但切闭环瞬间失败：
+
+- 提高 `FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM`。
+- 增大 `FOC_SENSORLESS_IF_LOCK_COUNT`。
+- 检查 `pllError` 是否收敛、`eMag` 是否足够。
+
+如果速度环能控制但速度波形乱：
+
+- 优先看 `PLL速度` 和 `速度反馈` 是否一致。
+- 不要再回到 2ms 电角度差分速度，容易在高极对电机上混叠。
+
+## 本次修复涉及的主要文件
+
+- `AT32F403ACCT7_WorkBench/project/Hardware/FOC.c`
+- `AT32F403ACCT7_WorkBench/project/Hardware/FOC.h`
+- `AT32F403ACCT7_WorkBench/project/Hardware/current_control.c`
+- `AT32F403ACCT7_WorkBench/project/Hardware/speed_control.c`
+- `AT32F403ACCT7_WorkBench/project/Hardware/foc_config.h`
+- `AT32F403ACCT7_WorkBench/project/Hardware/protocol.c`
