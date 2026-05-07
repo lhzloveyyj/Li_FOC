@@ -563,6 +563,33 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
+    /* 低速停机时的 tariq/outMax 保存恢复 */
+    static float  savedTariq   = 0.0f;
+    static float  savedOutMax  = 0.0f;
+    static uint8_t wasLowSpeed = 0;
+
+    /* 条件：无感 + 速度环 + 目标速度 <= 最低可靠转速 + I/F 未激活 */
+    uint8_t inLowSpeedStop = (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS)
+                          && (pFOC->ctrolmode == FOC_SPEED_LOOP)
+                          && (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM)
+                          && (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF);
+
+    if (inLowSpeedStop) {
+        if (!wasLowSpeed) {
+            savedTariq  = pFOC->tariq;
+            savedOutMax = pFOC->speedPID.outMax;
+            wasLowSpeed = 1;
+        }
+        pFOC->tariq           = 0.05f;
+        pFOC->speedPID.outMax = 0.05f;
+    } else {
+        if (wasLowSpeed) {
+            pFOC->tariq           = savedTariq;
+            pFOC->speedPID.outMax = savedOutMax;
+            wasLowSpeed          = 0;
+        }
+    }
+
     /* ==== 步骤 1：获取并选择角度 ==== */
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORED) {
         pFOC->sensoredMechanicalAngle = Mt6701GetAngleWrapper();
@@ -605,6 +632,15 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
                                      * (float)pFOC->pole_pairs * pFOC->speedDir;
             pFOC->sensorlessOpenLoopAngle =
                 NormalizeAngle(pFOC->sensorlessOpenLoopAngle + openLoopElecSpeed * FOC_SMO_TS);
+            pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
+            if (pFOC->pole_pairs != 0) {
+                pFOC->mechanicalAngle =
+                    NormalizeAngle(pFOC->sensorlessOpenLoopAngle / (float)pFOC->pole_pairs);
+            }
+        } else if (pFOC->ctrolmode == FOC_SPEED_LOOP
+                   && FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM
+                   && pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF) {
+            /* 低速/零速：冻结开环角度作为稳定参考系，模拟有感模式零速保持 */
             pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
             if (pFOC->pole_pairs != 0) {
                 pFOC->mechanicalAngle =
