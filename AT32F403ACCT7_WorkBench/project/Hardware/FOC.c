@@ -143,8 +143,16 @@ float AngleGetCorrectedElec(float mechAngle)
 
 /******************************************************************************
  * 函数名称：FOC_SetSensorMode
- * 功能描述：切换 FOC 反馈来源。
- *           有感模式使用 MT6701；无感模式使用 SMO + PLL 的电角度/速度。
+ * 功能描述：切换 FOC 角度/速度反馈来源，并重置所有相关状态。
+ *
+ *   有感模式 (SENSORED)  ：使用 MT6701 磁编码器的机械角度，
+ *                          经极对数和零位偏移换算后得到电角度。
+ *   无感模式 (SENSORLESS)：使用 SMO + PLL 估算的电角度和转速。
+ *
+ * 切换时会清零：
+ *   - 速度环 / 位置环 PI 积分器（避免旧模式残余输出）
+ *   - I/F 启动状态机（回到 OFF，重新开始）
+ *   - 切换到无感时额外初始化开环虚拟角度并复位 SMO
  ******************************************************************************/
 void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode)
 {
@@ -173,7 +181,8 @@ void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode)
 
 /******************************************************************************
  * 函数名称：FOC_GetSensorMode
- * 功能描述：读取当前 FOC 反馈来源。
+ * 功能描述：读取当前 FOC 角度/速度反馈来源（有感/无感）。
+ * 返回值：FocSensorMode_TypeDef 枚举，pFOC 为 NULL 时默认返回有感。
  ******************************************************************************/
 FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC)
 {
@@ -183,21 +192,38 @@ FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC)
     return (FocSensorMode_TypeDef)pFOC->sensorMode;
 }
 
+/* 取绝对值（避免链接标准库 fabsf，减小代码体积） */
 static float FOC_AbsF(float value)
 {
     return (value >= 0.0f) ? value : -value;
 }
 
+/* 取符号：正 → 1.0f，负 → -1.0f */
 static float FOC_SignF(float value)
 {
     return (value >= 0.0f) ? 1.0f : -1.0f;
 }
 
+/* 取两数中较小值 */
 static float FOC_MinF(float a, float b)
 {
     return (a < b) ? a : b;
 }
 
+/******************************************************************************
+ * 函数名称：FOC_ResetSensorlessIF
+ * 功能描述：复位无感 I/F 启动状态机到 OFF。
+ *
+ * 将 I/F 相关状态全部清零，回到未启动状态。速度环和电流环的 PI
+ * 积分器由调用者负责清理（本函数不处理，因为不同调用场景对 PI
+ * 清理的需求可能不同）。
+ *
+ * 调用时机：
+ *   - 退出速度环/无感模式时
+ *   - 用户目标速度降到死区以下（主动停机）
+ *   - DONE 状态下转速跌入 SMO 盲区（外力堵转，需要重新 I/F）
+ *   - RAMP 阶段超时（转子被卡死，需重新 ALIGN）
+ ******************************************************************************/
 static void FOC_ResetSensorlessIF(PFocState pFOC)
 {
     pFOC->sensorlessIfState = FOC_SENSORLESS_IF_OFF;
@@ -208,6 +234,26 @@ static void FOC_ResetSensorlessIF(PFocState pFOC)
     pFOC->sensorlessIfId = 0.0f;
 }
 
+/******************************************************************************
+ * 函数名称：FOC_StartSensorlessIF
+ * 功能描述：启动无感 I/F（电流/频率）起动序列。
+ *
+ * I/F 起动是开环拖动策略，用于在 SMO 无法工作的低速区间让电机
+ * 先转起来，等到反电动势足够大再切换到 SMO 闭环。
+ *
+ * 起动分为两个阶段：
+ *   ALIGN（对齐）：固定虚拟角度 + Id 电流注入，让转子磁极对齐
+ *                  到已知位置，持续 FOC_SENSORLESS_IF_ALIGN_COUNT 个周期。
+ *   RAMP （斜坡）：虚拟角度开始旋转，Iq 电流拖动转子跟随磁场，
+ *                  虚拟速度从 START_SPEED 按 RAMP_RPM_PER_S 斜坡上升，
+ *                  直到满足 SMO/PLL 交接条件后切换到 DONE 闭环。
+ *
+ * 调用时机：FocContorl 检测到 target > 死区、实际转速 < I/F 阈值、
+ *          I/F 处于 OFF 状态时触发。
+ *
+ * 注意：调用本函数前应先清理 SMO 和 PI 积分器，确保 I/F 从干净
+ *       状态启动（参见 FocContorl 中 I/F 启动条件内的清理代码）。
+ ******************************************************************************/
 static void FOC_StartSensorlessIF(PFocState pFOC)
 {
     float targetSign = FOC_SignF(pFOC->tar_speed);
@@ -239,6 +285,36 @@ static void FOC_StartSensorlessIF(PFocState pFOC)
     (void)iqStart;
 }
 
+/******************************************************************************
+ * 函数名称：FOC_UpdateSensorlessIF
+ * 功能描述：无感 I/F 启动状态机更新（每个 PWM 周期调用一次）。
+ *
+ * 状态机流程：
+ *   ALIGN（对齐阶段）
+ *     - 虚拟角度固定不动，注入 Id 电流（默认 0.5A）产生定向磁场
+ *     - 转子在电磁力作用下自动对齐到该磁场方向
+ *     - 持续 FOC_SENSORLESS_IF_ALIGN_COUNT 个周期（默认 6000 = 300ms）
+ *     - 超时后切换为 RAMP
+ *
+ *   RAMP（斜坡拖动阶段）
+ *     - 虚拟角度按给定转速积分，虚拟机械速度从 START_SPEED_RPM（20rpm）
+ *       按 RAMP_RPM_PER_S（1500rpm/s）斜坡上升到 HANDOVER_SPEED_RPM（1000rpm）
+ *     - Iq 电流（默认 1A）产生旋转磁场拖动转子跟随
+ *     - 每周期检查 SMO/PLL 交接条件：
+ *         1. 虚拟速度达到 1000rpm
+ *         2. PLL 估算的机械转速 > 500rpm（目标方向）
+ *         3. PLL 机械转速幅值 > 500rpm
+ *         4. 反电势幅值 > FOC_SENSORLESS_IF_MIN_EMAG（0.15V）
+ *         5. PLL 归一化误差 < FOC_SENSORLESS_IF_MAX_PLL_ERROR（0.35）
+ *     - 全部 5 条连续满足 LOCK_COUNT（200）个周期 → 切换为 DONE（闭环）
+ *     - 任一条件不满足时锁存计数器清零
+ *
+ *   DONE（闭环运行）
+ *     - 由 FocContorl 中的条件判断切换至此，本函数不再介入
+ *     - 后续使用 SMO/PLL 角度和速度进行正常 FOC 闭环控制
+ *
+ * 注：RAMP 超时保护不在本函数内，由 FocContorl 在调用后检查。
+ ******************************************************************************/
 static void FOC_UpdateSensorlessIF(PFocState pFOC)
 {
     float targetSign = FOC_SignF(pFOC->tar_speed);
@@ -563,16 +639,34 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
-    /* 低速停机时的 tariq/outMax 保存恢复 */
+    /*
+     * ================================================================
+     * 低速/零速/堵转 限流保护
+     * ================================================================
+     * 无感 FOC 在低速（<150rpm 左右）时反电动势太弱，SMO 无法可靠
+     * 估算角度。若此时速度环仍然输出大电流、配合错误的 SMO 角度
+     * 做 Park 变换，会产生随机方向的转矩 → 电机剧烈抖动甚至反转。
+     *
+     * 保护策略：检测到以下任一情况时，将 Iq 上限压到 0.05A——
+     *   a) 用户主动停机：tar_speed ≈ 0
+     *   b) 外力堵转：tar_speed 非零但实际转速已跌到 SMO 盲区
+     *
+     * tariq / speedPID.outMax 的原始值在进入保护时自动保存，
+     * 退出时自动恢复，避免限流值泄漏到正常工作模式。
+     *
+     * I/F 启动过程中（ALIGN/RAMP）不触发此保护，因为 I/F 自己
+     * 管理电流（sensorlessIfIq/sensorlessIfId）。
+     */
     static float  savedTariq   = 0.0f;
     static float  savedOutMax  = 0.0f;
     static uint8_t wasLowSpeed = 0;
 
-    /* 条件：无感 + 速度环 + 目标速度 <= 最低可靠转速 + I/F 未激活 */
     uint8_t inLowSpeedStop = (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS)
                           && (pFOC->ctrolmode == FOC_SPEED_LOOP)
-                          && (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM)
-                          && (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF);
+                          && (pFOC->sensorlessIfState != FOC_SENSORLESS_IF_ALIGN)
+                          && (pFOC->sensorlessIfState != FOC_SENSORLESS_IF_RAMP)
+                          && (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM
+                              || FOC_AbsF(pFOC->speed) < FOC_SENSORLESS_IF_START_MAX_SPEED_RPM);
 
     if (inLowSpeedStop) {
         if (!wasLowSpeed) {
@@ -606,21 +700,73 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
     }
 
     if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
+        /*
+         * I/F 启动条件：
+         *   无感 + 速度环 + 目标速度高于死区 + I/F 处于 OFF 状态
+         *   + 实际转速已跌到 I/F 启动阈值以下
+         *
+         * 进入 I/F 前必须做完整的状态复位，原因：
+         *   电机可能在堵转/失步状态下运行了若干周期——SMO 角度是噪声、
+         *   速度环和电流环的积分器可能已饱和。直接在这个脏状态上启动
+         *   I/F 会导致 Align 角度随机、或残留的大电流在错误角度下输出。
+         */
         if ((pFOC->ctrolmode == FOC_SPEED_LOOP)
             && (FOC_AbsF(pFOC->tar_speed) > FOC_SENSORLESS_IF_MIN_TARGET_RPM)
             && (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF)
             && (FOC_AbsF(pFOC->speed) < FOC_SENSORLESS_IF_START_MAX_SPEED_RPM)) {
-            FOC_StartSensorlessIF(pFOC);
+            SMO_Reset(&g_smoObserver);          // 丢弃已损坏的 SMO 内部状态
+            pFOC->uq = 0.0f;                    // 本周期不输出电压，避免错误角度下
+            pFOC->ud = 0.0f;                    //   的残余电压造成转矩冲击
+            pFOC->speedPID.out = 0.0f;          // 清零速度环积分
+            pFOC->speedPID.lastBias = 0.0f;
+            pFOC->iqPID.out = 0.0f;             // 清零 Q 轴电流环积分
+            pFOC->iqPID.lastBias = 0.0f;
+            pFOC->idPID.out = 0.0f;             // 清零 D 轴电流环积分
+            pFOC->idPID.lastBias = 0.0f;
+            FOC_StartSensorlessIF(pFOC);        // 干净起点进入 I/F 启动序列
         }
 
+        /*
+         * I/F 复位条件（任一满足即复位到 OFF）：
+         *   1. 退出速度环模式（切到开环/电流环/位置环）
+         *   2. 用户将目标速度降到死区以下（主动停机）
+         *   3. 正常运行中转速跌入 SMO 盲区（外力堵转）——
+         *      这是关键：DONE 状态下若不主动复位，I/F 启动条件
+         *      (要求 IF_OFF) 永远不会满足，电机会卡在 DONE 状态
+         *      用噪声 SMO 角度持续输出错误转矩。
+         */
         if ((pFOC->ctrolmode != FOC_SPEED_LOOP)
-            || (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM)) {
+            || (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM)
+            || (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_DONE
+                && FOC_AbsF(pFOC->speed) < FOC_SENSORLESS_IF_START_MAX_SPEED_RPM)) {
             FOC_ResetSensorlessIF(pFOC);
         }
 
         if ((pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN)
             || (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP)) {
             FOC_UpdateSensorlessIF(pFOC);
+            /*
+             * RAMP 阶段超时重试：
+             * 若转子被外力长时间卡住，虚拟速度会一直爬到上限但转子
+             * 不动，交接条件（SMO 转速、反电势幅值、PLL 误差）永远
+             * 无法满足，I/F 将永远卡在 RAMP。
+             *
+             * 超时后复位到 OFF → 下个周期自动重新触发 ALIGN→RAMP，
+             * 形成重试循环。松手时 I/F 总能从一个新鲜的 ALIGN 开始，
+             * 虚拟速度从 20rpm 起步，转子容易跟上。
+             *
+             * 40000 周期 = 2 秒 @ 20kHz PWM。正常 I/F 从 ALIGN
+             * 到交接完成通常只需 0.5~1 秒，2 秒绰绰有余。
+             */
+            static uint32_t rampTimeout = 0;
+            if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP) {
+                if (++rampTimeout > 40000) {
+                    FOC_ResetSensorlessIF(pFOC);
+                    rampTimeout = 0;
+                }
+            } else {
+                rampTimeout = 0;
+            }
         } else if (pFOC->ctrolmode == FOC_OPEN_LOOP) {
             float openLoopMechSpeed;
             if (fabsf(pFOC->uq) > FOC_EPSILON) {
@@ -638,9 +784,22 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
                     NormalizeAngle(pFOC->sensorlessOpenLoopAngle / (float)pFOC->pole_pairs);
             }
         } else if (pFOC->ctrolmode == FOC_SPEED_LOOP
-                   && FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM
-                   && pFOC->sensorlessIfState == FOC_SENSORLESS_IF_OFF) {
-            /* 低速/零速：冻结开环角度作为稳定参考系，模拟有感模式零速保持 */
+                   && pFOC->sensorlessIfState != FOC_SENSORLESS_IF_ALIGN
+                   && pFOC->sensorlessIfState != FOC_SENSORLESS_IF_RAMP
+                   && (FOC_AbsF(pFOC->tar_speed) <= FOC_SENSORLESS_IF_MIN_TARGET_RPM
+                       || FOC_AbsF(pFOC->speed) < FOC_SENSORLESS_IF_START_MAX_SPEED_RPM)) {
+            /*
+             * 低速/零速/堵转：冻结开环虚拟角度作为 Park 变换的参考系。
+             *
+             * 此时 SMO 输出的角度充满噪声——反电动势幅值太低，atan2
+             * 和 PLL 都无法给出有意义的估算值。若继续用 SMO 角度做
+             * Park/逆 Park 变换，即使 uq/ud 很小，也会在随机角度下
+             * 产生随机方向的转矩。
+             *
+             * 冻结一个固定角度虽然与真实转子位置不对齐，但至少是稳定
+             * 的——不会产生交变转矩。配合上文的 0.05A 限流，即使角度
+             * 偏差较大，实际力也很小，不会造成抖动。
+             */
             pFOC->correctedAngle = pFOC->sensorlessOpenLoopAngle;
             if (pFOC->pole_pairs != 0) {
                 pFOC->mechanicalAngle =
@@ -705,7 +864,14 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
     SVpwm(PSVpwm, pFOC->uAlpha, pFOC->uBeta);
     setSVpwm(PSVpwm);
 
-    /* ==== 步骤 8：SMO 滑模观测器同步更新（后台观测，不参与控制）==== */
-    SMO_Update(&g_smoObserver, pFOC->uAlpha, pFOC->uBeta,
-               pFOC->iAlpha, pFOC->iBeta);
+    /* ==== 步骤 8：SMO 滑模观测器 ==== */
+    /*
+     * 仅无感模式需要更新 SMO。有感模式跳过可以显著减轻 PWM 中断
+     * 的计算负担（SMO_Update 包含 atan2f、atanf、fast_sin/cos、
+     * 多次浮点乘除和滤波，在 50us 中断周期中占用可观）。
+     */
+    if (pFOC->sensorMode == FOC_SENSOR_MODE_SENSORLESS) {
+        SMO_Update(&g_smoObserver, pFOC->uAlpha, pFOC->uBeta,
+                   pFOC->iAlpha, pFOC->iBeta);
+    }
 }
