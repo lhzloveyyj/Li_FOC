@@ -16,16 +16,34 @@
 /* =================== 参数结构体（1 字节对齐） =================== */
 #pragma pack(push,1)
 typedef struct {
-    float    elec_offset;   /**< 零电角度偏移（单位：rad） */
-    int32_t  pole_pairs;    /**< 电机极对数 */
-    float    reserved1;     /**< 保留字段 */
-    int32_t  dir;           /**< 旋转方向（1 或 -1） */
-    int32_t  speeddir;      /**< 速度方向 */
+    float    elec_offset;      /**< 零电角度偏移（单位：rad） */
+    int32_t  pole_pairs;       /**< 电机极对数 */
+    float    reserved1;        /**< 保留字段 */
+    int32_t  dir;              /**< 旋转方向（1 或 -1） */
+    int32_t  speeddir;         /**< 速度方向 */
     /* SMO/电机模型参数 */
-    float    rs;            /**< 相电阻（单位：Ω） */
-    float    lq;            /**< q 轴电感（单位：H） */
-    float    ld;            /**< d 轴电感（单位：H） */
+    float    rs;               /**< 相电阻（单位：Ω） */
+    float    lq;               /**< q 轴电感（单位：H） */
+    float    ld;               /**< d 轴电感（单位：H） */
+    /* 速度环 PID 参数 */
+    float    speed_pid_kp;     /**< 速度环 Kp */
+    float    speed_pid_ki;     /**< 速度环 Ki */
 } foc_params_t;
+#pragma pack(pop)
+
+/* 旧版结构体（v1，不含速度 PID，用于兼容升级） */
+#define FOC_PARAMS_V1_SIZE  32  /* sizeof(foc_params_t) 不含 PID 字段时的值 */
+#pragma pack(push,1)
+typedef struct {
+    float    elec_offset;
+    int32_t  pole_pairs;
+    float    reserved1;
+    int32_t  dir;
+    int32_t  speeddir;
+    float    rs;
+    float    lq;
+    float    ld;
+} foc_params_v1_t;
 #pragma pack(pop)
 
 /* =================== 旧版结构体（兼容旧固件升级） =================== */

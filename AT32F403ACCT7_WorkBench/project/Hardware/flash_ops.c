@@ -34,6 +34,8 @@ void foc_params_set_defaults(foc_params_t *p)
     p->rs = 0.198f;
     p->lq = 0.000074f;
     p->ld = 0.000040f;
+    p->speed_pid_kp = 0.002f;
+    p->speed_pid_ki = 0.1f;
 }
 
 /******************************************************************************
@@ -104,10 +106,9 @@ void foc_params_save(foc_params_t *p)
 int foc_params_load(foc_params_t *p)
 {
     foc_params_block_t block;
-    foc_params_legacy_block_t legacy_block;
     uint8_t *raw = (uint8_t*)&block;
 
-    /* 半字读取（Flash 半字编程的对齐要求） */
+    /* 半字读取全部 Flash 内容 */
     for (uint32_t i = 0; i < sizeof(block); i += 2) {
         uint16_t half = *(uint16_t*)(FOC_PARAMS_FLASH_ADDR + i);
         raw[i]   = half & 0xFF;
@@ -116,8 +117,33 @@ int foc_params_load(foc_params_t *p)
 
     uint32_t calc_crc = crc32_compute((uint8_t*)&block.params, sizeof(foc_params_t));
 
-    if (calc_crc != block.crc) {
-        /* 新版 CRC 不匹配 → 尝试旧版结构体读取 */
+    if (calc_crc == block.crc) {
+        /* 新版 CRC 匹配 → 直接加载 */
+        memcpy(p, &block.params, sizeof(foc_params_t));
+        FOC_DBG("Load OK.\n");
+        return 1;
+    }
+
+    /* 新版 CRC 不匹配 → 尝试 v1 格式（不含 speed PID 字段） */
+    {
+        uint32_t v1_params_size = FOC_PARAMS_V1_SIZE;
+
+        /* v1 CRC 紧跟在 v1 参数体之后 */
+        uint32_t v1_crc = *(uint32_t*)(FOC_PARAMS_FLASH_ADDR + v1_params_size);
+        uint32_t v1_calc = crc32_compute((uint8_t*)&block.params, v1_params_size);
+
+        if (v1_calc == v1_crc) {
+            /* v1 格式有效：迁移旧参数 + PID 用默认值 */
+            foc_params_set_defaults(p);
+            memcpy(p, &block.params, v1_params_size);  /* 覆盖旧字段 */
+            FOC_DBG("v1 params loaded (PID defaults).\n");
+            return 1;
+        }
+    }
+
+    /* 尝试更旧的 legacy 格式 */
+    {
+        foc_params_legacy_block_t legacy_block;
         uint8_t *legacy_raw = (uint8_t*)&legacy_block;
         for (uint32_t i = 0; i < sizeof(legacy_block); i += 2) {
             uint16_t half = *(uint16_t*)(FOC_PARAMS_FLASH_ADDR + i);
@@ -129,7 +155,6 @@ int foc_params_load(foc_params_t *p)
             (uint8_t*)&legacy_block.params, sizeof(foc_params_legacy_t));
 
         if (legacy_crc == legacy_block.crc) {
-            /* 旧版有效：用默认新参数 + 旧版标定参数 */
             foc_params_set_defaults(p);
             p->elec_offset = legacy_block.params.elec_offset;
             p->pole_pairs  = legacy_block.params.pole_pairs;
@@ -139,15 +164,12 @@ int foc_params_load(foc_params_t *p)
             FOC_DBG("Legacy params loaded, motor Rs/Lq/Ld use defaults.\n");
             return 1;
         }
-
-        foc_params_set_defaults(p);
-        FOC_DBG("CRC ERROR! Flash data invalid, using defaults.\n");
-        return 0;
     }
 
-    memcpy(p, &block.params, sizeof(foc_params_t));
-    FOC_DBG("Load OK.\n");
-    return 1;
+    /* 全部格式都不匹配 → 填默认值 */
+    foc_params_set_defaults(p);
+    FOC_DBG("CRC ERROR! Flash data invalid, using defaults.\n");
+    return 0;
 }
 
 /******************************************************************************
@@ -166,6 +188,8 @@ void foc_params_test(void)
     g_params.rs          = 0.198f;
     g_params.lq          = 0.000074f;
     g_params.ld          = 0.000040f;
+    g_params.speed_pid_kp = 0.002f;
+    g_params.speed_pid_ki = 0.1f;
 
     foc_params_save(&g_params);
 
@@ -183,5 +207,7 @@ void foc_params_test(void)
     printf("  speeddir  = %ld\n",  g_readback.speeddir);
     printf("  rs        = %.6f\n", g_readback.rs);
     printf("  lq        = %.6f\n", g_readback.lq);
-    printf("  ld        = %.6f\n", g_readback.ld);
+    printf("  ld           = %.6f\n", g_readback.ld);
+    printf("  speed_pid_kp = %.6f\n", g_readback.speed_pid_kp);
+    printf("  speed_pid_ki = %.6f\n", g_readback.speed_pid_ki);
 }

@@ -317,13 +317,19 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
 
-        /* ---- 设置速度环 PID 参数 ---- */
+        /* ---- 设置速度环 PID 参数（立即生效 + 写入 Flash） ---- */
         case CMD_SETSPEEDPIDKP:
             g_pMotor->speedPID.kp = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.speed_pid_kp = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
         case CMD_SETSPEEDPIDKI:
             g_pMotor->speedPID.ki = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.speed_pid_ki = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
 
