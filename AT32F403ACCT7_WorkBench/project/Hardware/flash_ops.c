@@ -36,6 +36,10 @@ void foc_params_set_defaults(foc_params_t *p)
     p->ld = 0.000040f;
     p->speed_pid_kp = 0.002f;
     p->speed_pid_ki = 0.1f;
+    p->speed_pid_out = 10.0f;
+    p->position_pid_kp = 1.0f;
+    p->position_pid_kd = 0.0001f;
+    p->position_pid_out = 400.0f;
 }
 
 /******************************************************************************
@@ -124,7 +128,37 @@ int foc_params_load(foc_params_t *p)
         return 1;
     }
 
-    /* 新版 CRC 不匹配 → 尝试 v1 格式（不含 speed PID 字段） */
+    /* 新版 CRC 不匹配 → 尝试 v3 格式（含 position PID，不含 speed outMax） */
+    {
+        uint32_t v3_params_size = FOC_PARAMS_V3_SIZE;
+
+        uint32_t v3_crc = *(uint32_t*)(FOC_PARAMS_FLASH_ADDR + v3_params_size);
+        uint32_t v3_calc = crc32_compute((uint8_t*)&block.params, v3_params_size);
+
+        if (v3_calc == v3_crc) {
+            foc_params_set_defaults(p);
+            memcpy(p, &block.params, v3_params_size);
+            FOC_DBG("v3 params loaded (speed output limit default).\n");
+            return 1;
+        }
+    }
+
+    /* 尝试 v2 格式（含 speed PID，不含 position PID） */
+    {
+        uint32_t v2_params_size = FOC_PARAMS_V2_SIZE;
+
+        uint32_t v2_crc = *(uint32_t*)(FOC_PARAMS_FLASH_ADDR + v2_params_size);
+        uint32_t v2_calc = crc32_compute((uint8_t*)&block.params, v2_params_size);
+
+        if (v2_calc == v2_crc) {
+            foc_params_set_defaults(p);
+            memcpy(p, &block.params, v2_params_size);
+            FOC_DBG("v2 params loaded (position PID defaults).\n");
+            return 1;
+        }
+    }
+
+    /* 尝试 v1 格式（不含 speed/position PID 字段） */
     {
         uint32_t v1_params_size = FOC_PARAMS_V1_SIZE;
 
@@ -190,6 +224,10 @@ void foc_params_test(void)
     g_params.ld          = 0.000040f;
     g_params.speed_pid_kp = 0.002f;
     g_params.speed_pid_ki = 0.1f;
+    g_params.speed_pid_out = 10.0f;
+    g_params.position_pid_kp = 1.0f;
+    g_params.position_pid_kd = 0.0001f;
+    g_params.position_pid_out = 400.0f;
 
     foc_params_save(&g_params);
 
@@ -210,4 +248,8 @@ void foc_params_test(void)
     printf("  ld           = %.6f\n", g_readback.ld);
     printf("  speed_pid_kp = %.6f\n", g_readback.speed_pid_kp);
     printf("  speed_pid_ki = %.6f\n", g_readback.speed_pid_ki);
+    printf("  speed_pid_out = %.6f\n", g_readback.speed_pid_out);
+    printf("  position_pid_kp  = %.6f\n", g_readback.position_pid_kp);
+    printf("  position_pid_kd  = %.6f\n", g_readback.position_pid_kd);
+    printf("  position_pid_out = %.6f\n", g_readback.position_pid_out);
 }

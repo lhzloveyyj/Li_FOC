@@ -167,8 +167,9 @@ void comm_task_func(void *pvParameters)
     SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
     /* 速度环 PID 从 Flash 加载，掉电不丢失；首次无数据时使用默认值 */
     SetSpeedPIDParams(g_pMotor, g_readback.speed_pid_kp, g_readback.speed_pid_ki,
-                      0.0f, 10.0f);
-    SetPositionPIDParams(g_pMotor, 1.0f, 0.0f, 0.0001f, 400.0f);
+                      0.0f, g_readback.speed_pid_out);
+    SetPositionPIDParams(g_pMotor, g_readback.position_pid_kp, 0.0f,
+                         g_readback.position_pid_kd, g_readback.position_pid_out);
 
     /* ---- SMO 初始化（使用 PLL 版本） ---- */
     const SmoObserverConfig smoConfig = {
@@ -222,19 +223,18 @@ void control_task_func(void *pvParameters)
   while (1) {
       CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
 
-      if (g_pMotor->ctrolmode == FOC_SPEED_LOOP
-          || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
-          SpeedPIControl(g_pMotor);
-      }
-
-      /* 位置环以较低频率运行（每 5 个周期 = 10ms 执行一次） */
       if (g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
+          CalculatePosition(g_pMotor);
           num++;
-          if (num == 5) {
-              CalculatePosition(g_pMotor);
+          if (num >= 5) {
               PositionPDControl(g_pMotor);
               num = 0;
           }
+      }
+
+      if (g_pMotor->ctrolmode == FOC_SPEED_LOOP
+          || g_pMotor->ctrolmode == FOC_POSITION_LOOP) {
+          SpeedPIControl(g_pMotor);
       }
       vTaskDelay(2);
   }

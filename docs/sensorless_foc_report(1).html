@@ -1,0 +1,1745 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>无感 FOC 学习汇报 - Li_FOC 项目</title>
+  <style>
+    :root {
+      --ink: #18212f;
+      --muted: #5e6b7e;
+      --line: #d8dee8;
+      --paper: #f7f9fc;
+      --panel: #ffffff;
+      --blue: #2267d5;
+      --cyan: #0095a8;
+      --green: #27865f;
+      --orange: #b65b16;
+      --red: #c43e49;
+      --violet: #7057c8;
+      --shadow: 0 16px 40px rgba(23, 35, 54, 0.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.68;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      color: white;
+      background:
+        linear-gradient(115deg, rgba(10, 28, 57, 0.96), rgba(28, 79, 119, 0.88)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='760' viewBox='0 0 1400 760'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23205f9c'/%3E%3Cstop offset='1' stop-color='%2313233c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1400' height='760' fill='url(%23g)'/%3E%3Cg fill='none' stroke='rgba(255,255,255,.22)' stroke-width='2'%3E%3Ccircle cx='1040' cy='390' r='190'/%3E%3Ccircle cx='1040' cy='390' r='128'/%3E%3Ccircle cx='1040' cy='390' r='62'/%3E%3Cpath d='M1040 200 L1100 390 L1040 580 L980 390 Z'/%3E%3Cpath d='M850 390 H1230 M1040 200 V580'/%3E%3Cpath d='M420 110 C560 210 650 125 770 255 S1040 350 1150 210'/%3E%3Cpath d='M180 520 C340 360 450 670 620 470 S860 430 1010 600'/%3E%3C/g%3E%3Cg fill='rgba(255,255,255,.14)'%3E%3Ccircle cx='260' cy='190' r='4'/%3E%3Ccircle cx='520' cy='292' r='4'/%3E%3Ccircle cx='750' cy='205' r='4'/%3E%3Ccircle cx='1160' cy='250' r='4'/%3E%3Ccircle cx='930' cy='545' r='4'/%3E%3C/g%3E%3C/svg%3E")
+        center / cover;
+      min-height: 72vh;
+      display: grid;
+      align-items: center;
+      padding: 7rem 1.5rem 5rem;
+    }
+
+    .hero-inner, main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.88rem;
+      letter-spacing: 0;
+      color: rgba(255,255,255,.78);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 920px;
+      font-size: clamp(2.3rem, 5vw, 5.2rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 1.25rem 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 1px;
+      margin-top: 2.4rem;
+      max-width: 900px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
+    }
+
+    .hero-stat {
+      padding: 1rem;
+      background: rgba(12, 28, 50, .34);
+    }
+
+    .hero-stat b {
+      display: block;
+      font-size: 1.35rem;
+      line-height: 1.25;
+    }
+
+    .hero-stat span {
+      display: block;
+      color: rgba(255,255,255,.74);
+      font-size: .86rem;
+      margin-top: .25rem;
+    }
+
+    main { padding: 2.2rem 0 5rem; }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .7rem;
+      margin: -4.4rem 0 2.6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .toc a {
+      display: block;
+      min-height: 76px;
+      padding: .9rem 1rem;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      font-weight: 700;
+    }
+
+    .toc small {
+      display: block;
+      margin-top: .25rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    section {
+      margin: 2rem 0;
+      padding: 2rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(23,35,54,.045);
+    }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.55rem, 3vw, 2.2rem);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 1.7rem 0 .65rem;
+      font-size: 1.18rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    p { margin: .65rem 0; }
+    ul, ol { padding-left: 1.25rem; }
+    li { margin: .35rem 0; }
+
+    code, .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: .94em;
+      background: #eef3fa;
+      color: #123b71;
+      border: 1px solid #d9e3f2;
+      border-radius: 4px;
+      padding: .08rem .28rem;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 1rem 0;
+      padding: 1rem;
+      color: #dce9ff;
+      background: #101b2a;
+      border-radius: 8px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      padding: 0;
+      color: inherit;
+      background: transparent;
+      border: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .note, .warn, .ok {
+      border-left: 5px solid var(--blue);
+      background: #f0f6ff;
+      padding: 1rem 1.1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+    }
+
+    .warn {
+      border-left-color: var(--orange);
+      background: #fff6ec;
+    }
+
+    .ok {
+      border-left-color: var(--green);
+      background: #effaf4;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: .15rem .25rem .15rem 0;
+      padding: .16rem .5rem;
+      border-radius: 999px;
+      background: #edf3fb;
+      border: 1px solid #d9e5f4;
+      color: #31557f;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: .96rem;
+    }
+
+    th, td {
+      padding: .72rem .75rem;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: #edf3fb; }
+    tbody tr:nth-child(even) td { background: #fafcff; }
+
+    .figure {
+      margin: 1rem 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+      overflow: hidden;
+    }
+
+    .figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      padding: .7rem .9rem;
+      color: var(--muted);
+      background: #f3f6fb;
+      border-top: 1px solid var(--line);
+      font-size: .92rem;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: .55rem;
+      margin: 1rem 0;
+    }
+
+    .flow div {
+      min-height: 74px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: .75rem;
+      background: #fbfdff;
+      font-weight: 700;
+    }
+
+    .flow span {
+      display: block;
+      margin-top: .25rem;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 500;
+    }
+
+    .source {
+      margin-top: .75rem;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .formula {
+      padding: .85rem 1rem;
+      margin: .85rem 0;
+      border: 1px solid #d8e4f4;
+      border-radius: 8px;
+      background: #f7fbff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 920px) {
+      .hero { min-height: 640px; padding-top: 5rem; }
+      .hero-stats, .toc, .grid-2, .grid-3, .flow {
+        grid-template-columns: 1fr;
+      }
+      section { padding: 1.2rem; }
+      table { font-size: .88rem; }
+    }
+
+    @media print {
+      body { background: white; }
+      .hero { min-height: auto; padding: 2rem 1rem; }
+      .toc { margin: 1rem 0; }
+      section { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Li_FOC 项目学习汇报 · Sensorless FOC / SMO / PLL / I/F Start</div>
+      <h1>无感 FOC：从电机数学模型到代码实现</h1>
+      <p>
+        这份报告把 <code>docs/sensorless_foc_guide.md</code> 的调试笔记，和项目里的
+        <code>FOC.c</code>、<code>smo_observer.c</code>、<code>pll_observer.c</code>、
+        <code>current_control.c</code> 逐行对应起来，重点解释无感角度如何从电压、电流和反电势中被估计出来。
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>20 kHz</b><span>FOC / SMO 中断周期</span></div>
+        <div class="hero-stat"><b>11</b><span>电机极对数</span></div>
+        <div class="hero-stat"><b>SMO + PLL</b><span>无感角度来源</span></div>
+        <div class="hero-stat"><b>I/F</b><span>低速启动与交接</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <nav class="toc">
+      <a href="#overview">1. 总览<small>有感、无感、控制链路</small></a>
+      <a href="#math">2. 数学原理<small>Clarke / Park / PMSM</small></a>
+      <a href="#smo">3. 滑模观测器<small>滑模面、注入量、反电势</small></a>
+      <a href="#startup">4. 启动调试<small>I/F、限流、参数表</small></a>
+      <a href="#references">5. 代码索引<small>文件、函数、参考资料</small></a>
+    </nav>
+
+    <section id="overview">
+      <h2>1. 项目里的无感 FOC 总览</h2>
+      <p>
+        FOC 的目标是把三相电机变成“两个直流量”来控制：<code>Id</code> 负责磁链方向，
+        通常希望接近 0；<code>Iq</code> 负责转矩方向，主要决定电机出力。问题的核心在于：
+        Park 变换必须知道转子电角度 <code>θe</code>。有感模式直接从 MT6701 编码器获得，
+        无感模式则由 SMO 滑模观测器和 PLL 锁相环估计。
+      </p>
+
+      <div class="figure">
+        <svg viewBox="0 0 1160 520" role="img" aria-label="FOC 控制链路图">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .box{fill:#fff;stroke:#cfd8e6;stroke-width:2;rx:8}
+              .box2{fill:#effaf4;stroke:#8fcaa9;stroke-width:2;rx:8}
+              .box3{fill:#fff6ec;stroke:#e3aa72;stroke-width:2;rx:8}
+              .box4{fill:#f0f6ff;stroke:#8eb5ef;stroke-width:2;rx:8}
+              .txt{font:700 20px sans-serif;fill:#172336}
+              .sub{font:15px sans-serif;fill:#5e6b7e}
+              .ln{stroke:#31557f;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+            </style>
+          </defs>
+          <rect x="30" y="66" width="150" height="92" class="box"/>
+          <text x="105" y="105" text-anchor="middle" class="txt">三相电流</text>
+          <text x="105" y="132" text-anchor="middle" class="sub">Ia / Ib / Ic</text>
+
+          <rect x="240" y="66" width="150" height="92" class="box"/>
+          <text x="315" y="105" text-anchor="middle" class="txt">Clarke</text>
+          <text x="315" y="132" text-anchor="middle" class="sub">Iα / Iβ</text>
+
+          <rect x="450" y="66" width="150" height="92" class="box4"/>
+          <text x="525" y="105" text-anchor="middle" class="txt">Park</text>
+          <text x="525" y="132" text-anchor="middle" class="sub">Id / Iq</text>
+
+          <rect x="660" y="50" width="180" height="124" class="box2"/>
+          <text x="750" y="92" text-anchor="middle" class="txt">电流 PI</text>
+          <text x="750" y="120" text-anchor="middle" class="sub">Iq → Uq</text>
+          <text x="750" y="146" text-anchor="middle" class="sub">Id → Ud</text>
+
+          <rect x="900" y="66" width="190" height="92" class="box"/>
+          <text x="995" y="105" text-anchor="middle" class="txt">逆 Park + SVPWM</text>
+          <text x="995" y="132" text-anchor="middle" class="sub">Uαβ → PWM</text>
+
+          <rect x="450" y="300" width="190" height="110" class="box3"/>
+          <text x="545" y="344" text-anchor="middle" class="txt">角度来源</text>
+          <text x="545" y="374" text-anchor="middle" class="sub">有感：MT6701</text>
+          <text x="545" y="398" text-anchor="middle" class="sub">无感：SMO + PLL</text>
+
+          <rect x="750" y="300" width="210" height="110" class="box4"/>
+          <text x="855" y="344" text-anchor="middle" class="txt">SMO 更新</text>
+          <text x="855" y="374" text-anchor="middle" class="sub">Uαβ + Iαβ</text>
+          <text x="855" y="398" text-anchor="middle" class="sub">估计 eαβ / θe / ωe</text>
+
+          <path class="ln" d="M180 112 H240"/>
+          <path class="ln" d="M390 112 H450"/>
+          <path class="ln" d="M600 112 H660"/>
+          <path class="ln" d="M840 112 H900"/>
+          <path class="ln" d="M545 300 V165"/>
+          <path class="ln" d="M855 300 V165"/>
+          <path class="ln" d="M995 158 C995 250 960 270 910 300"/>
+          <path class="ln" d="M750 174 C750 230 785 265 830 300"/>
+          <text x="575" y="242" class="sub">θe</text>
+          <text x="980" y="252" class="sub">电压反馈给观测器</text>
+        </svg>
+        <div class="caption">图 1：项目中每个 PWM 周期的主路径，代码入口是 <code>FocContorl()</code>。</div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h3>有感与无感的关键差异</h3>
+          <table>
+            <thead><tr><th>模式</th><th>角度来源</th><th>优点</th><th>低速问题</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>有感</td>
+                <td>MT6701 机械角 → 零偏修正 → 电角度</td>
+                <td>静止也知道转子位置，调试直观</td>
+                <td>主要受编码器安装、零偏和方向影响</td>
+              </tr>
+              <tr>
+                <td>无感</td>
+                <td>SMO 从 U/I 估计反电势，PLL 提取角度</td>
+                <td>无需位置传感器，结构简单</td>
+                <td>静止反电势为 0，必须先开环拖动或 I/F 启动</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>代码落点：</strong>
+          <p>
+            <code>FOC_SetSensorMode()</code> 切换反馈来源；<code>FocContorl()</code>
+            中根据 <code>sensorMode</code> 选择 <code>correctedAngle</code>。
+            无感模式下 <code>sensorlessElectricalAngle = g_smoObserver.angle</code>，
+            机械转速由 <code>g_smoObserver.speed / pole_pairs * 60/(2π)</code> 换算。
+          </p>
+        </div>
+      </div>
+
+      <h3>参考文章的完整知识线索，在本项目里的落点</h3>
+      <p>
+        为了让讲义更接近参考文章的完整讲解，下面先给出一张“知识线索地图”。
+        左边是文章的理论推进顺序，右边是本项目代码中的具体落点。后面的 SMO 章节会沿着这张图逐段展开。
+      </p>
+      <table>
+        <thead><tr><th>文章讲到的点</th><th>工程含义</th><th>本项目对应</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>定子 <code>αβ</code> 坐标系与转子 <code>dq</code> 坐标系</td>
+            <td>电流控制在 <code>dq</code> 中做，观测器在 <code>αβ</code> 中做</td>
+            <td><code>clarke_transform()</code>、<code>park_transform()</code>、<code>SMO_Update()</code></td>
+          </tr>
+          <tr>
+            <td>电角度、机械角度、极对数关系</td>
+            <td>无感估计通常得到电角度/电角速度，再换算机械量</td>
+            <td><code>pole_pairs = 11</code>，<code>speed = omega / pole_pairs * 60/(2π)</code></td>
+          </tr>
+          <tr>
+            <td>FOC 中电流环比速度环快</td>
+            <td>速度环输出 <code>Iq_ref</code>，电流环快速跟踪</td>
+            <td>电流环 20kHz，速度任务 500Hz</td>
+          </tr>
+          <tr>
+            <td>SMO 用定子电压/电流重建反电势</td>
+            <td>不依赖估计角度做观测器输入，避免自我循环</td>
+            <td><code>SMO_Update(uAlpha,uBeta,iAlpha,iBeta)</code></td>
+          </tr>
+          <tr>
+            <td>滑模面应画在实际电流/观测电流平面</td>
+            <td>滑模面是 <code>i_hat = i</code>，不是普通教材相图的照搬</td>
+            <td><code>errAlpha = iAlphaHat - iAlpha</code></td>
+          </tr>
+          <tr>
+            <td>滑模增益 <code>h</code> 要满足到达条件</td>
+            <td>注入量必须能压过反电势和模型误差</td>
+            <td><code>FOC_SMO_K_SLIDE</code></td>
+          </tr>
+          <tr>
+            <td><code>h</code> 过大会增大稳态抖振</td>
+            <td>收敛快和噪声小之间要折中</td>
+            <td><code>k_slide</code>、<code>FOC_SMO_CURRENT_ERR_BAND</code></td>
+          </tr>
+          <tr>
+            <td>反电势进入 PLL 前需要 LPF</td>
+            <td>切换量有高频成分，直接进 PLL 会污染角度/速度</td>
+            <td><code>e += alpha*(z-e)</code>，<code>FOC_SMO_E_LPF_ALPHA</code></td>
+          </tr>
+          <tr>
+            <td>PLL 可按二阶系统理解</td>
+            <td>带宽决定跟踪速度，阻尼决定过冲与振荡</td>
+            <td><code>FOC_SMO_PLL_KP/KI</code>、<code>PLL_Update()</code></td>
+          </tr>
+          <tr>
+            <td>硬件实现需要离散化</td>
+            <td>连续微分方程变成每个采样周期的欧拉积分</td>
+            <td><code>iHat += Ts/Ls*(...)</code></td>
+          </tr>
+          <tr>
+            <td>静止/低速时 SMO 不可靠</td>
+            <td>无反电势或反电势低于噪声，角度不可观测</td>
+            <td>I/F 启动、低速限流、开环拖动</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>当前代码的控制频率</h3>
+      <div class="flow">
+        <div>PWM/ADC ISR<span>50us，20kHz</span></div>
+        <div>电流采样<span>ADC → Ia/Ib/Ic</span></div>
+        <div>电流环<span>Id/Iq PI</span></div>
+        <div>SVPWM<span>更新占空比</span></div>
+        <div>SMO/PLL<span>估计角度</span></div>
+        <div>速度任务<span>2ms，500Hz</span></div>
+      </div>
+      <p class="source">
+        代码依据：<code>FOC_SMO_TS = 0.00005f</code>，<code>FOC_SPEED_LOOP_TS = 0.002f</code>，
+        <code>control_task_func()</code> 每 2ms 调用速度计算和速度 PI。
+      </p>
+    </section>
+
+    <section id="math">
+      <h2>2. FOC 数学原理：把交流电机变成直流控制对象</h2>
+      <p>
+        三相 PMSM 的电流是随角度变化的交流量，直接控制很难。FOC 的漂亮之处在于通过坐标变换，
+        把静止三相坐标 <code>abc</code> 先变成静止两相坐标 <code>αβ</code>，再变成随转子同步旋转的
+        <code>dq</code> 坐标。站在转子坐标系里看，理想稳态下 <code>Id</code> 和 <code>Iq</code> 就像直流量。
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <h3>Clarke 变换：abc → αβ</h3>
+          <div class="formula">
+            Iα = Ia<br>
+            Iβ = (Ia + 2Ib) / sqrt(3)　（常见形式，代码中按采样方向做了符号处理）
+          </div>
+          <p>
+            代码中调用 <code>clarke_transform(-pFOC-&gt;Ia, -pFOC-&gt;Ib, ...)</code>，
+            说明当前硬件采样方向与控制坐标定义相反，因此进入 Clarke 前做了取反。
+          </p>
+
+          <h3>Park 变换：αβ → dq</h3>
+          <div class="formula">
+            Id = Iα·cos(θe) + Iβ·sin(θe)<br>
+            Iq = -Iα·sin(θe) + Iβ·cos(θe)
+          </div>
+          <p>
+            这里的 <code>θe</code> 是全系统最关键的输入。如果角度错了，原本应该产生转矩的
+            <code>Iq</code> 会被投影到错误方向，表现为无力、发热、震动甚至反转。
+          </p>
+        </div>
+
+        <div class="figure">
+          <svg viewBox="0 0 520 420" role="img" aria-label="坐标变换图">
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d5f9e"/>
+              </marker>
+              <style>
+                .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr2)}
+                .vec{stroke:#2267d5;stroke-width:4;marker-end:url(#arr2)}
+                .dq{stroke:#27865f;stroke-width:3;marker-end:url(#arr2)}
+                .txt{font:16px sans-serif;fill:#172336}
+                .mut{font:14px sans-serif;fill:#5e6b7e}
+              </style>
+            </defs>
+            <circle cx="260" cy="220" r="150" fill="#f5f9ff" stroke="#d8dee8"/>
+            <line x1="80" y1="220" x2="450" y2="220" class="axis"/>
+            <line x1="260" y1="390" x2="260" y2="50" class="axis"/>
+            <text x="456" y="225" class="txt">α</text>
+            <text x="267" y="58" class="txt">β</text>
+            <line x1="260" y1="220" x2="385" y2="135" class="dq"/>
+            <line x1="260" y1="220" x2="345" y2="345" class="dq"/>
+            <text x="392" y="132" class="txt">d 轴</text>
+            <text x="350" y="365" class="txt">q 轴</text>
+            <line x1="260" y1="220" x2="360" y2="160" class="vec"/>
+            <path d="M310 220 A50 50 0 0 0 301 192" fill="none" stroke="#b65b16" stroke-width="3"/>
+            <text x="315" y="199" class="mut">θe</text>
+            <text x="335" y="156" class="mut">电流矢量</text>
+          </svg>
+          <div class="caption">图 2：Park 变换相当于把坐标轴转到转子磁链上。</div>
+        </div>
+      </div>
+
+      <h3>PMSM 在 dq 坐标下的直观模型</h3>
+      <div class="formula">
+        Ud = Rs·Id + Ld·dId/dt - ωe·Lq·Iq<br>
+        Uq = Rs·Iq + Lq·dIq/dt + ωe·Ld·Id + ωe·ψf<br>
+        Te ≈ 1.5·p·ψf·Iq　（表贴式 PMSM、Id≈0 时）
+      </div>
+      <p>
+        最后一个式子解释了为什么调试时总盯着 <code>Iq</code>：在 <code>Id≈0</code> 的策略下，
+        <code>Iq</code> 几乎就是转矩旋钮。代码中 <code>pFOC-&gt;ud = 0.000001f</code>，
+        本质上就是希望 D 轴电流闭环把 <code>Id</code> 压在 0 附近。
+      </p>
+
+      <h3>逆 Park + SVPWM：把电压指令打回三相桥</h3>
+      <div class="formula">
+        Uα = -Uq·sin(θe) + Ud·cos(θe)<br>
+        Uβ =  Uq·cos(θe) + Ud·sin(θe)
+      </div>
+      <p>
+        <code>inv_park_transform()</code> 得到 <code>Uα/Uβ</code> 后，<code>SVpwm()</code>
+        判断参考电压矢量所在扇区，再用两个相邻基本矢量和零矢量合成目标电压。
+      </p>
+
+      <div class="figure">
+        <svg viewBox="0 0 900 390" role="img" aria-label="SVPWM 六扇区图">
+          <defs>
+            <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .hex{fill:#f8fbff;stroke:#cfd8e6;stroke-width:2}
+              .rad{stroke:#b7c2d0;stroke-width:2}
+              .vec{stroke:#2267d5;stroke-width:4;marker-end:url(#arr3)}
+              .t{font:17px sans-serif;fill:#172336}
+              .m{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <polygon class="hex" points="248,40 420,140 420,250 248,350 76,250 76,140"/>
+          <line class="rad" x1="248" y1="195" x2="248" y2="40"/>
+          <line class="rad" x1="248" y1="195" x2="420" y2="140"/>
+          <line class="rad" x1="248" y1="195" x2="420" y2="250"/>
+          <line class="rad" x1="248" y1="195" x2="248" y2="350"/>
+          <line class="rad" x1="248" y1="195" x2="76" y2="250"/>
+          <line class="rad" x1="248" y1="195" x2="76" y2="140"/>
+          <line class="vec" x1="248" y1="195" x2="360" y2="128"/>
+          <text x="286" y="108" class="m">参考电压矢量</text>
+          <text x="300" y="88" class="t">Sector 1</text>
+          <text x="365" y="200" class="t">2</text>
+          <text x="300" y="305" class="t">3</text>
+          <text x="165" y="305" class="t">4</text>
+          <text x="115" y="200" class="t">5</text>
+          <text x="165" y="88" class="t">6</text>
+
+          <rect x="520" y="58" width="300" height="64" fill="#fff" stroke="#cfd8e6" rx="8"/>
+          <text x="540" y="86" class="t">扇区判定</text>
+          <text x="540" y="110" class="m">u1 = Uβ，u2 = √3/2·Uα - 1/2·Uβ，u3 = -u1-u2</text>
+          <rect x="520" y="150" width="300" height="64" fill="#fff" stroke="#cfd8e6" rx="8"/>
+          <text x="540" y="178" class="t">矢量作用时间</text>
+          <text x="540" y="202" class="m">两个相邻非零矢量 + 对称零矢量</text>
+          <rect x="520" y="242" width="300" height="64" fill="#fff" stroke="#cfd8e6" rx="8"/>
+          <text x="540" y="270" class="t">过调制处理</text>
+          <text x="540" y="294" class="m">t1+t2 &gt; Ts 时等比例缩放</text>
+        </svg>
+        <div class="caption">图 3：SVPWM 的六扇区合成思路，对应 <code>SVPWM.c</code> 的 switch 分支。</div>
+      </div>
+    </section>
+
+    <section id="smo">
+      <h2>3. SMO 滑模观测器：从电流误差“榨出”反电势</h2>
+      <p>
+        无感 FOC 的关键不是“猜角度”，而是先估计反电势。PMSM 旋转时，永磁体磁链切割定子绕组，
+        会在 αβ 坐标下产生一对正交反电势：
+      </p>
+      <div class="formula">
+        Eα = -ωe·ψf·sin(θe)<br>
+        Eβ =  ωe·ψf·cos(θe)<br>
+        θe = atan2(-Eα, Eβ)
+      </div>
+      <p>
+        所以只要估出 <code>Eα/Eβ</code>，角度就能从 <code>atan2</code> 得到；项目进一步使用 PLL
+        让角度和速度更平滑。
+      </p>
+
+      <h3>按照参考文章的推导顺序重讲一遍</h3>
+      <p>
+        参考文章的讲法很有价值：它不是一上来就给代码，而是先问“观测器到底要观测什么”。
+        对 PMSM 无感 FOC 来说，我们真正缺的是转子电角度 <code>θe</code>；但 <code>θe</code>
+        并不能从静止电流里直接读出来，它藏在定子坐标系的反电势里。因此 SMO 的目标可以分成两步：
+        第一，用 <code>uα/uβ</code> 和 <code>iα/iβ</code> 重建反电势 <code>Eα/Eβ</code>；
+        第二，从这两个正交反电势信号中提取 <code>θe</code> 和 <code>ωe</code>。
+      </p>
+      <div class="formula">
+        第 1 层：uα/uβ + iα/iβ → 估计 Eα/Eβ<br>
+        第 2 层：Eα/Eβ → atan2 或 PLL → θe / ωe<br>
+        第 3 层：θe → Park / 逆 Park → FOC 闭环
+      </div>
+      <p>
+        本项目正是这个结构：<code>FocContorl()</code> 先得到 <code>uAlpha/uBeta</code> 和
+        <code>iAlpha/iBeta</code>，再调用 <code>SMO_Update(&amp;g_smoObserver, ...)</code>。
+        <code>SMO_Update()</code> 内部估计 <code>eAlpha/eBeta</code>，然后把它们送入
+        <code>PLL_Update()</code>，最后输出 <code>g_smoObserver.angle</code>。
+      </p>
+
+      <h3>为什么观测器放在 αβ 坐标系，而不是 dq 坐标系</h3>
+      <p>
+        这是参考文章里很重要的一点。FOC 的电流环喜欢用 <code>dq</code>，因为 <code>dq</code>
+        下电流接近直流量，PI 好控；但无感观测器不能从 <code>dq</code> 开始设计。原因很简单：
+        要把电流从 <code>αβ</code> 变到 <code>dq</code>，本来就需要 <code>θe</code>。
+        如果观测器又基于一个估计出来的 <code>θe</code> 再去估计 <code>θe</code>，
+        那误差会在坐标变换和观测器之间互相喂回去。
+      </p>
+      <p>
+        所以更稳妥的办法是：观测器只吃定子坐标系里的真实可获得量，也就是
+        <code>uα/uβ</code> 和 <code>iα/iβ</code>。在你的代码里，这一点体现得很清楚：
+      </p>
+      <pre><code>// FOC.c: 先由三相电流得到 iAlpha/iBeta，再用当前角度做 Park
+clarke_transform(-pFOC-&gt;Ia, -pFOC-&gt;Ib, &amp;pFOC-&gt;iAlpha, &amp;pFOC-&gt;iBeta);
+park_transform(pFOC-&gt;iAlpha, pFOC-&gt;iBeta, pFOC-&gt;correctedAngle,
+               &amp;pFOC-&gt;id, &amp;pFOC-&gt;iq);
+
+// 逆 Park 得到电压指令 uAlpha/uBeta
+inv_park_transform(pFOC-&gt;uq, pFOC-&gt;ud, pFOC-&gt;correctedAngle,
+                   &amp;pFOC-&gt;uAlpha, &amp;pFOC-&gt;uBeta);
+
+// SMO 不吃 dq，它吃 αβ
+SMO_Update(&amp;g_smoObserver, pFOC-&gt;uAlpha, pFOC-&gt;uBeta,
+           pFOC-&gt;iAlpha, pFOC-&gt;iBeta);</code></pre>
+
+      <h3>定子 αβ 坐标系下的电机方程</h3>
+      <p>
+        在 <code>αβ</code> 坐标系里，PMSM 的电流动态可以写成非常直观的形式：
+        电压减去电阻压降，再减去反电势，剩下的部分推动电感电流变化。
+      </p>
+      <div class="formula">
+        d iα / dt = (uα - Rs·iα - Eα) / Ls<br>
+        d iβ / dt = (uβ - Rs·iβ - Eβ) / Ls
+      </div>
+      <p>
+        这里 <code>uα/uβ</code> 是我们给电机的电压，<code>iα/iβ</code> 是 ADC
+        测出来并 Clarke 变换后的电流，<code>Rs/Ls</code> 是电机模型参数。
+        唯一不好直接测的就是 <code>Eα/Eβ</code>。也正因为这个未知量卡在电流方程里，
+        我们可以反过来利用“电流模型预测值”和“实际电流测量值”的误差，把反电势逼出来。
+      </p>
+      <table>
+        <thead><tr><th>方程符号</th><th>项目变量</th><th>默认/来源</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><code>uα/uβ</code></td><td><code>pFOC-&gt;uAlpha/uBeta</code></td><td>逆 Park 输出</td><td>SVPWM 前的电压参考，也作为 SMO 输入</td></tr>
+          <tr><td><code>iα/iβ</code></td><td><code>pFOC-&gt;iAlpha/iBeta</code></td><td>ADC → Clarke</td><td>实际电流反馈</td></tr>
+          <tr><td><code>Rs</code></td><td><code>smo-&gt;cfg.rs</code></td><td>Flash 参数或 <code>FOC_SMO_RS</code></td><td>相电阻，模型误差会影响估计</td></tr>
+          <tr><td><code>Ls</code></td><td><code>smo-&gt;cfg.ls</code></td><td><code>(Lq+Ld)/2</code></td><td>等效电感，进入 <code>Ts/Ls</code> 积分系数</td></tr>
+          <tr><td><code>Eα/Eβ</code></td><td><code>smo-&gt;eAlpha/eBeta</code></td><td>SMO 估计</td><td>反电势，包含角度和速度信息</td></tr>
+        </tbody>
+      </table>
+
+      <h3>从电机模型到观测器模型</h3>
+      <p>
+        如果真实电机满足上面的方程，那么我们可以在软件里复制一个“虚拟电机模型”：
+        给它同样的 <code>uα/uβ</code>，同样的 <code>Rs/Ls</code>，让它自己积分出一个估计电流
+        <code>i_hat</code>。如果模型完全准确且反电势已知，那么 <code>i_hat</code>
+        应该和真实电流 <code>i</code> 重合。问题是反电势未知，于是我们加入一个切换注入项
+        <code>z</code>，让它专门负责把估计电流拉回真实电流。
+      </p>
+      <div class="formula">
+        真实电机：di/dt = (u - Rs·i - E) / Ls<br>
+        软件观测器：di_hat/dt = (u - Rs·i_hat - e_hat - z) / Ls<br>
+        观测误差：s = i_hat - i
+      </div>
+      <p>
+        在本项目里，<code>e_hat</code> 是上一阶段滤波得到的反电势估计，<code>z</code>
+        是这一次根据电流误差算出的滑模注入量。注意代码使用的是
+        <code>i_hat - i</code>，因此注入项在观测器方程里写成 <code>-z</code>。
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <h3>SMO 使用的电流模型</h3>
+          <p>代码中的观测器状态是 <code>iAlphaHat/iBetaHat</code>，也就是“我认为当前电流应该是多少”。</p>
+          <div class="formula">
+            err = i_hat - i_actual<br>
+            z = k_slide · sat(err / band)<br>
+            i_hat += Ts/Ls · (u - Rs·i_hat - e_hat - z)<br>
+            e_hat += α · (z - e_hat)
+          </div>
+          <p>
+            如果估计电流和实际电流不一致，就说明模型里漏了东西。这个“漏掉的东西”主要就是反电势。
+            滑模注入量 <code>z</code> 会强行把电流估计误差拉回滑模面，之后再低通滤波得到
+            <code>e_hat</code>。
+          </p>
+        </div>
+        <div class="figure">
+          <svg viewBox="0 0 600 440" role="img" aria-label="SMO 内部流程图">
+            <defs>
+              <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+              </marker>
+              <style>
+                .b{fill:#fff;stroke:#cfd8e6;stroke-width:2;rx:8}
+                .g{fill:#effaf4;stroke:#8fcaa9;stroke-width:2;rx:8}
+                .o{fill:#fff6ec;stroke:#e3aa72;stroke-width:2;rx:8}
+                .l{stroke:#31557f;stroke-width:2.2;fill:none;marker-end:url(#arr4)}
+                .t{font:700 18px sans-serif;fill:#172336}
+                .s{font:14px sans-serif;fill:#5e6b7e}
+              </style>
+            </defs>
+            <rect x="35" y="50" width="145" height="70" class="b"/>
+            <text x="108" y="80" text-anchor="middle" class="t">输入</text>
+            <text x="108" y="104" text-anchor="middle" class="s">Uαβ / Iαβ</text>
+            <rect x="235" y="50" width="145" height="70" class="b"/>
+            <text x="308" y="80" text-anchor="middle" class="t">电流误差</text>
+            <text x="308" y="104" text-anchor="middle" class="s">i_hat - i</text>
+            <rect x="435" y="50" width="130" height="70" class="o"/>
+            <text x="500" y="80" text-anchor="middle" class="t">滑模注入</text>
+            <text x="500" y="104" text-anchor="middle" class="s">z = k·sat()</text>
+            <rect x="225" y="190" width="165" height="80" class="g"/>
+            <text x="308" y="222" text-anchor="middle" class="t">电流观测器</text>
+            <text x="308" y="248" text-anchor="middle" class="s">更新 i_hat</text>
+            <rect x="435" y="190" width="130" height="80" class="g"/>
+            <text x="500" y="222" text-anchor="middle" class="t">低通滤波</text>
+            <text x="500" y="248" text-anchor="middle" class="s">z → e_hat</text>
+            <rect x="235" y="330" width="145" height="70" class="b"/>
+            <text x="308" y="360" text-anchor="middle" class="t">PLL</text>
+            <text x="308" y="384" text-anchor="middle" class="s">θe / ωe</text>
+            <path d="M180 85 H235" class="l"/>
+            <path d="M380 85 H435" class="l"/>
+            <path d="M500 120 V190" class="l"/>
+            <path d="M435 230 H390" class="l"/>
+            <path d="M308 190 V120" class="l"/>
+            <path d="M500 270 C500 335 430 365 380 365" class="l"/>
+            <path d="M235 365 C110 365 90 150 235 105" class="l"/>
+            <text x="63" y="278" class="s">闭环修正误差</text>
+          </svg>
+          <div class="caption">图 4：SMO 不是直接估角度，而是先通过滑模注入估计反电势。</div>
+        </div>
+      </div>
+
+      <h3>滑模面是什么</h3>
+      <p>
+        在这个项目里，滑模面可以理解成电流估计误差为 0 的平面：
+      </p>
+      <div class="formula">
+        sα = iAlphaHat - iAlpha<br>
+        sβ = iBetaHat - iBeta<br>
+        滑模面：sα = 0 且 sβ = 0
+      </div>
+      <p>
+        观测器的目标不是让电机状态真的“停在某个物理平面上”，而是让估计误差状态被快速吸引到
+        <code>s=0</code> 附近。误差一旦围绕滑模面高频切换，注入量 <code>z</code> 的等效平均值就会逼近反电势。
+      </p>
+
+      <div class="note">
+        <strong>融合参考文章后的一个关键澄清：</strong>
+        <p>
+          滑模面应该放在 <code>iα/iβ</code> 的电流误差平面来理解，而不是简单画成“误差-误差导数”的相图。
+          参考文章用实际电流和观测电流的差值构造滑模面；本项目代码使用
+          <code>err = i_hat - i_actual</code>，只是符号方向与常见写法相反，后续在电流观测方程中用
+          <code>-z</code> 注入，因此控制效果等价。
+        </p>
+      </div>
+
+      <div class="figure">
+        <svg viewBox="0 0 980 440" role="img" aria-label="实际电流与观测电流的滑模面">
+          <defs>
+            <marker id="arr9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr9)}
+              .veca{stroke:#2267d5;stroke-width:4;marker-end:url(#arr9)}
+              .veco{stroke:#c43e49;stroke-width:4;marker-end:url(#arr9)}
+              .err{stroke:#b65b16;stroke-width:3;stroke-dasharray:8 7;marker-end:url(#arr9)}
+              .box{fill:#fff;stroke:#cfd8e6;stroke-width:2;rx:8}
+              .t{font:18px sans-serif;fill:#172336}
+              .m{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <rect x="55" y="45" width="420" height="330" fill="#fbfdff" stroke="#d8dee8"/>
+          <line x1="110" y1="310" x2="430" y2="310" class="axis"/>
+          <line x1="110" y1="310" x2="110" y2="80" class="axis"/>
+          <text x="435" y="316" class="t">iα</text>
+          <text x="119" y="88" class="t">iβ</text>
+          <line x1="110" y1="310" x2="320" y2="145" class="veca"/>
+          <line x1="110" y1="310" x2="255" y2="220" class="veco"/>
+          <line x1="255" y1="220" x2="320" y2="145" class="err"/>
+          <text x="330" y="142" class="t">实际电流 i</text>
+          <text x="160" y="236" class="t">观测电流 i_hat</text>
+          <text x="288" y="196" class="t">s = i_hat - i</text>
+          <text x="80" y="360" class="m">滑模控制要让红色观测矢量追上蓝色实际矢量</text>
+
+          <rect x="560" y="72" width="340" height="92" class="box"/>
+          <text x="730" y="105" text-anchor="middle" class="t">文章常见写法</text>
+          <text x="730" y="133" text-anchor="middle" class="m">s = i_actual - i_observer</text>
+          <rect x="560" y="205" width="340" height="92" class="box"/>
+          <text x="730" y="238" text-anchor="middle" class="t">本项目代码写法</text>
+          <text x="730" y="266" text-anchor="middle" class="m">err = i_hat - i_actual，方程中减去 z</text>
+          <path d="M730 164 V205" class="axis"/>
+          <text x="646" y="188" class="m">符号相反，作用一致</text>
+        </svg>
+        <div class="caption">图 5：把滑模面放回电流观测问题：观测电流追踪实际电流，误差向量趋近 0。</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="figure">
+          <svg viewBox="0 0 600 430" role="img" aria-label="滑模面误差轨迹图">
+            <defs>
+              <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+              </marker>
+              <style>
+                .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr5)}
+                .plane{stroke:#27865f;stroke-width:5}
+                .traj{fill:none;stroke:#c43e49;stroke-width:4}
+                .dash{stroke:#9aa7b9;stroke-width:2;stroke-dasharray:8 8}
+                .t{font:17px sans-serif;fill:#172336}
+                .m{font:14px sans-serif;fill:#5e6b7e}
+              </style>
+            </defs>
+            <rect x="50" y="40" width="500" height="330" fill="#fbfdff" stroke="#d8dee8"/>
+            <line x1="300" y1="360" x2="300" y2="55" class="axis"/>
+            <line x1="70" y1="210" x2="535" y2="210" class="axis"/>
+            <line x1="300" y1="360" x2="480" y2="95" class="axis"/>
+            <line x1="120" y1="210" x2="500" y2="210" class="plane"/>
+            <text x="508" y="205" class="t">s = 0 滑模面</text>
+            <path d="M105 85 C160 145 185 120 230 175 S305 240 365 208 S430 198 490 212" class="traj"/>
+            <path d="M105 85 L120 210" class="dash"/>
+            <path d="M230 175 L230 210" class="dash"/>
+            <text x="80" y="74" class="t">初始误差大</text>
+            <text x="342" y="245" class="m">到达后在滑模面附近抖动</text>
+            <text x="540" y="214" class="t">sα</text>
+            <text x="310" y="64" class="t">sβ</text>
+            <text x="455" y="88" class="t">时间</text>
+          </svg>
+          <div class="caption">图 6：滑模面的直观含义：误差轨迹被吸引到 <code>s=0</code> 附近。</div>
+        </div>
+
+        <div class="figure">
+          <svg viewBox="0 0 600 430" role="img" aria-label="符号函数与饱和函数图">
+            <defs>
+              <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+              </marker>
+              <style>
+                .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr6)}
+                .sat{fill:none;stroke:#2267d5;stroke-width:4}
+                .sign{fill:none;stroke:#c43e49;stroke-width:4;stroke-dasharray:9 7}
+                .band{fill:#effaf4;stroke:none}
+                .t{font:17px sans-serif;fill:#172336}
+                .m{font:14px sans-serif;fill:#5e6b7e}
+              </style>
+            </defs>
+            <rect x="55" y="45" width="490" height="320" fill="#fbfdff" stroke="#d8dee8"/>
+            <rect x="250" y="70" width="100" height="270" class="band"/>
+            <line x1="80" y1="205" x2="525" y2="205" class="axis"/>
+            <line x1="300" y1="345" x2="300" y2="65" class="axis"/>
+            <path d="M90 310 L250 310 L350 100 L515 100" class="sat"/>
+            <path d="M90 310 L298 310 M302 100 L515 100" class="sign"/>
+            <text x="360" y="118" class="t">+k_slide</text>
+            <text x="360" y="318" class="t">-k_slide</text>
+            <text x="225" y="360" class="m">-band</text>
+            <text x="333" y="360" class="m">+band</text>
+            <text x="410" y="235" class="t">sat(err/band)</text>
+            <text x="112" y="286" class="t">sign(err)</text>
+            <text x="520" y="226" class="t">err</text>
+            <text x="310" y="75" class="t">z</text>
+          </svg>
+          <div class="caption">图 7：代码用饱和函数替代硬符号函数，降低滑模抖振。</div>
+        </div>
+      </div>
+
+      <h3>到达条件：为什么滑模增益必须压过反电势</h3>
+      <p>
+        参考文章用滑模控制的到达条件解释观测器能否收敛：如果取李雅普诺夫函数
+        <code>V = 1/2·s²</code>，希望误差能回到滑模面，就需要 <code>dV/dt = s·ds/dt &lt; 0</code>。
+        换成电流观测器的直觉就是：误差在滑模面上方时，注入项要把它往下拉；误差在下方时，注入项要把它往上推。
+      </p>
+      <div class="formula">
+        s = i_hat - i<br>
+        ds/dt ≈ (e_actual - e_hat - z) / Ls　（省略 Rs 误差项后的直观形式）<br>
+        若 z 的幅值不足以覆盖 e_actual - e_hat，s·ds/dt 就可能变成正数，误差会离开滑模面
+      </div>
+
+      <div class="figure">
+        <svg viewBox="0 0 980 420" role="img" aria-label="滑模到达条件">
+          <defs>
+            <marker id="arr10" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr10)}
+              .plane{stroke:#27865f;stroke-width:4}
+              .good{stroke:#2267d5;stroke-width:4;marker-end:url(#arr10)}
+              .bad{stroke:#c43e49;stroke-width:4;marker-end:url(#arr10)}
+              .shade{fill:rgba(39,134,95,.11)}
+              .warns{fill:rgba(196,62,73,.11)}
+              .t{font:18px sans-serif;fill:#172336}
+              .m{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <rect x="60" y="50" width="860" height="300" fill="#fbfdff" stroke="#d8dee8"/>
+          <rect x="70" y="60" width="420" height="280" class="shade"/>
+          <rect x="500" y="60" width="410" height="280" class="warns"/>
+          <line x1="90" y1="200" x2="890" y2="200" class="plane"/>
+          <line x1="90" y1="330" x2="90" y2="75" class="axis"/>
+          <line x1="90" y1="330" x2="890" y2="330" class="axis"/>
+          <text x="896" y="335" class="t">时间</text>
+          <text x="102" y="82" class="t">s</text>
+          <text x="105" y="190" class="t">s=0</text>
+          <path d="M150 95 C200 150 245 180 320 196" class="good"/>
+          <path d="M150 305 C210 250 260 220 330 203" class="good"/>
+          <text x="160" y="84" class="t">s&gt;0 时 ds/dt&lt;0</text>
+          <text x="160" y="318" class="t">s&lt;0 时 ds/dt&gt;0</text>
+          <path d="M590 130 C650 105 720 95 820 88" class="bad"/>
+          <path d="M590 270 C660 295 735 310 840 323" class="bad"/>
+          <text x="575" y="84" class="t">注入不够：误差离开滑模面</text>
+          <text x="185" y="370" class="m">满足 s·ds/dt&lt;0：可到达</text>
+          <text x="610" y="370" class="m">不满足：角度估计会先漂，再失锁</text>
+        </svg>
+        <div class="caption">图 8：到达条件的物理含义：注入量要始终把误差推回滑模面。</div>
+      </div>
+
+      <h3>代码里的滑模注入量</h3>
+      <pre><code>errAlpha = smo-&gt;iAlphaHat - iAlpha;
+errBeta  = smo-&gt;iBetaHat  - iBeta;
+
+band = FOC_SMO_CURRENT_ERR_BAND;      // 默认 10.0
+smo-&gt;zAlpha = smo-&gt;cfg.k_slide * sat(errAlpha / band);
+smo-&gt;zBeta  = smo-&gt;cfg.k_slide * sat(errBeta  / band);
+
+smo-&gt;iAlphaHat += Ts/Ls * (uAlpha - Rs*iAlphaHat - eAlpha - zAlpha);
+smo-&gt;eAlpha    += alpha * (zAlpha - eAlpha);</code></pre>
+
+      <table>
+        <thead><tr><th>原理量</th><th>本项目变量</th><th>代码位置</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>实际电流 <code>iα/iβ</code></td>
+            <td><code>pFOC-&gt;iAlpha</code>、<code>pFOC-&gt;iBeta</code></td>
+            <td><code>FocContorl()</code> Clarke/Park 前后</td>
+            <td>由 ADC 三相电流转换并滤波，传入 <code>SMO_Update()</code></td>
+          </tr>
+          <tr>
+            <td>观测电流 <code>i_hat</code></td>
+            <td><code>smo-&gt;iAlphaHat</code>、<code>smo-&gt;iBetaHat</code></td>
+            <td><code>smo_observer.c</code></td>
+            <td>用电机模型积分得到，是 SMO 内部状态</td>
+          </tr>
+          <tr>
+            <td>滑模面 <code>s=0</code></td>
+            <td><code>errAlpha/errBeta</code></td>
+            <td><code>SMO_Update()</code></td>
+            <td>项目定义为 <code>i_hat - i</code>，误差为 0 时到达滑模面</td>
+          </tr>
+          <tr>
+            <td>切换函数 <code>sign/sat</code></td>
+            <td><code>smo_sat(err / band)</code></td>
+            <td><code>smo_observer.c</code></td>
+            <td>文章讲硬切换，本项目用饱和函数降低抖振</td>
+          </tr>
+          <tr>
+            <td>滑模增益</td>
+            <td><code>FOC_SMO_K_SLIDE = 20.0f</code></td>
+            <td><code>foc_config.h</code></td>
+            <td>决定最大注入能力，需要覆盖运行区间反电势</td>
+          </tr>
+          <tr>
+            <td>等效反电势</td>
+            <td><code>eAlpha/eBeta</code></td>
+            <td><code>e += alpha*(z-e)</code></td>
+            <td>对注入量低通滤波，得到反电势估计</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>等效控制思想：为什么 z 低通后就是反电势</h3>
+      <p>
+        参考文章的核心推导可以这样理解：滑模到达以后，误差 <code>s</code>
+        不再大幅远离 0，而是在滑模面附近快速切换。此时从低频平均意义上看，
+        <code>i_hat</code> 和 <code>i</code> 的动态应该相同，也就是
+        <code>di_hat/dt ≈ di/dt</code>。把真实电机方程和观测器方程相减：
+      </p>
+      <div class="formula">
+        ds/dt = d(i_hat - i)/dt<br>
+        ds/dt = [-Rs·(i_hat-i) + E - e_hat - z] / Ls<br>
+        到达滑模面后：s≈0，ds/dt≈0<br>
+        所以：z 的等效平均值 ≈ E - e_hat
+      </div>
+      <p>
+        如果一开始 <code>e_hat</code> 还没建立，那么 <code>z</code> 的低频成分主要就是反电势；
+        随着 <code>e_hat</code> 通过低通滤波逐渐跟上，观测器内部的电流模型也会越来越接近真实电机。
+        这就是为什么滑模观测器常常说“切换函数经过低通滤波得到反电势”。
+      </p>
+      <p>
+        本项目的实现比最基础形式多了一项 <code>-e_hat</code>，这样观测器不是完全靠
+        <code>z</code> 硬顶反电势，而是让低通后的 <code>e_hat</code> 也进入电流模型。
+        这会让电流观测模型更接近真实电机，同时降低注入项长期承担的负担。
+      </p>
+
+      <div class="figure">
+        <svg viewBox="0 0 1080 430" role="img" aria-label="z 低通得到反电势的等效控制图">
+          <defs>
+            <marker id="arr11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .b{fill:#fff;stroke:#cfd8e6;stroke-width:2;rx:8}
+              .g{fill:#effaf4;stroke:#8fcaa9;stroke-width:2;rx:8}
+              .o{fill:#fff6ec;stroke:#e3aa72;stroke-width:2;rx:8}
+              .l{stroke:#31557f;stroke-width:2.2;fill:none;marker-end:url(#arr11)}
+              .wave{fill:none;stroke:#c43e49;stroke-width:3}
+              .smooth{fill:none;stroke:#2267d5;stroke-width:4}
+              .t{font:700 19px sans-serif;fill:#172336}
+              .s{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <rect x="50" y="72" width="160" height="82" class="b"/>
+          <text x="130" y="105" text-anchor="middle" class="t">电流误差</text>
+          <text x="130" y="132" text-anchor="middle" class="s">s = i_hat - i</text>
+          <rect x="275" y="72" width="160" height="82" class="o"/>
+          <text x="355" y="105" text-anchor="middle" class="t">切换注入</text>
+          <text x="355" y="132" text-anchor="middle" class="s">z = k·sat(s/b)</text>
+          <rect x="500" y="72" width="160" height="82" class="g"/>
+          <text x="580" y="105" text-anchor="middle" class="t">低通滤波</text>
+          <text x="580" y="132" text-anchor="middle" class="s">e += α·(z-e)</text>
+          <rect x="725" y="72" width="160" height="82" class="b"/>
+          <text x="805" y="105" text-anchor="middle" class="t">反电势估计</text>
+          <text x="805" y="132" text-anchor="middle" class="s">Eα / Eβ</text>
+          <path d="M210 113 H275" class="l"/>
+          <path d="M435 113 H500" class="l"/>
+          <path d="M660 113 H725" class="l"/>
+
+          <rect x="70" y="235" width="395" height="120" fill="#fbfdff" stroke="#d8dee8"/>
+          <path d="M92 295 C108 240 126 350 142 295 S176 240 192 295 S226 350 242 295 S276 240 292 295 S326 350 342 295 S376 240 392 295 S426 350 442 295" class="wave"/>
+          <text x="105" y="258" class="t">z：含有高频抖振</text>
+          <rect x="575" y="235" width="395" height="120" fill="#fbfdff" stroke="#d8dee8"/>
+          <path d="M600 314 C660 300 710 280 770 275 S875 285 945 252" class="smooth"/>
+          <text x="608" y="258" class="t">e_hat：保留低频反电势</text>
+          <path d="M465 295 H575" class="l"/>
+        </svg>
+        <div class="caption">图 9：滑模注入量高频抖动，低通后留下的低频等效量就是反电势估计。</div>
+      </div>
+
+      <div class="warn">
+        <strong>为什么 <code>k_slide</code> 太小会高速抽搐？</strong>
+        <p>
+          反电势幅值近似 <code>|E| = |ωe·ψf|</code>，速度越高反电势越大。
+          但注入量被限制在 <code>±k_slide</code>。如果 <code>k_slide</code> 小于需要补偿的反电势，
+          观测器就无法把误差拉回滑模面，<code>e_hat</code> 饱和，角度估计开始错误，
+          FOC 转矩方向随之错乱。
+        </p>
+      </div>
+
+      <div class="figure">
+        <svg viewBox="0 0 980 420" role="img" aria-label="k_slide 与反电势能力图">
+          <defs>
+            <marker id="arr7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .axis{stroke:#95a2b3;stroke-width:2;marker-end:url(#arr7)}
+              .emf{fill:none;stroke:#2267d5;stroke-width:4}
+              .lim{stroke:#c43e49;stroke-width:3;stroke-dasharray:10 8}
+              .ok{fill:rgba(39,134,95,.15)}
+              .bad{fill:rgba(196,62,73,.14)}
+              .t{font:18px sans-serif;fill:#172336}
+              .m{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <rect x="60" y="45" width="850" height="300" fill="#fbfdff" stroke="#d8dee8"/>
+          <rect x="80" y="145" width="380" height="180" class="ok"/>
+          <rect x="460" y="45" width="430" height="280" class="bad"/>
+          <line x1="85" y1="325" x2="890" y2="325" class="axis"/>
+          <line x1="85" y1="325" x2="85" y2="65" class="axis"/>
+          <path d="M90 315 C210 285 300 245 390 195 S585 95 870 65" class="emf"/>
+          <line x1="85" y1="145" x2="890" y2="145" class="lim"/>
+          <text x="100" y="136" class="t">SMO 可补偿上限：约 k_slide / 2k_slide 量级</text>
+          <text x="180" y="300" class="t">可观测区</text>
+          <text x="565" y="235" class="t">饱和区：角度开始漂</text>
+          <text x="780" y="356" class="t">速度 rpm</text>
+          <text x="95" y="74" class="t">反电势 |E|</text>
+          <text x="540" y="105" class="m">速度升高 → 反电势升高</text>
+        </svg>
+        <div class="caption">图 10：<code>k_slide</code> 给的是观测器“最大纠偏能力”，太小会在高速先失锁。</div>
+      </div>
+
+      <h3>滑模增益怎么理解：不是越大越好</h3>
+      <p>
+        参考文章在讲滑模增益时，核心意思可以概括成一句话：增益要大到足以保证到达条件，
+        但不能大到让切换抖振、噪声和滤波负担不可接受。对电机观测器而言，
+        需要被滑模项压住的主要扰动就是反电势，其次是电阻、电感参数误差、电压重构误差、采样噪声和死区误差。
+      </p>
+      <div class="formula">
+        k_slide 太小：注入量压不过反电势 → s 无法回到 0 → e_hat 饱和 → 角度失真<br>
+        k_slide 适中：误差能快速回到滑模面 → z 的低频分量可用 → 反电势可估<br>
+        k_slide 太大：z 高频抖振变重 → LPF 压力变大 → 角度噪声和电流噪声上升
+      </div>
+      <p>
+        这也解释了你之前遇到的“空载加速到某个点突然抽搐”：低速时反电势小，
+        即使 <code>k_slide</code> 偏小也暂时能工作；速度升高后，反电势幅值超过注入能力，
+        观测器先饱和，随后角度错误，最后 FOC 的转矩方向混乱。
+      </p>
+      <table>
+        <thead><tr><th>参数</th><th>理论角色</th><th>项目值</th><th>调参现象</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>FOC_SMO_K_SLIDE</code></td>
+            <td>滑模切换增益，上限决定可补偿扰动</td>
+            <td>20.0</td>
+            <td>太小高速失锁；太大 <code>eAlpha/eBeta</code> 毛刺加重</td>
+          </tr>
+          <tr>
+            <td><code>FOC_SMO_CURRENT_ERR_BAND</code></td>
+            <td>饱和函数线性带宽，替代硬 <code>sign</code></td>
+            <td>10.0</td>
+            <td>太小接近硬切换；太大注入变软，收敛慢</td>
+          </tr>
+          <tr>
+            <td><code>FOC_SMO_E_LPF_ALPHA</code></td>
+            <td>反电势低通强度</td>
+            <td>0.02</td>
+            <td>太小滞后大；太大噪声进 PLL</td>
+          </tr>
+          <tr>
+            <td><code>FOC_SMO_TS</code></td>
+            <td>离散积分周期</td>
+            <td>50us</td>
+            <td>变慢会降低观测带宽，变快增加 CPU 压力</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>为什么参考文章强调“抖振”</h3>
+      <p>
+        滑模控制的特点就是切换：误差在滑模面的一侧时给一个方向的注入，
+        到另一侧时给反方向的注入。理想数学模型里，开关可以无限快，系统会沿着滑模面运动；
+        但真实 MCU、ADC、电机和逆变器都有采样周期、量化误差、PWM 死区和噪声，
+        所以切换不会是理想无限频率，而会表现为可见的高频抖振。
+      </p>
+      <p>
+        对无感 FOC 来说，抖振的影响有三层：第一，<code>zAlpha/zBeta</code> 本身会很毛；
+        第二，低通滤波如果压不住，高频噪声会混进 <code>eAlpha/eBeta</code>；
+        第三，PLL 如果吃到带噪声的反电势，会把噪声变成角度和速度抖动，最终反过来影响 Park 变换。
+      </p>
+      <div class="note">
+        <strong>本项目的工程处理：</strong>
+        <p>
+          代码没有使用硬 <code>sign()</code>，而是使用 <code>smo_sat(err / band)</code>。
+          这相当于给滑模面附近留出一个线性过渡区：误差很小时不马上打满
+          <code>±k_slide</code>，从而减少抖振；误差足够大时仍然饱和到最大注入能力，
+          保留滑模观测器的强鲁棒性。
+        </p>
+      </div>
+
+      <h3>低通滤波的副作用：反电势变平滑，但角度会滞后</h3>
+      <p>
+        参考文章中也提到实际工程不能直接拿剧烈抖动的切换量当反电势，需要先滤波。
+        本项目用一阶低通 <code>e += α·(z-e)</code>，这样能把滑模高频抖振滤掉；
+        代价是反电势矢量在高速下产生相位滞后，所以代码又增加了相位补偿。
+      </p>
+      <div class="formula">
+        LPF 截止频率近似：fc ≈ α / (2π·Ts)<br>
+        当前 α=0.02，Ts=50us，所以 fc ≈ 63.7Hz<br>
+        相位补偿：phaseComp = atan(ω_hat·Ts / α)
+      </div>
+      <p>
+        这里的 <code>fc</code> 只是把离散一阶滤波器近似成连续低通后的直觉值。
+        真正调参时更应该看波形：如果 <code>eAlpha/eBeta</code> 像锯齿一样乱跳，
+        说明滤波太轻或滑模注入太硬；如果 <code>rawAngle</code> 明显落后编码器角，
+        或高速时电流角度偏差越来越大，说明滤波滞后需要补偿或提高滤波带宽。
+      </p>
+      <p>
+        本项目提供了几个遥测开关来观察这一点：<code>CMD_SMO_BACKEMF</code>
+        看 <code>eAlpha/eBeta</code>，<code>CMD_SMO_RAW_ANGLE</code> 看不经过 PLL 的反电势角，
+        <code>CMD_SMO_DIAG</code> 看 <code>eMag</code> 和 <code>pllError</code>。
+        做学习汇报时，可以把这三个量当成“SMO 是否健康”的三根探针。
+      </p>
+
+      <h3>从反电势到角度：atan2 的符号关系</h3>
+      <p>
+        参考文章在得到反电势后，会用反电势和转子磁链之间的正交关系求角度。
+        对表贴式 PMSM，在 αβ 坐标系中可以把反电势写成：
+      </p>
+      <div class="formula">
+        Eα = -ωe·ψf·sin(θe)<br>
+        Eβ =  ωe·ψf·cos(θe)
+      </div>
+      <p>
+        如果电机正转，<code>ωe</code> 为正，反电势矢量比磁链矢量超前或滞后 90°
+        的关系由上式确定，因此可以用 <code>atan2(-Eα, Eβ)</code> 求磁链角。
+        反转时 <code>ωe</code> 符号会让反电势整体翻转 π，如果不处理，角度可能差半圈。
+        你的项目专门做了方向统一：
+      </p>
+      <pre><code>bemfDir = SMO_GetElectricalDirectionSign(smo);
+eAlphaFlux = bemfDir * smo-&gt;eAlpha;
+eBetaFlux  = bemfDir * smo-&gt;eBeta;
+smo-&gt;rawAngle = NormalizeAngle(atan2f(-eAlphaFlux, eBetaFlux));</code></pre>
+      <p>
+        这段代码的作用就是把“正转/反转导致的反电势极性翻转”先归一化，再从
+        <code>Eα/Eβ</code> 里提取磁链角。也就是说，本项目并不是盲目套
+        <code>atan2</code>，而是在工程上补了方向符号。
+      </p>
+
+      <h3>PLL 如何从反电势锁出角度</h3>
+      <p>
+        直接 <code>atan2</code> 可以得到原始角度，但速度差分很吵。PLL 的做法是维护一个内部角度
+        <code>θ_hat</code>，用反电势矢量和估计矢量的相位误差来修正它。
+      </p>
+      <div class="formula">
+        pllErr = -eα·cos(θ_hat) - eβ·sin(θ_hat)<br>
+        pllErr_norm = pllErr / |E|<br>
+        integral += Ki·pllErr_norm·Ts<br>
+        ω_hat = Kp·pllErr_norm + integral<br>
+        θ_hat += ω_hat·Ts
+      </div>
+      <p>
+        项目里还做了两件很实用的增强：第一，用 <code>rawAngle</code> 差分速度作为 PLL 速度前馈，
+        避免高速捕获时从 0 慢慢爬；第二，对反电势低通滤波造成的相位滞后做补偿。
+      </p>
+      <div class="formula">
+        phaseComp = gain · atan(ω_hat·Ts / e_lpf_alpha)<br>
+        outputAngle = normalize(pll.theta + phaseComp)
+      </div>
+
+      <h3>把 PLL 当成二阶系统来理解</h3>
+      <p>
+        参考文章里提到 PLL 时，重点是它不是单纯滤波器，而是一个会“追相位”的闭环系统。
+        如果误差很小，<code>sin(θ - θ_hat)</code> 可以近似成 <code>θ - θ_hat</code>，
+        PLL 的 PI 调节器就相当于给角度误差建立了一个二阶闭环：比例项决定当前误差修正速度，
+        积分项决定长期速度估计，二者一起决定带宽和阻尼。
+      </p>
+      <div class="formula">
+        小误差近似：pllErr ≈ θ_real - θ_hat<br>
+        ω_hat = Kp·pllErr + ∫Ki·pllErr dt<br>
+        θ_hat = ∫ω_hat dt
+      </div>
+      <p>
+        如果 <code>Kp/Ki</code> 太小，PLL 角度会落后，尤其在高速或加减速时跟不上；
+        如果太大，噪声会被放大，角度和速度会抖。你项目当前设置
+        <code>FOC_SMO_PLL_KP = 800</code>、<code>FOC_SMO_PLL_KI = 80000</code>，
+        这是偏高带宽的配置，目的就是让 PLL 能跟上低电感、高电角速度电机。
+      </p>
+      <table>
+        <thead><tr><th>PLL 调参现象</th><th>可能原因</th><th>项目里看什么</th><th>处理思路</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>速度上去后角度明显滞后</td>
+            <td><code>Kp/Ki</code> 偏低或 LPF 滞后太大</td>
+            <td><code>pllError</code> 长期同号，<code>rawAngle</code> 比 PLL 更靠前</td>
+            <td>增大 PLL 带宽，或调相位补偿</td>
+          </tr>
+          <tr>
+            <td>速度估计毛刺多</td>
+            <td>PLL 带宽太高或反电势噪声大</td>
+            <td><code>smoSpeed</code>、<code>pllError</code> 抖动</td>
+            <td>降低 PLL 增益，增大 LPF 平滑，检查 ADC 噪声</td>
+          </tr>
+          <tr>
+            <td>高速直接捕获慢</td>
+            <td>PLL 从零速积分追速度</td>
+            <td><code>rawSpeed</code> 已有速度但 <code>pll.omega</code> 爬升慢</td>
+            <td>项目已用 <code>FOC_SMO_PLL_SPEED_FF_ALPHA</code> 前馈缓解</td>
+          </tr>
+          <tr>
+            <td>反转时角度差半圈</td>
+            <td>反电势极性没有按速度方向统一</td>
+            <td>反转时 <code>rawAngle</code> 与期望差 π</td>
+            <td>项目用 <code>SMO_GetElectricalDirectionSign()</code> 处理</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>离散化：文章里的连续方程如何落到 MCU</h3>
+      <p>
+        理论推导通常写 <code>di/dt</code>，但 MCU 里没有连续时间微分，
+        只有每个 PWM 周期执行一次的离散更新。本项目用的是一阶欧拉积分：
+        当前状态加上“采样周期乘以导数”。这很直观，也很适合 20kHz 中断里的实时计算。
+      </p>
+      <div class="formula">
+        连续形式：di_hat/dt = (u - Rs·i_hat - e_hat - z) / Ls<br>
+        离散形式：i_hat[k+1] = i_hat[k] + Ts/Ls · (u[k] - Rs·i_hat[k] - e_hat[k] - z[k])
+      </div>
+      <pre><code>invLs = 1.0f / smo-&gt;cfg.ls;
+smo-&gt;iAlphaHat += smo-&gt;cfg.ts * invLs
+                  * (uAlpha - smo-&gt;cfg.rs * smo-&gt;iAlphaHat
+                     - smo-&gt;eAlpha - smo-&gt;zAlpha);</code></pre>
+      <p>
+        这也带来一个工程约束：<code>Ts/Ls</code> 不能太大。你的电机等效电感
+        <code>Ls = 57µH</code>，<code>Ts = 50µs</code>，所以 <code>Ts/Ls ≈ 0.877</code>，
+        已经是很激进的离散积分系数。低电感电机对采样延迟、电压误差和参数误差非常敏感，
+        这就是为什么项目里 PLL 增益、相位补偿、速度前馈都调得比较积极。
+      </p>
+
+      <h3>SMO 的适用边界：为什么低速一定难</h3>
+      <p>
+        参考文章的无感观测本质依赖反电势，而反电势和电角速度近似成正比。
+        电机静止时 <code>ωe = 0</code>，所以 <code>Eα/Eβ = 0</code>；
+        很低速时反电势虽然不为 0，但可能比 ADC 噪声、死区电压误差、电流采样偏置还小。
+        这时即使 SMO 算出了角度，也更像是噪声的方向，而不是转子真实方向。
+      </p>
+      <p>
+        本项目对这个问题的处理非常工程化：速度环无感启动时不直接相信 SMO，
+        而是进入 <code>FOC_SENSORLESS_IF_ALIGN</code> 和 <code>FOC_SENSORLESS_IF_RAMP</code>。
+        先用 <code>Id</code> 把转子对到一个已知电角度，再用固定 <code>Iq</code> 和虚拟角度爬坡。
+        等反电势幅值、PLL 速度和 PLL 误差都满足条件，才切到 <code>FOC_SENSORLESS_IF_DONE</code>。
+      </p>
+      <div class="formula">
+        交接条件包含：<br>
+        I/F 虚拟速度 ≥ 1000rpm<br>
+        PLL 机械速度幅值 &gt; 500rpm<br>
+        eMag &gt; 0.15V<br>
+        |pllError| &lt; 0.35<br>
+        连续满足 200 个 PWM 周期
+      </div>
+
+      <h3>基础文章版 SMO 与本项目 SMO 的差别</h3>
+      <table>
+        <thead><tr><th>环节</th><th>基础讲法</th><th>本项目做法</th><th>为什么这样做</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>切换函数</td>
+            <td>常用 <code>sign(s)</code></td>
+            <td><code>smo_sat(err / band)</code></td>
+            <td>减少硬切换抖振，适合 MCU 实时控制和带噪声 ADC</td>
+          </tr>
+          <tr>
+            <td>反电势提取</td>
+            <td><code>z</code> 经 LPF 得到 <code>E</code></td>
+            <td><code>e += alpha*(z-e)</code>，且 <code>e</code> 回到电流模型</td>
+            <td>让观测器模型更接近真实电机，降低切换项压力</td>
+          </tr>
+          <tr>
+            <td>角度获取</td>
+            <td><code>atan2</code> 直接求角度</td>
+            <td><code>rawAngle</code> 诊断 + PLL 输出控制角</td>
+            <td>PLL 速度更平滑，抗噪声更好</td>
+          </tr>
+          <tr>
+            <td>反转处理</td>
+            <td>理论推导通常默认正方向</td>
+            <td><code>bemfDir</code> 统一反电势极性</td>
+            <td>避免反转时角度差 π</td>
+          </tr>
+          <tr>
+            <td>滤波相位</td>
+            <td>通常只指出 LPF 会滞后</td>
+            <td><code>phaseComp = atan(ωTs/alpha)</code></td>
+            <td>高速下补偿反电势 LPF 的相位滞后</td>
+          </tr>
+          <tr>
+            <td>低速启动</td>
+            <td>理论上低速反电势不足</td>
+            <td>I/F 启动 + 低速限流 + SMO 复位</td>
+            <td>解决静止/低速 SMO 不可观测的问题</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>把参考文章的每一步落到 <code>SMO_Update()</code></h3>
+      <p>
+        如果汇报时要“边讲文章边讲代码”，可以按下面这个顺序走。每一行都是一个讲述节点：
+        先说理论做了什么，再指到本项目代码变量。
+      </p>
+      <table>
+        <thead><tr><th>讲述顺序</th><th>理论内容</th><th>代码片段/变量</th><th>汇报时可以强调</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>采集实际电流并转到 <code>αβ</code></td>
+            <td><code>clarke_transform()</code> → <code>iAlpha/iBeta</code></td>
+            <td>SMO 的输入是定子坐标系电流，不是 dq 电流</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>获取施加到电机的电压矢量</td>
+            <td><code>inv_park_transform()</code> → <code>uAlpha/uBeta</code></td>
+            <td>这是控制器“认为自己输出”的电压，死区/母线误差会影响观测</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>构造观测电流和实际电流的误差</td>
+            <td><code>errAlpha = iAlphaHat - iAlpha</code></td>
+            <td>这就是滑模变量 <code>s</code></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>用切换函数产生滑模注入</td>
+            <td><code>zAlpha = k_slide * smo_sat(errAlpha / band)</code></td>
+            <td>文章里的开关控制在这里落地；项目用 sat 减抖</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>积分电流观测器模型</td>
+            <td><code>iAlphaHat += Ts/Ls*(u - Rs*iHat - e - z)</code></td>
+            <td>虚拟电机模型被注入项拉向真实电机</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>从注入量提取等效反电势</td>
+            <td><code>eAlpha += alpha*(zAlpha - eAlpha)</code></td>
+            <td>滑模高频量低通后得到低频反电势</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>计算反电势幅值</td>
+            <td><code>eMag = sqrt(eAlpha² + eBeta²)</code></td>
+            <td>低速交接、PLL 归一化都需要幅值</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>处理正反转极性</td>
+            <td><code>bemfDir</code>、<code>eAlphaFlux/eBetaFlux</code></td>
+            <td>避免反转时角度差 π</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>由反电势直接得到原始角</td>
+            <td><code>rawAngle = atan2f(-eAlphaFlux, eBetaFlux)</code></td>
+            <td>这是文章中直接角度提取的工程版</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>PLL 误差检测</td>
+            <td><code>pllErr = -eAlphaFlux*cos(theta) - eBetaFlux*sin(theta)</code></td>
+            <td>叉积/相位误差，小误差时近似角度误差</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>PLL PI 更新速度和角度</td>
+            <td><code>PLL_Update(&amp;smo-&gt;pll, pllErr)</code></td>
+            <td>比 atan2+差分更平滑</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>补偿 LPF 相位滞后</td>
+            <td><code>phaseComp = atan(omega*Ts/alpha)</code></td>
+            <td>高速时减少估计角落后</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>输出无感角度和速度</td>
+            <td><code>smo-&gt;angle</code>、<code>smo-&gt;speed</code></td>
+            <td><code>FocContorl()</code> 下一周期用它做 Park/逆 Park</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="startup">
+      <h2>4. 无感启动、限流与调试策略</h2>
+      <p>
+        无感 FOC 最难的是低速。静止或很低速时反电势太弱，SMO 看到的几乎全是噪声。
+        当前代码有两套低速处理：开环模式用 <code>Uq</code> 生成虚拟旋转角度；
+        无感速度环用 I/F 启动，先对齐，再用固定电流和爬坡角度拖动，满足条件后交给 SMO/PLL。
+      </p>
+
+      <div class="figure">
+        <svg viewBox="0 0 1080 430" role="img" aria-label="I/F 启动状态机">
+          <defs>
+            <marker id="arr8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#31557f"/>
+            </marker>
+            <style>
+              .b{fill:#fff;stroke:#cfd8e6;stroke-width:2;rx:8}
+              .g{fill:#effaf4;stroke:#8fcaa9;stroke-width:2;rx:8}
+              .o{fill:#fff6ec;stroke:#e3aa72;stroke-width:2;rx:8}
+              .p{fill:#f0f6ff;stroke:#8eb5ef;stroke-width:2;rx:8}
+              .l{stroke:#31557f;stroke-width:2.2;fill:none;marker-end:url(#arr8)}
+              .t{font:700 20px sans-serif;fill:#172336}
+              .s{font:14px sans-serif;fill:#5e6b7e}
+            </style>
+          </defs>
+          <rect x="45" y="145" width="190" height="100" class="b"/>
+          <text x="140" y="184" text-anchor="middle" class="t">OFF</text>
+          <text x="140" y="212" text-anchor="middle" class="s">等待目标速度</text>
+
+          <rect x="305" y="145" width="190" height="100" class="o"/>
+          <text x="400" y="184" text-anchor="middle" class="t">ALIGN</text>
+          <text x="400" y="212" text-anchor="middle" class="s">Id=0.5A 对齐 300ms</text>
+
+          <rect x="565" y="145" width="190" height="100" class="p"/>
+          <text x="660" y="184" text-anchor="middle" class="t">RAMP</text>
+          <text x="660" y="212" text-anchor="middle" class="s">Iq=1A，20rpm 起步</text>
+
+          <rect x="825" y="145" width="190" height="100" class="g"/>
+          <text x="920" y="184" text-anchor="middle" class="t">DONE</text>
+          <text x="920" y="212" text-anchor="middle" class="s">SMO/PLL 闭环</text>
+
+          <path class="l" d="M235 195 H305"/>
+          <path class="l" d="M495 195 H565"/>
+          <path class="l" d="M755 195 H825"/>
+          <path class="l" d="M920 245 C915 330 165 330 140 245"/>
+          <text x="238" y="178" class="s">速度环 + tar_speed &gt; 10rpm + speed &lt; 150rpm</text>
+          <text x="530" y="178" class="s">6000 周期</text>
+          <text x="770" y="164" class="s">速度/反电势/PLL误差满足</text>
+          <text x="430" y="356" class="s">退出速度环、目标速度太低、或 DONE 后跌回盲区 → 复位</text>
+        </svg>
+        <div class="caption">图 11：当前代码中的无感 I/F 启动状态机，对应 <code>FOC_StartSensorlessIF()</code> 和 <code>FOC_UpdateSensorlessIF()</code>。</div>
+      </div>
+
+      <h3>无感开环：Uq 生成虚拟机械转速</h3>
+      <p>
+        在 <code>FOC_OPEN_LOOP</code> 且无感模式下，代码没有使用 <code>tar_speed</code>，
+        而是直接用 <code>uq</code> 生成虚拟角速度：
+      </p>
+      <div class="formula">
+        openLoopMechSpeed_rpm = uq · FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED<br>
+        openLoopElecSpeed_rad_s = openLoopMechSpeed_rpm · 2π/60 · pole_pairs · speedDir<br>
+        sensorlessOpenLoopAngle += openLoopElecSpeed_rad_s · Ts
+      </div>
+      <table>
+        <thead><tr><th>Uq</th><th>虚拟机械速度</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>1 V</td><td>约 477.5 rpm</td><td>当前配置下比较温和</td></tr>
+          <tr><td>3 V</td><td>约 1432.5 rpm</td><td>常用于拖出可观测反电势</td></tr>
+          <tr><td>5 V</td><td>约 2387.5 rpm</td><td>需要确认电压裕量和负载</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warn">
+        <strong>注意一个代码细节：</strong>
+        <p>
+          <code>foc_config.h</code> 写了 <code>FOC_BUS_VOLTAGE = 12.0f</code>，
+          但 <code>FOC.c</code> 中 <code>g_udc = 24.0f</code> 被用于 SVPWM 计算。
+          汇报或调试时应以实际母线电压和 <code>g_udc</code> 的运行值为准，否则电压利用率判断会偏。
+        </p>
+      </div>
+
+      <h3>三层限制：电流目标、电流上限、电压上限</h3>
+      <table>
+        <thead><tr><th>限制</th><th>变量/命令</th><th>含义</th><th>代码位置</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Iq 目标/外环上限</td>
+            <td><code>tariq</code> / <code>CMD_SETIQ</code></td>
+            <td>电流环是目标；速度/位置环是速度环输出的限幅</td>
+            <td><code>current_control.c</code>、<code>speed_control.c</code></td>
+          </tr>
+          <tr>
+            <td>绝对安全上限</td>
+            <td><code>tariqMax</code> / <code>CMD_SETIQMAX</code></td>
+            <td>所有模式都会 clamp <code>iqPID.tar</code></td>
+            <td><code>CurrentPIControlIQ()</code></td>
+          </tr>
+          <tr>
+            <td>Uq 电压限幅</td>
+            <td><code>iqPID.outMax</code> / <code>CMD_SETIQPIDOUT</code></td>
+            <td>限制 PI 最终输出电压，不是电流限制</td>
+            <td><code>SetCurrentPIDParams()</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>关键参数速查</h3>
+      <table>
+        <thead><tr><th>参数</th><th>当前值</th><th>作用</th><th>调试影响</th></tr></thead>
+        <tbody>
+          <tr><td><code>FOC_SMO_RS</code></td><td>0.198 Ω</td><td>SMO 电流模型相电阻</td><td>偏差会导致反电势估计偏</td></tr>
+          <tr><td><code>FOC_SMO_LS</code></td><td>57 µH</td><td>SMO 等效电感</td><td>影响电流观测动态，低电感电机更敏感</td></tr>
+          <tr><td><code>FOC_SMO_K_SLIDE</code></td><td>20.0</td><td>滑模注入上限</td><td>太小高速饱和，太大噪声更重</td></tr>
+          <tr><td><code>FOC_SMO_CURRENT_ERR_BAND</code></td><td>10.0</td><td>饱和函数平滑带</td><td>越大越柔，响应变慢；越小越接近 sign</td></tr>
+          <tr><td><code>FOC_SMO_E_LPF_ALPHA</code></td><td>0.02</td><td>反电势 LPF</td><td>平滑噪声但带来相位滞后</td></tr>
+          <tr><td><code>FOC_SMO_PLL_KP/KI</code></td><td>800 / 80000</td><td>PLL 带宽</td><td>太小跟不上，太大抖动</td></tr>
+          <tr><td><code>FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED</code></td><td>477.5 rpm/V</td><td>无感开环 Uq 转速斜率</td><td>太大会失步，太小反电势起不来</td></tr>
+          <tr><td><code>FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM</code></td><td>1000 rpm</td><td>I/F 交接最低速度</td><td>太低 SMO 不稳，太高启动时间长</td></tr>
+          <tr><td><code>FOC_SENSORLESS_IF_MIN_EMAG</code></td><td>0.15 V</td><td>交接反电势阈值</td><td>判断是否已经有可用信号</td></tr>
+        </tbody>
+      </table>
+
+      <h3>调试现象速查</h3>
+      <table>
+        <thead><tr><th>现象</th><th>优先怀疑</th><th>看什么量</th><th>处理方向</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>无感开环不转</td>
+            <td><code>Uq</code> 太小或方向错</td>
+            <td><code>Iαβ</code>、<code>Uαβ</code>、机械是否轻微吸合</td>
+            <td>逐步加 Uq，确认 <code>speedDir</code> 和相序</td>
+          </tr>
+          <tr>
+            <td>开环抖动、啸叫</td>
+            <td>虚拟转速斜率过大，转子跟不上</td>
+            <td>电流是否大幅波动</td>
+            <td>降低 <code>UQ_TO_SPEED</code> 或降低 Uq 起步</td>
+          </tr>
+          <tr>
+            <td>加速到某速度突然抽搐</td>
+            <td><code>k_slide</code> 不够或 PLL 跟丢</td>
+            <td><code>eMag</code>、<code>pllError</code>、<code>rawAngle</code></td>
+            <td>增大 <code>k_slide</code>，检查 Rs/Ls，观察 rawAngle 是否先错</td>
+          </tr>
+          <tr>
+            <td>速度环低速随机反转</td>
+            <td>SMO 盲区角度噪声</td>
+            <td><code>sensorlessIfState</code>、速度是否低于 150rpm</td>
+            <td>依赖 I/F 启动和低速 0.05A 限流保护</td>
+          </tr>
+          <tr>
+            <td>设 Uq 无效</td>
+            <td>不在开环模式</td>
+            <td><code>ctrolmode</code>、<code>iqPID.out</code></td>
+            <td>切 <code>CMD_OPEN_LOOP</code>，闭环下 Uq 会被 PI 覆盖</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ok">
+        <strong>推荐汇报结论：</strong>
+        <p>
+          无感 FOC 的本质是“先用电流模型和滑模面估计反电势，再用 PLL 从反电势锁出转子角度”。
+          代码层面最关键的是三件事：低速不能相信 SMO，所以需要 I/F；<code>k_slide</code>
+          必须覆盖运行反电势；闭环模式下用户给的是电流/速度目标，最终 <code>Uq</code> 由 PI 自动生成。
+        </p>
+      </div>
+    </section>
+
+    <section id="references">
+      <h2>5. 代码索引</h2>
+      <p>
+        本讲义融合了原始调试笔记、当前项目代码，以及知乎文章
+        <a href="https://zhuanlan.zhihu.com/p/416224632">《永磁同步电机滑模观测器控制》</a>
+        中关于滑模面、滑模到达条件、切换函数和反电势滤波的讲解。正文没有直接搬运文章图文，
+        而是用本项目的变量名和代码路径重新组织。
+      </p>
+      <table>
+        <thead><tr><th>主题</th><th>文件</th><th>关键函数/变量</th></tr></thead>
+        <tbody>
+          <tr><td>主 FOC 链路</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/FOC.c</code></td><td><code>FocContorl()</code>、<code>FOC_SetSensorMode()</code></td></tr>
+          <tr><td>状态结构体</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/FOC.h</code></td><td><code>FocState</code>、<code>FocSensorlessIFState_TypeDef</code></td></tr>
+          <tr><td>SMO</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/smo_observer.c</code></td><td><code>SMO_Update()</code>、<code>zAlpha</code>、<code>eAlpha</code>、<code>rawAngle</code></td></tr>
+          <tr><td>PLL</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/pll_observer.c</code></td><td><code>PLL_Update()</code>、<code>theta</code>、<code>omega</code></td></tr>
+          <tr><td>电流环</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/current_control.c</code></td><td><code>CurrentPIControlIQ()</code>、<code>CurrentPIControlID()</code></td></tr>
+          <tr><td>速度环</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/speed_control.c</code></td><td><code>CalculateSpeed()</code>、<code>SpeedPIControl()</code></td></tr>
+          <tr><td>参数</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/foc_config.h</code></td><td><code>FOC_SMO_*</code>、<code>FOC_SENSORLESS_IF_*</code></td></tr>
+          <tr><td>上位机命令</td><td><code>AT32F403ACCT7_WorkBench/project/Hardware/protocol.c</code></td><td><code>CMD_SENSOR_SENSORLESS</code>、<code>CMD_SETIQ</code>、<code>CMD_SETIQMAX</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

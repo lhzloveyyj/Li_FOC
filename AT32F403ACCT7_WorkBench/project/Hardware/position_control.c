@@ -13,10 +13,18 @@
 void CalculatePosition(PFocState pFOC)
 {
     static float mechanicalAngle_last;
+    static int initialized = 0;
     float delta;
 
     if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
         mechanicalAngle_last = pFOC->mechanicalAngle;
+        initialized = 1;
+        return;
+    }
+
+    if (!initialized) {
+        mechanicalAngle_last = pFOC->mechanicalAngle;
+        initialized = 1;
         return;
     }
 
@@ -26,7 +34,7 @@ void CalculatePosition(PFocState pFOC)
     if (delta >  FOC_PI) delta -= FOC_2PI;
     if (delta < -FOC_PI) delta += FOC_2PI;
 
-    pFOC->position += delta;
+    pFOC->position += pFOC->speedDir * delta;
     mechanicalAngle_last = pFOC->mechanicalAngle;
 }
 
@@ -39,20 +47,40 @@ void CalculatePosition(PFocState pFOC)
  ******************************************************************************/
 void PositionPDControl(PFocState pFOC)
 {
+    float outMax;
+    float absBias;
+    float slowdownDistance;
+
     pFOC->positionPID.pre = pFOC->position;
     pFOC->positionPID.tar = pFOC->tarPosition;
 
     pFOC->positionPID.bias = pFOC->positionPID.tar - pFOC->positionPID.pre;
-    pFOC->positionPID.out = pFOC->positionPID.kp * pFOC->positionPID.bias
-                            + pFOC->positionPID.kd
-                              * (pFOC->positionPID.bias - pFOC->positionPID.lastBias);
+
+    outMax = fabs(pFOC->positionPID.outMax);
+    absBias = fabs(pFOC->positionPID.bias);
+
+    if (outMax > FOC_EPSILON && fabs(pFOC->positionPID.kp) > FOC_EPSILON) {
+        slowdownDistance = outMax / fabs(pFOC->positionPID.kp);
+
+        if (absBias > slowdownDistance) {
+            pFOC->positionPID.out = (pFOC->positionPID.bias > 0.0f) ? outMax : -outMax;
+        } else {
+            pFOC->positionPID.out = pFOC->positionPID.kp * pFOC->positionPID.bias
+                                    + pFOC->positionPID.kd
+                                      * (pFOC->positionPID.bias - pFOC->positionPID.lastBias);
+        }
+    } else {
+        pFOC->positionPID.out = pFOC->positionPID.kp * pFOC->positionPID.bias
+                                + pFOC->positionPID.kd
+                                  * (pFOC->positionPID.bias - pFOC->positionPID.lastBias);
+    }
     pFOC->positionPID.lastBias = pFOC->positionPID.bias;
 
-    if (pFOC->positionPID.out > fabs(pFOC->positionPID.outMax)) {
-        pFOC->positionPID.out = fabs(pFOC->positionPID.outMax);
+    if (pFOC->positionPID.out > outMax) {
+        pFOC->positionPID.out = outMax;
     }
-    if (pFOC->positionPID.out < -fabs(pFOC->positionPID.outMax)) {
-        pFOC->positionPID.out = -fabs(pFOC->positionPID.outMax);
+    if (pFOC->positionPID.out < -outMax) {
+        pFOC->positionPID.out = -outMax;
     }
 }
 

@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FOC学习文档 - Li_FOC 项目</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d8dee8;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --blue: #1f68d7;
+      --teal: #0f8a8a;
+      --green: #237a57;
+      --orange: #b75c16;
+      --red: #bf3b45;
+      --code-bg: #eef4fb;
+      --code-ink: #123b71;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.72;
+    }
+
+    header {
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(11, 31, 57, .96), rgba(18, 96, 113, .88)),
+        radial-gradient(circle at 76% 42%, rgba(255,255,255,.22), transparent 28%);
+      padding: 5.5rem 1.5rem 4.5rem;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 .9rem;
+      color: rgba(255,255,255,.76);
+      font-size: .92rem;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 850px;
+      margin: 1.2rem 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+    }
+
+    main {
+      padding: 2rem 0 5rem;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .75rem;
+      margin: -3.8rem 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .toc a,
+    .toc span {
+      min-height: 72px;
+      display: block;
+      padding: .85rem 1rem;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 14px 32px rgba(20, 35, 57, .09);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .toc small {
+      display: block;
+      margin-top: .25rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .toc .todo {
+      color: #8a94a6;
+      background: #fbfcfe;
+      box-shadow: none;
+    }
+
+    section {
+      margin: 1.6rem 0;
+      padding: 2rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(23, 35, 54, .045);
+    }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 1.6rem 0 .6rem;
+      font-size: 1.16rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: .65rem 0;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin: .38rem 0;
+    }
+
+    code {
+      padding: .08rem .28rem;
+      color: var(--code-ink);
+      background: var(--code-bg);
+      border: 1px solid #d9e3f2;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: .94em;
+    }
+
+    pre {
+      margin: 1rem 0;
+      padding: 1rem;
+      overflow-x: auto;
+      color: #10243f;
+      background: #f3f7fc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      padding: 0;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      font-size: .9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .note,
+    .warn,
+    .ok {
+      margin: 1rem 0;
+      padding: 1rem 1.1rem;
+      border-left: 5px solid var(--blue);
+      border-radius: 6px;
+      background: #f0f6ff;
+    }
+
+    .warn {
+      border-left-color: var(--orange);
+      background: #fff6ec;
+    }
+
+    .ok {
+      border-left-color: var(--green);
+      background: #effaf4;
+    }
+
+    .compare {
+      width: 100%;
+      margin: 1rem 0;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .compare th,
+    .compare td {
+      padding: .8rem .9rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: #edf3fb;
+      color: #26364d;
+      font-weight: 700;
+    }
+
+    .compare tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .7rem;
+      margin: 1rem 0;
+    }
+
+    .flow div {
+      min-height: 96px;
+      padding: .85rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+
+    .flow b {
+      display: block;
+      margin-bottom: .25rem;
+      color: var(--teal);
+    }
+
+    .pending {
+      color: var(--muted);
+      background: #fbfcfe;
+    }
+
+    @media (max-width: 860px) {
+      .toc,
+      .grid-2,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 1.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Li_FOC 项目学习记录</p>
+      <h1>FOC学习文档</h1>
+      <p class="lead">
+        本文档按模块逐步整理：先说明为什么需要 FOC，再把 Clarke、Park、电流环等实现逐步和项目代码对应起来。
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="toc">
+      <a href="#why-foc">FOC学习文档<small>为什么需要 FOC</small></a>
+      <a href="#clarke">Clarke 变换<small>abc 到 αβ</small></a>
+    </nav>
+
+    <section id="why-foc">
+      <h2>1. 为什么需要 FOC</h2>
+
+      <p>
+        FOC 的全称是 <strong>Field Oriented Control</strong>，通常翻译为磁场定向控制。
+        它要解决的核心问题不是“让电机转起来”，而是<strong>让电机像直流电机一样容易、稳定、精确地控制</strong>。
+      </p>
+
+      <div class="note">
+        简单说：普通控制更像是在“给电机通电试着让它转”，FOC 则是在“明确控制磁场方向和转矩大小”。
+      </div>
+
+      <h3>1.1 只让电机转起来，其实不难</h3>
+      <p>
+        对三相无刷电机来说，只要三相绕组中产生一个旋转磁场，转子就会被这个磁场拖着转。
+        最简单的做法是六步换相，或者直接给三相输出按顺序变化的电压。
+      </p>
+
+      <p>
+        这种方法能让电机转，但它并不关心一个更细的问题：
+        <strong>当前输出的电压和电流，有多少真正变成了转矩，有多少只是浪费在发热或磁场错位上。</strong>
+      </p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>控制目标</th>
+            <th>普通控制的特点</th>
+            <th>容易出现的问题</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>让电机转</td>
+            <td>按固定顺序换相或输出旋转电压</td>
+            <td>低速抖动、噪声大、转矩不连续</td>
+          </tr>
+          <tr>
+            <td>控制速度</td>
+            <td>调占空比或调电压大小</td>
+            <td>负载变化时速度容易掉，动态响应不细腻</td>
+          </tr>
+          <tr>
+            <td>控制力矩</td>
+            <td>通常只能间接依赖电流或电压</td>
+            <td>不知道电流方向是否正好用于产生有效转矩</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>1.2 FOC 的关键价值：把复杂交流控制变成 dq 直流控制</h3>
+      <p>
+        FOC 的核心动作，是把三相电流变换到跟随转子一起旋转的坐标系里。
+        在这个旋转坐标系中，电流会被拆成两个分量：
+      </p>
+
+      <div class="grid-2">
+        <div class="ok">
+          <strong><code>Iq</code>：转矩电流</strong>
+          <p>主要负责产生转矩。想让电机更有力，通常就是增大 <code>Iq</code>。</p>
+        </div>
+        <div class="note">
+          <strong><code>Id</code>：励磁电流</strong>
+          <p>主要影响磁场方向。表贴式永磁同步电机中，常见目标是让 <code>Id = 0</code>。</p>
+        </div>
+      </div>
+
+      <p>
+        这样一来，控制器就不用直接面对三相交流电流，而是控制两个近似直流量：
+        <strong><code>Iq</code> 管力矩，<code>Id</code> 管磁场</strong>。
+        这就是 FOC 能把无刷电机控制得更平滑、更安静、更精准的根本原因。
+      </p>
+
+      <h3>1.3 FOC 解决了哪些实际问题</h3>
+      <div class="flow">
+        <div>
+          <b>低速平滑</b>
+          电流连续变化，转矩脉动小，电机低速不容易一顿一顿。
+        </div>
+        <div>
+          <b>噪声更低</b>
+          相比粗糙换相，磁场旋转更细腻，机械噪声和电磁噪声更容易控制。
+        </div>
+        <div>
+          <b>转矩可控</b>
+          通过 <code>Iq</code> 直接控制出力大小，负载变化时更容易稳住。
+        </div>
+        <div>
+          <b>效率更高</b>
+          尽量让电流用在产生有效转矩上，减少无效电流和发热。
+        </div>
+        <div>
+          <b>适合闭环</b>
+          电流环、速度环、位置环可以层层叠加，形成精确伺服控制。
+        </div>
+      </div>
+
+    </section>
+
+    <section id="clarke">
+      <h2>2. Clarke 变换</h2>
+
+      <p>
+        Clarke 变换做的事情，是把三相静止坐标里的电流 <code>Ia</code>、<code>Ib</code>、<code>Ic</code>，
+        换成两相静止坐标里的 <code>Ialpha</code>、<code>Ibeta</code>。它还没有用到转子角度，
+        只是把三相电流矢量放到一个更容易计算的二维直角坐标系里。
+      </p>
+
+      <div class="note">
+        可以先这样理解：三相电流本来相差 120 度，不方便直接算控制量；Clarke 变换把它们投影到
+        <code>alpha</code> 和 <code>beta</code> 两根互相垂直的轴上，后面的 Park 变换再用电角度把
+        <code>alpha/beta</code> 旋转成 <code>d/q</code>。
+      </div>
+
+      <h3>2.1 为什么三相可以变成两相</h3>
+      <p>
+        电机三相绕组在正常情况下满足一个重要关系：
+      </p>
+
+      <pre><code>Ia + Ib + Ic = 0</code></pre>
+
+      <p>
+        也就是说，三相里只有两相是独立的。只要知道任意两相，第三相就可以算出来：
+      </p>
+
+      <pre><code>Ic = -(Ia + Ib)</code></pre>
+
+      <p>
+        所以项目里的 Clarke 函数只接收 <code>Ia</code> 和 <code>Ib</code>，没有把 <code>Ic</code> 作为输入。
+      </p>
+
+      <h3>2.2 本项目里的公式</h3>
+      <p>
+        当前代码使用的是幅值不变形式：
+      </p>
+
+      <pre><code>Ialpha = Ia
+Ibeta  = (Ia + 2 * Ib) / sqrt(3)</code></pre>
+
+      <p>
+        对应到代码就是 <code>FOC.c</code> 里的 <code>clarke_transform()</code>：
+      </p>
+
+      <pre><code>void clarke_transform(float Ia, float Ib, float *Ialpha, float *Ibeta)
+{
+    *Ialpha = Ia;
+    *Ibeta = (1.0f / FOC_SQRT3) * (Ia + 2.0f * Ib);
+}</code></pre>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>公式里的量</th>
+            <th>代码里的量</th>
+            <th>作用</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Ia</code></td>
+            <td><code>Ia</code> 参数</td>
+            <td>进入 Clarke 的 A 相电流，直接作为 <code>Ialpha</code>。</td>
+          </tr>
+          <tr>
+            <td><code>Ib</code></td>
+            <td><code>Ib</code> 参数</td>
+            <td>和 <code>Ia</code> 一起计算 <code>Ibeta</code>。</td>
+          </tr>
+          <tr>
+            <td><code>sqrt(3)</code></td>
+            <td><code>FOC_SQRT3</code></td>
+            <td>定义在 <code>foc_config.h</code>，当前值是 <code>1.732f</code>。</td>
+          </tr>
+          <tr>
+            <td><code>Ialpha</code></td>
+            <td><code>pFOC-&gt;iAlpha</code></td>
+            <td>α 轴电流，后面作为 Park 变换输入。</td>
+          </tr>
+          <tr>
+            <td><code>Ibeta</code></td>
+            <td><code>pFOC-&gt;iBeta</code></td>
+            <td>β 轴电流，后面作为 Park 变换输入。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.3 在 FOC 主流程里怎么调用</h3>
+      <p>
+        <code>FocContorl()</code> 每个 PWM 周期都会先把 ADC 值换算成三相电流：
+      </p>
+
+      <pre><code>pFOC-&gt;Ia = (pFOC-&gt;current.adA - pFOC-&gt;current.voltageAOffset) / 4096.0f
+           * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+pFOC-&gt;Ib = (pFOC-&gt;current.adB - pFOC-&gt;current.voltageBOffset) / 4096.0f
+           * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;
+pFOC-&gt;Ic = (pFOC-&gt;current.adC - pFOC-&gt;current.voltageCOffset) / 4096.0f
+           * FOC_ADC_REF_VOLTAGE / FOC_GAIN / FOC_SHUNT_R;</code></pre>
+
+      <p>
+        然后根据当前 SVPWM 扇区做电流重构。这个函数利用的就是 <code>Ia + Ib + Ic = 0</code>：
+      </p>
+
+      <pre><code>CurrentReconstruction(g_pMotor, PSVpwm, pFOC-&gt;Ia, pFOC-&gt;Ib, pFOC-&gt;Ic);</code></pre>
+
+      <p>
+        最后才进入 Clarke 和 Park：
+      </p>
+
+      <pre><code>clarke_transform(-pFOC-&gt;Ia, -pFOC-&gt;Ib, &amp;pFOC-&gt;iAlpha, &amp;pFOC-&gt;iBeta);
+park_transform(pFOC-&gt;iAlpha, pFOC-&gt;iBeta, pFOC-&gt;correctedAngle,
+               &amp;pFOC-&gt;id, &amp;pFOC-&gt;iq);</code></pre>
+
+      <div class="warn">
+        这里传入的是 <code>-pFOC-&gt;Ia</code> 和 <code>-pFOC-&gt;Ib</code>，说明当前采样方向和控制坐标定义相反。
+        所以代码在进入 Clarke 前先取反，把电流方向统一到控制算法使用的方向。
+      </div>
+
+      <h3>2.4 这一模块先记住什么</h3>
+      <ul>
+        <li><code>CurrentReconstruction()</code> 负责把三相电流补全，依据是 <code>Ia + Ib + Ic = 0</code>。</li>
+        <li><code>clarke_transform()</code> 负责把 <code>Ia/Ib</code> 变成 <code>iAlpha/iBeta</code>。</li>
+        <li><code>iAlpha/iBeta</code> 还是静止坐标系，真正变成 <code>Id/Iq</code> 要等下一步 Park 变换。</li>
+      </ul>
+    </section>
+
+    <section class="pending">
+      <h2>下一模块待补充</h2>
+      <p>
+        下一步可以继续写 Park 变换：把 <code>iAlpha/iBeta</code> 结合电角度 <code>correctedAngle</code>，
+        变成电流环真正要控制的 <code>Id</code> 和 <code>Iq</code>。
+      </p>
+    </section>
+  </main>
+</body>
+</html>

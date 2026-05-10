@@ -69,6 +69,12 @@ void Comm_CommandHandler(void)
             g_pMotor->rs         = g_readback.rs;
             g_pMotor->lq         = g_readback.lq;
             g_pMotor->ld         = g_readback.ld;
+            g_pMotor->speedPID.kp = g_readback.speed_pid_kp;
+            g_pMotor->speedPID.ki = g_readback.speed_pid_ki;
+            g_pMotor->speedPID.outMax = g_readback.speed_pid_out;
+            g_pMotor->positionPID.kp = g_readback.position_pid_kp;
+            g_pMotor->positionPID.kd = g_readback.position_pid_kd;
+            g_pMotor->positionPID.outMax = g_readback.position_pid_out;
             data[0]   = (float)g_pMotor->pole_pairs;
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
@@ -346,10 +352,16 @@ void Comm_CommandHandler(void)
         /* ---- 设置位置环 PID 参数 ---- */
         case CMD_SETLOCALPIDKP:
             g_pMotor->positionPID.kp = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.position_pid_kp = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
         case CMD_SETLOCALPIDKD:
             g_pMotor->positionPID.kd = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.position_pid_kd = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
 
@@ -360,10 +372,16 @@ void Comm_CommandHandler(void)
             break;
         case CMD_SETSPEEDPIDOUT:
             g_pMotor->speedPID.outMax = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.speed_pid_out = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
         case CMD_SETLOCALPIDOUT:
             g_pMotor->positionPID.outMax = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.position_pid_out = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
 

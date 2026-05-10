@@ -1,5 +1,6 @@
 {
   "C_Cpp.default.configurationProvider": "",
   "C_Cpp.default.compileCommands": "",
-  "C_Cpp.intelliSenseEngine": "default"
+  "C_Cpp.intelliSenseEngine": "default",
+  "cmake.sourceDirectory": "/home/lhz/workspace/Li_FOC/AT32F403ACCT7_WorkBench"
 }

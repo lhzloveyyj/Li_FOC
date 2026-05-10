@@ -28,11 +28,18 @@ typedef struct {
     /* 速度环 PID 参数 */
     float    speed_pid_kp;     /**< 速度环 Kp */
     float    speed_pid_ki;     /**< 速度环 Ki */
+    /* 位置环 PID 参数 */
+    float    position_pid_kp;  /**< 位置环 Kp */
+    float    position_pid_kd;  /**< 位置环 Kd */
+    float    position_pid_out; /**< 位置环输出限幅 */
+    float    speed_pid_out;    /**< 速度环输出限幅 */
 } foc_params_t;
 #pragma pack(pop)
 
-/* 旧版结构体（v1，不含速度 PID，用于兼容升级） */
-#define FOC_PARAMS_V1_SIZE  32  /* sizeof(foc_params_t) 不含 PID 字段时的值 */
+/* 旧版结构体大小，用于兼容升级 */
+#define FOC_PARAMS_V1_SIZE  32  /* 不含速度/位置 PID */
+#define FOC_PARAMS_V2_SIZE  40  /* 含速度 PID，不含位置 PID */
+#define FOC_PARAMS_V3_SIZE  52  /* 含速度 PID 和位置 PID，不含速度输出限幅 */
 #pragma pack(push,1)
 typedef struct {
     float    elec_offset;
@@ -44,6 +51,21 @@ typedef struct {
     float    lq;
     float    ld;
 } foc_params_v1_t;
+#pragma pack(pop)
+
+#pragma pack(push,1)
+typedef struct {
+    float    elec_offset;
+    int32_t  pole_pairs;
+    float    reserved1;
+    int32_t  dir;
+    int32_t  speeddir;
+    float    rs;
+    float    lq;
+    float    ld;
+    float    speed_pid_kp;
+    float    speed_pid_ki;
+} foc_params_v2_t;
 #pragma pack(pop)
 
 /* =================== 旧版结构体（兼容旧固件升级） =================== */
