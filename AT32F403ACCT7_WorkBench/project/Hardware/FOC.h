@@ -19,25 +19,6 @@ typedef enum
     FOC_POSITION_LOOP = 0x04,  // 位置闭环模式：位置 PD → 速度 PI → 电流 PI 串联
 } CtrolMode_TypeDef;
 
-/**
- * @brief FOC 角度/速度反馈来源
- */
-typedef enum
-{
-    FOC_SENSOR_MODE_SENSORED   = 0x00,  // 有感：MT6701 编码器
-    FOC_SENSOR_MODE_SENSORLESS = 0x01,  // 无感：SMO + PLL
-} FocSensorMode_TypeDef;
-
-/**
- * @brief 无感 I/F 启动状态
- */
-typedef enum
-{
-    FOC_SENSORLESS_IF_OFF  = 0x00,  // 未启动或已退出
-    FOC_SENSORLESS_IF_ALIGN = 0x01, // 固定虚拟角度 + Id 对齐转子
-    FOC_SENSORLESS_IF_RAMP = 0x02,  // I/F 虚拟角度 + 固定 Iq 拖动
-    FOC_SENSORLESS_IF_DONE = 0x03,  // 已切换到 SMO/PLL 闭环
-} FocSensorlessIFState_TypeDef;
 
 extern float g_udc;
 
@@ -105,19 +86,6 @@ typedef struct {
     float zeroOffset;           // 零电角度偏移（对准时标定得到）
     float sensoredMechanicalAngle;    // 编码器机械角度（单位：rad）
     float sensoredCorrectedAngle;     // 编码器修正电角度（单位：rad）
-    float sensorlessElectricalAngle;  // SMO/PLL 电角度（单位：rad）
-    float sensorlessMechanicalSpeed;  // SMO/PLL 换算机械转速（单位：rpm）
-    float sensorlessOpenLoopAngle;    // 无感开环虚拟电角度（单位：rad）
-    uint8_t sensorMode;               // 当前反馈来源（FocSensorMode_TypeDef）
-
-    /* -------- 无感 I/F 启动 -------- */
-    uint8_t sensorlessIfState;         // 无感 I/F 启动状态（FocSensorlessIFState_TypeDef）
-    uint16_t sensorlessIfAlignCount;   // I/F 对齐计数
-    uint16_t sensorlessIfLockCount;    // SMO/PLL 连续满足切换条件计数
-    float sensorlessIfAngle;           // I/F 虚拟电角度（单位：rad）
-    float sensorlessIfSpeed;           // I/F 虚拟机械转速（单位：rpm，带符号）
-    float sensorlessIfIq;              // I/F 启动 Iq 目标（单位：A，带符号）
-    float sensorlessIfId;              // I/F 对齐 Id 目标（单位：A）
 
     /* -------- 电流环 PID -------- */
     struct PI_Struct idPID;     // d 轴电流 PI 控制器
@@ -155,8 +123,6 @@ void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle);
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm);
 void getAdoffset(void);
 float NormalizeAngle(float angle);
-void FOC_SetSensorMode(PFocState pFOC, FocSensorMode_TypeDef mode);
-FocSensorMode_TypeDef FOC_GetSensorMode(PFocState pFOC);
 
 #ifdef __cplusplus
 }

@@ -11,7 +11,6 @@
  *   有感：delta = mechanicalAngle - mechanicalAngle_last
  *   并处理 0/2π 跨周期跳变
  *   speed = speedDir * delta / dt * 60/(2π)  → rpm
- *   无感：speed = sensorlessMechanicalSpeed（FOC 高频中断内已算成 rpm）
  *   最后经一阶低通滤波输出
  *
  * 输入参数：pFOC         - FOC 状态指针
@@ -22,13 +21,6 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
 {
     static float mechanicalAngle_last;
     float angle_diff;
-
-    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
-        pFOC->speed = pFOC->sensorlessMechanicalSpeed;
-        LPF_Speed_Update(pSpeedFilter, pFOC->speed, &(pFOC->speed));
-        mechanicalAngle_last = pFOC->mechanicalAngle;
-        return;
-    }
 
     angle_diff = (pFOC->mechanicalAngle - mechanicalAngle_last);
 
@@ -57,13 +49,6 @@ void CalculateSpeed(PFocState pFOC, float dt, PLPF_Speed pSpeedFilter)
  ******************************************************************************/
 void SpeedPIControl(PFocState pFOC)
 {
-    if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_ALIGN
-        || pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP) {
-        pFOC->speedPID.out = pFOC->sensorlessIfIq;
-        pFOC->speedPID.lastBias = 0.0f;
-        return;
-    }
-
     pFOC->speedPID.pre = pFOC->speed;
     pFOC->speedPID.tar = pFOC->tar_speed;
 
@@ -73,17 +58,9 @@ void SpeedPIControl(PFocState pFOC)
     }
 
     pFOC->speedPID.bias = pFOC->speedPID.tar - pFOC->speedPID.pre;
-    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
-        pFOC->speedPID.out += pFOC->speedPID.kp
-                              * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
-                              + pFOC->speedPID.ki
-                              * pFOC->speedPID.bias
-                              * FOC_SPEED_LOOP_TS;
-    } else {
-        pFOC->speedPID.out += pFOC->speedPID.ki
-                              * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
-                              + pFOC->speedPID.kp * pFOC->speedPID.bias;
-    }
+    pFOC->speedPID.out += pFOC->speedPID.ki
+                          * (pFOC->speedPID.bias - pFOC->speedPID.lastBias)
+                          + pFOC->speedPID.kp * pFOC->speedPID.bias;
     pFOC->speedPID.lastBias = pFOC->speedPID.bias;
 
     if (pFOC->speedPID.out > fabs(pFOC->speedPID.outMax)) {

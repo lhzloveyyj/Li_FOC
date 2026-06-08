@@ -6,7 +6,6 @@
 #include "FOC.h"
 #include "foc_config.h"
 #include "mostemp.h"
-#include "smo_observer.h"
 
 /* =================== 遥测使能标志 =================== */
 volatile uint8_t anglePrintingEnabled = 0;      // 机械角度打印（TMR2 中断中触发）
@@ -23,12 +22,7 @@ volatile uint8_t speedOut_Enabled = 0;          // 速度环 PID 输出
 volatile uint8_t local_Enabled = 0;             // 实际位置
 volatile uint8_t localOut_Enabled = 0;          // 位置环 PID 输出
 volatile uint8_t adcvbus_Enabled = 0;           // 母线电压
-volatile uint8_t smoAngle_Enabled = 0;          // PLL 角度：SMO 反电势经 PLL 锁相后的最终角度
-volatile uint8_t smoSpeed_Enabled = 0;          // SMO 估计速度
-volatile uint8_t smoBackEmf_Enabled = 0;        // SMO 反电势 eAlpha/eBeta
 volatile uint8_t electricalAngle_Enabled = 0;    // 编码器实际电角度
-volatile uint8_t smoRawAngle_Enabled = 0;       // SMO 角度：反电势 atan2 直接角度，不经过 PLL
-volatile uint8_t smoDiag_Enabled = 0;           // SMO 诊断量：pllError/eMag，判断 PLL 跟踪和反电势幅值
 
 static float g_zeroOffset = 0.0f;               // 零电角度偏移（标定结果）
 static float g_correctedElecAngle = 0.0f;       // 当前修正后的电角度
@@ -155,37 +149,6 @@ void Comm_CommandHandler(void)
         case CMD_ADCVBUS:         adcvbus_Enabled = 1;  g_commCmd = CMD_NONE; break;
         case CMD_ADCVBUS_CLOSE:   adcvbus_Enabled = 0;  g_commCmd = CMD_NONE; break;
 
-        /* ---- SMO 遥测 ---- */
-        case CMD_SMO_ANGLE:       smoAngle_Enabled = 1;     g_commCmd = CMD_NONE; break;
-        case CMD_SMO_ANGLE_CLOSE: smoAngle_Enabled = 0;     g_commCmd = CMD_NONE; break;
-        case CMD_SMO_SPEED:       smoSpeed_Enabled = 1;     g_commCmd = CMD_NONE; break;
-        case CMD_SMO_SPEED_CLOSE: smoSpeed_Enabled = 0;     g_commCmd = CMD_NONE; break;
-        case CMD_SMO_BACKEMF:     smoBackEmf_Enabled = 1;   g_commCmd = CMD_NONE; break;
-        case CMD_SMO_BACKEMF_CLOSE: smoBackEmf_Enabled = 0; g_commCmd = CMD_NONE; break;
-        /* SMO 角度是不经过 PLL 的 atan2 角度，用来判断反电势估计本体是否正确 */
-        case CMD_SMO_RAW_ANGLE:       smoRawAngle_Enabled = 1; g_commCmd = CMD_NONE; break;
-        case CMD_SMO_RAW_ANGLE_CLOSE: smoRawAngle_Enabled = 0; g_commCmd = CMD_NONE; break;
-
-        /* 诊断量包含 PLL 归一化误差和反电势幅值，用来判断 PLL 是否跟丢或反电势是否过弱 */
-        case CMD_SMO_DIAG:       smoDiag_Enabled = 1;     g_commCmd = CMD_NONE; break;
-        case CMD_SMO_DIAG_CLOSE: smoDiag_Enabled = 0;     g_commCmd = CMD_NONE; break;
-
-        /* 有感运行稳定后可手动复位，让 PLL 从当前有效反电势重新初始化 */
-        case CMD_SMO_RESET:
-            SMO_Reset(&g_smoObserver);
-            g_commCmd = CMD_NONE;
-            break;
-
-        /* ---- FOC 反馈来源切换 ---- */
-        case CMD_SENSOR_SENSORED:
-            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORED);
-            g_commCmd = CMD_NONE;
-            break;
-        case CMD_SENSOR_SENSORLESS:
-            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORLESS);
-            g_commCmd = CMD_NONE;
-            break;
-
         /* ---- 电角度遥测 ---- */
         case CMD_ELECTRICALANGLE:       electricalAngle_Enabled = 1; g_commCmd = CMD_NONE; break;
         case CMD_ELECTRICALANGLE_CLOSE: electricalAngle_Enabled = 0; g_commCmd = CMD_NONE; break;
@@ -255,26 +218,13 @@ void Comm_CommandHandler(void)
             break;
         case CMD_SPEED_LOOP:
             g_pMotor->ctrolmode = FOC_SPEED_LOOP;
-            if (FOC_GetSensorMode(g_pMotor) == FOC_SENSOR_MODE_SENSORLESS) {
-                g_pMotor->sensorlessIfState = FOC_SENSORLESS_IF_OFF;
-                g_pMotor->sensorlessIfAlignCount = 0U;
-                g_pMotor->sensorlessIfLockCount = 0U;
-                g_pMotor->sensorlessIfSpeed = 0.0f;
-                g_pMotor->sensorlessIfIq = 0.0f;
-                g_pMotor->sensorlessIfId = 0.0f;
-                g_pMotor->speedPID.out = 0.0f;
-                g_pMotor->speedPID.lastBias = 0.0f;
-                g_pMotor->iqPID.out = 0.0f;
-            } else {
-                g_pMotor->speedPID.out = g_pMotor->iq;
-                g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
-                g_pMotor->iqPID.out = g_pMotor->uq;
-            }
+            g_pMotor->speedPID.out = g_pMotor->iq;
+            g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
+            g_pMotor->iqPID.out = g_pMotor->uq;
             g_pMotor->iqPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
             break;
         case CMD_POSITION_LOOP:
-            FOC_SetSensorMode(g_pMotor, FOC_SENSOR_MODE_SENSORED);
             g_pMotor->ctrolmode = FOC_POSITION_LOOP;
             g_pMotor->speedPID.out = g_pMotor->iq;
             g_pMotor->speedPID.lastBias = g_pMotor->tar_speed - g_pMotor->speed;
@@ -387,24 +337,18 @@ void Comm_CommandHandler(void)
 
         /* ---- 设置电机模型参数（Rs/Lq/Ld） ---- */
         case CMD_SETMOTORRS:
-            /* Rs/Lq/Ld 是 Flash 参数，也是 SMO 运行参数。
-             * 收到上位机命令后同时更新两处：掉电保存 + 当前运行立即生效。
-             */
             foc_params_load(&g_params);
             g_params.rs = g_cmdData;
             foc_params_save(&g_params);
             g_pMotor->rs = g_cmdData;
-            g_smoObserver.cfg.rs = g_pMotor->rs;
             g_commCmd = CMD_NONE;
             break;
 
         case CMD_SETMOTORLQ:
-            /* SMO 使用 Lq/Ld 的平均值作为 αβ 等效电感 Ls */
             foc_params_load(&g_params);
             g_params.lq = g_cmdData;
             foc_params_save(&g_params);
             g_pMotor->lq = g_cmdData;
-            g_smoObserver.cfg.ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f;
             g_commCmd = CMD_NONE;
             break;
 
@@ -413,7 +357,6 @@ void Comm_CommandHandler(void)
             g_params.ld = g_cmdData;
             foc_params_save(&g_params);
             g_pMotor->ld = g_cmdData;
-            g_smoObserver.cfg.ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f;
             g_commCmd = CMD_NONE;
             break;
 

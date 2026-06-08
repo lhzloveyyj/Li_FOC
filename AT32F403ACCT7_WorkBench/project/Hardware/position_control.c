@@ -16,12 +16,6 @@ void CalculatePosition(PFocState pFOC)
     static int initialized = 0;
     float delta;
 
-    if (FOC_GetSensorMode(pFOC) == FOC_SENSOR_MODE_SENSORLESS) {
-        mechanicalAngle_last = pFOC->mechanicalAngle;
-        initialized = 1;
-        return;
-    }
-
     if (!initialized) {
         mechanicalAngle_last = pFOC->mechanicalAngle;
         initialized = 1;

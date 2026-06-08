@@ -30,7 +30,6 @@
 #include "mostemp.h"
 #include "speed_control.h"
 #include "position_control.h"
-#include "smo_observer.h"
 /* add user code end private includes */
 
 /* private variables ---------------------------------------------------------*/
@@ -170,21 +169,6 @@ void comm_task_func(void *pvParameters)
                       0.0f, g_readback.speed_pid_out);
     SetPositionPIDParams(g_pMotor, g_readback.position_pid_kp, 0.0f,
                          g_readback.position_pid_kd, g_readback.position_pid_out);
-
-    /* ---- SMO 初始化（使用 PLL 版本） ---- */
-    const SmoObserverConfig smoConfig = {
-        .rs = g_pMotor->rs,
-        .ls = (g_pMotor->lq + g_pMotor->ld) * 0.5f,
-        .ts = FOC_SMO_TS,
-        .k_slide = FOC_SMO_K_SLIDE,
-        .e_lpf_alpha = FOC_SMO_E_LPF_ALPHA,
-        .pll = {
-            .kp = FOC_SMO_PLL_KP,
-            .ki = FOC_SMO_PLL_KI,
-            .ts = FOC_SMO_TS,
-        },
-    };
-    SMO_Init(&g_smoObserver, &smoConfig);
 
     /* ---- LED ---- */
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);

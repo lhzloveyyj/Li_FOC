@@ -19,14 +19,11 @@
 #include "foc_config.h"
 #include "protocol.h"
 #include "mostemp.h"
-#include "smo_observer.h"
 /* add user code end private includes */
 
 /* add user code begin private macro */
 /** 遥测数据缓存 */
 static float focData[3] = {0.0f};
-/** SMO 遥测轮询槽位（用于多路复用一个 DMA 通道发送） */
-static uint8_t smoTelemetrySlot = 0;
 /* add user code end private macro */
 
 /* ... 省略 Artery 库默认的中断函数 ... */
@@ -260,57 +257,10 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
     }
 
-    /* ---- SMO + 电角度轮询发送 ----
-     * SMO 角度/速度/反电势/原始角度/诊断量和编码器电角度共用串口带宽。
-     * 通过轮询槽位交替发送，确保多路打开时公平分配。
-     */
-    for (uint8_t i = 0; i < 6; i++) {
-        uint8_t slot = (uint8_t)((smoTelemetrySlot + i) % 6U);
-
-        if ((slot == 0U) && (electricalAngle_Enabled == 1)) {
-            /* 编码器电角度：有感真实参考，用来和 SMO/PLL 两个角度对比 */
-            focData[0] = g_pMotor->sensoredCorrectedAngle;
-            USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
-            smoTelemetrySlot = 1U;
-            break;
-        }
-        if ((slot == 1U) && (smoAngle_Enabled == 1)) {
-            /* PLL 角度：SMO 反电势经 PLL 锁相后的最终角度 */
-            focData[0] = g_smoObserver.angle;
-            USART3_SendPacket(CMD_SMO_ANGLE, &focData[0], 1);
-            smoTelemetrySlot = 2U;
-            break;
-        }
-        if ((slot == 2U) && (smoSpeed_Enabled == 1)) {
-            focData[0] = g_smoObserver.speed / (float)g_pMotor->pole_pairs
-                         * 60.0f / FOC_2PI;
-            USART3_SendPacket(CMD_SMO_SPEED, &focData[0], 1);
-            smoTelemetrySlot = 3U;
-            break;
-        }
-        if ((slot == 3U) && (smoBackEmf_Enabled == 1)) {
-            /* 反电势波形：先看 eAlpha/eBeta 是否接近正交正弦，再判断角度 */
-            focData[0] = g_smoObserver.eAlpha;
-            focData[1] = g_smoObserver.eBeta;
-            USART3_SendPacket(CMD_SMO_BACKEMF, &focData[0], 2);
-            smoTelemetrySlot = 4U;
-            break;
-        }
-        if ((slot == 4U) && (smoRawAngle_Enabled == 1)) {
-            /* SMO 角度：直接 atan2(-eAlpha, eBeta)，不经过 PLL */
-            focData[0] = g_smoObserver.rawAngle;
-            USART3_SendPacket(CMD_SMO_RAW_ANGLE, &focData[0], 1);
-            smoTelemetrySlot = 5U;
-            break;
-        }
-        if ((slot == 5U) && (smoDiag_Enabled == 1)) {
-            /* 诊断量：pllError 看锁相误差，eMag 看反电势幅值是否足够 */
-            focData[0] = g_smoObserver.pllError;
-            focData[1] = g_smoObserver.eMag;
-            USART3_SendPacket(CMD_SMO_DIAG, &focData[0], 2);
-            smoTelemetrySlot = 0U;
-            break;
-        }
+    /* ---- 电角度遥测 ---- */
+    if (electricalAngle_Enabled == 1) {
+        focData[0] = g_pMotor->sensoredCorrectedAngle;
+        USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
     }
 
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
