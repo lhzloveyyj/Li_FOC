@@ -164,7 +164,7 @@ void comm_task_func(void *pvParameters)
     SetPositionPIDTar(g_pMotor, 0.0f);
 
     /* ---- PID 参数 ---- */
-    SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
+    SetCurrentPIDParams(g_pMotor, 0.002f, 2.5f, 0.0f, 12.0f);
     /* 速度环 PID 从 Flash 加载，掉电不丢失；首次无数据时使用默认值 */
     SetSpeedPIDParams(g_pMotor, g_readback.speed_pid_kp, g_readback.speed_pid_ki,
                       0.0f, g_readback.speed_pid_out);

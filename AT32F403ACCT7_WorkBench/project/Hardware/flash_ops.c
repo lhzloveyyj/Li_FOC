@@ -35,7 +35,7 @@ void foc_params_set_defaults(foc_params_t *p)
     p->lq = 0.000074f;
     p->ld = 0.000040f;
     p->speed_pid_kp = 0.002f;
-    p->speed_pid_ki = 0.1f;
+    p->speed_pid_ki = 0.01f;
     p->speed_pid_out = 10.0f;
     p->position_pid_kp = 1.0f;
     p->position_pid_kd = 0.0001f;
@@ -223,7 +223,7 @@ void foc_params_test(void)
     g_params.lq          = 0.000074f;
     g_params.ld          = 0.000040f;
     g_params.speed_pid_kp = 0.002f;
-    g_params.speed_pid_ki = 0.1f;
+    g_params.speed_pid_ki = 0.01f;
     g_params.speed_pid_out = 10.0f;
     g_params.position_pid_kp = 1.0f;
     g_params.position_pid_kd = 0.0001f;

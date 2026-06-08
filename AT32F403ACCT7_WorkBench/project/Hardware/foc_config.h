@@ -34,7 +34,7 @@
 #define FOC_SMO_RS                  0.198f      // 电机相电阻（单位：Ω）
 #define FOC_SMO_LS                  0.000057f   // 等效电感（Lq+Ld)/2（单位：H）
 #define FOC_SMO_TS                  0.00005f    // SMO 采样周期（单位：s，对应 20kHz）
-#define FOC_SMO_K_SLIDE             20.0f       // 滑模增益（需大于最大反电势，24V母线设20V以上）
+#define FOC_SMO_K_SLIDE             30.0f       // 滑模增益（需大于最大反电势，24V母线设20V以上）
 #define FOC_SMO_E_LPF_ALPHA         0.02f       // 反电势低通滤波系数
 #define FOC_SMO_SPEED_LPF_ALPHA     0.02f       // 速度低通滤波系数
 #define FOC_SMO_CURRENT_ERR_BAND    10.0f       // 电流误差饱和带，用于平滑滑模切换
@@ -45,16 +45,16 @@
 #define FOC_SMO_PLL_SPEED_FF_ALPHA 0.05f       // PLL 速度前馈系数；用SMO角度差分速度帮助高速捕获，越大越快但越吃噪声
 #define FOC_SMO_PHASE_COMP_GAIN   1.0f        // 相位补偿增益（1.0=完全补偿反电势 LPF 滞后，0=关闭）
 #define FOC_SENSORLESS_OPEN_LOOP_DEFAULT_SPEED 47.7f   // 无感开环默认转速 rpm（仅 tar_speed=0 且 uq=0 时使用）
-#define FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED   477.5f  // 无感开环 uq→转速 转换系数 rpm/V；tar_speed=0 时生效
+#define FOC_SENSORLESS_OPEN_LOOP_UQ_TO_SPEED   85.0f   // 无感开环 uq→转速 转换系数 rpm/V；tar_speed=0 时生效
 #define FOC_SPEED_LOOP_TS                      0.002f   // 速度环任务周期（单位：s）
 
 /* =================== 无感 I/F 启动参数 =================== */
-#define FOC_SENSORLESS_IF_ALIGN_ID             0.50f    // I/F 启动前对齐 Id（A）
+#define FOC_SENSORLESS_IF_ALIGN_ID             1.50f    // I/F 启动前对齐 Id（A）
 #define FOC_SENSORLESS_IF_ALIGN_COUNT          6000U    // 对齐保持 PWM 周期数（6000*50us=300ms）
-#define FOC_SENSORLESS_IF_START_IQ             1.00f    // 默认启动 Iq（A），tariq 未设置时使用
+#define FOC_SENSORLESS_IF_START_IQ             4.00f    // 默认启动 Iq（A），tariq 未设置时使用
 #define FOC_SENSORLESS_IF_START_SPEED_RPM      20.0f    // I/F 初始机械转速（rpm）
-#define FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM   1000.0f  // I/F 切闭环最低机械转速（rpm）
-#define FOC_SENSORLESS_IF_RAMP_RPM_PER_S       1500.0f  // I/F 机械转速爬坡斜率（rpm/s）
+#define FOC_SENSORLESS_IF_HANDOVER_SPEED_RPM   600.0f   // I/F 切闭环最低机械转速（rpm）
+#define FOC_SENSORLESS_IF_RAMP_RPM_PER_S       300.0f   // I/F 机械转速爬坡斜率（rpm/s）
 #define FOC_SENSORLESS_IF_START_MAX_SPEED_RPM  150.0f   // 低于该速度才自动启动 I/F
 #define FOC_SENSORLESS_IF_MIN_TARGET_RPM       10.0f    // 目标速度小于该值时不启动 I/F
 #define FOC_SENSORLESS_IF_MIN_EMAG             0.15f    // SMO 反电势幅值切换阈值

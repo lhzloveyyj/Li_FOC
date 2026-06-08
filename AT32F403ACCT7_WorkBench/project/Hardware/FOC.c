@@ -755,12 +755,11 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
              * 形成重试循环。松手时 I/F 总能从一个新鲜的 ALIGN 开始，
              * 虚拟速度从 20rpm 起步，转子容易跟上。
              *
-             * 40000 周期 = 2 秒 @ 20kHz PWM。正常 I/F 从 ALIGN
-             * 到交接完成通常只需 0.5~1 秒，2 秒绰绰有余。
+             * 60000 周期 = 3 秒 @ 20kHz PWM。
              */
             static uint32_t rampTimeout = 0;
             if (pFOC->sensorlessIfState == FOC_SENSORLESS_IF_RAMP) {
-                if (++rampTimeout > 40000) {
+                if (++rampTimeout > 60000) {
                     FOC_ResetSensorlessIF(pFOC);
                     rampTimeout = 0;
                 }
