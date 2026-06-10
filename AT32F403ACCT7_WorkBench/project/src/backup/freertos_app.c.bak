@@ -2,7 +2,13 @@
 /**
   ******************************************************************************
   * File Name          : freertos_app.c
-  * Description        : Code for freertos applications
+  * Description        : Code for FreeRTOS applications
+  *
+  * FreeRTOS 任务说明：
+  *   - comm_task：   通信处理任务，处理上位机命令和参数初始化
+  *   - control_task：控制任务，执行速度/位置控制运算
+  *   - Monitor_task：监控任务（仅用于 mostemp 温度上传）
+  ******************************************************************************
   */
 /* add user code end Header */
 
@@ -12,9 +18,9 @@
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include <stdio.h>
-#include "usart3.h"  
-#include "protocol.h" 
-#include "led.h"  
+#include "usart3.h"
+#include "protocol.h"
+#include "led.h"
 #include "mt6701.h"
 #include "flash_ops.h"
 #include "FOC.h"
@@ -33,6 +39,7 @@
 
 /* private define ------------------------------------------------------------*/
 /* add user code begin private define */
+
 /* add user code end private define */
 
 /* private macro -------------------------------------------------------------*/
@@ -43,9 +50,8 @@
 /* private variables ---------------------------------------------------------*/
 /* add user code begin private variables */
 static led_device_t g_ledRun;
-uint16_t adcMostemp = 0;
+uint16_t adcvbus = 0;
 float dcVbus = 0.0f;
-
 /* add user code end private variables */
 
 /* private function prototypes --------------------------------------------*/
@@ -183,11 +189,6 @@ void wk_freertos_init(void)
   vTaskStartScheduler();
 }
 
-led_device_t *freertos_get_run_led(void)
-{
-  return &g_ledRun;
-}
-
 /**
   * @brief comm_task function.
   * @param  none
@@ -196,46 +197,53 @@ led_device_t *freertos_get_run_led(void)
 void comm_task_func(void *pvParameters)
 {
   /* add user code begin comm_task_func 0 */
-    
-    
+
   /* add user code end comm_task_func 0 */
 
-  /* add user code begin comm_task_func 2 */  
-    //加载参数
+  /* add user code begin comm_task_func 2 */
     vTaskDelay(100);
-    
-    
+
+    /* ---- 加载 Flash 参数 ---- */
     foc_params_load(&g_readback);
     g_pMotor->pole_pairs = g_readback.pole_pairs;
     g_pMotor->dir        = g_readback.dir;
     g_pMotor->zeroOffset = g_readback.elec_offset;
-    
-    
+    g_pMotor->speedDir   = g_readback.speeddir;
+    g_pMotor->rs         = g_readback.rs;
+    g_pMotor->lq         = g_readback.lq;
+    g_pMotor->ld         = g_readback.ld;
+
+    /* ---- ADC 偏置 ---- */
     getAdoffset();
-    
+
+    /* ---- 滤波器初始化 ---- */
     LPF_Init(PM1_LPF);
     LPF_Speed_Init(PM1_LPF_Speed);
-    
-    //ID , IQ
+
+    /* ---- PID 目标清零 ---- */
     SetCurrentPIDTar(g_pMotor, 0.0f, 0.0f);
     SetSpeedPIDTar(g_pMotor, 0.0f);
     SetPositionPIDTar(g_pMotor, 0.0f);
-    
-    //KP, KI, KD, OUTMAX
-    SetCurrentPIDParams(g_pMotor, 0.0005f, 0.5f, 0.0f, 12.0f);
-    SetSpeedPIDParams(g_pMotor, 0.002f, 0.1f, 0.0f, 10.0f);
-    SetPositionPIDParams(g_pMotor, 1.0f, 0.0f, 0.0001f, 400.0f);
-    
+
+    /* ---- PID 参数 ---- */
+    SetCurrentPIDParams(g_pMotor, 0.002f, 2.5f, 0.0f, 12.0f);
+    /* 速度环 PID 从 Flash 加载，掉电不丢失；首次无数据时使用默认值 */
+    SetSpeedPIDParams(g_pMotor, g_readback.speed_pid_kp, g_readback.speed_pid_ki,
+                      0.0f, g_readback.speed_pid_out);
+    SetPositionPIDParams(g_pMotor, g_readback.position_pid_kp, 0.0f,
+                         g_readback.position_pid_kd, g_readback.position_pid_out);
+
+    /* ---- LED ---- */
     led_init(&g_ledRun, "LED1", GPIOB, GPIO_PINS_4);
-    
   /* add user code end comm_task_func 2 */
 
   /* Infinite loop */
   while(1)
   {
   /* add user code begin comm_task_func 1 */
-     Comm_CommandHandler();
-    vTaskDelay(5);
+
+    vTaskDelay(1);
+
   /* add user code end comm_task_func 1 */
   }
 }
@@ -249,8 +257,8 @@ void comm_task_func(void *pvParameters)
 void control_task_func(void *pvParameters)
 {
   /* add user code begin control_task_func 0 */
-   tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, FOC_ALL_DUTY * 0.99f);
-    
+    /* 设置 TIM1 通道 4 占空比（用于 PWM 输出 brake 或附加输出） */
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_4, (uint32_t)(FOC_ALL_DUTY * 0.99f));
   /* add user code end control_task_func 0 */
 
   /* add user code begin control_task_func 2 */
@@ -261,16 +269,9 @@ void control_task_func(void *pvParameters)
   while(1)
   {
   /* add user code begin control_task_func 1 */
-        CalculateSpeed(g_pMotor, 0.002f, PM1_LPF_Speed);
-        SpeedPIControl(g_pMotor);
-      
-        num ++;
-        if(num == 5){
-            CalculatePosition(g_pMotor);
-            PositionPDControl(g_pMotor);
-            num = 0;
-        }
-        vTaskDelay(2);
+
+    vTaskDelay(1);
+
   /* add user code end control_task_func 1 */
   }
 }
@@ -284,24 +285,19 @@ void control_task_func(void *pvParameters)
 void Monitor_task_func(void *pvParameters)
 {
   /* add user code begin Monitor_task_func 0 */
-    
+
   /* add user code end Monitor_task_func 0 */
 
   /* add user code begin Monitor_task_func 2 */
-    float sendata[2] = {0.0f};
+    float sendata[1] = {0.0f};
   /* add user code end Monitor_task_func 2 */
 
   /* Infinite loop */
   while(1)
   {
   /* add user code begin Monitor_task_func 1 */
-      if(mostemp_Enabled == 1){
-          sendata[0] = GetMosTemp();
-          sendata[1] = getVbus();
-        USART3_SendPacket(CMD_MOSTEMP, &sendata[0], 2); 
-      }
-      
-     vTaskDelay(500);
+
+    vTaskDelay(1);
 
   /* add user code end Monitor_task_func 1 */
   }
@@ -310,5 +306,5 @@ void Monitor_task_func(void *pvParameters)
 
 /* add user code begin 2 */
 
-
 /* add user code end 2 */
+

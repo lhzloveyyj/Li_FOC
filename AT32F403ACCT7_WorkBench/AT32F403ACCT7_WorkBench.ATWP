@@ -80,8 +80,8 @@
             <ParametersSub name="TransmissionMode" value="SPI_TRANSMIT_FULL_DUPLEX"/>
             <ParametersSub name="Mode" value="SPI_MODE_MASTER"/>
             <ParametersSub name="FirstBit" value="SPI_FIRST_BIT_MSB"/>
-            <ParametersSub name="ClkDivision" value="SPI_MCLK_DIV_8"/>
-            <ParametersSub name="ClockFrequency" value="15000000"/>
+            <ParametersSub name="ClkDivision" value="SPI_MCLK_DIV_16"/>
+            <ParametersSub name="ClockFrequency" value="7500000"/>
             <ParametersSub name="CLKPhase" value="SPI_CLOCK_PHASE_2EDGE"/>
         </Parameters>
     </SPI1>

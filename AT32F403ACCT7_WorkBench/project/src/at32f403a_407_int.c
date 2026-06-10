@@ -11,6 +11,7 @@
 #include "at32f403a_407_int.h"
 #include "freertos_app.h"
 
+
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
 #include "usart3.h"
@@ -21,79 +22,156 @@
 #include "mostemp.h"
 /* add user code end private includes */
 
+/* private typedef -----------------------------------------------------------*/
+/* add user code begin private typedef */
+
+/* add user code end private typedef */
+
+/* private define ------------------------------------------------------------*/
+/* add user code begin private define */
+
+/* add user code end private define */
+
+/* private macro -------------------------------------------------------------*/
 /* add user code begin private macro */
 /** 遥测数据缓存 */
 static float focData[3] = {0.0f};
 /* add user code end private macro */
 
-/* ... 省略 Artery 库默认的中断函数 ... */
+/* private variables ---------------------------------------------------------*/
+/* add user code begin private variables */
 
+/* add user code end private variables */
+
+/* private function prototypes --------------------------------------------*/
+/* add user code begin function prototypes */
+
+/* add user code end function prototypes */
+
+/* private user code ---------------------------------------------------------*/
 /* add user code begin 0 */
 
 /* add user code end 0 */
 
+/* external variables ---------------------------------------------------------*/
+/* add user code begin external variables */
+
+/* add user code end external variables */
+
 /**
-  * @brief  this function handles NMI exception.
+  * @brief  this function handles nmi exception.
+  * @param  none
+  * @retval none
   */
 void NMI_Handler(void)
 {
+  /* add user code begin NonMaskableInt_IRQ 0 */
+
+  /* add user code end NonMaskableInt_IRQ 0 */
+
+  /* add user code begin NonMaskableInt_IRQ 1 */
+
+  /* add user code end NonMaskableInt_IRQ 1 */
 }
 
 /**
-  * @brief  this function handles Hard Fault exception.
+  * @brief  this function handles hard fault exception.
+  * @param  none
+  * @retval none
   */
 void HardFault_Handler(void)
 {
-  /* go to infinite loop when Hard Fault exception occurs */
-  while(1)
+  /* add user code begin HardFault_IRQ 0 */
+
+  /* add user code end HardFault_IRQ 0 */
+  /* go to infinite loop when hard fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_HardFault_IRQ 0 */
+
+    /* add user code end W1_HardFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Memory Manage exception.
+  * @brief  this function handles memory manage exception.
+  * @param  none
+  * @retval none
   */
 void MemManage_Handler(void)
 {
-  /* go to infinite loop when Memory Manage exception occurs */
-  while(1)
+  /* add user code begin MemoryManagement_IRQ 0 */
+
+  /* add user code end MemoryManagement_IRQ 0 */
+  /* go to infinite loop when memory manage exception occurs */
+  while (1)
   {
+    /* add user code begin W1_MemoryManagement_IRQ 0 */
+
+    /* add user code end W1_MemoryManagement_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Bus Fault exception.
+  * @brief  this function handles bus fault exception.
+  * @param  none
+  * @retval none
   */
 void BusFault_Handler(void)
 {
-  /* go to infinite loop when Bus Fault exception occurs */
-  while(1)
+  /* add user code begin BusFault_IRQ 0 */
+
+  /* add user code end BusFault_IRQ 0 */
+  /* go to infinite loop when bus fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_BusFault_IRQ 0 */
+
+    /* add user code end W1_BusFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Usage Fault exception.
+  * @brief  this function handles usage fault exception.
+  * @param  none
+  * @retval none
   */
 void UsageFault_Handler(void)
 {
-  /* go to infinite loop when Usage Fault exception occurs */
-  while(1)
+  /* add user code begin UsageFault_IRQ 0 */
+
+  /* add user code end UsageFault_IRQ 0 */
+  /* go to infinite loop when usage fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_UsageFault_IRQ 0 */
+
+    /* add user code end W1_UsageFault_IRQ 0 */
   }
 }
 
+
 /**
-  * @brief  this function handles Debug Monitor exception.
+  * @brief  this function handles debug monitor exception.
+  * @param  none
+  * @retval none
   */
 void DebugMon_Handler(void)
 {
+  /* add user code begin DebugMonitor_IRQ 0 */
+
+  /* add user code end DebugMonitor_IRQ 0 */
+  /* add user code begin DebugMonitor_IRQ 1 */
+
+  /* add user code end DebugMonitor_IRQ 1 */
 }
 
 extern void xPortSysTickHandler(void);
 
 /**
-  * @brief  this function handles SysTick exception.
+  * @brief  this function handles systick handler.
+  * @param  none
+  * @retval none
   */
 void SysTick_Handler(void)
 {
@@ -115,23 +193,31 @@ void SysTick_Handler(void)
   /* add user code end SysTick_IRQ 1 */
 }
 
-/* add user code begin 0 */
+/**
+  * @brief  this function handles DMA1 Channel 1 handler.
+  * @param  none
+  * @retval none
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* add user code begin DMA1_Channel1_IRQ 0 */
+    if(dma_interrupt_flag_get(DMA1_FDT1_FLAG) != RESET) {
+        dma_flag_clear(DMA1_FDT1_FLAG);
+        dma_channel_enable(DMA1_CHANNEL1, FALSE);
+        usart3_tx_dma_status = 1;
+    }
+  /* add user code end DMA1_Channel1_IRQ 0 */
 
-/* add user code end 0 */
+  /* add user code begin DMA1_Channel1_IRQ 1 */
 
-/******************************************************************************
- * 中断服务函数：ADC1_2_IRQHandler
- *
- * 功能描述：ADC1 抢占转换完成中断（PCCE）。
- *           FOC 控制主循环在此中断中触发，每个 ADC 转换完成执行一次。
- *
- * 执行流程：
- *   1. 读取三相电流 + 母线电压的 ADC 值
- *   2. 调用 FocContorl() 执行完整的 FOC 控制算法
- *   3. 清除中断标志
- *
- * 中断频率：由 TIM1 触发 ADC 采样决定，通常为 10kHz~20kHz。
- ******************************************************************************/
+  /* add user code end DMA1_Channel1_IRQ 1 */
+}
+
+/**
+  * @brief  this function handles ADC1 & ADC2 handler.
+  * @param  none
+  * @retval none
+  */
 void ADC1_2_IRQHandler(void)
 {
   /* add user code begin ADC1_2_IRQ 0 */
@@ -149,22 +235,24 @@ void ADC1_2_IRQHandler(void)
     }
   /* add user code end ADC1_2_IRQ 0 */
 
-  if (adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET) {
+  if(adc_interrupt_flag_get(ADC1, ADC_PCCE_FLAG) != RESET)
+  {
+    /* add user code begin ADC1_ADC_PCCE_FLAG */
+    /* clear flag */
     adc_flag_clear(ADC1, ADC_PCCE_FLAG);
+    /* add user code end ADC1_ADC_PCCE_FLAG */ 
   }
+
+  /* add user code begin ADC1_2_IRQ 1 */
+
+  /* add user code end ADC1_2_IRQ 1 */
 }
 
-/******************************************************************************
- * 中断服务函数：TMR2_GLOBAL_IRQHandler
- *
- * 功能描述：TMR2 定时器溢出中断。
- *           用于定时发送遥测数据到上位机。
- *           根据各使能标志位的状态，选择性发送调试数据。
- *
- * SMO 遥测轮询机制：
- *   SMO 角度/速度/反电势/原始角度/诊断量和实际电角度共用 DMA 通道发送，
- *   通过轮询槽位（smoTelemetrySlot）交替发送，避免冲突。
- ******************************************************************************/
+/**
+  * @brief  this function handles TMR2 handler.
+  * @param  none
+  * @retval none
+  */
 void TMR2_GLOBAL_IRQHandler(void)
 {
   /* add user code begin TMR2_GLOBAL_IRQ 0 */
@@ -267,14 +355,17 @@ void TMR2_GLOBAL_IRQHandler(void)
 
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
   /* add user code end TMR2_GLOBAL_IRQ 0 */
+
+  /* add user code begin TMR2_GLOBAL_IRQ 1 */
+
+  /* add user code end TMR2_GLOBAL_IRQ 1 */
 }
 
-/******************************************************************************
- * 中断服务函数：USART3_IRQHandler
- *
- * 功能描述：USART3 接收中断。
- *           逐字节接收上位机命令帧，交由 USART3_ParseFixedCommand 解析。
- ******************************************************************************/
+/**
+  * @brief  this function handles USART3 handler.
+  * @param  none
+  * @retval none
+  */
 void USART3_IRQHandler(void)
 {
   /* add user code begin USART3_IRQ 0 */
@@ -284,18 +375,12 @@ void USART3_IRQHandler(void)
         usart_flag_clear(USART3, USART_RDBF_FLAG);
     }
   /* add user code end USART3_IRQ 0 */
+
+  /* add user code begin USART3_IRQ 1 */
+
+  /* add user code end USART3_IRQ 1 */
 }
 
-/**
-  * @brief  this function handles DMA1_Channel1 handler.
-  */
-void DMA1_Channel1_IRQHandler(void)
-{
-  /* add user code begin DMA1_Channel1_IRQ 0 */
-    if(dma_interrupt_flag_get(DMA1_FDT1_FLAG) != RESET) {
-        dma_flag_clear(DMA1_FDT1_FLAG);
-        dma_channel_enable(DMA1_CHANNEL1, FALSE);
-        usart3_tx_dma_status = 1;
-    }
-  /* add user code end DMA1_Channel1_IRQ 0 */
-}
+/* add user code begin 1 */
+
+/* add user code end 1 */
