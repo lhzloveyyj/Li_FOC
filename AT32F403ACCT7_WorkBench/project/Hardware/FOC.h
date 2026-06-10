@@ -120,6 +120,7 @@ extern int cnt;
 
 /* =================== 函数声明 =================== */
 void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle);
+void VerifyZeroOffset(void);
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm);
 void getAdoffset(void);
 float NormalizeAngle(float angle);

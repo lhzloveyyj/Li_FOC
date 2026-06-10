@@ -126,6 +126,7 @@ void Comm_CommandHandler(void)
             foc_params_load(&g_params);
             g_params.elec_offset = g_zeroOffset;
             foc_params_save(&g_params);
+            g_pMotor->zeroOffset = g_zeroOffset;
             USART3_SendPacket(CMD_ZEROCALIBRATIO_OVER, &data[0], 2);
             led_set(ledRun, 0);
             g_commCmd = CMD_NONE;
@@ -363,6 +364,12 @@ void Comm_CommandHandler(void)
         /* ---- 设置 Iq 参考电流上限 ---- */
         case CMD_SETIQMAX:
             g_pMotor->tariqMax = g_cmdData;
+            g_commCmd = CMD_NONE;
+            break;
+
+        /* ---- 多点静态锁定验证零偏 ---- */
+        case CMD_VERIFY_OFFSET:
+            VerifyZeroOffset();
             g_commCmd = CMD_NONE;
             break;
 

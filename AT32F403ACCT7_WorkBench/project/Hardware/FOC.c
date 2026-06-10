@@ -9,6 +9,7 @@
 #include "mt6701.h"
 #include "filter.h"
 #include "current_control.h"
+#include "usart3.h"
 
 #include "freertos_app.h"
 
@@ -192,7 +193,7 @@ void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle)
     MotorApplyStrongDrag(FOC_STRONGDRAG);
     vTaskDelay(1000);                       // 保持强拖 1 秒让转子稳定
 
-    float sum = 0.0f;
+    float sumSin = 0.0f, sumCos = 0.0f;
     const int sampleCount = 10;
 
     // 两次读取丢弃不稳定值
@@ -202,19 +203,76 @@ void AngleInitZeroOffset(float *zeroOffset, float *correctedElecAngle)
     for (int i = 0; i < sampleCount; i++) {
         float mechanicalAngle = Mt6701GetAngleWrapper();
         float elecAngle = CalculateElectricalAngle(mechanicalAngle);
-        sum += elecAngle;
+        sumSin += sinf(elecAngle);
+        sumCos += cosf(elecAngle);
         vTaskDelay(10);
     }
-    *zeroOffset = sum / sampleCount;        // 平均电角度即为零偏
+    *zeroOffset = NormalizeAngle(atan2f(sumSin, sumCos));
 
     float mechanicalAngle = Mt6701GetAngleWrapper();
     float elecAngle = CalculateElectricalAngle(mechanicalAngle);
-    *correctedElecAngle = elecAngle - *zeroOffset;
+    *correctedElecAngle = NormalizeAngle(elecAngle - *zeroOffset);
 
     vTaskDelay(500);
 
     MotorApplyStrongDrag(0.0f);             // 停止强拖
     adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
+}
+
+/* ========== 角度工具 ========== */
+
+/* 将角度差值折算到 [-π, +π] */
+static float WrapPi(float x)
+{
+    while (x >  FOC_PI) x -= FOC_2PI;
+    while (x < -FOC_PI) x += FOC_2PI;
+    return x;
+}
+
+/* 用 Ud 电压将转子锁到指定电角度 */
+static void MotorLockAtElecAngle(float elecAngle, float ud)
+{
+    float uAlpha = ud * fast_cos(elecAngle);
+    float uBeta  = ud * fast_sin(elecAngle);
+    float ua = uAlpha + g_udc / 2.0f;
+    float ub = (FOC_SQRT3 * uBeta - uAlpha) / 2.0f + g_udc / 2.0f;
+    float uc = (-FOC_SQRT3 * uBeta - uAlpha) / 2.0f + g_udc / 2.0f;
+    MotorSetPwm(ua, ub, uc);
+}
+
+/******************************************************************************
+ * 函数名称：VerifyZeroOffset
+ * 功能描述：多点静态锁定验证零偏精度。
+ *
+ * 依次将转子锁在 0°/60°/120°/180°/240°/300° 电角度，
+ * 分别读取校正后的电角度，计算与命令角度的偏差。
+ * 结果通过 USART3 回传 6 个误差值（单位：rad）。
+ *
+ * 调用建议：先执行一次零位校准（CMD_ZEROCALIBRATIO），
+ *          再调用本命令。
+ ******************************************************************************/
+void VerifyZeroOffset(void)
+{
+    /* 测试点：0°, 60°, 120°, 180°, 240°, 300° */
+    const float testAnglesDeg[] = {0.0f, 60.0f, 120.0f, 180.0f, 240.0f, 300.0f};
+    float errors[6];
+
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, FALSE);
+
+    for (int i = 0; i < 6; i++) {
+        float thetaCmd = testAnglesDeg[i] * FOC_2PI / 360.0f;
+        MotorLockAtElecAngle(thetaCmd, FOC_STRONGDRAG);
+        vTaskDelay(1000);   // 等转子吸稳
+
+        float mechAngle = Mt6701GetAngleWrapper();
+        float corrected = AngleGetCorrectedElec(mechAngle);
+        errors[i] = WrapPi(corrected - thetaCmd);
+    }
+
+    MotorApplyStrongDrag(0.0f);
+    adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
+
+    USART3_SendPacket(0x5B, errors, 6);
 }
 
 /******************************************************************************

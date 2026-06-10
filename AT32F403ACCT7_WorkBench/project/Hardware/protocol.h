@@ -77,6 +77,7 @@ typedef enum
     CMD_ELECTRICALANGLE       = 0X51,  // 编码器实际电角度
     CMD_ELECTRICALANGLE_CLOSE = 0X52,  // 关闭实际电角度
     CMD_SETIQMAX              = 0X5A,  // 设置 Iq 参考电流上限（A）
+    CMD_VERIFY_OFFSET         = 0X5B,  // 多点静态锁定验证零偏（回包6个误差值）
 } CMD_TypeDef;
 
 /* =================== 遥测使能标志（外部使用） =================== */
