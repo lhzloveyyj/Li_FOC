@@ -116,7 +116,7 @@
             <ModeSub name="Activated" value="TRUE"/>
         </Mode>
         <Parameters>
-            <ParametersSub name="DividerValue" value="23"/>
+            <ParametersSub name="DividerValue" value="59"/>
             <ParametersSub name="Period" value="999"/>
         </Parameters>
     </TMR2>
@@ -210,7 +210,7 @@
         <TMR1_OVF_TMR10_IRQHandler>0;5;0;1;0</TMR1_OVF_TMR10_IRQHandler>
         <TMR1_TRG_HALL_TMR11_IRQHandler>0;5;0;1;0</TMR1_TRG_HALL_TMR11_IRQHandler>
         <TMR1_CH_IRQHandler>0;5;0;1;0</TMR1_CH_IRQHandler>
-        <TMR2_GLOBAL_IRQHandler>1;5;0;1;0</TMR2_GLOBAL_IRQHandler>
+        <TMR2_GLOBAL_IRQHandler>1;6;0;1;0</TMR2_GLOBAL_IRQHandler>
         <SPI1_IRQHandler>0;5;0;1;0</SPI1_IRQHandler>
         <USART1_IRQHandler>0;5;0;1;0</USART1_IRQHandler>
         <USART3_IRQHandler>1;4;0;0;1</USART3_IRQHandler>

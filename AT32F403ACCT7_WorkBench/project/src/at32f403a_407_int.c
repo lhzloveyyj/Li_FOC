@@ -262,10 +262,9 @@ void TMR2_GLOBAL_IRQHandler(void)
 
     #define PACK(bit, scale, vals) do { mask |= (1u<<(bit)); vals n++; } while(0)
 
-    /* bit 0: angle x2  scale=1000 */
+    /* bit 0: 机械角度  scale=1000 */
     if (anglePrintingEnabled) PACK(TELEM_BIT_ANGLE, 1000, {
         *v++ = (int16_t)(g_pMotor->mechanicalAngle * 1000.0f);
-        *v++ = (int16_t)(g_pMotor->sensoredCorrectedAngle * 1000.0f); n++;
     });
 
     /* bit 1: speed  scale=10 */
@@ -339,10 +338,9 @@ void TMR2_GLOBAL_IRQHandler(void)
         *v++ = (int16_t)(g_pMotor->iBeta * 100.0f); n++;
     });
 
-    /* bit 13: elecAngle x2  scale=1000 */
+    /* bit 13: 电角度  scale=1000 */
     if (electricalAngle_Enabled) PACK(TELEM_BIT_ELECANGLE, 1000, {
         *v++ = (int16_t)(g_pMotor->sensoredCorrectedAngle * 1000.0f);
-        *v++ = (int16_t)(g_pMotor->mechanicalAngle * 1000.0f); n++;
     });
 
     #undef PACK

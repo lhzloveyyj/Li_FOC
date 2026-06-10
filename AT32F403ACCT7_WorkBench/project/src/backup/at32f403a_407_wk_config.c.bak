@@ -211,7 +211,7 @@ void wk_nvic_config(void)
   NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 15, 0));
   nvic_irq_enable(DMA1_Channel1_IRQn, 6, 0);
   nvic_irq_enable(ADC1_2_IRQn, 5, 0);
-  nvic_irq_enable(TMR2_GLOBAL_IRQn, 5, 0);
+  nvic_irq_enable(TMR2_GLOBAL_IRQn, 6, 0);
   nvic_irq_enable(USART3_IRQn, 4, 0);
 }
 

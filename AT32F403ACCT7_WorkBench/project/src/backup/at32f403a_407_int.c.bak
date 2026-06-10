@@ -35,7 +35,7 @@
 /* private macro -------------------------------------------------------------*/
 /* add user code begin private macro */
 /** 遥测数据缓存 */
-static float focData[3] = {0.0f};
+static float focData[32] = {0.0f};
 /* add user code end private macro */
 
 /* private variables ---------------------------------------------------------*/
@@ -256,101 +256,121 @@ void ADC1_2_IRQHandler(void)
 void TMR2_GLOBAL_IRQHandler(void)
 {
   /* add user code begin TMR2_GLOBAL_IRQ 0 */
-    /* ---- 三相电压 ---- */
-    if (uabcEnabled == 1) {
-        focData[0] = g_pMotor->ua;
-        focData[1] = g_pMotor->ub;
-        focData[2] = g_pMotor->uc;
-        USART3_SendPacket(CMD_UABC, &focData[0], 3);
+    uint32_t mask = 0;
+    int16_t *v = (int16_t *)(uart3_tx_buffer + 7); /* 跳过 header+cmd+len+mask(4B) */
+    int n = 0;
+
+    #define PACK(bit, scale, vals) do { mask |= (1u<<(bit)); vals n++; } while(0)
+
+    /* bit 0: angle x2  scale=1000 */
+    if (anglePrintingEnabled) PACK(TELEM_BIT_ANGLE, 1000, {
+        *v++ = (int16_t)(g_pMotor->mechanicalAngle * 1000.0f);
+        *v++ = (int16_t)(g_pMotor->sensoredCorrectedAngle * 1000.0f); n++;
+    });
+
+    /* bit 1: speed  scale=10 */
+    if (speed_Enabled) PACK(TELEM_BIT_SPEED, 10, {
+        *v++ = (int16_t)(g_pMotor->speed * 10.0f);
+    });
+
+    /* bit 2: speedOut  scale=100 */
+    if (speedOut_Enabled) PACK(TELEM_BIT_SPEEDOUT, 100, {
+        *v++ = (int16_t)(g_pMotor->speedPID.out * 100.0f);
+    });
+
+    /* bit 3: Iabc x3  scale=100 */
+    if (IabcEnabled) PACK(TELEM_BIT_IABC, 100, {
+        *v++ = (int16_t)(g_pMotor->Ia * 100.0f);
+        *v++ = (int16_t)(g_pMotor->Ib * 100.0f);
+        *v++ = (int16_t)(g_pMotor->Ic * 100.0f); n++; n++;
+    });
+
+    /* bit 4: IqId x2  scale=100 */
+    if (IQ_ID_Enabled) PACK(TELEM_BIT_IQID, 100, {
+        *v++ = (int16_t)(g_pMotor->iq * 100.0f);
+        *v++ = (int16_t)(g_pMotor->id * 100.0f); n++;
+    });
+
+    /* bit 5: UalphaBeta x2  scale=100 */
+    if (UAlpha_BetaEnabled) PACK(TELEM_BIT_UALPHABETA, 100, {
+        *v++ = (int16_t)(g_pMotor->uAlpha * 100.0f);
+        *v++ = (int16_t)(g_pMotor->uBeta * 100.0f); n++;
+    });
+
+    /* bit 6: Uabc x3  scale=100 */
+    if (uabcEnabled) PACK(TELEM_BIT_UABC, 100, {
+        *v++ = (int16_t)(g_pMotor->ua * 100.0f);
+        *v++ = (int16_t)(g_pMotor->ub * 100.0f);
+        *v++ = (int16_t)(g_pMotor->uc * 100.0f); n++; n++;
+    });
+
+    /* bit 7: ADC x3  scale=1 */
+    if (adcEnabled) PACK(TELEM_BIT_ADC, 1, {
+        *v++ = (int16_t)(g_motorAdValues[0] - g_ADoffest[0]);
+        *v++ = (int16_t)(g_motorAdValues[1] - g_ADoffest[1]);
+        *v++ = (int16_t)(g_motorAdValues[2] - g_ADoffest[2]); n++; n++;
+    });
+
+    /* bit 8: Tabc x3  scale=10000 */
+    if (tabcEnabled) PACK(TELEM_BIT_TABC, 10000, {
+        *v++ = (int16_t)(PSVpwm->Ta * 10000.0f);
+        *v++ = (int16_t)(PSVpwm->Tb * 10000.0f);
+        *v++ = (int16_t)(PSVpwm->Tc * 10000.0f); n++; n++;
+    });
+
+    /* bit 9: vbus  scale=100 */
+    if (adcvbus_Enabled) PACK(TELEM_BIT_ADCVBUS, 100, {
+        *v++ = (int16_t)(adcToVbus(adcvbus) * 100.0f);
+    });
+
+    /* bit 10: local  scale=1000 */
+    if (local_Enabled) PACK(TELEM_BIT_LOCAL, 1000, {
+        *v++ = (int16_t)(g_pMotor->position * 1000.0f);
+    });
+
+    /* bit 11: localOut  scale=10 */
+    if (localOut_Enabled) PACK(TELEM_BIT_LOCALOUT, 10, {
+        *v++ = (int16_t)(g_pMotor->positionPID.out * 10.0f);
+    });
+
+    /* bit 12: IalphaBeta x2  scale=100 */
+    if (IAlpha_BetaEnabled) PACK(TELEM_BIT_IALPHABETA, 100, {
+        *v++ = (int16_t)(g_pMotor->iAlpha * 100.0f);
+        *v++ = (int16_t)(g_pMotor->iBeta * 100.0f); n++;
+    });
+
+    /* bit 13: elecAngle x2  scale=1000 */
+    if (electricalAngle_Enabled) PACK(TELEM_BIT_ELECANGLE, 1000, {
+        *v++ = (int16_t)(g_pMotor->sensoredCorrectedAngle * 1000.0f);
+        *v++ = (int16_t)(g_pMotor->mechanicalAngle * 1000.0f); n++;
+    });
+
+    #undef PACK
+
+    if (mask == 0) {
+        tmr_flag_clear(TMR2, TMR_OVF_FLAG);
+        return;
     }
 
-    /* ---- ADC 原始值 ---- */
-    if (adcEnabled == 1) {
-        focData[0] = g_motorAdValues[0] - g_ADoffest[0];
-        focData[1] = g_motorAdValues[1] - g_ADoffest[1];
-        focData[2] = g_motorAdValues[2] - g_ADoffest[2];
-        USART3_SendPacket(CMD_ADC, &focData[0], 3);
-    }
+    int dataLen = 4 + n * 2;
+    uart3_tx_buffer[0] = 0xA5;
+    uart3_tx_buffer[1] = 0x5C;
+    uart3_tx_buffer[2] = (uint8_t)dataLen;
+    uart3_tx_buffer[3] = (uint8_t)(mask);
+    uart3_tx_buffer[4] = (uint8_t)(mask >> 8);
+    uart3_tx_buffer[5] = (uint8_t)(mask >> 16);
+    uart3_tx_buffer[6] = (uint8_t)(mask >> 24);
 
-    /* ---- SVPWM 占空比 ---- */
-    if (tabcEnabled == 1) {
-        focData[0] = PSVpwm->Ta;
-        focData[1] = PSVpwm->Tb;
-        focData[2] = PSVpwm->Tc;
-        USART3_SendPacket(CMD_TABC, &focData[0], 3);
-    }
+    int total = 7 + n * 2;
+    uint8_t sum = 0;
+    for (int i = 0; i < total; i++) sum += uart3_tx_buffer[i];
+    uart3_tx_buffer[total] = sum;
+    uart3_tx_buffer[total + 1] = 0x49;
 
-    /* ---- 三相电流 ---- */
-    if (IabcEnabled == 1) {
-        focData[0] = g_pMotor->Ia;
-        focData[1] = g_pMotor->Ib;
-        focData[2] = g_pMotor->Ic;
-        USART3_SendPacket(CMD_IABC, &focData[0], 3);
-    }
-
-    /* ---- Uα/Uβ ---- */
-    if (UAlpha_BetaEnabled == 1) {
-        focData[0] = g_pMotor->uAlpha;
-        focData[1] = g_pMotor->uBeta;
-        USART3_SendPacket(CMD_UALPHA_BETA, &focData[0], 2);
-    }
-
-    /* ---- Iα/Iβ ---- */
-    if (IAlpha_BetaEnabled == 1) {
-        focData[0] = g_pMotor->iAlpha;
-        focData[1] = g_pMotor->iBeta;
-        USART3_SendPacket(CMD_IALPHA_BETA, &focData[0], 2);
-    }
-
-    /* ---- Id/Iq ---- */
-    if (IQ_ID_Enabled == 1) {
-        focData[0] = g_pMotor->iq;
-        focData[1] = g_pMotor->id;
-        USART3_SendPacket(CMD_IQ_ID, &focData[0], 2);
-    }
-
-    /* ---- 机械角度 + 电角度 ---- */
-    if (anglePrintingEnabled == 1) {
-        focData[0] = g_pMotor->mechanicalAngle;
-        focData[1] = g_pMotor->sensoredCorrectedAngle;
-        USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 2);
-    }
-
-    /* ---- 速度（rpm） ---- */
-    if (speed_Enabled == 1) {
-        focData[0] = g_pMotor->speed;
-        USART3_SendPacket(CMD_SPEED, &focData[0], 1);
-    }
-
-    /* ---- 速度环输出 ---- */
-    if (speedOut_Enabled == 1) {
-        focData[0] = g_pMotor->speedPID.out;
-        USART3_SendPacket(CMD_SPEEDOUT, &focData[0], 1);
-    }
-
-    /* ---- 位置 ---- */
-    if (local_Enabled == 1) {
-        focData[0] = g_pMotor->position;
-        USART3_SendPacket(CMD_LOCAL, &focData[0], 1);
-    }
-
-    /* ---- 位置环输出 ---- */
-    if (localOut_Enabled == 1) {
-        focData[0] = g_pMotor->positionPID.out;
-        USART3_SendPacket(CMD_LOCALOUT, &focData[0], 1);
-    }
-
-    /* ---- 母线电压 ---- */
-    if (adcvbus_Enabled == 1) {
-        focData[0] = adcToVbus(adcvbus);
-        USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
-    }
-
-    /* ---- 电角度 + 机械角度 ---- */
-    if (electricalAngle_Enabled == 1) {
-        focData[0] = g_pMotor->sensoredCorrectedAngle;
-        focData[1] = g_pMotor->mechanicalAngle;
-        USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 2);
+    if (usart3_tx_dma_status == 1) {
+        usart3_tx_dma_status = 0;
+        dma_data_number_set(DMA1_CHANNEL1, total + 2);
+        dma_channel_enable(DMA1_CHANNEL1, TRUE);
     }
 
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
