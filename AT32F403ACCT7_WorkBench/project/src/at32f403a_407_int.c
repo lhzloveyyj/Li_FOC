@@ -221,10 +221,11 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_IQ_ID, &focData[0], 2);
     }
 
-    /* ---- 机械角度 ---- */
+    /* ---- 机械角度 + 电角度 ---- */
     if (anglePrintingEnabled == 1) {
         focData[0] = g_pMotor->mechanicalAngle;
-        USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 1);
+        focData[1] = g_pMotor->sensoredCorrectedAngle;
+        USART3_SendPacket(CMD_MECHANICALANGLE, &focData[0], 2);
     }
 
     /* ---- 速度（rpm） ---- */
@@ -257,10 +258,11 @@ void TMR2_GLOBAL_IRQHandler(void)
         USART3_SendPacket(CMD_ADCVBUS, &focData[0], 1);
     }
 
-    /* ---- 电角度遥测 ---- */
+    /* ---- 电角度 + 机械角度 ---- */
     if (electricalAngle_Enabled == 1) {
         focData[0] = g_pMotor->sensoredCorrectedAngle;
-        USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 1);
+        focData[1] = g_pMotor->mechanicalAngle;
+        USART3_SendPacket(CMD_ELECTRICALANGLE, &focData[0], 2);
     }
 
     tmr_flag_clear(TMR2, TMR_OVF_FLAG);
