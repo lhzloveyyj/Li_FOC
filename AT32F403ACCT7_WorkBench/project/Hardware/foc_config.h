@@ -22,6 +22,7 @@
 #define FOC_EPSILON             1e-6f       // 浮点精度误差容忍阈值
 
 /* =================== PWM/ADC =================== */
+#define FOC_PWM_TS              0.00005f    // PWM 周期 20kHz
 #define FOC_ALL_DUTY            5999        // PWM 周期（Timer1/Timer2 通用）
 #define FOC_ADC_REF_VOLTAGE     3.3f        // ADC 参考电压（单位：V）
 #define FOC_GAIN                10          // 运放放大倍数

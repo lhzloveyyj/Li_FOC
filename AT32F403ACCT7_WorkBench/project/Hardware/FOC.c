@@ -24,6 +24,8 @@ volatile uint16_t g_ADoffest[3] = {0};  // ADC 三相补偿值
 
 int cnt = 0;                            // 通用计数变量
 
+float g_virtualElecSpeed = 0.0f;        /* 使用编码器 */
+
 /******************************************************************************
  * 电机 FOC 状态对象
  * 定义并初始化电机全局状态对象 Motor，g_pMotor 是其指针别名。
@@ -448,11 +450,23 @@ static void inv_park_transform(float Uq, float Ud, float corr_angle,
  ******************************************************************************/
 void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
 {
-    /* ==== 步骤 1：获取编码器角度 ==== */
+    /* ==== 步骤 1：获取角度 ==== */
+    static float s_vAngle = 0.0f, s_rSpeed = 0.0f;
+    /* 始终读取编码器（用于遥测） */
     pFOC->sensoredMechanicalAngle = Mt6701GetAngleWrapper();
     pFOC->sensoredCorrectedAngle = AngleGetCorrectedElec(pFOC->sensoredMechanicalAngle);
-    pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
-    pFOC->correctedAngle = pFOC->sensoredCorrectedAngle;
+
+    if (g_virtualElecSpeed != 0.0f) {
+        if (s_rSpeed < g_virtualElecSpeed) { s_rSpeed += 80.0f*FOC_PWM_TS; if(s_rSpeed>g_virtualElecSpeed)s_rSpeed=g_virtualElecSpeed; }
+        s_vAngle += s_rSpeed * FOC_PWM_TS;
+        s_vAngle = NormalizeAngle(s_vAngle);
+        pFOC->correctedAngle = s_vAngle;
+        pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
+    } else {
+        s_vAngle = 0.0f; s_rSpeed = 0.0f;
+        pFOC->mechanicalAngle = pFOC->sensoredMechanicalAngle;
+        pFOC->correctedAngle = pFOC->sensoredCorrectedAngle;
+    }
 
     /* ==== 步骤 2：读取电流 ==== */
     pFOC->current.adA = g_motorAdValues[0];
@@ -472,7 +486,6 @@ void FocContorl(PFocState pFOC, PSVpwm_State PSVpwm)
     /* ==== 步骤 4：电流重构 + 坐标变换 ==== */
     CurrentReconstruction(g_pMotor, PSVpwm, pFOC->Ia, pFOC->Ib, pFOC->Ic);
 
-    // 注释：Ia 采样有异常，当前暂用 Ib/Ic 重构
     clarke_transform(-pFOC->Ia, -pFOC->Ib, &pFOC->iAlpha, &pFOC->iBeta);
     park_transform(pFOC->iAlpha, pFOC->iBeta, pFOC->correctedAngle,
                    &pFOC->id, &pFOC->iq);

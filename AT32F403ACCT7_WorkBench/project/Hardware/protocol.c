@@ -211,8 +211,10 @@ void Comm_CommandHandler(void)
             break;
         case CMD_CURRENT_LOOP:
             g_pMotor->ctrolmode = FPC_CURRENT_LOOP;
-            g_pMotor->iqPID.out = g_pMotor->uq;
-            g_pMotor->iqPID.lastBias = g_pMotor->iqPID.tar - g_pMotor->iqPID.pre;
+            g_pMotor->iqPID.out = 0.0f;
+            g_pMotor->iqPID.lastBias = 0.0f;
+            g_pMotor->idPID.out = 0.0f;
+            g_pMotor->idPID.lastBias = 0.0f;
             g_pMotor->speedPID.out = 0.0f;
             g_pMotor->speedPID.lastBias = 0.0f;
             g_commCmd = CMD_NONE;
