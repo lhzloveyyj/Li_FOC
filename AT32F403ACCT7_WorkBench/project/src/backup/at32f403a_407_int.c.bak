@@ -9,28 +9,8 @@
 
 /* includes ------------------------------------------------------------------*/
 #include "at32f403a_407_int.h"
-[#lwip_include]
-#include "wk_lwip.h"
-[/#lwip_include]
-[#lwip_sys_include]
-#include "ethernetif.h"
-[/#lwip_sys_include]
-[#FreeRTOS_enable]
 #include "freertos_app.h"
-[/#FreeRTOS_enable]
-[#i2c_app_include]
-#include "i2c_application.h"
-[/#i2c_app_include]
 
-[#i2c1_handle_type]
-extern i2c_handle_type hi2c1;
-[/#i2c1_handle_type]
-[#i2c2_handle_type]
-extern i2c_handle_type hi2c2;
-[/#i2c2_handle_type]
-[#i2c3_handle_type]
-extern i2c_handle_type hi2c3;
-[/#i2c3_handle_type]
 
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
@@ -73,68 +53,125 @@ static float focData[3] = {0.0f};
 
 /* add user code end 0 */
 
+/* external variables ---------------------------------------------------------*/
+/* add user code begin external variables */
+
+/* add user code end external variables */
+
 /**
-  * @brief  this function handles NMI exception.
+  * @brief  this function handles nmi exception.
+  * @param  none
+  * @retval none
   */
 void NMI_Handler(void)
 {
+  /* add user code begin NonMaskableInt_IRQ 0 */
+
+  /* add user code end NonMaskableInt_IRQ 0 */
+
+  /* add user code begin NonMaskableInt_IRQ 1 */
+
+  /* add user code end NonMaskableInt_IRQ 1 */
 }
 
 /**
-  * @brief  this function handles Hard Fault exception.
+  * @brief  this function handles hard fault exception.
+  * @param  none
+  * @retval none
   */
 void HardFault_Handler(void)
 {
-  /* go to infinite loop when Hard Fault exception occurs */
-  while(1)
+  /* add user code begin HardFault_IRQ 0 */
+
+  /* add user code end HardFault_IRQ 0 */
+  /* go to infinite loop when hard fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_HardFault_IRQ 0 */
+
+    /* add user code end W1_HardFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Memory Manage exception.
+  * @brief  this function handles memory manage exception.
+  * @param  none
+  * @retval none
   */
 void MemManage_Handler(void)
 {
-  /* go to infinite loop when Memory Manage exception occurs */
-  while(1)
+  /* add user code begin MemoryManagement_IRQ 0 */
+
+  /* add user code end MemoryManagement_IRQ 0 */
+  /* go to infinite loop when memory manage exception occurs */
+  while (1)
   {
+    /* add user code begin W1_MemoryManagement_IRQ 0 */
+
+    /* add user code end W1_MemoryManagement_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Bus Fault exception.
+  * @brief  this function handles bus fault exception.
+  * @param  none
+  * @retval none
   */
 void BusFault_Handler(void)
 {
-  /* go to infinite loop when Bus Fault exception occurs */
-  while(1)
+  /* add user code begin BusFault_IRQ 0 */
+
+  /* add user code end BusFault_IRQ 0 */
+  /* go to infinite loop when bus fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_BusFault_IRQ 0 */
+
+    /* add user code end W1_BusFault_IRQ 0 */
   }
 }
 
 /**
-  * @brief  this function handles Usage Fault exception.
+  * @brief  this function handles usage fault exception.
+  * @param  none
+  * @retval none
   */
 void UsageFault_Handler(void)
 {
-  /* go to infinite loop when Usage Fault exception occurs */
-  while(1)
+  /* add user code begin UsageFault_IRQ 0 */
+
+  /* add user code end UsageFault_IRQ 0 */
+  /* go to infinite loop when usage fault exception occurs */
+  while (1)
   {
+    /* add user code begin W1_UsageFault_IRQ 0 */
+
+    /* add user code end W1_UsageFault_IRQ 0 */
   }
 }
 
+
 /**
-  * @brief  this function handles Debug Monitor exception.
+  * @brief  this function handles debug monitor exception.
+  * @param  none
+  * @retval none
   */
 void DebugMon_Handler(void)
 {
+  /* add user code begin DebugMonitor_IRQ 0 */
+
+  /* add user code end DebugMonitor_IRQ 0 */
+  /* add user code begin DebugMonitor_IRQ 1 */
+
+  /* add user code end DebugMonitor_IRQ 1 */
 }
 
 extern void xPortSysTickHandler(void);
 
 /**
-  * @brief  this function handles SysTick exception.
+  * @brief  this function handles systick handler.
+  * @param  none
+  * @retval none
   */
 void SysTick_Handler(void)
 {
@@ -142,7 +179,6 @@ void SysTick_Handler(void)
 
   /* add user code end SysTick_IRQ 0 */
 
-[#FreeRTOS_SysTick_Handler]
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
   if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
   {
@@ -151,7 +187,6 @@ void SysTick_Handler(void)
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
   }
 #endif /* INCLUDE_xTaskGetSchedulerState */
-[/#FreeRTOS_SysTick_Handler]
 
   /* add user code begin SysTick_IRQ 1 */
 
@@ -172,30 +207,6 @@ void DMA1_Channel1_IRQHandler(void)
         usart3_tx_dma_status = 1;
     }
   /* add user code end DMA1_Channel1_IRQ 0 */
-
-[#DMA1_Channel1_i2c1_app_rx]
-  i2c_dma_rx_irq_handler(&hi2c1);
-[/#DMA1_Channel1_i2c1_app_rx]
-
-[#DMA1_Channel1_i2c1_app_tx]
-  i2c_dma_tx_irq_handler(&hi2c1);
-[/#DMA1_Channel1_i2c1_app_tx]
-
-[#DMA1_Channel1_i2c2_app_rx]
-  i2c_dma_rx_irq_handler(&hi2c2);
-[/#DMA1_Channel1_i2c2_app_rx]
-
-[#DMA1_Channel1_i2c2_app_tx]
-  i2c_dma_tx_irq_handler(&hi2c2);
-[/#DMA1_Channel1_i2c2_app_tx]
-
-[#DMA1_Channel1_i2c3_app_rx]
-  i2c_dma_rx_irq_handler(&hi2c3);
-[/#DMA1_Channel1_i2c3_app_rx]
-
-[#DMA1_Channel1_i2c3_app_tx]
-  i2c_dma_tx_irq_handler(&hi2c3);
-[/#DMA1_Channel1_i2c3_app_tx]
 
   /* add user code begin DMA1_Channel1_IRQ 1 */
 

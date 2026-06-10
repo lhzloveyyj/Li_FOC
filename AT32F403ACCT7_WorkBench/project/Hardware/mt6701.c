@@ -17,13 +17,13 @@ static uint8_t Mt6701SpiReadByte(Mt6701_t *encoder)
     uint16_t retry = 0;
 
     while (spi_i2s_flag_get(encoder->spix, SPI_I2S_TDBE_FLAG) == RESET) {
-        if (++retry > 10) return 0;
+        if (++retry > 1000) return 0;
     }
     spi_i2s_data_transmit(encoder->spix, 0x00);
 
     retry = 0;
     while (spi_i2s_flag_get(encoder->spix, SPI_I2S_RDBF_FLAG) == RESET) {
-        if (++retry > 10) return 0;
+        if (++retry > 1000) return 0;
     }
     return spi_i2s_data_receive(encoder->spix);
 }
@@ -47,6 +47,11 @@ float Mt6701GetAngle(Mt6701_t *encoder)
     float angleDeg;
 
     MT6701_CS_LOW(encoder->csGpio, encoder->csPin);
+
+    /* 清空 SPI RX FIFO，防止上次残留数据导致字节错位 */
+    while (spi_i2s_flag_get(encoder->spix, SPI_I2S_RDBF_FLAG) != RESET) {
+        spi_i2s_data_receive(encoder->spix);
+    }
 
     raw1 = Mt6701SpiReadByte(encoder);
     raw2 = Mt6701SpiReadByte(encoder);

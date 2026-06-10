@@ -31,18 +31,6 @@
 #include "wk_dma.h"
 #include "wk_gpio.h"
 #include "freertos_app.h"
-[#lwip_app_include]
-#include "wk_lwip.h"
-[/#lwip_app_include]
-[#cmsis_dap_include]
-#include "arm_math.h"
-[/#cmsis_dap_include]
-[#fatfs_include]
-#include "fatfs_disk.h"
-[/#fatfs_include]
-[#i2c_app_include]
-#include "i2c_app.h"
-[/#i2c_app_include]
 
 /* private includes ----------------------------------------------------------*/
 /* add user code begin private includes */
@@ -141,23 +129,11 @@ int main(void)
   /* init can1 function. */
   wk_can1_init();
 
-[#lwip_app_init]
-  /* init lwip function. */
-  wk_lwip_init();
-[/#lwip_app_init]
-
-[#fatfs_app_init]
-  /* init fatfs function. */
-  fatfs_disk_init();
-[/#fatfs_app_init]
-
-[#i2c_app_init]
-  /* init i2c app function. */
-  wk_i2c_app_init();
-[/#i2c_app_init]
-
   /* add user code begin 2 */
-
+  adc_interrupt_enable(ADC1, ADC_PCCE_INT, TRUE);
+  tmr_interrupt_enable(TMR2, TMR_OVF_INT, TRUE);
+  dma_interrupt_enable(DMA1_CHANNEL1, DMA_FDT_INT, TRUE);
+  usart_interrupt_enable(USART3, USART_RDBF_INT, TRUE);
   /* add user code end 2 */
 
   /* init freertos function. */
@@ -165,16 +141,8 @@ int main(void)
 
   while(1)
   {
-[#lwip_app_task]
-    wk_lwip_app();
-[/#lwip_app_task]
-
     /* add user code begin 3 */
 
     /* add user code end 3 */
   }
 }
-
-  /* add user code begin 4 */
-
-  /* add user code end 4 */
