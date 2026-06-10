@@ -78,7 +78,24 @@ typedef enum
     CMD_ELECTRICALANGLE_CLOSE = 0X52,  // 关闭实际电角度
     CMD_SETIQMAX              = 0X5A,  // 设置 Iq 参考电流上限（A）
     CMD_VERIFY_OFFSET         = 0X5B,  // 多点静态锁定验证零偏（回包6个误差值）
+    CMD_TELEMETRY_BUNDLE      = 0X5C,  // 合并遥测包（bitmask + values）
 } CMD_TypeDef;
+
+/* =================== 遥测合并包 bitmask 位定义 =================== */
+#define TELEM_BIT_ANGLE         0   // mechanicalAngle(1) + correctedAngle(1)
+#define TELEM_BIT_SPEED         1   // speed(1)
+#define TELEM_BIT_SPEEDOUT      2   // speedOut(1)
+#define TELEM_BIT_IABC          3   // Ia, Ib, Ic(3)
+#define TELEM_BIT_IQID          4   // Iq, Id(2)
+#define TELEM_BIT_UALPHABETA    5   // Ualpha, Ubeta(2)
+#define TELEM_BIT_UABC          6   // Ua, Ub, Uc(3)
+#define TELEM_BIT_ADC           7   // ADC1, ADC2, ADC3(3)
+#define TELEM_BIT_TABC          8   // Ta, Tb, Tc(3)
+#define TELEM_BIT_ADCVBUS       9   // vbus(1)
+#define TELEM_BIT_LOCAL         10  // position(1)
+#define TELEM_BIT_LOCALOUT      11  // localOut(1)
+#define TELEM_BIT_IALPHABETA    12  // Ialpha, Ibeta(2)
+#define TELEM_BIT_ELECANGLE     13  // correctedAngle, mechanicalAngle(2)
 
 /* =================== 遥测使能标志（外部使用） =================== */
 extern uint16_t adcvbus;

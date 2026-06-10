@@ -9,7 +9,7 @@
 #define PRINT_UART                       USART3
 
 /* 发送缓冲区大小 */
-#define USART3_TX_BUFFER_SIZE       128
+#define USART3_TX_BUFFER_SIZE       256
 
 /**
  * @brief 通用数据帧结构（仅用于帧格式说明，实际发送用字节流组装）
