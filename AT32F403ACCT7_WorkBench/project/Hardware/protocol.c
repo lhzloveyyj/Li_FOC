@@ -69,6 +69,14 @@ void Comm_CommandHandler(void)
             g_pMotor->positionPID.kp = g_readback.position_pid_kp;
             g_pMotor->positionPID.kd = g_readback.position_pid_kd;
             g_pMotor->positionPID.outMax = g_readback.position_pid_out;
+            g_pMotor->iqPID.kp = g_readback.current_pid_kp;
+            g_pMotor->iqPID.ki = g_readback.current_pid_ki;
+            g_pMotor->iqPID.kd = g_readback.current_pid_kd;
+            g_pMotor->iqPID.outMax = g_readback.current_pid_out;
+            g_pMotor->idPID.kp = g_readback.current_pid_kp;
+            g_pMotor->idPID.ki = g_readback.current_pid_ki;
+            g_pMotor->idPID.kd = g_readback.current_pid_kd;
+            g_pMotor->idPID.outMax = g_readback.current_pid_out;
             data[0]   = (float)g_pMotor->pole_pairs;
             data[1]   = (float)g_pMotor->dir;
             data[2]   = g_pMotor->zeroOffset;
@@ -242,15 +250,21 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
 
-        /* ---- 设置电流环 PID 参数 ---- */
+        /* ---- 设置电流环 PID 参数（立即生效 + 写入 Flash） ---- */
         case CMD_SETIQPIDKP:
             g_pMotor->iqPID.kp = g_cmdData;
             g_pMotor->idPID.kp = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.current_pid_kp = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
         case CMD_SETIQPIDKI:
             g_pMotor->iqPID.ki = g_cmdData;
             g_pMotor->idPID.ki = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.current_pid_ki = g_cmdData;
+            foc_params_save(&g_params);
             g_commCmd = CMD_NONE;
             break;
 

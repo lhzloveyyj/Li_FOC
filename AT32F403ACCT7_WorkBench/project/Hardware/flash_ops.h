@@ -33,6 +33,11 @@ typedef struct {
     float    position_pid_kd;  /**< 位置环 Kd */
     float    position_pid_out; /**< 位置环输出限幅 */
     float    speed_pid_out;    /**< 速度环输出限幅 */
+    /* 电流环 PID 参数 */
+    float    current_pid_kp;  /**< 电流环 Kp */
+    float    current_pid_ki;  /**< 电流环 Ki */
+    float    current_pid_kd;  /**< 电流环 Kd（保留） */
+    float    current_pid_out; /**< 电流环输出限幅 */
 } foc_params_t;
 #pragma pack(pop)
 
@@ -40,6 +45,7 @@ typedef struct {
 #define FOC_PARAMS_V1_SIZE  32  /* 不含速度/位置 PID */
 #define FOC_PARAMS_V2_SIZE  40  /* 含速度 PID，不含位置 PID */
 #define FOC_PARAMS_V3_SIZE  52  /* 含速度 PID 和位置 PID，不含速度输出限幅 */
+#define FOC_PARAMS_V4_SIZE  56  /* 含速度/位置 PID + 输出限幅，不含电流 PID */
 #pragma pack(push,1)
 typedef struct {
     float    elec_offset;

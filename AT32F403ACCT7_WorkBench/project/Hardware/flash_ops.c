@@ -40,6 +40,10 @@ void foc_params_set_defaults(foc_params_t *p)
     p->position_pid_kp = 1.0f;
     p->position_pid_kd = 0.0001f;
     p->position_pid_out = 400.0f;
+    p->current_pid_kp = 0.002f;
+    p->current_pid_ki = 2.5f;
+    p->current_pid_kd = 0.0f;
+    p->current_pid_out = 12.0f;
 }
 
 /******************************************************************************
@@ -124,8 +128,21 @@ int foc_params_load(foc_params_t *p)
     if (calc_crc == block.crc) {
         /* 新版 CRC 匹配 → 直接加载 */
         memcpy(p, &block.params, sizeof(foc_params_t));
-        FOC_DBG("Load OK.\n");
+        FOC_DBG("Load OK (with current PID).\n");
         return 1;
+    }
+
+    /* 尝试 v4 格式（含速度/位置 PID + 输出限幅，不含电流 PID，56 字节） */
+    {
+        uint32_t v4_params_size = FOC_PARAMS_V4_SIZE;
+        uint32_t v4_crc = *(uint32_t*)(FOC_PARAMS_FLASH_ADDR + v4_params_size);
+        uint32_t v4_calc = crc32_compute((uint8_t*)&block.params, v4_params_size);
+        if (v4_calc == v4_crc) {
+            foc_params_set_defaults(p);
+            memcpy(p, &block.params, v4_params_size);
+            FOC_DBG("v4 params loaded (current PID defaults).\n");
+            return 1;
+        }
     }
 
     /* 新版 CRC 不匹配 → 尝试 v3 格式（含 position PID，不含 speed outMax） */
@@ -228,6 +245,10 @@ void foc_params_test(void)
     g_params.position_pid_kp = 1.0f;
     g_params.position_pid_kd = 0.0001f;
     g_params.position_pid_out = 400.0f;
+    g_params.current_pid_kp = 0.002f;
+    g_params.current_pid_ki = 2.5f;
+    g_params.current_pid_kd = 0.0f;
+    g_params.current_pid_out = 12.0f;
 
     foc_params_save(&g_params);
 
@@ -252,4 +273,8 @@ void foc_params_test(void)
     printf("  position_pid_kp  = %.6f\n", g_readback.position_pid_kp);
     printf("  position_pid_kd  = %.6f\n", g_readback.position_pid_kd);
     printf("  position_pid_out = %.6f\n", g_readback.position_pid_out);
+    printf("  current_pid_kp   = %.6f\n", g_readback.current_pid_kp);
+    printf("  current_pid_ki   = %.6f\n", g_readback.current_pid_ki);
+    printf("  current_pid_kd   = %.6f\n", g_readback.current_pid_kd);
+    printf("  current_pid_out  = %.6f\n", g_readback.current_pid_out);
 }
