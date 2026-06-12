@@ -375,6 +375,16 @@ void Comm_CommandHandler(void)
             g_commCmd = CMD_NONE;
             break;
 
+        /* ---- 手动设置电角度零偏 ---- */
+        case CMD_SET_ELEC_OFFSET:
+            g_pMotor->zeroOffset = g_cmdData;
+            g_zeroOffset = g_cmdData;
+            foc_params_load(&g_params);
+            g_params.elec_offset = g_cmdData;
+            foc_params_save(&g_params);
+            g_commCmd = CMD_NONE;
+            break;
+
         default:
             /* 未识别命令也要清掉，避免上位机发了新命令但旧固件不支持时 LED 一直闪 */
             g_commCmd = CMD_NONE;

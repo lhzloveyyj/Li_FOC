@@ -79,6 +79,7 @@ typedef enum
     CMD_SETIQMAX              = 0X5A,  // 设置 Iq 参考电流上限（A）
     CMD_VERIFY_OFFSET         = 0X5B,  // 多点静态锁定验证零偏（回包6个误差值）
     CMD_TELEMETRY_BUNDLE      = 0X5C,  // 合并遥测包（bitmask + values）
+    CMD_SET_ELEC_OFFSET       = 0X60,  // 手动设置电角度零偏值（单位 rad）
 } CMD_TypeDef;
 
 /* =================== 遥测合并包 bitmask 位定义 =================== */
