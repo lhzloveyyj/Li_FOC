@@ -7,7 +7,7 @@
 #define FOC_VOLTAGE_LIMIT       12.0f       // 电压限制值（最大输出幅值）
 #define FOC_BUS_VOLTAGE         12.0f       // 母线电压 Udc
 #define FOC_POLE_PAIRS          11          // 电机极对数
-#define FOC_RS                  0.01f       // 电流采样电阻值（单位：Ω）
+#define FOC_RS                  0.002f      // 电流采样电阻值（单位：Ω）
 #define FOC_CURRENT_GAIN        50.0f       // 电流放大倍数（运放增益）
 #define FOC_IQ_MAX              40.0f       // 最大目标 q 轴电流
 #define FOC_STRONGDRAG			1.0f        // 强拖对准电压（Ud，单位 V）
@@ -26,7 +26,7 @@
 #define FOC_ALL_DUTY            5999        // PWM 周期（Timer1/Timer2 通用）
 #define FOC_ADC_REF_VOLTAGE     3.3f        // ADC 参考电压（单位：V）
 #define FOC_GAIN                10          // 运放放大倍数
-#define FOC_SHUNT_R             0.01f       // 电流采样电阻（单位：Ω）
+#define FOC_SHUNT_R             0.002f      // 电流采样电阻（单位：Ω）
 
 #define FOC_SPEED_LOOP_TS                      0.002f   // 速度环任务周期（单位：s）
 
